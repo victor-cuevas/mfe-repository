@@ -1,0 +1,7 @@
+{
+  "root": "libs/mfe-broker/mfe-broker-panel/api",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-panel/api/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}

@@ -1,0 +1,1493 @@
+<div class="whitelabel-config">
+  <div class="close-process-config container">
+    <form #remainderScenarioForm="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': remainderScenarioForm.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            <span class="process-number">1</span>
+            {{ 'process.manage-remainder.heading.scenario-overview' | translate }}
+            <span class="process-number ml-2">2</span>
+            {{ 'process.manage-remainder.heading.step-overview' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'process.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(remainderScenarioList)"
+            [disabled]="showActioncard || showTemplatecard"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'process.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+            [disabled]="showActioncard || showTemplatecard"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="closefo-btn-wrapper close-header-block">
+        <div class="col-12 d-flex">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-back"
+            caption="{{ 'process.manage-remainder.button.back' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onBack(remainderScenarioList)"
+            [disabled]="showScenarioscreen === true ? true : false"
+          ></cfc-fluid-button>
+
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-next"
+            caption="{{ 'process.manage-remainder.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSaveandNext(remainderScenarioList)"
+            [disabled]="showStepScreen === true ? true : false"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div *ngIf="showScenarioscreen">
+        <div class="row">
+          <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">
+            {{ 'process.manage-remainder.heading.scenarios-overview' | translate }}
+          </div>
+        </div>
+          <div class="col-3 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{ 'process.manage-remainder.Add.Scenario' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="addNewScenario()"
+            ></cfc-fluid-button>
+          </div>
+          <div class="col-md-12">
+            <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="Username"
+              [gridData]="remainderScenarioList"
+              [gridDataHeader]="scenariosHeader"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              (deleteRowEvent)="onRowDelete($event, remainderScenarioList)"
+              (rowClickedEvent)="onscenarioRowSelected($event)"
+              [selectedDetail]="highlightRemainderScenario"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="closefo-heading-3 closefo-text-primary mb-3">
+            {{ 'process.manage-remainder.heading.scenarioDetails' | translate }}
+          </div>
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{ 'process.manage-remainder.card.scenarioName' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox
+                      #scenarioName="ngModel"
+                      Type="text"
+                      [ControlConfig]="RequiredScenarioName"
+                      [ngModel]="remainderScenarioData.scenarioName"
+                      (focusout)="onScenarioNameChange($event)"
+                      name="scenarioName"
+                      [isAllowSpace]="false"
+                      [form]="remainderScenarioForm"
+                      [cfcFluidValidation]="{
+                        errors: scenarioName.errors ? RequiredScenarioName.Errors : '',
+                        formSubmitted: remainderScenarioForm.submitted || RequiredScenarioName.externalError
+                      }"
+                      [maxlength]="250"
+                    >
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{ 'process.manage-remainder.card.startDate' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker
+                      [ControlConfig]="RequiredStartDate"
+                      [ngModel]="remainderScenarioData?.startDate"
+                      name="startDate"
+                      (ngModelChange)="onStartDateChange($event)"
+                      [form]="remainderScenarioForm"
+                      #startDate="ngModel"
+                      [maxDate]="remainderScenarioData?.endDate"
+                      [minDate]="defaultDate"
+                      [cfcFluidValidation]="{
+                        errors: startDate.errors ? RequiredStartDate.Errors : '',
+                        formSubmitted: remainderScenarioForm.submitted || RequiredStartDate.externalError
+                      }"
+                    >
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'process.manage-remainder.card.endDate' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker
+                      [ControlConfig]="Dateconfig"
+                      [ngModel]="remainderScenarioData?.endDate"
+                      name="endDate"
+                      (ngModelChange)="onEndDateChange($event)"
+                      [form]="remainderScenarioForm"
+                      #endDate="ngModel"
+                      [minDate]="minDate"
+                    >
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="closefo-heading-3 closefo-text-primary mb-2">
+              {{ 'process.manage-remainder.heading.productLinks' | translate }}
+            </div>
+
+            <div class="col-md-12">
+              <cfc-fluid-grid
+                Type="bo-table"
+                dataKey="Username"
+                [gridData]="remainderScenarioData.products"
+                [gridDataHeader]="ProductHeader"
+                [paginationStatus]="false"
+                paginationReportStatus="false"
+              >
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="closefo-heading-3 closefo-text-primary mb-2">
+              {{ 'process.manage-remainder.heading.ScenarioType' | translate }}
+            </div>
+          </div>
+          <div class="closefo-form-group closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label" id="DueDate"> {{ 'process.manage-remainder.card.numberOfDue' | translate }}</label>
+                  </div>
+                  <div class="col-7 closefo-radio-button-wrapper">
+                    <div class="closefo-radio-button">
+                      <p-radioButton
+                        name="numberOfDueDates"
+                        [value]="true"
+                        [ngModel]="remainderScenarioData.isSelectedNumberOfDueDays"
+                        (ngModelChange)="onDueDayChange($event)"
+                      >
+                      </p-radioButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label" for="elapsed">{{ 'process.manage-remainder.card.elapseds' | translate }}</label>
+                  </div>
+                  <div class="col-7 closefo-radio-button-wrapper">
+                    <div class="closefo-radio-button">
+                      <p-radioButton
+                        name="elapsedPeriod"
+                        [value]="true"
+                        [ngModel]="remainderScenarioData.isSelectedElapsedPeriod"
+                        (ngModelChange)="onElapsedPeriodChange($event)"
+                      >
+                      </p-radioButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'process.manage-remainder.card.setCredit' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-checkbox
+                      [ControlConfig]="CheckboxConfig"
+                      [ngModel]="remainderScenarioData?.setCreditStatusBackToNormal"
+                      name="setCredit"
+                      [form]="remainderScenarioForm"
+                      (ngModelChange)="onCreditStatusChange($event)"
+                    >
+                    </cfc-fluid-checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'process.manage-remainder.card.unblock' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-checkbox
+                      [ControlConfig]="CheckboxConfig"
+                      [ngModel]="remainderScenarioData?.unblockOutgoingPayments"
+                      name="unblock"
+                      [form]="remainderScenarioForm"
+                      (ngModelChange)="onUnblockPaymentChange($event)"
+                    >
+                    </cfc-fluid-checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'process.manage-remainder.card.resume' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-checkbox
+                      [ControlConfig]="CheckboxConfig"
+                      [ngModel]="remainderScenarioData?.resumeCommissionPayments"
+                      name="resumeCommision"
+                      [form]="remainderScenarioForm"
+                      (ngModelChange)="onresumeCommisionChange($event)"
+                    >
+                    </cfc-fluid-checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="remainderScenarioData.isSelectedNumberOfDueDays && !remainderScenarioData.isSelectedElapsedPeriod">
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{ 'process.manage-remainder.card.minPeriod' | translate }}</label>
+                    </div>
+                    <div class="col-2">
+                      <cfc-fluid-textbox
+                        #minPeriod="ngModel"
+                        Type="numbers"
+                        [ControlConfig]="RequiredMinPeriod"
+                        [ngModel]="remainderScenarioData.minPeriodBetweenSteps"
+                        (OnchangedNumber)="onMinPeriodChange($event)"
+                        name="minPeriod"
+                        [isAllowSpace]="false"
+                        [form]="remainderScenarioForm"
+                        [maxlength]="10"
+                        [maximumValue]="intMaxValue"
+                        [cfcFluidValidation]="{
+                          errors: minPeriod.errors ? (minPeriod.errors?.maxValueError) ? numberErrorDto : RequiredMinPeriod.Errors : '',
+                          formSubmitted: remainderScenarioForm.submitted || RequiredMinPeriod.externalError
+                        }"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{ 'process.manage-remainder.card.reminder' | translate }}</label>
+                    </div>
+                    <div class="col-2">
+                      <cfc-fluid-textbox
+                        #postDueDate="ngModel"
+                        Type="numbersMaxLength"
+                        [ControlConfig]="RequiredRemainderDue"
+                        [ngModel]="remainderScenarioData.reminderDaysPostDueDate"
+                        (ngModelChange)="onPostDueDateChange($event)"
+                        name="remainder"
+                        [isAllowSpace]="false"
+                        [maxlength]="10"
+                        [form]="remainderScenarioForm"
+                        [cfcFluidValidation]="{
+                          errors: postDueDate.errors ? RequiredRemainderDue.Errors : '',
+                          formSubmitted: remainderScenarioForm.submitted || RequiredRemainderDue.externalError
+                        }"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="remainderScenarioData.isSelectedElapsedPeriod && !remainderScenarioData.isSelectedNumberOfDueDays">
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{ 'process.manage-remainder.card.period' | translate }}</label>
+                    </div>
+                    <div class="col-4">
+                      <cfc-fluid-dropdown
+                        [ngModel]="remainderScenarioData.reminderScenarioPeriodBase"
+                        [form]="remainderScenarioForm"
+                        Type="single"
+                        name="PeriodBase"
+                        [placeholder]="placeholder"
+                        [options]="this.remainderScenarioCodeTable.reminderScenarioPeriodBaseList"
+                        [ControlConfig]="RequiredPeriodBase"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onPeriodBaseChange($event)"
+                        #periodBasedropdown="ngModel"
+                        [title]="remainderScenarioData?.reminderScenarioPeriodBase?.caption"
+                        [showClearIcon]="remainderScenarioData?.reminderScenarioPeriodBase ? true : false"
+                        [cfcFluidValidation]="{
+                          errors: periodBasedropdown.errors ? RequiredPeriodBase.Errors : '',
+                          formSubmitted: remainderScenarioForm.submitted || RequiredPeriodBase.externalError
+                        }"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-9">
+              <div class="closefo-heading-3 closefo-text-primary mb-3">{{ 'process.manage-remainder.heading.applicable' | translate }}</div>
+            </div>
+            <div class="col-3 closefo-btn-wrapper text-right">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-add-btn-small"
+                caption="{{ 'process.manage-remainder.Add.Txel' | translate }}"
+                [ControlConfig]="ButtonConfig"
+                (click)="onAddTxel()"
+              ></cfc-fluid-button>
+            </div>
+          </div>
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group" *ngIf="remainderScenarioData.txElTypes && remainderScenarioData.txElTypes.length > 0">
+              <div class="row" *ngFor="let txelTypeData of remainderScenarioData.txElTypes; let i = index">
+                <div class="col-md-12" *ngIf="!txelTypeData.isDeleted">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <label class="closefo-form-label required">{{ 'process.manage-remainder.card.txel' | translate }}</label>
+                    </div>
+                    <div class="col-6">
+                      <cfc-fluid-dropdown
+                        [ngModel]="txelTypeData?.txElType"
+                        [form]="remainderScenarioForm"
+                        Type="single"
+                        name="txelType{{ i }}"
+                        [placeholder]="placeholder"
+                        [options]="remainderScenarioCodeTable?.txElTypeList"
+                        [ControlConfig]="RequiredTxelType"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="ontxelChange($event, i)"
+                        #txelDropdown="ngModel"
+                        [showClearIcon]="txelTypeData?.txElType ? true : false"
+                        [cfcFluidValidation]="{
+                          errors: txelDropdown.errors ? RequiredTxelType.Errors : '',
+                          formSubmitted: RequiredTxelType.externalError
+                        }"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                    <div class="col-2">
+                      <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="ontxelDelete(txelTypeData, i)"></i> </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showStepScreen">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="closefo-heading-3 closefo-text-primary mb-3">
+              {{ 'process.manage-remainder.heading.stepsOverview' | translate }}
+            </div>
+          </div>
+          <div class="col-3 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{ 'process.manage-remainder.Add.Step' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onNewStep()"
+            ></cfc-fluid-button>
+          </div>
+
+          <div class="col-md-12">
+            <!-- <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="Username"
+              [gridData]="remainderScenarioData?.reminderScenarioSteps"
+              [gridDataHeader]="stepoverviewHeader"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              (rowClickedEvent)="onStepRowClicked($event)"
+            
+            >
+            </cfc-fluid-grid> -->
+
+            <p-table
+              [value]="selectedRemainderScenario.reminderScenarioSteps"
+              [columns]="stepoverviewHeader"
+              [resizableColumns]="true"
+              styleClass="closefo-datatable closefo-bo-table checkboxalign"
+              [reorderableColumns]="true"
+            >
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <ng-container *ngFor="let col of columns">
+                    <th *ngIf="!col.hideColumn" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn>
+                      <span>{{ col.header }}</span>
+
+                      <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                  </ng-container>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                <tr [ngClass]="{'highlight' : highlightRemainderStepData === rowData }">
+                  <td *ngFor="let col of columns" [style.width]="col.width"  [ngSwitch]="col.property" (click)="onStepRowClicked(rowData)">
+                    <span *ngSwitchCase="'seqNr'">
+                      {{ rowData.seqNr }}
+                    </span>
+
+                    <span *ngSwitchCase="'name'">
+                      {{ rowData.name }}
+                    </span>
+
+                    <ng-container *ngIf="selectedRemainderScenario.isSelectedElapsedPeriod">
+                      <span *ngSwitchCase="'elapsedPeriod'">
+                        {{ rowData.elapsedPeriod }}
+                      </span>
+                    </ng-container>
+
+                    <ng-container *ngIf="selectedRemainderScenario.isSelectedNumberOfDueDays">
+                      <span *ngSwitchCase="'numberOfDueDates'">
+                        {{ rowData.numberOfDueDates }}
+                      </span>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <div
+          class="stepsOverview"
+          *ngIf="remainderScenarioData.reminderScenarioSteps && remainderScenarioData.reminderScenarioSteps.length > 0"
+        >
+          <div class="row">
+            <div class="col-md-9">
+              <div class="closefo-heading-3 closefo-text-primary mb-3">{{ 'process.manage-remainder.heading.stepDetail' | translate }}</div>
+            </div>
+          </div>
+
+          <div class="tab-top closefo-form-group">
+            <div class="closefo-form-group closefo-card closefo-card-rounded closefo-bg-grey">
+              <p-tabView [(activeIndex)]="SelectedTabIndex">
+                <p-tabPanel header="{{ 'process.manage-remainder.tabheader.RenainderInfo' | translate }}" [selected]="true">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.Name' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox
+                            #stepName="ngModel"
+                            Type="text"
+                            [ControlConfig]="RequiredStepName"
+                            [ngModel]="remainderStepData?.name"
+                            (focusout)="onstepNameChange($event)"
+                            name="stepName"
+                            [isAllowSpace]="false"
+                            [form]="remainderScenarioForm"
+                            [maxlength]="250"
+                            [cfcFluidValidation]="{
+                              errors: stepName.errors ? RequiredStepName.Errors : '',
+                              formSubmitted: remainderScenarioForm.submitted || RequiredStepName.externalError
+                            }"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6" *ngIf="remainderScenarioData.isSelectedElapsedPeriod">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.ElapsedPeriod' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox
+                            #elapsedPeriod="ngModel"
+                            Type="numbers"
+                            [ControlConfig]="RequiredElapsedPeriod"
+                            [ngModel]="remainderStepData?.elapsedPeriod === 0 ? '' : remainderStepData?.elapsedPeriod"
+                            (OnchangedNumber)="onDueElapsedChange($event)"
+                            name="dueElapsed"
+                            [isAllowSpace]="false"
+                            [form]="remainderScenarioForm"
+                            [maxlength]="10"
+                            [maximumValue]="stepIntMax"
+                            [cfcFluidValidation]="{  
+                              errors: elapsedPeriod.errors ? (elapsedPeriod.errors?.maxValueError) ? elapsedErrorDto : RequiredElapsedPeriod.Errors : '',
+                              formSubmitted: remainderScenarioForm.submitted || RequiredElapsedPeriod.externalError
+                            }"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+                    <div class="col-md-6" *ngIf="remainderScenarioData.isSelectedNumberOfDueDays">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.numberOf' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox
+                            #numberDuedate="ngModel"
+                            Type="numbers"
+                            [ControlConfig]="RequiredDuedate"
+                            [ngModel]="remainderStepData?.numberOfDueDates"
+                            (OnchangedNumber)="onNumberofDueChange($event)"
+                            name="numberofdue"
+                            [isAllowSpace]="false"
+                            [form]="remainderScenarioForm"
+                            [maxlength]="10"
+                            [maximumValue]="dueIntMax"
+                            [cfcFluidValidation]="{
+                              errors: numberDuedate.errors ? (numberDuedate.errors?.maxValueError) ? duedateErrorDto : RequiredDuedate.Errors : '',
+                              formSubmitted: remainderScenarioForm.submitted || RequiredDuedate.externalError
+                            }"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.MunDue' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox
+                            Type="amount"
+                            [ControlConfig]="TextBoxconfig"
+                            [ngModel]="remainderStepData?.minDueAmount"
+                            (OnchangedAmount)="onMinDueChange($event,true)"
+                            (ngModelChange) = "onMinDueChange($event,false)"
+                            name="minDueDate"
+                            [isAllowSpace]="false"
+                            [form]="remainderScenarioForm"
+                            [maxlength]="17"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.credit' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.notifyCreditBureau"
+                            name="creditbureau"
+                            (ngModelChange)="onCreditBureauChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.creditAction' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown
+                            [ngModel]="remainderStepData?.cbActionCode"
+                            [form]="remainderScenarioForm"
+                            Type="single"
+                            name="creditAction"
+                            [placeholder]="placeholder"
+                            [options]="this.remainderScenarioCodeTable?.cbActionCodeList"
+                            [ControlConfig]="DropdownConfig"
+                            optionLabel="caption"
+                            dataKey="caption"
+                            (OnSelectionChanged)="oncbActionCodeChange($event)"
+                            #actionCodedropdown="ngModel"
+                            [showClearIcon]="remainderStepData?.cbActionCode ? true : false"
+                          >
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row rowcheckbox">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.IsReminder' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.isReminder"
+                            name="IsReminder"
+                            (ngModelChange)="onReminderChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.ChangeIOA' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.chargeIOA"
+                            name="ChargeIOA"
+                            (ngModelChange)="onChargeIOAChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row rowcheckbox">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.IsFormal' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.isFormalNotice"
+                            name="formalNotice"
+                            (ngModelChange)="isFormalNoticeChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.StopCommission' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.stopCommission"
+                            name="StopCommission"
+                            (ngModelChange)="onStopCommissionChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.CreditChange' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.changeCreditStatus"
+                            name="CreditChange"
+                            (ngModelChange)="oncreditstatusChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5" *ngIf="!remainderStepData?.changeCreditStatus">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.TargetStatus' | translate }}</label>
+                        </div>
+                        <div class="col-5" *ngIf="remainderStepData?.changeCreditStatus">
+                          <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.TargetStatus' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown
+                            [ngModel]="remainderStepData?.targetCreditStatus"
+                            [form]="remainderScenarioForm"
+                            Type="single"
+                            name="tagetCredit"
+                            [placeholder]="placeholder"
+                            [options]="remainderScenarioCodeTable?.creditStatusList"
+                            [ControlConfig]="RequiredTargetCreditstatus"
+                            optionLabel="caption"
+                            dataKey="caption"
+                            (OnSelectionChanged)="onTargetCreditStatus($event)"
+                            #targetcreditdropdown="ngModel"
+                            [showClearIcon]="remainderStepData?.targetCreditStatus ? true : false"
+                            [cfcFluidValidation]="{
+                              errors: targetcreditdropdown.errors ? RequiredTargetCreditstatus.Errors : '',
+                              formSubmitted: remainderScenarioForm.submitted || RequiredTargetCreditstatus.externalError
+                            }"
+                            [title]="remainderStepData?.targetCreditStatus === null ? '' : remainderStepData?.targetCreditStatus?.caption"
+                          >
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row rowcheckbox">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.NotifyCredit' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.notifyCreditInsurer"
+                            name="NotifyCredit"
+                            (ngModelChange)="onNotifyCreditChanged($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.suspend' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.suspendDirectDebit"
+                            name="suspend"
+                            (ngModelChange)="onSuspendDirectDebitChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row rowcheckbox">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.blockOutgoing' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.blockOutgoingPayments"
+                            name="blockOutgoing"
+                            (ngModelChange)="onBlockOutgoingChange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{ 'process.manage-remainder.tab.SetSerice' | translate }}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox
+                            [ControlConfig]="CheckboxConfig"
+                            [ngModel]="remainderStepData?.setServicingNoticeUponDebtorDate"
+                            name="setService"
+                            (ngModelChange)="onSetServicingchange($event)"
+                            [form]="remainderScenarioForm"
+                          >
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{ 'process.manage-remainder.tabheader.Actions' | translate }}">
+                  <div class="row">
+                    <div class="col-md-9" *ngIf="showActionGrid">
+                      <div class="closefo-heading-3 closefo-text-primary mb-3">
+                        {{ 'process.manage-remainder.heading.ActionOverview' | translate }}
+                      </div>
+                    </div>
+                    <div class="col-md-9" *ngIf="showActioncard">
+                      <div class="closefo-heading-3 closefo-text-primary mb-3">
+                        {{ 'process.manage-remainder.card.action' | translate }}
+                      </div>
+                    </div>
+                    <div class="col-3 closefo-btn-wrapper text-right" *ngIf="showActionGrid">
+                      <cfc-fluid-button
+                        Type="button"
+                        ButtonStyle="closefo-add-btn-small"
+                        caption="{{ 'process.manage-remainder.Add.Action' | translate }}"
+                        [ControlConfig]="ButtonConfig"
+                        (click)="onAddAction()"
+                      ></cfc-fluid-button>
+                    </div>
+
+                    <div class="col-md-12" *ngIf="showActionGrid">
+
+                      <p-table
+                        [value]="remainderStepData.actionsForReminderStep"
+                        [columns]="ActionHeader"
+                        [resizableColumns]="true"
+                        styleClass="closefo-datatable closefo-bo-table checkboxalign"
+                        [reorderableColumns]="true"
+                      >
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn [pSortableColumn]="col.field">
+                              <span>{{ col.header }}</span>
+
+                              <p-sortIcon [field]="col.field" *ngIf="!col.pSortableColumnDisabled"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'actionNamecaption'">
+                                {{ rowData.action?.name }}
+                              </span>
+                              <span *ngSwitchCase="'actionReceiverTypeName'"> {{ rowData.action?.actionReceiverTypeName?.caption }} </span>
+                              <span *ngSwitchCase="'actionType'"> {{ rowData.action?.actionType?.caption }} </span>
+                              <span *ngSwitchCase="'edit'">
+                                <span class="closefo-delete-btn"><i class="pi pi-pencil" (click)="onEditAction(rowData, index)"></i> </span>
+                              </span>
+                              <span *ngSwitchCase="'delete'">
+                                <span class="closefo-delete-btn"
+                                  ><i class="pi pi-times-circle" (click)="onDeleteAction(rowData, index)"></i>
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <div *ngIf="showActioncard">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.Actions' | translate }}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown
+                              [ngModel]="actionData.action"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="actionDropdown"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.actionList"
+                              [ControlConfig]="RequiredAction"
+                              optionLabel="name"
+                              dataKey="name"
+                              (OnSelectionChanged)="onActionChange($event)"
+                              #actiondropdown="ngModel"
+                              [showClearIcon]="actionData?.action?.name ? true : false"
+                              [cfcFluidValidation]="{
+                                errors: actiondropdown.errors ? RequiredAction.Errors : '',
+                                formSubmitted: remainderScenarioForm.submitted || RequiredAction.externalError
+                              }"
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-end closefo-btn-wrapper">
+                        <cfc-fluid-button
+                          Type="button"
+                          ButtonStyle="closefo-btn-primary mr-1"
+                          caption="{{ 'process.manage-remainder.button.Saves' | translate }}"
+                          [ControlConfig]="ButtonConfig"
+                          (click)="onSaveAction()"
+                        ></cfc-fluid-button>
+                        <cfc-fluid-button
+                          Type="button"
+                          ButtonStyle="closefo-btn-secondary"
+                          caption="{{ 'process.manage-remainder.button.Cancel' | translate }}"
+                          [ControlConfig]="ButtonConfig"
+                          (click)="onCancelAction()"
+                        ></cfc-fluid-button>
+                      </div>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{ 'process.manage-remainder.tabheader.Customer' | translate }}">
+                  <div class="row">
+                    <div class="col-md-9" *ngIf="showTemplateGrid">
+                      <div class="closefo-heading-3 closefo-text-primary mb-3">
+                        {{ 'process.manage-remainder.heading.TemplateOverview' | translate }}
+                      </div>
+                    </div>
+                    <div class="col-md-9" *ngIf="showTemplatecard">
+                      <div class="closefo-heading-3 closefo-text-primary mb-3">
+                        {{ 'process.manage-remainder.card.template' | translate }}
+                      </div>
+                    </div>
+                    <div class="col-3 closefo-btn-wrapper text-right" *ngIf="showTemplateGrid">
+                      <cfc-fluid-button Type="button"
+                                        ButtonStyle="closefo-add-btn-small"
+                                        caption="{{ 'process.manage-remainder.Add.Template' | translate }}"
+                                        [ControlConfig]="ButtonConfig"
+                                        (click)="onAddTemplate()"></cfc-fluid-button>
+                    </div>
+
+                    <div class="col-md-12" *ngIf="showTemplateGrid">
+                      <p-table [value]="remainderStepData.communicationList"
+                               [columns]="TemplateHeader"
+                               [resizableColumns]="true"
+                               styleClass="closefo-datatable closefo-bo-table checkboxalign"
+                               [reorderableColumns]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn [pSortableColumn]="col.field">
+                              <span>{{ col.header }}</span>
+
+                              <p-sortIcon [field]="col.field" *ngIf="!col.pSortableColumnDisabled"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'documentTemplateName'">
+                                {{ rowData.communication?.documentTemplate?.name }}
+                              </span>
+                              <span *ngSwitchCase="'communicationMedium'"> {{ rowData.communication?.communicationMedium?.caption }} </span>
+
+                              <span *ngSwitchCase="'edit'">
+                                <span class="closefo-delete-btn">
+                                  <i class="pi pi-pencil" (click)="onEditCommunication(rowData, index)"></i>
+                                </span>
+                              </span>
+                              <span *ngSwitchCase="'delete'">
+                                <span class="closefo-delete-btn">
+                                  <i class="pi pi-times-circle" (click)="onDeleteCommuncation(rowData, index)"></i>
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+
+                  <div *ngIf="showTemplatecard">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3">
+                            <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.Templates' | translate }}</label>
+                          </div>
+                          <div class="col-4">
+                            <cfc-fluid-dropdown
+                              [ngModel]="communicationData.documentTemplate"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="templateName"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.templateNameList"
+                              [ControlConfig]="RequiredTemplate"
+                              optionLabel="name"
+                              dataKey="name"
+                              (OnSelectionChanged)="onTemplateNameChange($event)"
+                              #Templatedropdown="ngModel"
+                              [cfcFluidValidation]="{
+                                errors: Templatedropdown.errors ? RequiredTemplate.Errors : '',
+                                formSubmitted: remainderScenarioForm.submitted || RequiredTemplate.externalError
+                              }"
+                              [showClearIcon]="communicationData?.documentTemplate?.name ? true : false"
+                              [title]="communicationData.documentTemplate === null ? '' : communicationData?.documentTemplate?.name"
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3">
+                            <label class="closefo-form-label required">{{
+                              'process.manage-remainder.tab.ContactMedium' | translate
+                            }}</label>
+                          </div>
+                          <div class="col-4">
+                            <cfc-fluid-dropdown
+                              [ngModel]="communicationData.communicationMedium"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="contactMedium"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.contactMediumList"
+                              [ControlConfig]="RequiredContactMedium"
+                              optionLabel="caption"
+                              dataKey="caption"
+                              (OnSelectionChanged)="onContactMediumChange($event)"
+                              #contactMediumdropdown="ngModel"
+                              [cfcFluidValidation]="{
+                                errors: contactMediumdropdown.errors ? RequiredContactMedium.Errors : '',
+                                formSubmitted: remainderScenarioForm.submitted || RequiredContactMedium.externalError
+                              }"
+                              [showClearIcon]="communicationData?.communicationMedium ? true : false"
+                              [title]="
+                                communicationData.communicationMedium === null ? '' : communicationData?.communicationMedium?.caption
+                              "
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3">
+                            <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.RoleType' | translate }}</label>
+                          </div>
+                          <div class="col-4">
+                            <cfc-fluid-dropdown
+                              [ngModel]="communicationData.roleType"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="roleType"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.roleTypeList"
+                              [ControlConfig]="DropdownConfig"
+                              optionLabel="caption"
+                              dataKey="caption"
+                              (OnSelectionChanged)="onRoleTypeChange($event)"
+                              #toleTypedropdown="ngModel"
+                              [showClearIcon]="communicationData?.roleType ? true : false"
+                              [title]="communicationData.roleType === null ? '' : communicationData?.roleType?.caption"
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3">
+                            <label class="closefo-form-label required">{{ 'process.manage-remainder.tab.AdminRole' | translate }}</label>
+                          </div>
+                          <div class="col-4">
+                            <cfc-fluid-dropdown
+                              [ngModel]="communicationData.adminRoleType"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="adminRoleType"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.adminRoleTypeList"
+                              [ControlConfig]="DropdownConfig"
+                              optionLabel="caption"
+                              dataKey="caption"
+                              (OnSelectionChanged)="onAdminRoleChange($event)"
+                              #adminRoledropdown="ngModel"
+                              [showClearIcon]="communicationData?.adminRoleType ? true : false"
+                              [title]="communicationData.adminRoleType === null ? '' : communicationData?.adminRoleType?.caption"
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3">
+                            <label class="closefo-form-label required">{{
+                              'process.manage-remainder.tab.CollectionsRole' | translate
+                            }}</label>
+                          </div>
+                          <div class="col-4">
+                            <cfc-fluid-dropdown
+                              [ngModel]="communicationData.collectionsRoleType"
+                              [form]="remainderScenarioForm"
+                              Type="single"
+                              name="collectionRoleType"
+                              [placeholder]="placeholder"
+                              [options]="remainderScenarioCodeTable?.collectionsRoleTypeList"
+                              [ControlConfig]="DropdownConfig"
+                              optionLabel="caption"
+                              dataKey="caption"
+                              (OnSelectionChanged)="onCollectionRoleChange($event)"
+                              #collectionRoleTypedropdown="ngModel"
+                              [showClearIcon]="communicationData?.collectionsRoleType ? true : false"
+                              [title]="
+                                communicationData.collectionsRoleType === null ? '' : communicationData?.collectionsRoleType?.caption
+                              "
+                            >
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3"></div>
+                          <div class="col-1">
+                            <cfc-fluid-checkbox
+                              [ControlConfig]="CheckboxConfig"
+                              [ngModel]="communicationData.registeredLetter"
+                              name="RegisteredSending"
+                              (ngModelChange)="onRegisterSendChange($event)"
+                              [form]="remainderScenarioForm"
+                            >
+                            </cfc-fluid-checkbox>
+                          </div>
+                          <div class="col-8">
+                            <label class="closefo-form-label text-left">{{
+                              'process.manage-remainder.tab.RegisteredSending' | translate
+                            }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-3"></div>
+                          <div class="col-1">
+                            <cfc-fluid-checkbox
+                              [ControlConfig]="CheckboxConfig"
+                              [ngModel]="communicationData.onlySendAfterPeriod"
+                              name="BlockSending"
+                              (ngModelChange)="onBlockSendingChange($event)"
+                              [form]="remainderScenarioForm"
+                            >
+                            </cfc-fluid-checkbox>
+                          </div>
+                          <div class="col-5">
+                            <label class="closefo-form-label text-left">{{
+                              'process.manage-remainder.tab.BlockSending' | translate
+                            }}</label>
+                          </div>
+                          <div class="col-1">
+                            <cfc-fluid-textbox
+                              #blockSending ="ngModel"
+                              Type="numbers"
+                              [ControlConfig]="RequiredBlockSending"
+                              [ngModel]="communicationData.periodToVerify"
+                              (ngModelChange)="periodToverifyChange($event)"
+                              name="period"
+                              [isAllowSpace]="false"
+                              [form]="remainderScenarioForm"
+                              [maxlength]="10"
+                              [maximumValue]="intMaxValue"
+                              [cfcFluidValidation]="{
+                                errors: (blockSending.errors?.maxValueError) ? blockingNumberErrorDto : '',
+                                formSubmitted: remainderScenarioForm.submitted || RequiredBlockSending.externalError
+                              }"
+                            
+                            >
+                            </cfc-fluid-textbox>
+                          </div>
+                          <div class="col-2">
+                            <label class="closefo-form-label text-left">{{ 'process.manage-remainder.tab.Days' | translate }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end closefo-btn-wrapper">
+                      <cfc-fluid-button
+                        Type="button"
+                        ButtonStyle="closefo-btn-primary mr-1"
+                        caption="{{ 'process.manage-remainder.button.Saves' | translate }}"
+                        [ControlConfig]="ButtonConfig"
+                        (click)="onTemplateSave()"
+                      ></cfc-fluid-button>
+                      <cfc-fluid-button
+                        Type="button"
+                        ButtonStyle="closefo-btn-secondary"
+                        caption="{{ 'process.manage-remainder.button.Cancel' | translate }}"
+                        [ControlConfig]="ButtonConfig"
+                        (click)="onTemplateCancel()"
+                      ></cfc-fluid-button>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{ 'process.manage-remainder.tabheader.Events' | translate }}">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="closefo-heading-3 closefo-text-primary mb-3"></div>
+                    </div>
+                    <div class="col-3 closefo-btn-wrapper text-right">
+                      <cfc-fluid-button
+                        Type="button"
+                        ButtonStyle="closefo-add-btn-small"
+                        caption="{{'process.manage-remainder.Add.Event' | translate}}"
+                        [ControlConfig]="ButtonConfig"
+                        (click)="onAddEvent()"
+                      ></cfc-fluid-button>
+                    </div>
+
+                    <div class="col-md-12">
+
+                      <p-table
+                        [value]="remainderStepData.followupEventsForReminderStep"
+                        [columns]="EventHeader"
+                        [resizableColumns]="true"
+                        styleClass="closefo-datatable closefo-bo-table checkboxalign"
+                        [reorderableColumns]="true"
+                      >
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn [pSortableColumn]="col.field">
+                              <span>{{ col.header }}</span>
+
+                              <p-sortIcon [field]="col.field" *ngIf="!col.pSortableColumnDisabled"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'dropdown'">
+                                <cfc-fluid-dropdown
+                                  [ngModel]="rowData?.eventName"
+                                  [form]="remainderScenarioForm"
+                                  Type="single"
+                                  name="followUpeventName{{ index }}"
+                                  [placeholder]="placeholder"
+                                  [options]="remainderScenarioCodeTable?.followUpEventList"
+                                  [ControlConfig]="DropdownConfig"
+                                  optionLabel="caption"
+                                  dataKey="caption"
+                                  (OnSelectionChanged)="onFollowUpEventChange($event, index)"
+                                  #followUpdropdown="ngModel"
+                                  [showClearIcon]="rowData?.eventName?.caption ? true : false"
+                                  [title]="rowData.eventName === null ? '' : rowData?.eventName?.caption"
+                                >
+                                </cfc-fluid-dropdown>
+                              </span>
+
+                              <span *ngSwitchCase="'delete'">
+                                <span class="closefo-delete-btn"
+                                  ><i class="pi pi-times-circle" (click)="onFollowUpEventRowDelete(rowData, index)"></i>
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{ 'process.manage-remainder.tabheader.Notes' | translate }}">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+                        <div class="col-12">
+                          <label class="closefo-form-label text-left">{{ 'process.manage-remainder.tab.Notes' | translate }}</label>
+                        </div>
+                        <div class="col-12">
+                          <cfc-fluid-textarea
+                            [ControlConfig]="TextAreaConfig"
+                            name="notes"
+                            [ngModel]="remainderStepData.notes"
+                            (ngModelChange)="onNotesChange($event)"
+                            #notes="ngModel"
+                            class="text-resizes"
+                            [form]="remainderScenarioForm"
+                            [maxLength]="250"
+                          >
+                          </cfc-fluid-textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-tabPanel>
+              </p-tabView>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'process.dialog.Header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'process.dialog.Content' | translate }}</div>         
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto" 
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'process.dialog.Yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogYes(remainderScenarioList)"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.No' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.Cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showBackDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'process.dialog.Header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'process.dialog.Content' | translate }}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto" 
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'process.dialog.Yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onBackDialogYes(remainderScenarioList)"
+              [disabled]="showActioncard || showTemplatecard"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.No' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onBackDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.Cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onBackDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+      
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate> Technical Exception </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-secondary"
+              caption="Continue"
+              (click)="onException()"
+              [ControlConfig]="ButtonConfig"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

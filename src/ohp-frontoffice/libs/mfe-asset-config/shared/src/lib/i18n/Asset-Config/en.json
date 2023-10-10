@@ -1,0 +1,92 @@
+{
+  "asset": {
+    "indexation": {
+      "labels": {
+        "validFrom": "Valid From",
+        "validTo": "Valid To",
+        "reference": "Reference",
+        "a": "A",
+        "b": "B",
+        "d": "D",
+        "e": "E",
+        "x": "X",
+        "g": "G",
+        "m": "M",
+        "l": "L",
+        "h": "H",
+        "s": "S",
+        "p": "P",
+        "k": "K",
+        "correctionFactor": "Correction Factor",
+        "roundingScale": "Rounding Scale",
+        "delete": "Delete",
+        "a-Groningen": "A - Groningen",
+        "b-Friesland": "B - Friesland",
+        "d-Drenthe": "D - Drenthe",
+        "e-Overrijsel": "E - Overrijsel",
+        "x-Flevoland": "X - Flevoland",
+        "g-Gelderland": "G - Gelderland",
+        "m-Utrecht": "M - Utrecht",
+        "l-Noord-Holland": "L - Noord-Holland",
+        "h-Zuid-Holland": "H - Zuid-Holland",
+        "s-Zeeland": "S - Zeeland",
+        "p-Noord-Brabant": "P - Noord-Brabant",
+        "k-Limburg": "K - Limburg",
+        "realEstateValueType": "Real Estate Value Type",
+        "applyIndexation": " Apply Indexation",
+        "useAsReferenceValue": "Use as reference value",
+        "allowOverrulingReferenceValue": "Allow overruling reference value",
+        "productName": "Product name",
+        "loanPurpose": "Loan Purpose",
+        "realEstatePurposeType": "Real Estate Purpose Type"
+      },
+      "buttons": {
+        "addExcludedRealEstatePurpose": "Add Excluded Real Estate Purpose",
+        "addExcludedLoanPurpose": "Add Excluded Loan Purpose",
+        "addExcludedProduct": "Add Excluded Product",
+        "addRealEstateValueType": "Add Real Estate Value Type",
+        "add": "Add"
+      },
+      "titles": {
+        "realEstatePurposeTypeExcluded": "Real Estate Purpose Types For Which Real Estate Value Type Is Excluded",
+        "loanPurposeExcluded": "Loan Purposes For Which Real Estate Value Type Is Excluded",
+        "productExcluded": "Products For Which Real Estate Value Type Is Excluded",
+        "realEstateValueTypeConfiguration": "Real Estate Value Type Configuration",
+        "indexesPerProvince": "Indexes per province NL",
+        "manageIndexation": "Manage Asset Valuation"
+      },
+      "validationError": {
+        "validToCheck": "Valid To date must be greater than or equal to Valid From date.",
+        "validFrom": "'Valid From' is Mandatory.",
+        "productName": "'Product name' is Mandatory.",
+        "loanPurpose": "'Loan Purpose' is Mandatory.",
+        "realEstatePurposeType": "'Real Estate Purpose Type' is Mandatory.",
+        "realEstateValueType": "'Real Estate Value Type' is Mandatory."
+      },
+      "businessError": {
+        "IndexesMandatory": "At least one province index should be filled per indexation period.",
+        "validToDateNullCheck": "Valid To date should be filled for all indexation periods other than the most recent indexation period.",
+        "validFromCheck": "The validity period of an indexation cannot overlap with an already existing indexation period."
+      },
+      "confirmation": {
+        "DoYouWishToContinueDelete?": "The indexation config could have already been used for automatic asset indexation. Deleting it will not recalculate any real estate values. Do you wish to continue?",
+        "DoYouWishToContinueUpdate?": "The indexation config could have already been used for automatic asset indexation. Updating it will not recalculate any real estate values. Do you wish to continue?",
+        "attention": "Attention"
+      }
+    },
+    "close": {
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "validationHeader": "You have {0} error(s). Click here to see the description."
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close"
+    }
+  }
+}

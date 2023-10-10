@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/create-dip",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/create-dip/src",
+  "prefix": "dip",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/create-dip"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/create-dip/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/create-dip/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/create-dip/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

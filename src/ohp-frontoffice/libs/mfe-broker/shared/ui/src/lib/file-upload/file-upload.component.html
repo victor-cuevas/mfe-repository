@@ -1,0 +1,27 @@
+<ng-container *ngIf="isUploading; else idle">
+  <div class="d-flex ms-2 align-items-center p-2 primary-color">
+    <i class="pi pi-spin pi-spinner"></i>
+    <p class="ms-2 fw-medium">Uploading...</p>
+  </div>
+</ng-container>
+
+<ng-template #idle>
+  <p-fileUpload
+    #fileUpload
+    *ngIf="showUpload"
+    mode="basic"
+    chooseIcon="pi pi-upload"
+    chooseLabel="Upload"
+    styleClass="file-upload-button"
+    [customUpload]="true"
+    [auto]="true"
+    (uploadHandler)="onUploadFile($event)"
+    [disabled]="readOnlyMode"
+  >
+    <ng-template pTemplate="content">
+      <ul *ngIf="files?.length">
+        <li *ngFor="let file of files">{{ file.name }} - {{ file.size }} bytes</li>
+      </ul>
+    </ng-template>
+  </p-fileUpload>
+</ng-template>

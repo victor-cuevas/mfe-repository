@@ -1,0 +1,2440 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2" *ngIf="isPost">
+            {{'product.newProduct.heading.newproduct' | translate}}
+          </h2>
+          <h2 class="closefo-heading-2" *ngIf="!isPost">
+            {{'product.newProduct.heading.updateproduct' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'product.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="saveproduct()" *ngIf="!disable"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'product.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'product.newProduct.titles.newproductgeneral' | translate}}</div>
+          </div>
+          <div class="col-3 closefo-btn-wrapper text-right" *ngIf="NotClickedCopy">
+
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" class="copybutton"
+                              caption="{{'product.newProduct.tab.addButtons.copy' | translate}}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="copyConfirmBox()">
+
+            </cfc-fluid-button>
+          </div>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 align-items-center">
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}"> {{'product.newProduct.card.Country' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="productInfo?.country"
+                                                [form]="userDetailsform"
+                                                name="country"
+                                                [isReadOnly]="disable"
+                                                [filteredNames]="filteredcountries"
+                                                (filtername)="filterCountry($event)"
+                                                (Selected)="changeCountry($event)"
+                                                (Clear)=" clearCountry($event)"
+                                                (ngModelChange)="productInfo.country=$event"
+                                                [ControlConfig]="AutoCompleteConfig"
+                                                field="caption"
+                                                #autocomplete="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Start' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="startDateconfig"
+                                              [ngModel]="productInfo?.startDate"
+                                              (ngModelChange)="changeStartDate($event)"
+                                              [cfcFluidValidation]="{errors:startDate.errors? startDateconfig.Errors :'', formSubmitted:(startDateconfig.externalError)}"
+                                              [isReadOnly]="disable"
+                                              name="startDate"
+                                              [maxDate]="productInfo.endDate"
+                                              [minDate]="defaultDate"
+                                              #startDate="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isUpdate}">{{'product.newProduct.card.Product Family' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.productFamily"
+                                            Type="single"
+                                            name="productFamily"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.productFamilyList"
+                                            [ControlConfig]="productFamilyDropdownConfig"
+                                            [isReadOnly]="disable || isUpdate"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.productFamily?.caption"
+                                            [cfcFluidValidation]="{errors:productFamilydropdown.errors? productFamilyDropdownConfig.Errors :'', formSubmitted: (productFamilyDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeProductFamily($event)"
+                                            #productFamilydropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.End Date' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="productInfo?.endDate"
+                                              (ngModelChange)="changeEndDate($event)"
+                                              [isReadOnly]="disable"
+                                              name="endDate"
+                                              [minDate]="minDate"
+                                              [form]="userDetailsform"
+                                              #enddate="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isUpdate}">{{'product.newProduct.card.Retail leading  type' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.consumerProductType"
+                                            Type="single"
+                                            name="consumerProductType"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.productTypeList"
+                                            [ControlConfig]="retailLendingTypeDropdownConfig"
+                                            [isReadOnly]="disable || isUpdate"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.consumerProductType?.caption"
+                                            [cfcFluidValidation]="{errors:retailLendingTypedropdown.errors? retailLendingTypeDropdownConfig.Errors :'', formSubmitted: (retailLendingTypeDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeRetailLeadingType($event)"
+                                            #retailLendingTypedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Economical owner' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.economicalOwner"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="economicalOwner"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.creditProviderList"
+                                            [ControlConfig]="DropdownConfig"
+                                            [isReadOnly]="disable"
+                                            optionLabel="name.caption"
+                                            [title]="productInfo?.economicalOwner?.name?.caption"
+                                            dataKey="name.caption"
+                                            (OnSelectionChanged)="changeEconomicalOwner($event)"
+                                            #languagedropdown="ngModel">
+
+                        </cfc-fluid-dropdown>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Retail leading sub type' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.retailLendingSubType"
+                                            Type="single"
+                                            name="retailLendingSubType"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.retailLendingSubTypeList"
+                                            [ControlConfig]="retailLendingSubTypeDropdownConfig"
+                                            [isReadOnly]="disable"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.retailLendingSubType?.caption"
+                                            [cfcFluidValidation]="{errors:retailLendingSubdropdown.errors? retailLendingSubTypeDropdownConfig.Errors :'', formSubmitted:(retailLendingSubTypeDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeRetailLendingSubtype($event)"
+                                            #retailLendingSubdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Judicial owner' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.judicialOwner"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="judicialOwner"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.creditProviderList"
+                                            [ControlConfig]="DropdownConfig"
+                                            [isReadOnly]="disable"
+                                            optionLabel="name.caption"
+                                            [title]="productInfo?.judicialOwner?.name?.caption"
+                                            dataKey="name.caption"
+                                            (OnSelectionChanged)="changeJudicialOwner($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Product name' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.productName"
+                                            Type="single"
+                                            name="productName"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.productNameList"
+                                            [ControlConfig]="productNameDropdownConfig"
+                                            optionLabel="caption"
+                                            [isReadOnly]="disable"
+                                            dataKey="caption"
+                                            [title]="productInfo?.productName?.caption"
+                                            [cfcFluidValidation]="{errors:productNamedropdown.errors? productNameDropdownConfig.Errors :'', formSubmitted: (productNameDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeProductName($event)"
+                                            #productNamedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isUpdate}">{{'product.newProduct.card.Servicing Customer' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.servicingCustomer"
+                                            Type="single"
+                                            name="servicingCustomer"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.creditProviderList"
+                                            [ControlConfig]="servicingCustomerDropdownConfig"
+                                            [isReadOnly]="disable || isUpdate"
+                                            optionLabel="name.caption"
+                                            dataKey="name.caption"
+                                            [title]="productInfo?.servicingCustomer?.name?.caption"
+                                            [cfcFluidValidation]="{errors:servicingCustomerdropdown.errors? servicingCustomerDropdownConfig.Errors :'', formSubmitted: (servicingCustomerDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeServicingCustomer($event)"
+                                            #servicingCustomerdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Commercial name' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.commercialName"
+                                            Type="single"
+                                            name="commercialName"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.commercialNameList"
+                                            [ControlConfig]="commercialOwnerDropdownConfig"
+                                            optionLabel="caption"
+                                            [isReadOnly]="disable"
+                                            dataKey="caption"
+                                            [title]="productInfo?.commercialName?.caption"
+                                            [cfcFluidValidation]="{errors:commercialNamedropdown.errors? commercialOwnerDropdownConfig.Errors :'', formSubmitted:(commercialOwnerDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeCommercialName($event)"
+                                            #commercialNamedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.External Product Nr' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="productInfo?.externalProductNr"
+                                           (OnchangedNumber)="changeExProductNumber($event)"
+                                           name="externalProductNr"
+                                           [isReadOnly]="disable"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Product nbr' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="productNrTextBoxconfig"
+                                           [ngModel]="productInfo?.productNr"
+                                           (OnchangedNumber)="changeProductNumber($event)"
+                                           name="productNr"
+                                           [isReadOnly]="disable"
+                                           [cfcFluidValidation]="{errors:productNum.errors? productNrTextBoxconfig.Errors :'', formSubmitted: (productNrTextBoxconfig.externalError)}"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="maxDays"
+                                           #productNum="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.Credit Insurer' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.creditInsurer"
+                                            Type="single"
+                                            name="creditInsurer"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.creditInsurerList"
+                                            [ControlConfig]="creditInsurerDropdownConfig"
+                                            [isReadOnly]="disable"
+                                            optionLabel="name.caption"
+                                            dataKey="name.caption"
+                                            [title]="productInfo?.creditInsurer?.name?.caption"
+                                            [cfcFluidValidation]="{errors:creditInsurerdropdown.errors? creditInsurerDropdownConfig.Errors :'', formSubmitted:(creditInsurerDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeCreditInsurer($event)"
+                                            #creditInsurerdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.No SEPA CT Out' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.noSepaCTOut"
+                                            name="NoSEPA"
+                                            [isReadOnly]="disable"
+                                            (ngModelChange)="changeNoSpec($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Construction Depot Allowed' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.isConstructionDepotAllowed"
+                                            name="Construction"
+                                            [isReadOnly]="isRevolving || disable"
+                                            (ngModelChange)="changeConstructionDepot($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Rewithdrawable' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="precomputedProduct.rewithdrawable"
+                                            name="Rewithdrawable"
+                                            [isReadOnly]="isRevolving || disable"
+                                            (ngModelChange)="changeRewithdrawable($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Commission Calculation Method' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.commissionCalculationMethod"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="commissionCal"
+                                            [isReadOnly]="disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.commissionCalculationMethodList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.commissionCalculationMethod?.caption"
+                                            (OnSelectionChanged)="changeCommissionCalculation($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Deposit Allocation method' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.depotAllocationMethod"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="depotAllocationMethod"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="isRevolving || disable || disableDepositAllocation"
+                                            [options]="productCodeTableData?.depotAllocationMethodList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.depotAllocationMethod?.caption"
+                                            (OnSelectionChanged)="changeDepositAllocation($event)"
+                                            #languagedropdown="ngModel">
+
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Capitalize Int' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="precomputedProduct?.capitalizeInterestAllowed"
+                                            name="CapitalizeInterest"
+                                            [isReadOnly]="isRevolving || disable"
+                                            (ngModelChange)="changeCapitalizedInterest($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Automatic Rate Reevaluation' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.isAutomaticRateAdaptationReevaluationApplicable"
+                                            name="AutomaticRate"
+                                            [isReadOnly]="disable"
+                                            (ngModelChange)="changeAutomaticReevaluation($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Rate Rev' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.rateRevisionReevaluationMethod"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="rateRevision"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="disable"
+                                            [options]="productCodeTableData?.rateRevisionReevaluationMethodList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.rateRevisionReevaluationMethod?.caption"
+                                            (OnSelectionChanged)="changeRateRevision($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="row" *ngIf="productInfo.useAPC">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.ProductConversionNecessaryAtRateRevision' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo.productConversionNecessaryAtRateRevision"
+                                            name="ProductConversionNecessaryAtRateRevision"
+                                            [isReadOnly]="disable"
+                                            (ngModelChange)="changeProductConversionAtRateRevision($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.NewProductNameAtRateRevision' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.newProductNameAtRateRevision"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="NewProductNameAtRateRevision"
+                                            [isReadOnly]="notProductConversion || disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.productNameList"
+                                            [ControlConfig]="NewProductNameAtRateRevisionDropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.newProductNameAtRateRevision?.caption"
+                                            [cfcFluidValidation]="{errors:NewProductNameAtRateRevisiondropdown.errors? NewProductNameAtRateRevisionDropdownConfig.Errors :'', formSubmitted: (NewProductNameAtRateRevisionDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeNewProductNameAtRateRevision($event)"
+                                            #NewProductNameAtRateRevisiondropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Is Mortgage For Tax Certificate' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.isMortgageForTaxCertificate"
+                                            name="IsMortgage"
+                                            [isReadOnly]="disable"
+                                            (ngModelChange)="changeMortgageForTax($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.dueTransfer' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="precomputedProduct?.dueTransferMethod"
+                                            Type="single"
+                                            name="DueTransfer"
+                                            [isReadOnly]="isRevolving || disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.dueTransferMethodList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="precomputedProduct?.dueTransferMethod?.caption"
+                                            (OnSelectionChanged)="changeDueTransfer($event)"
+                                            #dueTransferdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="tab-top closefo-form-group">
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <p-tabView class="new-product-tab" [(activeIndex)]="SelectedTabIndex">
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.Principalandinterest' | translate}}" [selected]="true">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.Periodicity' | translate}}</label>
+
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.periodicity"
+                                            Type="single"
+                                            name="periodicity"
+                                            [isReadOnly]="disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.periodicityList"
+                                            [ControlConfig]="periodicityDropdownConfig"
+                                            [cfcFluidValidation]="{errors:periodicitydropdown.errors? periodicityDropdownConfig.Errors :'', formSubmitted: (periodicityDropdownConfig.externalError)}"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.periodicity?.caption"
+                                            (OnSelectionChanged)="changePeriodicity($event)"
+                                            #periodicitydropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.Interest' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.interestCalculation"
+                                            Type="single"
+                                            name="interestCal"
+                                            [isReadOnly]="disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.interestCalculationList"
+                                            [ControlConfig]="interestCalculationDropdownConfig"
+                                            [cfcFluidValidation]="{errors:interestCalculationdropdown.errors? interestCalculationDropdownConfig.Errors :'', formSubmitted:(interestCalculationDropdownConfig.externalError)}"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.interestCalculation?.caption"
+                                            (OnSelectionChanged)="changeInterestCalculation($event)"
+                                            #interestCalculationdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6" *ngIf="isPrecomputed">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.tab.Amortiization Recalculation Type' |translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="precomputedProduct?.amortizationRecalculationType"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="amortizationDropdown"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="disable"
+                                            [options]="productCodeTableData?.amortizationRecalculationTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="precomputedProduct?.amortizationRecalculationType?.caption"
+                                            (OnSelectionChanged)="changeAmortizationRecalculation($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.tab.Max. calibration months'|translate}}</label>
+                      </div>
+                      <div class="col-4">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="productInfo?.maxCalibrationMonths"
+                                           (OnchangedNumber)="changeMaxCalibration($event)"
+                                           [isReadOnly]="disable"
+                                           name="maxCalibration"
+                                           [maxlength]="maxLength"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.tab.Due Date Calc.' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="revolvingProduct.revolvingDueDateCalculation"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="dueDateCal"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="isPrecomputed || disable"
+                                            [options]="productCodeTableData?.revolvingDueDateCalculationList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="revolvingProduct?.revolvingDueDateCalculation?.caption"
+                                            (OnSelectionChanged)="changeDueDateCalculation($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isPrecomputed && !invalidDueDateCalculation}">{{'product.newProduct.tab.Default list' | translate}}</label>
+                      </div>
+                      <div class="col-4">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="defaultLimitTextBoxconfig"
+                                           [isReadOnly]="isPrecomputed || disable || invalidDueDateCalculation"
+                                           [ngModel]="revolvingProduct.payPercOfLimitDefault"
+                                           (OnchangedAmount)="changeDefault($event,true)"
+                                           (ngModelChange)="changeDefault($event,false)"
+                                           name="default"
+                                           [minimumValue]="revolvingProduct.payPercOfLimitMin"
+                                           [maximumValue]="revolvingProduct.payPercOfLimitMax"
+                                           [cfcFluidValidation]="{errors:defaultLimit.errors ? (defaultLimit.errors?.maxValueError) ? defaultMaxLimitErrorDto : (defaultLimit.errors?.minValueError) ? defaultMinLimitErrorDto : defaultLimitTextBoxconfig.Errors :'', formSubmitted: defaultLimitTextBoxconfig.externalError}"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="maxDays"
+                                           #defaultLimit="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isPrecomputed && !invalidDueDateCalculation}">{{'product.newProduct.tab.Min list' | translate}}</label>
+                      </div>
+                      <div class="col-4">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="minLimitTextBoxconfig"
+                                           [isReadOnly]="isPrecomputed || disable || invalidDueDateCalculation"
+                                           [ngModel]="revolvingProduct.payPercOfLimitMin"
+                                           (OnchangedAmount)="changeMin($event,true)"
+                                           (ngModelChange)="changeMin($event,false)"
+                                           name="min"
+                                           [maximumValue]="revolvingProduct.payPercOfLimitDefault"
+                                           [cfcFluidValidation]="{errors:minLimit.errors ? (minLimit.errors?.maxValueError) ? minLimitErrorDto : minLimitTextBoxconfig.Errors :'', formSubmitted: minLimitTextBoxconfig.externalError}"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="maxDays"
+                                           #minLimit="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isPrecomputed && !invalidDueDateCalculation}">{{'product.newProduct.tab.Max list' | translate}}</label>
+                      </div>
+                      <div class="col-4">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="maxLimitTextBoxconfig"
+                                           [isReadOnly]="isPrecomputed || disable || invalidDueDateCalculation"
+                                           [ngModel]="revolvingProduct.payPercOfLimitMax"
+                                           (OnchangedAmount)="changeMax($event,true)"
+                                           (ngModelChange)="changeMax($event,false)"
+                                           name="max"
+                                           [minimumValue]="revolvingProduct.payPercOfLimitDefault"
+                                           [cfcFluidValidation]="{errors:maxLimit.errors ? (maxLimit.errors?.minValueError) ? maxLimitErrorDto : maxLimitTextBoxconfig.Errors :'', formSubmitted: maxLimitTextBoxconfig.externalError}"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="maxDays"
+                                           #maxLimit="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="isPrecomputed">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-2">{{'product.newProduct.tab.AmortizationSchedule' | translate}}</div>
+                  </div>
+                  <div class="closefo-card closefo-card-rounded closefo-bg-grey ">
+                    <div class="row">
+                      <div class="col-md-6" *ngFor="let item of productInfo?.product2AmortizationScheduleList">
+                        <div class="row align-items-center">
+                          <div class="col-12">
+                            <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                [ngModel]="item.isSelected"
+                                                [isReadOnly]="disable"
+                                                name="check{{item.amortizationShedule.codeId}}"
+                                                (ngModelChange)="changeAmortizationSchedule($event,item.amortizationShedule.codeId)"
+                                                checkboxLabel={{item.amortizationShedule.caption}}>
+                            </cfc-fluid-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.PaymentAllocation' | translate}}">
+                <div class="row">
+                  <div class="col-12 closefo-btn-wrapper text-right">
+                    <cfc-fluid-button Type="button"
+                                      ButtonStyle="closefo-add-btn-small"
+                                      caption="{{'product.newProduct.tab.addButtons.addPaymentAllocation' | translate}}"
+                                      [disabled]="disable"
+                                      (click)="addPaymentAllocations()"
+                                      [ControlConfig]="ButtonConfig">
+                    </cfc-fluid-button>
+                  </div>
+                </div>
+                <div class="row">
+                  <p-table [value]="productInfo.paymentAllocations" [columns]="paymentAllocationcolumn" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" [style.width]="col.width">
+                          <span>{{col.header}}</span>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                      <tr *ngIf="!(rowData.isDelete)">
+                        <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                          <span *ngSwitchCase="'paymentAllocationdropdownList'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.paymentAllocation"
+                                                Type="single"
+                                                [isReadOnly]="disable"
+                                                name="paymentAllocation{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="productCodeTableData?.paymentAllocationRefList"
+                                                [ControlConfig]="paymentAllocationTypeDropdownConfig"
+                                                [cfcFluidValidation]="{errors:paymentAllocationdropdown.errors? paymentAllocationTypeDropdownConfig.Errors :'', formSubmitted: (paymentAllocationTypeDropdownConfig.externalError)}"
+                                                optionLabel="paymentAllocationType.caption"
+                                                dataKey="paymentAllocationType.caption"
+                                                [title]="rowData.paymentAllocation?.paymentAllocationType?.caption"
+                                                (OnSelectionChanged)="changePaymentAllocationType($event,index)"
+                                                #paymentAllocationdropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <span *ngSwitchCase="'paymentAllocationdropdownList1'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.creditStatus"
+                                                Type="single"
+                                                [isReadOnly]="disable"
+                                                name="creditStatus1{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="productCodeTableData?.creditStatusList"
+                                                [ControlConfig]="paymentAllocationCreditStatusDropdownConfig"
+                                                [cfcFluidValidation]="{errors:creditStatusdropdown.errors? paymentAllocationCreditStatusDropdownConfig.Errors :'', formSubmitted: (paymentAllocationCreditStatusDropdownConfig.externalError)}"
+                                                optionLabel="caption"
+                                                dataKey="caption"
+                                                [title]="rowData.creditStatus?.caption"
+                                                (OnSelectionChanged)="changePaymentAllocationCreditStatus($event,index)"
+                                                #creditStatusdropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <span *ngSwitchCase="'Delete'">
+                            <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deletePaymentAllocations(rowData,productInfo.paymentAllocations)"></i></span>
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.ValueReduction' | translate}}">
+                <div class="col-12 closefo-btn-wrapper text-right">
+                  <cfc-fluid-button Type="button"
+                                    ButtonStyle="closefo-add-btn-small"
+                                    [disabled]="disable"
+                                    caption="{{'product.newProduct.tab.addButtons.addValueReduction' | translate}}"
+                                    [ControlConfig]="ButtonConfig"
+                                    (click)="addValuePrinciples()">
+                  </cfc-fluid-button>
+                </div>
+                <div class="row">
+                  <p-table [value]="productInfo.valueReductionPrinciples" [columns]="valueReductioncolumn" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" [style.width]="col.width">
+                          <span>{{col.header}}</span>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                      <tr *ngIf="!(rowData.isDelete)">
+                        <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                          <span *ngSwitchCase="'valueReductiondropdownList'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.valueReductionPrinciple"
+                                                Type="single"
+                                                name="ValueReduction{{index}}"
+                                                [placeholder]="placeholder"
+                                                [isReadOnly]="disable"
+                                                [options]="productCodeTableData?.valueReductionPrinciples"
+                                                [ControlConfig]="valueReductionDropdownConfig"
+                                                [cfcFluidValidation]="{errors:valueReductiondropdown.errors? valueReductionDropdownConfig.Errors :'', formSubmitted: (valueReductionDropdownConfig.externalError)}"
+                                                optionLabel="name"
+                                                dataKey="name"
+                                                [title]="rowData.valueReductionPrinciple?.name"
+                                                (OnSelectionChanged)="changeValuePrinciple($event,index)"
+                                                #valueReductiondropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <span *ngSwitchCase="'valueReductiondropdownList1'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.creditStatus"
+                                                Type="single"
+                                                name="creditStatus2{{index}}"
+                                                [placeholder]="placeholder"
+                                                [isReadOnly]="disable"
+                                                [options]="productCodeTableData?.creditStatusList"
+                                                [ControlConfig]="valueReductionCreditStatusDropdownConfig"
+                                                [cfcFluidValidation]="{errors:VRCreditStatusdropdown.errors? valueReductionCreditStatusDropdownConfig.Errors :'', formSubmitted: (valueReductionCreditStatusDropdownConfig.externalError)}"
+                                                optionLabel="caption"
+                                                dataKey="caption"
+                                                [title]="rowData.creditStatus?.caption"
+                                                (OnSelectionChanged)="changeValuePrincipleCreditStatus($event,index)"
+                                                #VRCreditStatusdropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <span *ngSwitchCase="'Delete'">
+                            <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deleteValuePrinciples(rowData,productInfo.valueReductionPrinciples)"></i></span>
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.Penalty' | translate}}">
+                <div class="col-md-12">
+                  <div class="closefo-heading-3 closefo-text-primary mb-2">{{'product.newProduct.titles.Prepayment' | translate}}</div>
+                </div>
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey ">
+                  <div class="row">
+                    <div class="col-md-6" *ngIf="prePaymentCalculationVisible">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.Prepayment calculation' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="precomputedProduct.prepaymentCalculation"
+                                              Type="single"
+                                              name="PrepaymentCalc"
+                                              [placeholder]="placeholder"
+                                              [isReadOnly]="isRevolving || disable"
+                                              [options]="productCodeTableData?.prePaymentCalculationDto"
+                                              [ControlConfig]="prePaymentCalculationDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [title]="precomputedProduct?.prepaymentCalculation?.caption"
+                                              [cfcFluidValidation]="{errors:prepaymentCalculationdropdown.errors? prePaymentCalculationDropdownConfig.Errors :'', formSubmitted: (prePaymentCalculationDropdownConfig.externalError)}"
+                                              (OnSelectionChanged)="changePrepaymentCalculation($event)"
+                                              #prepaymentCalculationdropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="prePaymentPenaltyVisible">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.PrepaymentMethod' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="precomputedProduct.prepaymentPenaltyMethod"
+                                              Type="single"
+                                              name="PrepaymentMethod"
+                                              [placeholder]="placeholder"
+                                              [isReadOnly]="isRevolving || disable"
+                                              [options]="productCodeTableData?.prepaymentPenaltyMethodList"
+                                              [ControlConfig]="prepaymentPenaltyDropdownConfig"
+                                              [cfcFluidValidation]="{errors:prepaymentPenaltydropdown.errors? prepaymentPenaltyDropdownConfig.Errors :'', formSubmitted: (prepaymentPenaltyDropdownConfig.externalError)}"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [title]="precomputedProduct?.prepaymentPenaltyMethod?.caption"
+                                              (OnSelectionChanged)="changePrepaymentPenaltyMethod($event)"
+                                              #prepaymentPenaltydropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6" *ngIf="prePaymentPenaltyVisible">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.highestRevision' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="precomputedProduct?.highestRevisionPeriodMethod"
+                                              Type="single"
+                                              name="highestRevisionPeriodMethod"
+                                              [placeholder]="placeholder"
+                                              [isReadOnly]="isRevolving || disable"
+                                              [options]="productCodeTableData?.highestRevisionPeriodMethodList"
+                                              [ControlConfig]="HighestRevisionDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [cfcFluidValidation]="{errors:highestRevisionPeriodMethoddropdown.errors? HighestRevisionDropdownConfig.Errors :'', formSubmitted: (HighestRevisionDropdownConfig.externalError)}"
+                                              [title]="precomputedProduct?.highestRevisionPeriodMethod?.caption"
+                                              (OnSelectionChanged)="changeHighestRevision($event)"
+                                              #highestRevisionPeriodMethoddropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving && !prepaymentPercentageDisable}">{{'product.newProduct.card.PrepaymentPercentage' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="amount"
+                                             [ControlConfig]="penaltyPercentageTextBoxconfig"
+                                             [ngModel]="precomputedProduct.prepaymentPenaltyPercentage"
+                                             (OnchangedAmount)="changePenaltyPercentage($event,true)"
+                                             (ngModelChange)="changePenaltyPercentage($event,false)"
+                                             name="prepaymentPenaltyPercentage"
+                                             [cfcFluidValidation]="{errors:penaltypercentage.errors? penaltyPercentageTextBoxconfig.Errors :'', formSubmitted: (penaltyPercentageTextBoxconfig.externalError)}"
+                                             [isReadOnly]="isRevolving || disable || prepaymentPercentageDisable"
+                                             [isAllowSpace]="false"
+                                             [maxlength]="14"
+                                             #penaltypercentage="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.PrepaymentExemption' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="amount"
+                                             [ControlConfig]="excemptionPercentageTextBoxconfig"
+                                             [ngModel]="precomputedProduct.prepaymentPenaltyExemptionPercentage"
+                                             (OnchangedAmount)="changeExemptionPercentage($event,true)"
+                                             (ngModelChange)="changeExemptionPercentage($event,false)"
+                                             name="PrepaymentEP"
+                                             [cfcFluidValidation]="{errors:excemptionPercentage.errors? excemptionPercentageTextBoxconfig.Errors :'', formSubmitted: (excemptionPercentageTextBoxconfig.externalError)}"
+                                             [isReadOnly]="isRevolving || disable"
+                                             [isAllowSpace]="false"
+                                             [maxlength]="11"
+                                             #excemptionPercentage="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label text-left': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.PenaltyBefore' | translate}}</label>
+                        </div>
+                        <div class="col-3">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="penaltyBeforeRevisionTextBoxconfig"
+                                             [ngModel]="precomputedProduct.penaltyFreePeriodBeforeRevisionDateInMonths"
+                                             (OnchangedNumber)="changeFreePeriodBeforeRevisionDate($event)"
+                                             name="PenaltyPBR"
+                                             [isAllowSpace]="false"
+                                             [cfcFluidValidation]="{errors:beforeRevision.errors? penaltyBeforeRevisionTextBoxconfig.Errors :'', formSubmitted: (penaltyBeforeRevisionTextBoxconfig.externalError)}"
+                                             [isReadOnly]="isRevolving || disable"
+                                             [maxlength]="maxLength"
+                                             #beforeRevision="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-4">
+                          <label class="closefo-form-label text-start">{{'product.newProduct.tab.months' | translate}}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.PenaltyAfter' | translate}}</label>
+                        </div>
+                        <div class="col-3">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="penaltyAfterRevisionTextBoxconfig"
+                                             [ngModel]="precomputedProduct.penaltyFreePeriodAfterRevisionDateInMonths"
+                                             (OnchangedNumber)="changeFreePeriodAfterRevisionDate($event)"
+                                             name="PenaltyPAR"
+                                             [isAllowSpace]="false"
+                                             [cfcFluidValidation]="{errors:afterRevision.errors? penaltyAfterRevisionTextBoxconfig.Errors :'', formSubmitted: (penaltyAfterRevisionTextBoxconfig.externalError)}"
+                                             [isReadOnly]="isRevolving || disable"
+                                             [maxlength]="maxLength"
+                                             #afterRevision="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-4">
+                          <label class="closefo-form-label text-start">{{'product.newProduct.tab.months' | translate}}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'product.newProduct.card.Block STP' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [ngModel]=" precomputedProduct.blockSTPPrepayment"
+                                              name="BlockSTP"
+                                              [isReadOnly]="disable"
+                                              (ngModelChange)="changeSTPPrepayment($event)">
+                          </cfc-fluid-checkbox>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.revisionPeriodSelectionMethodForPenalty' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="productInfo?.revisionPeriodSelectionMethodForPenalty"
+                                              Type="single"
+                                              name="revisionPeriodSelectionMethodForPenalty"
+                                              [isReadOnly]="isRevolving || disable"
+                                              [placeholder]="placeholder"
+                                              [options]="productCodeTableData?.revisionPeriodSelectionMethodForPenaltyList"
+                                              [ControlConfig]="revisionPeriodSelectionMethodForPenaltyDropdownConfig"
+                                              [cfcFluidValidation]="{errors:revisionPeriodSelectionMethodForPenaltydropdown.errors? revisionPeriodSelectionMethodForPenaltyDropdownConfig.Errors :'', formSubmitted: (revisionPeriodSelectionMethodForPenaltyDropdownConfig.externalError)}"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [title]="productInfo?.revisionPeriodSelectionMethodForPenalty?.caption"
+                                              (OnSelectionChanged)="changeRevisionPeriodSelectionMethodForPenalty($event)"
+                                              #revisionPeriodSelectionMethodForPenaltydropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="closefo-heading-3 closefo-text-primary mb-2">{{'product.newProduct.titles.Write Off' | translate}}</div>
+                </div>
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey ">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.card.WriteMethod' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="productInfo?.writeOffPenaltyMethod"
+                                              Type="single"
+                                              name="writeOffPenaltyMethod"
+                                              [placeholder]="placeholder"
+                                              [options]="productCodeTableData?.writeOffPenaltyMethodList"
+                                              [ControlConfig]="writeOffPenaltyDropdownConfig"
+                                              [cfcFluidValidation]="{errors:writeOffPenaltydropdown.errors? writeOffPenaltyDropdownConfig.Errors :'', formSubmitted: (writeOffPenaltyDropdownConfig.externalError)}"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [title]="productInfo?.writeOffPenaltyMethod?.caption"
+                                              [isReadOnly]="disable"
+                                              (OnSelectionChanged)="changeWriteOffPenaltyMethod($event)"
+                                              #writeOffPenaltydropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.RemainderScenario' | translate}}">
+                <div class="col-12 closefo-btn-wrapper text-right">
+                  <cfc-fluid-button Type="button"
+                                    ButtonStyle="closefo-add-btn-small"
+                                    caption="{{'product.newProduct.tab.addButtons.addScenario' | translate}}"
+                                    [disabled]="disable"
+                                    [ControlConfig]="ButtonConfig"
+                                    (click)="addReminderScenario()">
+                  </cfc-fluid-button>
+                </div>
+                <div class="row">
+                  <p-table [value]="productInfo.reminderScenarios" [columns]="remainderScenariocolumn" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" [style.width]="col.width">
+                          <span>{{col.header}}</span>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                      <tr *ngIf="!(rowData.isDelete)">
+                        <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                          <span *ngSwitchCase="'remainderScenariodropdownList'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.reminderScenario"
+                                                Type="single"
+                                                name="reminderScenario{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="codeTableReminderScenario"
+                                                [ControlConfig]="reminderScenarioDropdownConfig"
+                                                [cfcFluidValidation]="{errors:reminderScenariodropdown.errors? reminderScenarioDropdownConfig.Errors :'', formSubmitted: (reminderScenarioDropdownConfig.externalError)}"
+                                                [isReadOnly]="disable"
+                                                optionLabel="scenarioName"
+                                                dataKey="scenarioName"
+                                                [title]="rowData.reminderScenario?.scenarioName"
+                                                (OnSelectionChanged)="changeReminderScenario($event,index)"
+                                                #reminderScenariodropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <span *ngSwitchCase="'remainderScenariodropdownList1'">
+                            <cfc-fluid-dropdown [ngModel]="rowData.creditStatus"
+                                                Type="single"
+                                                name="creditStatus3{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="productCodeTableData?.creditStatusList"
+                                                [ControlConfig]="reminderScenarioCreditStatusDropdownConfig"
+                                                [cfcFluidValidation]="{errors:RSCreditStatusdropdown.errors? reminderScenarioCreditStatusDropdownConfig.Errors :'', formSubmitted: (reminderScenarioCreditStatusDropdownConfig.externalError)}"
+                                                optionLabel="caption"
+                                                [isReadOnly]="disable"
+                                                dataKey="caption"
+                                                [title]="rowData.creditStatus?.caption"
+                                                (OnSelectionChanged)="changeReminderScenarioCreditStatus($event,index)"
+                                                #RSCreditStatusdropdown="ngModel">
+                            </cfc-fluid-dropdown>
+
+                          </span>
+                          <!--<span *ngSwitchCase="'Delete'">
+                        <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deleteReminderScenario(rowData,productInfo.reminderScenarios)"></i></span>
+                      </span>-->
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.Interestonarrears' | translate}}">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Intereston' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.ioaApplicable"
+                                            name="InterestApp"
+                                            [isReadOnly]="disable"
+                                            (ngModelChange)="changeInterestOnArrearApplicable($event)"
+                                            #applicable="ngModel">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6"></div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !interestOnArrearDisable}">{{'product.newProduct.card.Grace days' | translate}}</label>
+                      </div>
+                      <div class="col-3">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="graceDaysTextBoxconfig"
+                                           [ngModel]="productInfo?.ioaGracePeriod"
+                                           (OnchangedNumber)="changeGraceDays($event)"
+                                           name="gracePeriod"
+                                           [maxlength]="maxDays"
+                                           [maximumValue]=maxLimitForNumbers
+                                           [isReadOnly]="disable || interestOnArrearDisable"
+                                           [cfcFluidValidation]="{errors:GracePeriod.errors? (GracePeriod.errors?.maxValueError) ? numberErrorDto : graceDaysTextBoxconfig.Errors :'', formSubmitted: (graceDaysTextBoxconfig.externalError)}"
+                                           [isAllowSpace]="false"
+                                           #GracePeriod="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Hidden control-->
+                  <div class="col-md-6" *ngIf="!isGracePeriodZero && !interestOnArrearDisable">
+                    <div class="row align-items-center">
+                      <div class="col-3 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="productInfo?.ioaResetGracePeriodAfterDueDate"
+                                            [isReadOnly]="disable"
+                                            name="ResetGracePeriod"
+                                            (ngModelChange)="changeResetGracePeriod($event)"
+                                            #ResetGracePeriod="ngModel">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-9">
+                        <label class="closefo-form-label">{{'product.newProduct.tab.ResetGracePeriod' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !interestOnArrearDisable}">{{'product.newProduct.card.Percentage definition' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.ioaPercentageDefinition"
+                                            Type="single"
+                                            [isReadOnly]="disable || interestOnArrearDisable"
+                                            name="PercentageDefinition"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.ioaPercentageDefinitionList"
+                                            [ControlConfig]="percentageDefinitionDropdownConfig"
+                                            optionLabel="name.caption"
+                                            dataKey="name.caption"
+                                            [title]="productInfo?.ioaPercentageDefinition?.name?.caption"
+                                            [cfcFluidValidation]="{errors:PercentageDefinitiondropdown.errors? percentageDefinitionDropdownConfig.Errors :'', formSubmitted:(percentageDefinitionDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changePercentageDefinition($event)"
+                                            #PercentageDefinitiondropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !interestOnArrearDisable}">{{'product.newProduct.card.Calculation base' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.ioaCalculationBase"
+                                            Type="single"
+                                            [isReadOnly]="disable || interestOnArrearDisable"
+                                            name="ioaCalculationBase"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.ioaCalculationBaseList"
+                                            [ControlConfig]="calculationBaseDropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.ioaCalculationBase?.caption"
+                                            [cfcFluidValidation]="{errors:CalculationBasedropdown.errors? calculationBaseDropdownConfig.Errors :'', formSubmitted:(calculationBaseDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeCalculationBase($event)"
+                                            #CalculationBasedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !interestOnArrearDisable}">{{'product.newProduct.card.Calculation method' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.ioaCalculation"
+                                            [isReadOnly]="disable || interestOnArrearDisable"
+                                            Type="single"
+                                            name="ioaCalculation"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.ioaCalculationList"
+                                            [ControlConfig]="calculationMethodDropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.ioaCalculation?.caption"
+                                            [cfcFluidValidation]="{errors:CalculationListdropdown.errors? calculationMethodDropdownConfig.Errors :'', formSubmitted:(calculationMethodDropdownConfig.externalError)}"
+                                            (OnSelectionChanged)="changeCalculationMethod($event)"
+                                            #CalculationListdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Hidden control-->
+                  <div class="col-md-6" *ngIf="minimumAmountVisible && !interestOnArrearDisable">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.tab.MinimumAmount' | translate}}</label>
+                      </div>
+                      <div class="col-5">
+
+                        <cfc-fluid-textbox Type="amount"
+                                           [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="productInfo?.ioaMinimumAmount"
+                                           (OnchangedAmount)="changeMinimumAmount($event,true)"
+                                           (ngModelChange)="changeMinimumAmount($event,false)"
+                                           name="ioaMinimumAmount"
+                                           [isReadOnly]="disable"
+                                           [maxlength]="maxDays"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform"
+                                           #minamount="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                      <div class="col-2">
+                        <label class="closefo-form-label">EUR</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="closefo-heading-3 closefo-text-primary mb-2">{{'product.newProduct.titles.Write Off Intrest' | translate}}</div>
+                </div>
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey ">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'product.newProduct.card.WriteApplication' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [ngModel]="productInfo?.writeOffInterestApplicable"
+                                              name="WriteOffA"
+                                              [isReadOnly]="disable"
+                                              (ngModelChange)="changeWriteOffInterestApplicable($event)"
+                                              #writeoffapplicable="ngModel">
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !writeOffInterestDisable}">{{'product.newProduct.card.Percentagedef' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="productInfo?.writeOffInterestPercentageDefinition"
+                                              Type="single"
+                                              name="writeOffInterestPercentageDefinition"
+                                              [placeholder]="placeholder"
+                                              [isReadOnly]="disable || writeOffInterestDisable"
+                                              [options]="productCodeTableData?.writeOffInterestPercentageDefinitionList"
+                                              [cfcFluidValidation]="{errors:writeOffInterestPercentagedropdown.errors? writeOffpercentageDefinitionDropdownConfig.Errors :'', formSubmitted: (writeOffpercentageDefinitionDropdownConfig.externalError)}"
+                                              [ControlConfig]="writeOffpercentageDefinitionDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="caption"
+                                              [title]="productInfo?.writeOffInterestPercentageDefinition?.caption"
+                                              (OnSelectionChanged)="changeWriteOffPercentageDefinition($event)"
+                                              #writeOffInterestPercentagedropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !writeOffInterestDisable}">{{'product.newProduct.card.WriteOffPer' | translate}}</label>
+                        </div>
+                        <div class="col-6">
+                          <cfc-fluid-textbox Type="amount"
+                                             [ControlConfig]="writeoffpercentageBoxconfig"
+                                             [ngModel]="productInfo?.writeOffInterestPercentage"
+                                             (OnchangedAmount)="changeWriteOffPercentage($event,true)"
+                                             (ngModelChange)="changeWriteOffPercentage($event,false)"
+                                             name="writeOffInterestPercentage"
+                                             [isAllowSpace]="false"
+                                             [maxlength]="maxDays"
+                                             [cfcFluidValidation]="{errors:percentageText.errors? writeoffpercentageBoxconfig.Errors :'', formSubmitted: (writeoffpercentageBoxconfig.externalError)}"
+                                             [isReadOnly]="disable || writeOffInterestDisable"
+                                             #percentageText="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-1">
+                          <label class="closefo-form-label">%</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !writeOffInterestDisable}">{{'product.newProduct.card.Calculation Day' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="calculationDayTextBoxconfig"
+                                             [ngModel]="productInfo?.writeOffInterestCalculationDay"
+                                             (OnchangedNumber)="changecalculationDay($event)"
+                                             name="writeOffInterestCalculationDay"
+                                             [isAllowSpace]="false"
+                                             [cfcFluidValidation]="{errors:CalculationDay.errors? (CalculationDay.errors?.maxValueError) ? numberErrorDto : calculationDayTextBoxconfig.Errors :'', formSubmitted:(calculationDayTextBoxconfig.externalError)}"
+                                             [maxlength]="maxDays"
+                                             [maximumValue]=maxLimitForNumbers
+                                             [isReadOnly]="disable || writeOffInterestDisable"
+                                             #CalculationDay="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.Validations' | translate}}">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.Minimal duration' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="minDurationTextBoxconfig"
+                                           [ngModel]="precomputedProduct?.durationMinInMonths"
+                                           (OnchangedNumber)="changeMinDuration($event)"
+                                           name="durationMinInMonths"
+                                           [maxlength]="maxDays"
+                                           [maximumValue]="precomputedProduct.durationMaxInMonths || maxLimitForNumbers"
+                                           [cfcFluidValidation]="{errors:minduration.errors ? (minduration.errors?.maxValueError) ? maxErrorDto : minDurationTextBoxconfig.Errors :'', formSubmitted: minDurationTextBoxconfig.externalError}"
+                                           [isReadOnly]="isRevolving || disable"
+                                           [isAllowSpace]="false"
+                                           #minduration="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+
+                    </div>
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable && !isRevolving}">{{'product.newProduct.card.Maximal duration' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="maxDurationTextBoxconfig"
+                                           [ngModel]="precomputedProduct?.durationMaxInMonths"
+                                           (OnchangedNumber)="changeMaxDuration($event)"
+                                           [cfcFluidValidation]="{errors:maxduration.errors ? (maxduration.errors?.minValueError) ? minErrorDto : (maxduration.errors?.maxValueError) ? numberErrorDto : maxDurationTextBoxconfig.Errors :'', formSubmitted: maxDurationTextBoxconfig.externalError}"
+                                           name="durationMaxInMonths"
+                                           [maxlength]="maxDays"
+                                           [minimumValue]="precomputedProduct.durationMinInMonths"
+                                           [maximumValue]="maxLimitForNumbers"
+                                           [isAllowSpace]="false"
+                                           [isReadOnly]="isRevolving || disable"
+                                           #maxduration="ngModel">
+
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="productCodeTableData?.loanPurposeDto" dataSelectionMode="single"
+                                    [gridDataHeader]="ValidationHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" (rowClickedEvent)="changeLoanPurpose($event)" class="primengtable-dropdown">
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+                <!--Hidden Control-->
+                <div class="row" *ngIf="productInfo.useAPC">
+                  <div class="col-md-9">
+                    <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'product.newProduct.titles.productNameUseAPC' | translate}}</div>
+                  </div>
+                </div>
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey box-space" *ngIf="productInfo.useAPC">
+                  <div class="closefo-form-group">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button"
+                                          ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'product.newProduct.tab.addButtons.addProductName' | translate}}"
+                                          [ControlConfig]="ButtonConfig"
+                                          (click)="addProduct2productNameList()">
+                        </cfc-fluid-button>
+                      </div>
+                      <p-table [value]="productInfo.product2ProductNameList" [columns]="isUseApccolumn" styleClass="closefo-datatable closefo-bo-table">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width">
+                              <span>{{col.header}}</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                          <tr *ngIf="!(rowData.isDelete)">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'isUseApcdropdownList'">
+
+                                <ng-container *ngIf="rowData.isRead; else elseblock ">
+                                  <span>
+                                    {{rowData.productName?.caption}}
+                                  </span>
+                                </ng-container>
+                                <ng-template #elseblock>
+                                  <cfc-fluid-dropdown [ngModel]="rowData.productName"
+                                                      Type="single"
+                                                      [isReadOnly]="disable || rowData.nameListDropdownDisable"
+                                                      name="ProductNameListDrop{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="rowData?.productNameList"
+                                                      [ControlConfig]="productNameListDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData.productName?.caption"
+                                                      [cfcFluidValidation]="{errors:productnamedropdown.errors? productNameListDropdownConfig.Errors :'', formSubmitted: (productNameListDropdownConfig.externalError)}"
+                                                      (OnSelectionChanged)="changeProduct2productNameList($event,index)"
+                                                      #productnamedropdown="ngModel">
+                                  </cfc-fluid-dropdown>
+                                </ng-template>
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deleteProduct2productNameList(rowData,productInfo.product2ProductNameList)"></i></span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.LimitReduction' | translate}}">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.Actualization Type' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="revolvingProduct.actualizationType"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="actualizationType"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="isPrecomputed || disable"
+                                            [options]="productCodeTableData?.actualizationTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="revolvingProduct?.actualizationType?.caption"
+                                            (OnSelectionChanged)="changeActualizationType($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+                <!--Hidden controls-->
+                <div *ngIf="isRevolving">
+                  <div class="row" *ngIf="limitReductionStartVisible">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.nrOfBeforeLR' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="nrOfMonthsBeforeLRTextBoxconfig"
+                                             [ngModel]="revolvingProduct.nrOfMonthsBeforeLimitReductionStart"
+                                             (OnchangedNumber)="changeNrOfMonthsBeforeLR($event)"
+                                             [isReadOnly]="disable"
+                                             [maxlength]="maxDays"
+                                             [maximumValue]=maxLimitForNumbers
+                                             name="nrOfMonthsBeforeLimitReductionStart"
+                                             [cfcFluidValidation]="{errors:nrOfMonths.errors? (nrOfMonths.errors?.maxValueError) ? numberErrorDto :  nrOfMonthsBeforeLRTextBoxconfig.Errors :'', formSubmitted:(nrOfMonthsBeforeLRTextBoxconfig.externalError)}"
+                                             [isAllowSpace]="false"
+                                             #nrOfMonths="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div *ngIf="reductionOfLimitAgeAndLimitBorrowerVisible">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.LRAge' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="numbers"
+                                               [ControlConfig]="reductionOfLimitAgeTextBoxconfig"
+                                               [ngModel]="revolvingProduct.reductionOfLimitAge"
+                                               (OnchangedNumber)="changeLimitReductionAge($event)"
+                                               name="reductionOfLimitAge"
+                                               [maxlength]="maxDays"
+                                               [maximumValue]=maxLimitForNumbers
+                                               [isReadOnly]="disable"
+                                               [cfcFluidValidation]="{errors:limitAge.errors? (limitAge.errors?.maxValueError) ? numberErrorDto : reductionOfLimitAgeTextBoxconfig.Errors :'', formSubmitted: (reductionOfLimitAgeTextBoxconfig.externalError)}"
+                                               [isAllowSpace]="false"
+                                               #limitAge="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.LRBorrower' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="revolvingProduct.reductionOfLimitBorrowerType"
+                                                Type="single"
+                                                name="reductionOfLimitBorrower"
+                                                [placeholder]="placeholder"
+                                                [isReadOnly]="disable"
+                                                [options]="productCodeTableData?.reductionOfLimitBorrowerTypeList"
+                                                [ControlConfig]="reductionOfLimitBorrowerDropdownConfig"
+                                                [cfcFluidValidation]="{errors:limitBorrower.errors? reductionOfLimitBorrowerDropdownConfig.Errors :'', formSubmitted: (reductionOfLimitBorrowerDropdownConfig.externalError)}"
+                                                optionLabel="caption"
+                                                dataKey="caption"
+                                                [title]="revolvingProduct?.reductionOfLimitBorrowerType?.caption"
+                                                (OnSelectionChanged)="changeLimitReductionBorrower($event)"
+                                                #limitBorrower="ngModel">
+                            </cfc-fluid-dropdown>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="blockAndLRCheckVisible">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'product.newProduct.tab.nlLRApplicable' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [ngModel]="revolvingProduct.isLimitReductionApplicable"
+                                              name="isLimitReductionApplicable"
+                                              [isReadOnly]="disable"
+                                              (ngModelChange)="changeLRApplicable($event)">
+                          </cfc-fluid-checkbox>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'product.newProduct.tab.blockOutgoing' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [ngModel]="revolvingProduct.reductionOfLimitBlockPayment"
+                                              name="reductionOfLimitBlockPayment"
+                                              [isReadOnly]="disable"
+                                              (ngModelChange)="changeBlockOutgoing($event)">
+                          </cfc-fluid-checkbox>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="revolvingProduct.isLimitReductionApplicable">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.LRPeriods' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="numbers"
+                                               [ControlConfig]="LimitPeriodsTextBoxconfig"
+                                               [ngModel]="revolvingProduct.reductionOfLimitPeriods"
+                                               (OnchangedNumber)="changeLRPeriods($event)"
+                                               name="reductionOfLimitPeriods"
+                                               [maximumValue]=maxLimitForNumbers
+                                               [cfcFluidValidation]="{errors:limitPeriods.errors? (limitPeriods.errors?.maxValueError) ? numberErrorDto : LimitPeriodsTextBoxconfig.Errors :'', formSubmitted: (LimitPeriodsTextBoxconfig.externalError)}"
+                                               [isReadOnly]="disable"
+                                               [isAllowSpace]="false"
+                                               [maxlength]="maxDays"
+                                               #limitPeriods="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.LRPeriodicity' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="revolvingProduct.limitReductionPeriodicity"
+                                                Type="single"
+                                                name="periodicityList"
+                                                [placeholder]="placeholder"
+                                                [isReadOnly]="disable"
+                                                [options]="productCodeTableData?.periodicityList"
+                                                [ControlConfig]="LRPeriodicityDropdownconfig"
+                                                [cfcFluidValidation]="{errors:periodicitydrop.errors? LRPeriodicityDropdownconfig.Errors :'', formSubmitted:(LRPeriodicityDropdownconfig.externalError)}"
+                                                optionLabel="caption"
+                                                dataKey="caption"
+                                                [title]="revolvingProduct?.limitReductionPeriodicity?.caption"
+                                                (OnSelectionChanged)="changeLRPeriodicity($event)"
+                                                #periodicitydrop="ngModel">
+                            </cfc-fluid-dropdown>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.ReservationCommission' | translate}}">
+                <div class="row">
+                  <div class="col-12 closefo-btn-wrapper text-right" *ngIf="isPrecomputed">
+                    <cfc-fluid-button Type="button"
+                                      ButtonStyle="closefo-add-btn-small"
+                                      [disabled]="disable"
+                                      caption="{{'product.newProduct.tab.addButtons.addReserveationCommision' | translate}}"
+                                      [ControlConfig]="ButtonConfig"
+                                      (click)="addReservationCommission()">
+                    </cfc-fluid-button>
+                  </div>
+                  <div class="col-md-12">
+                    <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="precomputedProduct.reservationCommissionList"
+                                    [gridDataHeader]="ReservationCommissionHeader" [paginationStatus]="false" paginationReportStatus="false" [selectedDetail]="reservationCommissionCardValue"
+                                    [(dataSelection)]="dataSelected" (deleteRowEvent)="deleteReservationCommission($event,precomputedProduct.reservationCommissionList)" (rowClickedEvent)="clickReservationCommission($event)">
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+                <!--Hidden Control (enable at add)-->
+                <div class="row" *ngIf="isPrecomputed && notHideReservationCommission">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-2"></div>
+                    <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                      <div class="closefo-form-group">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable }"> {{'product.newProduct.tab.startPeriod' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="startPeriodTextBoxconfig"
+                                                   [ngModel]="reservationCommissionCardValue.startPeriod"
+                                                   (OnchangedNumber)="changeStartPeriod($event)"
+                                                   name="startperiod"
+                                                   [cfcFluidValidation]="{errors:startPeriod.errors? startPeriodTextBoxconfig.Errors :'', formSubmitted: (startPeriodTextBoxconfig.externalError)}"
+                                                   [isReadOnly]="disable"
+                                                   [isAllowSpace]="false"
+                                                   [maxlength]="maxDays"
+                                                   #startPeriod="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.endPeriod' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="endPeriodTextBoxconfig"
+                                                   [ngModel]="reservationCommissionCardValue.endPeriod"
+                                                   (OnchangedNumber)="changeEndPeriod($event)"
+                                                   name="endperiod"
+                                                   [cfcFluidValidation]="{errors:endPeriod.errors? endPeriodTextBoxconfig.Errors :'', formSubmitted: (endPeriodTextBoxconfig.externalError)}"
+                                                   [isReadOnly]="disable"
+                                                   [maxlength]="maxDays"
+                                                   [isAllowSpace]="false"
+                                                   #endPeriod="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable }">{{'product.newProduct.tab.rate' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-textbox Type="amount"
+                                                   [ControlConfig]="rateTextBoxconfig"
+                                                   [ngModel]="reservationCommissionCardValue.rate"
+                                                   (OnchangedAmount)="changeRate($event,true)"
+                                                   (ngModelChange)="changeRate($event,false)"
+                                                   name="rate"
+                                                   [cfcFluidValidation]="{errors:rateText.errors? rateTextBoxconfig.Errors :'', formSubmitted: (rateTextBoxconfig.externalError)}"
+                                                   [isReadOnly]="disable"
+                                                   [isAllowSpace]="false"
+                                                   [maxlength]="11"
+                                                   #rateText="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.Costs' | translate}}">
+                <div class="row">
+                  <div class="col-md-12">
+                    <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="productCodeTableData?.costTypeList" dataSelectionMode="multiple"
+                                    [gridDataHeader]="CostsHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" (rowClickedEvent)="changeCosts($event)">
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+
+              </p-tabPanel>
+
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.FreeConfiguration' | translate}}">
+                <div class="row">
+                  <div class="col-12 closefo-btn-wrapper text-right">
+                    <cfc-fluid-button Type="button"
+                                      ButtonStyle="closefo-add-btn-small"
+                                      [disabled]="disable"
+                                      caption="{{'product.newProduct.tab.addButtons.addfeeConfiguration' | translate}}"
+                                      [ControlConfig]="ButtonConfig"
+                                      (click)="addProduct2FeeConfigList()">
+                    </cfc-fluid-button>
+                    <div class="col-md-12">
+                      <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="productInfo?.product2FeeConfigList" [selectedDetail]="feeConfigCardValue"
+                                      [gridDataHeader]="FreeConfigHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                      [(dataSelection)]="dataSelected" (deleteRowEvent)="deleteProduct2FeeConfigList($event,productInfo.product2FeeConfigList)" (rowClickedEvent)="clickProduct2FeeConfigList($event)">
+                      </cfc-fluid-grid>
+                    </div>
+                  </div>
+                </div>
+
+                <!--Hidden controls (enable at add)-->
+                <div class="row" *ngIf="notHideFeeConfig">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-2"></div>
+                    <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                      <div class="closefo-form-group">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.feeType' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-dropdown [ngModel]="feeConfigCardValue?.feeConfig"
+                                                    Type="single"
+                                                    name="feeType"
+                                                    [placeholder]="placeholder"
+                                                    [options]="productCodeTableData?.feeConfigList"
+                                                    [ControlConfig]="feeTypeDropdownConfig"
+                                                    [cfcFluidValidation]="{errors:feeTypedropdown.errors? feeTypeDropdownConfig.Errors :'', formSubmitted: (feeTypeDropdownConfig.externalError)}"
+                                                    optionLabel="feeType.caption"
+                                                    [isReadOnly]="disable"
+                                                    dataKey="feeType.caption"
+                                                    [title]="feeConfigCardValue?.feeConfig?.feeType?.caption"
+                                                    (OnSelectionChanged)="changeFeeType($event)"
+                                                    #feeTypedropdown="ngModel">
+                                </cfc-fluid-dropdown>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label class="closefo-form-label">{{'product.newProduct.tab.incOutstanding' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                    [ngModel]="feeConfigCardValue?.isIncludedInOutstanding"
+                                                    name="Outstanding"
+                                                    [isReadOnly]="isPrecomputed || disable"
+                                                    (ngModelChange)="changeOutstandingCheck($event)"
+                                                    #outstandingcheck="ngModel">
+                                </cfc-fluid-checkbox>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable }">{{'product.newProduct.tab.FeecalcType' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-dropdown [ngModel]="feeConfigCardValue?.feeCalculationType"
+                                                    Type="single"
+                                                    name="feeCalculation"
+                                                    [placeholder]="placeholder"
+                                                    [options]="codeTableFeeCalculation"
+                                                    [cfcFluidValidation]="{errors:feeCalculationdropdown.errors? feeCalculationTypeCalculationDropdownConfig.Errors :'', formSubmitted: (feeCalculationTypeCalculationDropdownConfig.externalError)}"
+                                                    [ControlConfig]="feeCalculationTypeCalculationDropdownConfig"
+                                                    optionLabel="caption"
+                                                    [isReadOnly]="disable"
+                                                    dataKey="caption"
+                                                    [title]="feeConfigCardValue?.feeCalculationType?.caption"
+                                                    (OnSelectionChanged)="changeFeeCalculationType($event)"
+                                                    #feeCalculationdropdown="ngModel">
+                                </cfc-fluid-dropdown>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label class="closefo-form-label ">{{'product.newProduct.tab.incDueDate' | translate}}</label>
+                              </div>
+                              <div class="col-7">
+                                <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                    [ngModel]="feeConfigCardValue?.isIncludedInDueDateCalculation"
+                                                    name="dueDateCalculation"
+                                                    [isReadOnly]="disable"
+                                                    (ngModelChange)="changeDueDateCalculationCheck($event)"
+                                                    #DueDateCalculationcheck="ngModel">
+                                </cfc-fluid-checkbox>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="isPercentage">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.feePerc' | translate}}</label>
+                              </div>
+                              <div class="col-6">
+                                <cfc-fluid-textbox Type="amount"
+                                                   [ControlConfig]="feePercentageTextBoxconfig"
+                                                   [ngModel]="feeConfigCardValue?.feePercentage"
+                                                   (OnchangedAmount)="changeFeePercentage($event,true)"
+                                                   (ngModelChange)="changeFeePercentage($event,false)"
+                                                   name="feePercentage"
+                                                   [maxlength]="14"
+                                                   [cfcFluidValidation]="{errors:Feepercentage.errors? feePercentageTextBoxconfig.Errors :'', formSubmitted: (feePercentageTextBoxconfig.externalError)}"
+                                                   [isReadOnly]="disable"
+                                                   [isAllowSpace]="false"
+                                                   #Feepercentage="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-1">
+                                <label class="closefo-form-label">%</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="isAmount">
+                          <div class="col-md-6">
+                            <div class="row align-items-center">
+                              <div class="col-5">
+                                <label [ngClass]="{'closefo-form-label': true,
+                      'required': !disable}">{{'product.newProduct.tab.feeAmount' | translate}}</label>
+                              </div>
+                              <div class="col-6">
+                                <cfc-fluid-textbox Type="amount"
+                                                   [ControlConfig]="feeAmountTextBoxconfig"
+                                                   [ngModel]="feeConfigCardValue?.feeAmount"
+                                                   (OnchangedAmount)="changeFeeAmount($event,true)"
+                                                   (ngModelChange)="changeFeeAmount($event,false)"
+                                                   name="feeAmount"
+                                                   [maxlength]="14"
+                                                   [cfcFluidValidation]="{errors:feeAmount.errors? feeAmountTextBoxconfig.Errors :'', formSubmitted: (feeAmountTextBoxconfig.externalError)}"
+                                                   [isReadOnly]="disable"
+                                                   [isAllowSpace]="false"
+                                                   #feeAmount="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-1">
+                                <label class="closefo-form-label">EUR</label>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.RevisionProcess' | translate}}">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.RevisionStart' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.revisionProcessStartEvent"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="revisionProcessStartEvent"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="disable"
+                                            [options]="productCodeTableData?.followUpEventNameList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.revisionProcessStartEvent?.caption"
+                                            (OnSelectionChanged)="changeRPStartEvent($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.RevisionRestart' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.revisionProcessRestartEvent"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="Dropdown"
+                                            [placeholder]="placeholder"
+                                            [isReadOnly]="disable"
+                                            [options]="productCodeTableData?.followUpEventNameList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.revisionProcessRestartEvent?.caption"
+                                            (OnSelectionChanged)="changeRPRestartEvent($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.RevisionReference' | translate}} </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="TextBoxconfig"
+                                           [isReadOnly]="disable"
+                                           [ngModel]="productInfo?.revisionProcessReferenceDateOffset"
+                                           (OnchangedNumber)="changeRPReferenceDateOffset($event)"
+                                           name="RevisionDate"
+                                           [maxlength]="maxDays"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.DefaultRevision' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.defaultRevisionPeriodForRateRevision"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="DefaultRevision"
+                                            [isReadOnly]="disable"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.revisionPeriodList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.defaultRevisionPeriodForRateRevision?.caption"
+                                            (OnSelectionChanged)="DefaultRevisionPeriod($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.ExtensionStart' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.extensionProcessStartEvent"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            [isReadOnly]="disable"
+                                            name="extensionProcessStartEvent"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.followUpEventNameList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.extensionProcessStartEvent?.caption"
+                                            (OnSelectionChanged)="changeEPStartEvent($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'product.newProduct.card.ExtensionRestart' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="productInfo?.extensionProcessRestartEvent"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            [isReadOnly]="disable"
+                                            name="extensionProcessRestartEvent"
+                                            [placeholder]="placeholder"
+                                            [options]="productCodeTableData?.followUpEventNameList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="productInfo?.extensionProcessRestartEvent?.caption"
+                                            (OnSelectionChanged)="changeEPRestartEvent($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'product.newProduct.tab.tabHead.MutationType' | translate}}">
+                <div class="row" *ngIf="isPrecomputed">
+                  <div class="col-md-12">
+                    <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="productCodeTableData?.mutationTypeList" dataSelectionMode="single"
+                                    [gridDataHeader]="MutationTypeHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" (CheckboxChanged)="changeMuationType($event)">
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+            </p-tabView>
+          </div>
+        </div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="showConfirmBox" (OnCloseModel)="onCancel()">
+          <ng-template #headerTemplate>
+            {{'product.dialog.Header' | translate}}
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div class="dialog-content-inner">
+              {{'product.dialog.Content' | translate}}
+            </div>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'product.dialog.Yes' | translate}}"
+                                (click)="onYes()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'product.dialog.No' | translate}}"
+                                (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'product.dialog.Cancel' | translate}}"
+                                (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+        </cfc-fluid-dialog>
+
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="showCopyConfirmBox" (OnCloseModel)="copyCancel()">
+          <ng-template #headerTemplate>
+            {{'product.dialog.Header' | translate}}
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div class="dialog-content-inner">
+              {{'product.dialog.Content' | translate}}
+
+            </div>
+            
+          </ng-template>
+
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'product.dialog.Yes' | translate}}"
+                                (click)="copyYes()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'product.dialog.No' | translate}}"
+                                (click)="copyNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>

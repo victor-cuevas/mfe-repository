@@ -1,0 +1,11 @@
+<div class="cfo-repeater" [ngClass]="{ 'cfo-repeater-divider': divider }">
+  <ng-content></ng-content>
+  <button
+    pButton
+    class="add p-button-outlined--bold d-inline"
+    [label]="addButtonLabel"
+    icon="pi pi-plus"
+    (click)="!readOnlyMode ? onClick() : null"
+    [disabled]="readOnlyMode"
+  ></button>
+</div>

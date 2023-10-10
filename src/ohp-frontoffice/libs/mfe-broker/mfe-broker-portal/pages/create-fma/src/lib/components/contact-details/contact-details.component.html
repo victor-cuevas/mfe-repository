@@ -1,0 +1,194 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createFma.titles.contactDetails' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsFormArray)">
+    <p-tabView *ngIf="currentData.applicants && currentData.applicants.length">
+      <p-tabPanel *ngFor="let applicant of applicantsFormArray.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"></i>
+          <h6>
+            {{
+              currentData.applicants[i]?.applicantInfo?.firstName + ' ' + currentData.applicants[i]?.applicantInfo?.familyName | titlecase
+            }}
+          </h6>
+        </ng-template>
+
+        <div class="step-header rounded px-3 py-4 my-5 bg-white shadow">
+          <ng-container [formGroup]="$any(applicant)">
+            <div class="row">
+              <div class="col col-md-4">
+                <label id="cdPreferredContactMethod">{{ 'createFma.labels.preferredContactPhone' | translate }} *</label>
+                <p-dropdown
+                  [tabindex]="0"
+                  [autofocus]="true"
+                  aria-labelledby="cdPreferredContactMethod"
+                  name="preferredContactMethod"
+                  [options]="contactMethodOptions"
+                  formControlName="preferredContactMethod"
+                  ngDefaultControl
+                  class="journey-dropdown"
+                  [placeholder]="
+                    'general.placeholders.generic' | translate: { type: 'createFma.labels.preferredContactMethod' | translate | lowercase }
+                  "
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+                <cfo-validation-errors
+                  [control]="applicant.get('preferredContactMethod')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    atLeastOneContact: ('general.validations.atLeastOneContact' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <!-- TODO comment because is out of scope for phase 1 April -->
+              <!--              <div class="col col-md-4" *ngIf="applicant.get('preferredContactMethod')?.value !== 'noContact'">
+                <label for="preferredContactTimeslot">{{ 'createFma.labels.preferredContactTimeslot' | translate }}</label>
+                <p-dropdown
+                  [tabindex]="1"
+                  id="preferredContactTimeSlot"
+                  [options]="contactTimeOptions"
+                  name="preferredContactTimeSlot"
+                  formControlName="preferredContactTimeslot"
+                  ngDefaultControl
+                  class="journey-dropdown"
+                  [placeholder]="
+                    'general.placeholders.generic'
+                      | translate: { type: 'createFma.labels.preferredContactTimeslot' | translate | lowercase }
+                  "
+                >
+<ng-template let-option pTemplate="item">
+  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+</ng-template>
+</p-dropdown>
+              </div>-->
+            </div>
+            <div class="row mt-4">
+              <div class="col col-md-4">
+                <label id="cdMobilePhone"
+                  >{{ 'createFma.labels.mobilePhone' | translate }}
+                  {{ applicant.get('preferredContactMethod')?.value === preferredContactMethod.MOBILE_PHONE ? ' *' : '' }}</label
+                >
+                <cfo-phone-input aria-labelledby="cdMobilePhone" controlName="mobilePhone"></cfo-phone-input>
+              </div>
+              <div class="col col-md-4">
+                <label id="cdWorkPhone"
+                  >{{ 'createFma.labels.workPhone' | translate }}
+                  {{ applicant.get('preferredContactMethod')?.value === preferredContactMethod.WORK_PHONE ? ' *' : '' }}</label
+                >
+                <cfo-phone-input aria-labelledby="cdWorkPhone" controlName="workPhone"></cfo-phone-input>
+              </div>
+              <div class="col col-md-4">
+                <label id="cdHomePhone"
+                  >{{ 'createFma.labels.homePhone' | translate }}
+                  {{ applicant.get('preferredContactMethod')?.value === preferredContactMethod.HOME_PHONE ? ' *' : '' }}</label
+                >
+                <cfo-phone-input aria-labelledby="cdHomePhone" controlName="homePhone"></cfo-phone-input>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col col-md-4">
+                <label id="cdEmail">{{ 'createFma.labels.email' | translate }} *</label>
+                <input aria-labelledby="cdEmail" name="email" type="text" pInputText formControlName="email" class="journey-input" />
+                <cfo-validation-errors
+                  [control]="applicant.get('email')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    email: ('general.validations.email' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col col-md-4">
+                <label id="cdPprintedCorrespondenceFormat"
+                  >{{ 'createFma.labels.printedCorrespondenceFormat' | translate }}
+                  <span class="ps-2 primary-color" [pTooltip]="'createFma.tooltips.communicationPreferences' | translate" [hideDelay]="300"
+                    ><i class="pi pi-info-circle"></i></span
+                ></label>
+                <p-dropdown
+                  [options]="printedCorrespondenceFormatOptions"
+                  aria-labelledby="cdPprintedCorrespondenceFormat"
+                  formControlName="printedCorrespondenceFormat"
+                  ngDefaultControl
+                  class="journey-dropdown"
+                  [placeholder]="
+                    'general.placeholders.generic'
+                      | translate: { type: 'createFma.labels.printedCorrespondenceFormat' | translate | lowercase }
+                  "
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col">
+                <label id="cdIsCorrespondenceAddressDifferentFromCurrentAddress">{{
+                  'createFma.labels.isCorrespondenceAddressDifferentFromCurrentAddress' | translate
+                }}</label>
+                <div aria-labelledby="cdIsCorrespondenceAddressDifferentFromCurrentAddress">
+                  <cfo-radio-button
+                    [disabledExternal]="!dataService.activeJourney"
+                    formControlName="isCorrespondenceAddressDifferentFromCurrentAddress"
+                    [value]="true"
+                    [label]="'general.labels.yes' | translate"
+                    ngDefaultControl
+                  ></cfo-radio-button>
+                  <cfo-radio-button
+                    [disabledExternal]="!dataService.activeJourney"
+                    formControlName="isCorrespondenceAddressDifferentFromCurrentAddress"
+                    [value]="false"
+                    [label]="'general.labels.no' | translate"
+                    class="ms-3"
+                    ngDefaultControl
+                  ></cfo-radio-button>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="applicant.get('isCorrespondenceAddressDifferentFromCurrentAddress')?.value">
+              <div class="row mt-4">
+                <div class="col col-md-4">
+                  <label id="cdAddressType">{{ 'createFma.labels.addressType' | translate }}</label>
+                  <p-dropdown
+                    [options]="addressTypeOptions"
+                    aria-labelledby="cdAddressType"
+                    formControlName="addressType"
+                    ngDefaultControl
+                    class="journey-dropdown"
+                    [placeholder]="
+                      'general.placeholders.generic' | translate: { type: 'createFma.labels.addressType' | translate | lowercase }
+                    "
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <cfo-address-search
+                  [form]="$any(applicant)"
+                  (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+                  [suggestedAddresses]="suggestedAddresses"
+                  (selectedAddressEvent)="onSelectedAddress($event, i)"
+                  [selectedAddress]="selectedAddress[i]"
+                  [listOfCountries]="
+                    applicant.get('addressType')?.value === addressTypeEnum.UK
+                      ? addressFeService.countries
+                      : addressFeService.countriesWithoutUK
+                  "
+                  [hasButtonVisible]="hasButtonVisible"
+                ></cfo-address-search>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

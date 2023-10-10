@@ -1,0 +1,37 @@
+.move-in-info-icon {
+  margin-left: 8px;
+  transform: translateY(1px);
+  transition: $mainTransition;
+  position: relative;
+  cursor: pointer;
+  color: $primary;
+
+  &::after {
+    content: 'Applicant is required to provide address history details for a minimum of 3 years';
+    position: absolute;
+
+    width: fit-content;
+    white-space: nowrap;
+    padding: 8px 32px;
+    top: -3rem;
+    background: #fff;
+    border-radius: 0.25rem;
+    border: 1px solid #dadbdd;
+    display: none;
+    font-weight: 700;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  &:hover::after {
+    display: block;
+  }
+}
+
+.toast-address-history {
+  margin-top: 25rem;
+  .p-toast-message-text-address-history {
+    padding: 0.5rem;
+    color: $neutral-dark;
+    font-size: 19px;
+  }
+}

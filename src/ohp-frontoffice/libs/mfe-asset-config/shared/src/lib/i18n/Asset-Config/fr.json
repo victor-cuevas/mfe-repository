@@ -1,0 +1,94 @@
+{
+  "asset": {
+    "indexation": {
+      "labels": {
+        "validFrom": "Inscript. A partir de",
+        "validTo": "FR - Valid To",
+        "reference": "FR - Reference",
+        "a": "FR - A",
+        "b": "FR - B",
+        "d": "FR - D",
+        "e": "FR - E",
+        "x": "FR - X",
+        "g": "FR - G",
+        "m": "FR - M",
+        "l": "FR - L",
+        "h": "FR - H",
+        "s": "FR - S",
+        "p": "FR - P",
+        "k": "FR - K",
+        "correctionFactor": "FR - Correction Factor",
+        "roundingScale": "FR - Rounding Scale",
+        "delete": "Supprimer",
+        "a-Groningen": "FR - A - Groningen",
+        "b-Friesland": "FR - B - Friesland",
+        "d-Drenthe": "FR - D - Drenthe",
+        "e-Overrijsel": "FR - E - Overrijsel",
+        "x-Flevoland": "FR - X - Flevoland",
+        "g-Gelderland": "FR - G - Gelderland",
+        "m-Utrecht": "FR - M - Utrecht",
+        "l-Noord-Holland": "FR - L - Noord-Holland",
+        "h-Zuid-Holland": "FR - H - Zuid-Holland",
+        "s-Zeeland": "FR - S - Zeeland",
+        "p-Noord-Brabant": "FR - P - Noord-Brabant",
+        "k-Limburg": "FR - K - Limburg",
+        "realEstateValueType": "FR - Real Estate Value Type",
+        "applyIndexation": "FR - Apply indexation",
+        "useAsReferenceValue": "FR - Use as reference value",
+        "allowOverrulingReferenceValue": "FR - Allow overruling reference value",
+        "productName": "Sorte Produit",
+        "loanPurpose": "FR - Loan Purpose",
+        "realEstatePurposeType": "FR - Real Estate Purpose Type"
+      },
+      "buttons": {
+        "addExcludedRealEstatePurpose": "FR - Add Excluded Real Estate Purpose",
+        "addExcludedLoanPurpose": "FR - Add excluded Loan Purpose",
+        "addExcludedProduct": "FR - Add excluded product",
+        "addRealEstateValueType": "FR - Add Real Estate Value Type",
+        "add": "FR - Add"
+      },
+      "titles": {
+        "realEstatePurposeTypeExcluded": "FR - Real Estate Purpose Types For Which Real Estate Value Type Is Excluded",
+        "loanPurposeExcluded": "FR - Loan Purposes For Which Real Estate Value Type Is Excluded",
+        "productExcluded": "FR - Products For Which Real Estate Value Type Is Excluded",
+        "realEstateValueTypeConfiguration": "FR - Real Estate Value Type Configuration",
+        "indexesPerProvince": "FR - Indexes per province NL",
+        "manageIndexation": "FR - Manage Asset Valuation"
+      },
+      "validationError": {
+        "validToCheck": "FR - Valid To date must be greater than or equal to Valid From date.",
+        "validFrom": "'Inscript. A partir de'est obligatoire.",
+        "productName": "'Sorte Produit' est obligatoire.",
+        "loanPurpose": "'FR - Loan Purpose' est obligatoire.",
+        "realEstatePurposeType": "'FR - Real Estate Purpose Type' est obligatoire.",
+        "realEstateValueType": "'FR - Real Estate Value Type' est obligatoire."
+      },
+      "businessError": {
+        "IndexesMandatory": "At least one province index should be filled per indexation period.",
+        "validToDateNullCheck": "FR - Valid To date should be filled for all indexation periods other than the most recent indexation period.",
+        "validFromCheck": "FR - The validity period of an indexation cannot overlap with an already existing indexation period.",
+        "DoYouWishToContinueDelete?": "FR - The indexation config could have already been used for automatic asset indexation. Deleting it will not recalculate any real estate values. Do you wish to continue?",
+        "DoYouWishToContinueUpdate?": "FR - The indexation config could have already been used for automatic asset indexation. Updating it will not recalculate any real estate values. Do you wish to continue?"
+      },
+      "confirmation": {
+        "DoYouWishToContinueDelete?": "FR - The indexation config could have already been used for automatic asset indexation. Deleting it will not recalculate any real estate values. Do you wish to continue?",
+        "DoYouWishToContinueUpdate?": "FR - The indexation config could have already been used for automatic asset indexation. Updating it will not recalculate any real estate values. Do you wish to continue?",
+        "attention": "FR - Attention"
+      }
+    },
+    "close": {
+      "header": "Changements non sauvegardé",
+      "body": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "yes": "Oui",
+      "no": "Non",
+      "cancel": "Annuler"
+    },
+    "validation": {
+      "validationHeader": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<ng-container *ngIf="steps$ | async as steps">
+  <mbp-layout [breadcrumbItems]="breadcrumb" [stepsItems]="steps">
+    <ng-template
+      [cfoPermissions]="'dip'"
+      [cfoPermissionsFeatures]="['assignee']"
+      [cfoPermissionsNeededPermission]="portalPermissionType.DecisionInPrinciple"
+    >
+      <div
+        *ngIf="
+          (caseStatus$ | async) !== caseStatusEnum.Cancelled &&
+          (((loanStage$ | async) === stageEnum.Dip && (loanStatus$ | async) === status.Completed) ||
+            ((loanStage$ | async) === stageEnum.Dip && (loanStatus$ | async) === status.Referred)) || (loanStage$ | async) === stageEnum.Fma
+        "
+        class="container d-flex justify-content-end position-relative"
+      >
+        <div class="position-absolute">
+          <p-button
+            [label]="'general.buttons.editDip' | translate"
+            styleClass="p-button p-button-primary p-button-outlined"
+            (click)="editDip($event)"
+          ></p-button>
+        </div>
+      </div>
+    </ng-template>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+    <div *ngIf="currentStep !== stepSetupService.confirmDip.automationId" class="container my-4">
+      <a class="link-outlined" [routerLink]="[stepSetupService.navigateBack()]">{{
+        currentStep === 'propertyAndLoan' ? ('general.buttons.cancel' | translate) : ('general.buttons.previous' | translate)
+        }}</a>
+      <button
+        [disabled]="!stepSetupService.isNextButtonEnabled()"
+        class="link-button-primary mx-4"
+        [routerLink]="[stepSetupService.navigateForward()]"
+      >
+        {{ 'general.buttons.next' | translate }}
+      </button>
+    </div>
+  </mbp-layout>
+</ng-container>
+<cfo-dialog [showDialog]="showEditDip" [data]="editDipDataPopup" width="md">
+  <ng-template #contentTemplate>
+    <p class="mb-4">
+      {{ 'dialog.editDipMsg1a' | translate }}
+      <span *ngIf="(loanStage$ | async) === stageEnum.Fma">
+        {{ 'dialog.editDipMsg1b' | translate }}
+      </span>
+    </p>
+    <p class="mb-4">{{ 'dialog.editDipMsg2' | translate }}</p>
+    <div class="cfo-advice">
+      <h6>{{ 'dialog.editDipMsg3' | translate }}</h6>
+      <ul>
+        <li>{{ 'createDip.labels.loanAmount' | translate }}</li>
+        <li>{{ 'createDip.labels.securityProperty' | translate }}</li>
+        <li>{{ 'createDip.labels.financialInformation' | translate }}</li>
+        <li>{{ 'createDip.labels.productSelectionAndFees' | translate }}</li>
+        <li>{{ 'createDip.labels.personalDetailsAndAddresses' | translate }}</li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelEditDip()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.yes' | translate }}"
+        (click)="confirmEditDip()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>

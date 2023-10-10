@@ -1,0 +1,354 @@
+<div class="step-header rounded-top px-4 py-3">
+  <h4 class="mb-0 fw-bold">
+    {{ otherEmployment === 0 ? ('createDip.labels.mainEmployment' | translate) : ('createDip.labels.otherEmploymentIncome' | translate) }}
+  </h4>
+</div>
+
+<div class="px-4 py-5" [ngSwitch]="true" [formGroup]="form">
+  <div class="row mb-4" *ngIf="otherEmployment !== 0">
+    <div class="col-md-3 col">
+      <label id="meIncomeType"> {{ 'createFma.labels.incomeType' | translate }} </label>
+      <p-dropdown
+        [options]="incomeTypeOptions"
+        formControlName="incomeType"
+        ngDefaultControl
+        class="journey-dropdown"
+        [placeholder]="'createDip.placeholders.selectEmploymentStatus' | translate"
+        aria-labelledby="meIncomeType"
+      >
+        <ng-template let-option pTemplate="item">
+          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <ng-container *ngIf="form.getRawValue().incomeType === incomeType.OTHER_INCOME">
+      <div class="col-md-3 col">
+        <label id="meGrossIncome"> {{ 'createDip.labels.grossIncome' | translate }} * </label>
+        <cfo-input-number
+          [form]="form"
+          controlName="grossIncome"
+          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+          aria-labelledby="meGrossIncome"
+        >
+        </cfo-input-number>
+        <cfo-validation-errors
+          [control]="form.get('grossIncome')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+      <div class="col-md-3 col">
+        <label id="meFrequency"> {{ ('createDip.labels.frequency' | translate) + ' *' }} </label>
+        <p-dropdown
+          [options]="frequencyOptions"
+          formControlName="salaryFrequencyOtherIncome"
+          ngDefaultControl
+          class="journey-dropdown"
+          aria-labelledby="meFrequency"
+        >
+          <ng-template let-option pTemplate="item">
+            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+          </ng-template>
+        </p-dropdown>
+        <cfo-validation-errors
+          [control]="form.get('salaryFrequencyOtherIncome')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+      <div class="col-md-3 col">
+        <label id="meIncomeSource"> {{ 'createFma.labels.incomeSource' | translate }} * </label>
+        <p-dropdown
+          [options]="incomeSourceOptions"
+          formControlName="incomeSource"
+          ngDefaultControl
+          class="journey-dropdown"
+          [placeholder]="'general.placeholders.generic' | translate: { type: 'createFma.labels.incomeSource' | translate | lowercase }"
+          aria-labelledby="meIncomeSource"
+        >
+          <ng-template let-option pTemplate="item">
+            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+          </ng-template>
+        </p-dropdown>
+        <cfo-validation-errors
+          [control]="form.get('incomeSource')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+      <div class="row mt-4" *ngIf="form.getRawValue().incomeSource === 'OTHER'">
+        <div class="col-md-9 col">
+          <label id="meDescriptionNote">{{ 'createFma.labels.descriptionNote' | translate }}</label>
+          <textarea
+            rows="4"
+            ngDefaultControl
+            formControlName="descriptionNote"
+            class="journey-input-fixed-width w-100"
+            pInputTextarea
+            [autoResize]="true"
+            aria-labelledby="meDescriptionNote"
+          ></textarea>
+          <cfo-validation-errors
+            [control]="form.get('descriptionNote')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="pt-3 to-be-satisfied-info-message primary-color">
+          <i class="pi pi-info-circle"></i>
+          <p>{{ 'general.validations.notUsedInAffordability' | translate }}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="row" *ngIf="otherEmployment === 0 || form.getRawValue().incomeType === incomeType.EMPLOYMENT">
+    <div class="col-md-8">
+      <label id="meCurrentEmploymentStatus"> {{ 'createDip.labels.employmentStatus' | translate }} * </label>
+      <p-dropdown
+        [options]="otherEmployment === 0 ? employmentStatusOptions : employmentStatusShortOptions"
+        formControlName="currentEmploymentStatus"
+        ngDefaultControl
+        class="journey-dropdown"
+        [placeholder]="'createDip.placeholders.selectEmploymentStatus' | translate"
+        aria-labelledby="meCurrentEmploymentStatus"
+      >
+        <ng-template let-option pTemplate="item">
+          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+        </ng-template>
+      </p-dropdown>
+      <cfo-validation-errors
+        [control]="form.get('currentEmploymentStatus')"
+        [errorMessages]="{
+          required: ('general.validations.requiredMsg' | translate)
+        }"
+      ></cfo-validation-errors>
+    </div>
+  </div>
+  <ng-container *ngSwitchCase="configurationMainEmployment(form.getRawValue().currentEmploymentStatus)">
+    <ng-container *ngIf="otherEmployment === 0 || form.getRawValue().incomeType === incomeType.EMPLOYMENT">
+      <div class="row mt-4">
+        <div
+          class="col-md-3 col"
+          *ngIf="
+            form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+            form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25
+          "
+        >
+          <label id="meCcontractType"> {{ 'createDip.labels.contractType' | translate }} * </label>
+          <p-dropdown
+            id="contractType"
+            [options]="contractTypeOptions"
+            formControlName="contractType"
+            ngDefaultControl
+            ngDefaultControl
+            class="journey-dropdown"
+            [placeholder]="'createDip.placeholders.selectContractType' | translate"
+            aria-labelledby="meCcontractType"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="form.get('contractType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-3 col">
+          <label id="meContractStartDate">
+            {{ 'createDip.labels.startDate' | translate }} *
+            <span
+              *ngIf="form.get('contractType')?.value === contractType.INDEFINITELY && lessThenThreeMonthValidation()"
+              class="ps-2 primary-color"
+              [pTooltip]="'createFma.validations.furtherDetailsMsg' | translate"
+              [hideDelay]="300"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <p-calendar
+            #calendarContractStartDate
+            class="journey-input"
+            formControlName="contractStartDate"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="pastYear + ':' + currentYear"
+            ngDefaultControl
+            aria-labelledby="meContractStartDate"
+            (onMonthChange)="populateYearRange()"
+            (onYearChange)="populateYearRange()"
+            [minDate]="minDateContractStartDate"
+            [maxDate]="currentDay"
+          ></p-calendar>
+          <cfo-validation-errors
+            [control]="form.get('contractStartDate')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-3 col">
+          <label id="meJobTitle"> {{ 'createDip.labels.jobTitle' | translate }} * </label>
+          <input
+            type="text"
+            pInputText
+            class="journey-input--large"
+            formControlName="jobTitle"
+            ngDefaultControl
+            aria-labelledby="meJobTitle"
+          />
+          <cfo-validation-errors
+            [control]="form.get('jobTitle')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-3 col">
+          <label id="meEmployerName">
+            {{
+              form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25 ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus
+                ? ('createDip.labels.companyName' | translate)
+                : ('createDip.labels.businessName' | translate)
+            }}
+            *
+          </label>
+          <input
+            type="text"
+            pInputText
+            class="journey-input--large"
+            formControlName="employerName"
+            ngDefaultControl
+            aria-labelledby="meEmployerName"
+          />
+          <cfo-validation-errors
+            [control]="form.get('employerName')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-3 col" *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus">
+          <label id="cuCompanyType"> {{ 'createDip.labels.companyType' | translate }} * </label>
+          <p-dropdown
+            [options]="companyTypeOptions"
+            formControlName="companyType"
+            ngDefaultControl
+            class="journey-dropdown"
+            aria-labelledby="cuCompanyType"
+            [placeholder]="'createDip.placeholders.selectCompanyType' | translate"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="form.get('companyType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-3 col" *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership">
+          <label id="cuPartnershipType"> {{ 'createDip.labels.partnershipType' | translate }} * </label>
+          <p-dropdown
+            [options]="partnershipTypeOptions"
+            formControlName="partnershipType"
+            ngDefaultControl
+            class="journey-dropdown"
+            aria-labelledby="cuPartnershipType"
+            [placeholder]="'createDip.placeholders.selectPartnershipType' | translate"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="form.get('partnershipType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3 col">
+          <label id="meIncomeVerified" class="text-contain">
+            {{ 'createDip.labels.incomeVerified' | translate }} *
+            <span
+              *ngIf="form.get('canIncomeBeVerified')?.value"
+              class="ps-2 primary-color"
+              [pTooltip]="'createDip.tooltips.canIncomeBeVerified' | translate"
+              [hideDelay]="300"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <div aria-labelledby="meIncomeVerified">
+            <cfo-radio-button
+              [disabledExternal]="!dataService.activeJourney"
+              formControlName="canIncomeBeVerified"
+              [value]="true"
+              [label]="'general.labels.yes' | translate"
+              ngDefaultControl
+              name="canIncomeBeVerified"
+            ></cfo-radio-button>
+            <cfo-radio-button
+              [disabledExternal]="!dataService.activeJourney"
+              formControlName="canIncomeBeVerified"
+              [value]="false"
+              [label]="'general.labels.no' | translate"
+              class="ms-3"
+              ngDefaultControl
+              name="canIncomeBeVerified"
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="form.get('canIncomeBeVerified')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div
+          class="col-md-3 col"
+          *ngIf="
+            form.get('contractType')?.value === contractType.TEMPORARY &&
+            (form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25)
+          "
+        >
+          <label id="meContractEndDate"> {{ 'createFma.labels.contractEndData' | translate }} * </label>
+          <p-calendar
+            #calendarContractEndDate
+            class="journey-input"
+            formControlName="contractEndDate"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="currentYear + ':' + futureYear"
+            ngDefaultControl
+            aria-labelledby="meContractEndDate"
+            (onMonthChange)="populateYearRange()"
+            (onYearChange)="populateYearRange()"
+            [minDate]="currentDay"
+            [maxDate]="maxDateContractEndDate"
+          ></p-calendar>
+          <cfo-validation-errors
+            [control]="form.get('contractEndDate')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

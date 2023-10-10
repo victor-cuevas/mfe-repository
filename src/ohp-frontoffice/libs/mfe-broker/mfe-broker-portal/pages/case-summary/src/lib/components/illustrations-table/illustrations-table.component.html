@@ -1,0 +1,237 @@
+<ng-template
+  let-caseStage="caseStage"
+  #illustrationTable
+  [ngTemplateOutlet]="illustrationTable"
+  [ngTemplateOutletContext]="{ caseStage: caseStage$ | async }"
+>
+  <div class="card mt-2 mb-2" *ngIf="(illustrations$ | async)?.length; else noIll">
+    <p-accordion styleClass="summary-accordion">
+      <p-accordionTab [selected]="caseStage === caseStageEnum.Illustration">
+        <ng-template pTemplate="header">
+          <div class="d-flex justify-content-between align-items-center p-1 w-100">
+            <h5 class="card-header-title">{{ 'caseSummary.titles.illustrations' | translate }}</h5>
+            <ng-template
+              [cfoPermissions]="'illustration'"
+              [cfoPermissionsFeatures]="['assignee']"
+              [cfoPermissionsNeededPermission]="portalPermissionType.Illustration"
+            >
+              <p-button
+                *ngIf="caseStage === caseStageEnum.Illustration && (caseStatus$ | async) !== status.Cancelled"
+                label="{{ 'general.buttons.createIllustration' | translate }}"
+                icon="pi pi-plus"
+                iconPos="left"
+                styleClass="p-button-sm p-button-primary shadow"
+                (click)="createIllustration($event)"
+                (keyup)="createIllustrationKeyboard($event)"
+              ></p-button>
+            </ng-template>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="body">
+          <ul>
+            <li
+              [attr.aria-label]="'loan ' + illustration.loanId"
+              class="p-1 illustration-item"
+              *ngFor="let illustration of illustrations$ | async"
+            >
+              <div class="card-info-block">
+                <div class="card-text-highlight">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex" *ngIf="illustration.status">
+                      <i
+                        *ngIf="illustration.status && caseStage === caseStageEnum.Illustration"
+                        [class]="(illustration.status | illustrationStatus) + ' me-2 fw-bold'"
+                      ></i>
+                      <div>
+                        <div class="d-flex align-items-center">
+                          <svg
+                            width="20"
+                            height="14"
+                            viewBox="0 0 20 14"
+                            style="margin: -1px 0 0 1px"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M17.3636 1H2.63636C1.73262 1 1 1.67864 1 2.51578V11.6104C1 12.4476 1.73262 13.1262 2.63636 13.1262H17.3636C18.2674 13.1262 19 12.4476 19 11.6104V2.51578C19 1.67864 18.2674 1 17.3636 1Z"
+                              stroke="#484848"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path d="M1 5.54688H19" stroke="#484848" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ms-1">00000{{ illustration?.loanId }}</p>
+                        </div>
+                        <!-- Documents-->
+                        <div *ngIf="illustration.status === draftStatusEnum.Completed && illustration.esisDocument">
+                          <i class="pi pi-file me-2 fw-medium"></i>
+                          <button
+                            class="document-link hidden-btn"
+                            style="text-decoration: underline"
+                            (click)="downloadEsisDocument(illustration.esisDocument?.id || '')"
+                          >
+                            {{ 'caseSummary.labels.esisDocument' | translate }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <!-- Resume / View -->
+                      <ng-template
+                        [cfoPermissions]="'illustration'"
+                        [cfoPermissionsFeatures]="['assignee']"
+                        [cfoPermissionsNeededPermission]="portalPermissionType.Illustration"
+                        [cfoPermissionsElse]="viewTemplate"
+                      >
+                        <p-button
+                          [label]="
+                            illustration.status === draftStatusEnum.InProgress &&
+                            caseStage === caseStageEnum.Illustration &&
+                            (caseStatus$ | async) !== status.Cancelled
+                              ? ('general.buttons.resume' | translate)
+                              : ('general.buttons.viewIllustration' | translate)
+                          "
+                          styleClass="p-button p-button-primary p-button-sm shadow fw-medium px-4 ms-4"
+                          (onClick)="enterIllustration($event, illustration.loanId || 0)"
+                        ></p-button>
+                      </ng-template>
+                      <!-- View -->
+                      <ng-template #viewTemplate>
+                        <ng-template
+                          [cfoPermissions]="'illustration'"
+                          [cfoPermissionsFeatures]="['viewer']"
+                          [cfoPermissionsNeededPermission]="portalPermissionType.View"
+                        >
+                          <p-button
+                            label="{{ 'general.buttons.viewIllustration' | translate }}"
+                            styleClass="p-button p-button-primary p-button-sm shadow fw-medium px-4 ms-4"
+                            (onClick)="enterIllustration($event, illustration.loanId || 0)"
+                          ></p-button>
+                        </ng-template>
+                      </ng-template>
+                      <!-- Promote -->
+                      <ng-template
+                        [cfoPermissions]="'dip'"
+                        [cfoPermissionsFeatures]="['assignee']"
+                        [cfoPermissionsNeededPermission]="portalPermissionType.DecisionInPrinciple"
+                      >
+                        <ng-container *ngIf="(caseStatus$ | async) !== status.Cancelled">
+                          <p-button
+                            *ngIf="illustration.status === draftStatusEnum.Completed && caseStage === caseStageEnum.Illustration"
+                            label="{{ 'general.buttons.promote' | translate }}"
+                            styleClass="p-button p-button-primary p-button-sm shadow fw-medium px-4 ms-4"
+                            (onClick)="promoteIllustration(illustration.loanId || 0)"
+                          ></p-button>
+                        </ng-container>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p-table #illustrationTable [value]="[illustration]" [responsive]="true" dataKey="id">
+                <ng-template pTemplate="header">
+                  <tr class="px-3">
+                    <th>
+                      {{ 'caseSummary.labels.loanAmount' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.purchasePrice' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.ltv' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.date' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.product' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.term' | translate }}
+                    </th>
+                    <th>
+                      {{ 'caseSummary.labels.type' | translate }}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body">
+                  <tr class="px-3">
+                    <td>
+                      {{ illustration?.totalLoanAmount | currency: 'GBP':'symbol':'1.0-0' }}
+                    </td>
+                    <td>
+                      {{ illustration?.purchasePrice | currency: 'GBP':'symbol':'1.0-0' }}
+                    </td>
+                    <td>
+                      <div *ngIf="illustration.totalLoanAmount && illustration.purchasePrice">
+                        {{ illustration.totalLoanAmount / illustration.purchasePrice | percent }}
+                      </div>
+                    </td>
+                    <td>
+                      {{ illustration.date | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                      <div *ngFor="let product of illustration.loanParts">
+                        {{ product.productCode | uppercase }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngFor="let product of illustration.loanParts">
+                        {{ product.term && (+product.term | mortgageTermPipe) }}
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngFor="let product of illustration.loanParts">
+                        {{ product.type }}
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </li>
+          </ul>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <ng-template #noIll>
+    <div class="card mt-2 mb-4">
+      <p-accordion styleClass="summary-accordion">
+        <p-accordionTab [selected]="caseStage === caseStage.Illustration">
+          <ng-template pTemplate="header">
+            <div class="d-flex justify-content-between align-items-center p-1 w-100">
+              <h5 class="card-header-title">{{ 'caseSummary.titles.illustrations' | translate }}</h5>
+              <!-- Create -->
+              <ng-template
+                [cfoPermissions]="'illustration'"
+                [cfoPermissionsFeatures]="['assignee']"
+                [cfoPermissionsNeededPermission]="portalPermissionType.Illustration"
+              >
+                <ng-container *ngIf="(caseStatus$ | async) !== status.Cancelled">
+                  <p-button
+                    *ngIf="caseStage === caseStageEnum.Illustration || caseStage === caseStageEnum.New"
+                    label="{{ 'general.buttons.createIllustration' | translate }}"
+                    icon="pi pi-plus"
+                    iconPos="left"
+                    styleClass="p-button-sm p-button-primary shadow"
+                    (click)="createIllustration($event)"
+                  ></p-button>
+                </ng-container>
+              </ng-template>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="body">
+            <div class="p-1">
+              <div class="card-info-block">
+                <div class="card-text-highlight">
+                  {{ 'caseSummary.labels.noIllustrations' | translate }}
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </ng-template>
+</ng-template>

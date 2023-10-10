@@ -1,0 +1,153 @@
+{
+  "runningAccount": {
+    "type-mapping": {
+      "heading": {
+        "Runningaccount.TxEl2BalMovTypeMapping": "Manage IM Txel vs Balance Movement Type Mapping"
+      },
+      "tabel": {
+        "TxelType": "FR - TxEl Type",
+        "BalancemovementType": "FR - Balance Movement Type",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "TxelType": "FR - TxEl Type",
+        "BalancemovementType": "FR - Balance Movement Type",
+        "Add": "Ajoute"
+      },
+      "validation": {
+        "TxElType": "'FR - TxElType' est obligatoire.",
+        "BalMovType": "'FR - Balance Movement Type' est obligatoire."
+      }
+    },
+    "distributiontype": {
+      "heading": {
+        "distributiontype": "Manage IM Balance Movement Type vs Distrubution Type"
+      },
+      "tabel": {
+        "BalancemovementType": "FR - Balance Movement Type",
+        "DistributionType": "FR - Distribution Type",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "BalancemovementType": "FR - Balance Movement Type",
+        "DistributionType": "FR - Distribution Type",
+        "Add": "Ajoute"
+      },
+      "validation": {
+        "BalMovType": "'FR - Balance Movement Type' est obligatoire.",
+        "DisType": "'FR - Distribution Type' est obligatoire."
+      }
+    },
+    "Owner2ParticipantMapping": {
+      "heading": {
+        "balancemovementtype2distributiontype": "Manage IM Owner vs Participant Mapping"
+      },
+      "tabel": {
+        "OwnerReference": "FR - Owner Reference",
+        "BookingOwnerReference": "FR - Booking Owner Reference",
+        "ParticipantReferenceFrom": "FR - Participant Reference From",
+        "ParticipantReferenceTo": "FR - Participant Reference To",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "OwnerReference": "FR - Owner Reference",
+        "BookingOwnerReference": "FR - Booking Owner Reference",
+        "ParticipantReferenceFrom": "FR - Participant Reference From",
+        "ParticipantReferenceTo": "FR - Participant Reference To"
+      },
+      "mandatory": {
+        "OwnerReference": "'FR - Owner Reference'",
+        "BookingOwnerReference": "'FR - Booking Owner Reference'",
+        "ParticipantReferenceFrom": "'FR - Participant Reference From'",
+        "ParticipantReferenceTo": "'FR - Participant Reference To'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique",
+        "required": " est obligatoire."
+      }
+    },
+    "RunnAccBookingPlan": {
+      "heading": {
+        "RunnAccBookingPlan": "Manage IM Accounting"
+      },
+      "tabel": {
+        "Name": "FR - Name",
+        "Owner": "FR - Owner",
+        "StartDate": "FR - Start Date",
+        "EndDate": "FR - End Date",
+        "Seqnt": "FR - Seq Nr",
+        "RunningAccountStatus": "FR - Running Account Status",
+        "RunningAccountAmortizationSchedule": "FR - Running Account Amortization Schedule",
+        "ConsumerProductType": "FR - Consumer Product Type",
+        "RunningAcountOwnerType": "FR - Running Acount Owner Type",
+        "RunningAcountType": "FR - Running Acount Type",
+        "MinDuration": "FR - Min Duration",
+        "Country": "FR - Country",
+        "Productnbr": "FR - Product Nbr",
+        "delete": "Supprimer",
+        "BalanceMovementType": "FR - Balance Movement Type",
+        "aggregate": "FR - Aggregate",
+        "Journalnr": "FR - Journal Nr",
+        "delete1": "Supprimer",
+        "Accountnr": "FR - Account Nr",
+        "PostingKey": "FR - Posting Key",
+        "Currency": "FR - Currency",
+        "delete2": "Supprimer",
+        "Add": "Ajoute",
+        "isExcludedFromGL": "FR - Is Excluded From GL"
+      },
+      "card": {
+        "Name": "FR - Name",
+        "Owner": "FR - Owner",
+        "StartDate": "FR - Start Date",
+        "EndDate": "FR - End Date",
+        "Seqnt": "FR - Seq Nr",
+        "RunningAccountStatus": "FR - Running Account Status",
+        "RunningAccountAmortizationSchedule": "FR - Running Account Amortization Schedule",
+        "ConsumerProductType": "FR - Consumer Product Type",
+        "RunningAcountOwnerType": "FR - Running Account Owner Type",
+        "RunningAcountType": "FR - Running Account Type",
+        "MinDuration": "FR - Min Duration",
+        "Country": "FR - Country",
+        "Productnbr": "FR - Product Nbr",
+        "BalanceMovementType": "FR - Balance Movement Type",
+        "aggregate": "FR - Aggregate",
+        "Journalnr": "FR - Journal Nr",
+        "Accountnr": "FR - Account Nr",
+        "PostingKey": "FR - Posting Key",
+        "Currency": "FR - Currency",
+        "isExcludedFromGL": "FR - Is Excluded From GL"
+      },
+      "validation": {
+        "name": "'FR - Name' est obligatoire.",
+        "balMov": "'FR - Balance Movement Type' est obligatoire.",
+        "startDate": "'FR - Start Date' est obligatoire.",
+        "seqNt": "'FR - Seq Nr' est obligatoire.",
+        "ownerType": "'FR - Running Account Owner Type' est obligatoire.",
+        "productNbr": "'FR - Product Nbr' est obligatoire.",
+        "journalNr": "'FR - Journal Nr' est obligatoire.",
+        "accountNr": "'FR - Account Nr' est obligatoire.",
+        "currency": "'FR - Currency' est obligatoire.",
+        "postalKey": "'FR - Posting Key' est obligatoire.",
+        "owner": "'FR - Owner' est obligatoire.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "isExcludedFromGL": "When the booking needs to be included in GL, exactly one debit and one credit GL record should be created for each booking."
+
+      }
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "add": "Ajoute"
+    },
+    "validation": {
+      "validationHeader": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "close": {
+      "header": "Changements non sauvegardé",
+      "body": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "yes": "Oui",
+      "no": "Non",
+      "cancel": "Annuler"
+    }
+  }
+}

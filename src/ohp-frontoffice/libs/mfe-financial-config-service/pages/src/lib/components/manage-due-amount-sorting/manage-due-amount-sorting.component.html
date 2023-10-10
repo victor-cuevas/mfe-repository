@@ -1,0 +1,326 @@
+<div class="whitelabel-config">
+  <div class="close-financial-config container">
+    <form
+      #dueAmountform="ngForm"
+      class="closefo-form closefo-panel-spacing"
+      [ngClass]="{ 'closefo-form-submitted': dueAmountform.submitted }"
+    >
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'financial.manageDue.heading.manage-due' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'financial.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)=onSave(paymentAllocationList)
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'financial.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'financial.manageDue.heading.paymentAllocation' | translate }}</div>
+        </div>
+        <div class="col-4 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{'financial.manageDue.AddButton.AddPayment' | translate}}"
+            [ControlConfig]="ButtonConfig"
+            [disabled]="disableAddPayment"
+            (click)="onAddPaymentAllocation()"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="paymentAllocationList"
+            [gridDataHeader]="paymentHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDeletePaymentAllocation($event)"
+            (rowClickedEvent)="onPaymentAllocationRowSelect($event)"
+            [selectedDetail]="highlightPaymentData"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'financial.manageDue.heading.payment-details' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey mb-3">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'financial.manageDue.card.paymentAllocation' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="paymentAllocationData?.paymentAllocationType"
+                    [form]="dueAmountform"
+                    Type="single"
+                    name="paymentAllocationType"
+                    [placeholder]="placeholder"
+                    [options]="sortDueAmountCodeTables.paymentAllocationTypes"
+                    [ControlConfig]="PaymentAllocationDropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onPaymentAllocationChanged($event)"
+                    #paymentAllocationdropdown="ngModel"
+                    [title]="
+                      paymentAllocationData.paymentAllocationType?.caption === null
+                        ? ''
+                        : paymentAllocationData?.paymentAllocationType?.caption
+                    "
+                    [cfcFluidValidation]="{
+                      errors: paymentAllocationdropdown.errors ? PaymentAllocationDropdownConfig.Errors : '',
+                      formSubmitted:  PaymentAllocationDropdownConfig.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'financial.manageDue.card.product' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textarea
+                    [ControlConfig]="TextAreaConfig"
+                    [form]="dueAmountform"
+                    name="products"
+                    [ngModel]="paymentAllocationData?.products"
+                    [isReadOnly]="productText"
+                    class="text-resize"
+                  >
+                  </cfc-fluid-textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 closefo-btn-wrapper text-right mb-2">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-add-btn-small"
+                caption="{{'financial.manageDue.AddButton.AddBlock' | translate}}"
+                [ControlConfig]="ButtonConfig"
+                (click)="OnAddBlock()"
+              ></cfc-fluid-button>
+            </div>
+          </div>
+          <div *ngIf="paymentAllocationData?.paymentAllocationBlocks && paymentAllocationData.paymentAllocationBlocks.length > 0" >
+            <ng-container *ngFor="let paymentBlocks of paymentAllocationData.paymentAllocationBlocks; let i = index;">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey formspace">
+                <div class="closefo-form-group">
+                  
+                  <div class="row">
+                    <div class="col-md-5">
+                      <div class="row align-items-center label-height">
+                        <div class="col-8">
+                          <label class="closefo-form-label">{{ 'financial.manageDue.card.Payment' | translate }}</label>
+                        </div>
+                        <div class="col-4">
+                          <label class="closefo-form-label text-left">{{ paymentBlocks.sortingSeqNr  }}</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-7">
+                      <div class="row align-items-center">
+                        <div class="col-3">
+                          <label class="closefo-form-label required">{{ 'financial.manageDue.card.TimeSorting' | translate }}</label>
+                        </div>
+                        <div class="col-5">
+                          <cfc-fluid-dropdown
+                            [ngModel]="paymentBlocks?.timingSorting"
+                            [form]="dueAmountform"
+                            Type="single"
+                            name="timingSorting{{i}}"
+                            [placeholder]="placeholder"
+                            [options]="sortDueAmountCodeTables.timingSortings"
+                            [ControlConfig]="TimeSortingDropdownConfig"
+                            optionLabel="caption"
+                            dataKey="caption"
+                            (OnSelectionChanged)="onTimeSortingChange($event,i)"
+                            #timingSortingsdropdown="ngModel"
+                            [title]="paymentBlocks.timingSorting?.caption === null ? '' : paymentBlocks.timingSorting?.caption"
+                            [cfcFluidValidation]="{
+                              errors: timingSortingsdropdown.errors ? TimeSortingDropdownConfig.Errors : '',
+                              formSubmitted:  TimeSortingDropdownConfig.externalError
+                            }"
+                            >
+                          </cfc-fluid-dropdown>
+                        </div>
+                        <div class="col-3">
+                          <div class="col-12 closefo-btn-wrapper text-right mb-2">
+                            <cfc-fluid-button
+                              Type="button"
+                              ButtonStyle="closefo-add-btn-small"
+                              caption="{{'financial.manageDue.AddButton.AddItem' | translate}}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onAddPaymentAllocationItem(i)"
+                            ></cfc-fluid-button>
+                          </div>
+                        </div>
+                        <div class="col-1">
+                          <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onTimeSortingDelete(paymentBlocks,i)"></i> </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="paymentBlocks?.paymentAllocationItems && paymentBlocks.paymentAllocationItems.length > 0">
+                    <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                      <ng-container *ngFor="let paymentItems of paymentBlocks.paymentAllocationItems; let j = index">
+                        <div class="closefo-form-group">
+                          <div class="row">
+                            <div class="col-md-5">
+                              <div class="row align-items-center label-height">
+                                <div class="col-8">
+                                  <label class="closefo-form-label">{{ 'financial.manageDue.card.PaymentItem' | translate }}</label>
+                                </div>
+                                <div class="col-4">
+                                  <label class="closefo-form-label text-left">{{ paymentItems.equalDateSortingNr }}</label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-7">
+                              <div class="row align-items-center">
+                                <div class="col-5">
+                                  <label class="closefo-form-label required">{{ 'financial.manageDue.card.TxEITypeCd' | translate }}</label>
+                                </div>
+                                <div class="col-5">
+                                  <cfc-fluid-dropdown
+                                    [ngModel]="paymentItems.txElType"
+                                    [form]="dueAmountform"
+                                    Type="single"
+                                    name="txElType{{i}}_{{j}}"
+                                    [placeholder]="placeholder"
+                                    [options]="sortDueAmountCodeTables.txElTypes"
+                                    [ControlConfig]="TxElDropdownConfig"
+                                    optionLabel="caption"
+                                    dataKey="caption"
+                                    (OnSelectionChanged)="onTxelChange($event,i,j)"
+                                    #txElTypedropdown="ngModel"
+                                    [title]="paymentItems.txElType?.caption === null ? '' : paymentItems.txElType?.caption"
+                                    [cfcFluidValidation]="{
+                                      errors: txElTypedropdown.errors ? TxElDropdownConfig.Errors : '',
+                                      formSubmitted:  TxElDropdownConfig.externalError
+                                    }"
+                                  >
+                                  </cfc-fluid-dropdown>
+                                </div>
+                                <div class="col-2">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="ontxelDelete(paymentItems,i,j)"></i> </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </form>
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'financial.dialog.Header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'financial.dialog.Content' | translate }}</div>          
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto" 
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'financial.dialog.Yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(paymentAllocationList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'financial.dialog.No' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'financial.dialog.Cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate>
+        Technical Exception
+      </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+
+          <cfc-fluid-button class="ms-auto" Type="button" ButtonStyle="closefo-btn-secondary" caption="Continue"
+
+                            (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </ng-template>
+
+    </cfc-fluid-dialog>
+  </div>
+</div>

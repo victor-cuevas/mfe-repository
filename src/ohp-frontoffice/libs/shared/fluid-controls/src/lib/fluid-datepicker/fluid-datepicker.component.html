@@ -1,0 +1,85 @@
+<div class="closefo-input closefo-calendar">
+  <p-calendar
+    dateFormat="dd/mm/yy"
+    cfcFluidDatePickerLimitValidator
+    rPCalendarMask
+    cfcCalendar
+    [(ngModel)]="value"
+    [disabled]="isReadOnly"
+    [maxDate]="maxDate"
+    [minDate]="minDate"
+    [maxDateLimit]="maxDateLimit"
+    [formControlValue]="value"
+    [monthNavigator]="true"
+    [yearNavigator]="true"
+    [defaultDate]="defaultDate"
+    [yearRange]="yearRange"
+    [ngClass]="{ 'closefo-inputInvalid': inputModel.errors || form?.submitted ,'cfc-externalError':inputModel.errors && (form?.submitted || ControlConfig.externalError)}"
+    [required]="IsRequired()"
+    #inputModel="ngModel"
+    [showIcon]="true"
+    [name]="name"
+    [appendTo]="appendToBody"
+    [showOnFocus]="false"
+  >
+  </p-calendar>
+
+  <div
+    *ngIf="inputModel.errors?.minDateError; else maxValueError"
+    class="closefo-validation-error"
+  >
+    <small class="form-error">{{ ControlConfig.minValueValidation }}</small>
+  </div>
+
+  <ng-template #maxValueError>
+    <div
+      *ngIf="inputModel.errors?.maxDateError; else formError"
+      class="closefo-validation-error"
+    >
+      <small class="form-error">{{ ControlConfig.maxValueValidation }}</small>
+    </div>
+
+    <ng-template #formError>
+      <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <div *ngIf="error.specificIndex; else indexContent">
+            <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </div>
+          <ng-template #indexContent>
+            <div>
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

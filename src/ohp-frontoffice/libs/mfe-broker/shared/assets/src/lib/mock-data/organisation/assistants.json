@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Adam Johnson",
+    "email": "a.johnson@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 2,
+    "name": "Kelly Duffreys",
+    "email": "k.duffreys@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 3,
+    "name": "Dwayne Parsons",
+    "email": "d.parsonsn@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 4,
+    "name": "John Doe",
+    "email": "jo.doe@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 5,
+    "name": "Jane Doe",
+    "email": "j.doe@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 6,
+    "name": "Peter Hancock",
+    "email": "p.hancock@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 7,
+    "name": "Maggie Driscoll",
+    "email": "m.driscoll@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 8,
+    "name": "Justin Pennywise",
+    "email": "j.pennywise@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 9,
+    "name": "Peter Smith",
+    "email": "p.smith@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 10,
+    "name": "Jennifer Hallway",
+    "email": "j.hallway@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  },
+  {
+    "id": 11,
+    "name": "Dennis Parcels",
+    "email": "d.parcels@finance.com",
+    "avatar": "/assets/images/avatar1.png"
+  }
+]

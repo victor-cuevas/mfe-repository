@@ -1,0 +1,48 @@
+<ng-container *ngIf="steps$ | async as steps">
+  <mbp-layout [breadcrumbItems]="breadcrumb" [stepsItems]="steps">
+    <div class="container my-2">
+      <cfo-alert *ngIf="!dataService.activeJourney" [messages]="messages"></cfo-alert>
+    </div>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+    <div *ngIf="currentStep === 'confirm'; else elseBlock" class="container my-4">
+      <a class="link-outlined" [routerLink]="[stepSetupService.navigateBack()]">{{ 'general.buttons.previous' | translate }}</a>
+      <button *ngIf="dataService.activeJourney; else goToSummary" pButton class="link-button-primary mx-4" (click)="openConfirmDialog()">
+        {{ 'general.buttons.confirm' | translate }}
+      </button>
+      <ng-template #goToSummary>
+        <a class="link-button-primary mx-4" [routerLink]="['../../../../']">{{ 'general.buttons.goToSummary' | translate }}</a>
+      </ng-template>
+    </div>
+    <ng-template #elseBlock>
+      <div class="container my-4">
+        <a class="link-outlined" [routerLink]="[currentStep === 'loanDetails' ? '../../../../' : stepSetupService.navigateBack()]">{{
+          currentStep === 'loanDetails' ? ('general.buttons.cancel' | translate) : ('general.buttons.previous' | translate)
+        }}</a>
+        <button
+          [disabled]="!stepSetupService.isNextButtonEnabled()"
+          class="link-button-primary mx-4"
+          [routerLink]="[stepSetupService.navigateForward()]"
+        >
+          {{ 'general.buttons.next' | translate }}
+        </button>
+      </div>
+    </ng-template>
+  </mbp-layout>
+</ng-container>
+
+<cfo-dialog [showDialog]="showConfirmDialog" [data]="confirmCiData" [width]="'lg'">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold btn-min-width mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="onCancelConfirmDialog()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'general.buttons.confirm' | translate }}"
+        (click)="onConfirmDialog()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>

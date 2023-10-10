@@ -1,0 +1,370 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #depotProductform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':depotProductform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'product.depotProduct.heading.DepotProduct' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'product.button.save' | translate}}" (OnClick)="onSave(depotProductList)"  [disabled]="!isFormValid"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'product.button.close' | translate}}" (OnClick)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-12 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'product.depotProduct.label.add' | translate}}" (click)="addDepotProduct()" [disabled]="!isEnableAdd && !isFormValid"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-delete-btn close-times-circle" caption="{{'product.depotProduct.label.delete' | translate}}" (click)="deleteDepotProduct()" [disabled]="isEnableDelete"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                               
+            </div>
+            <div class="col-md-12">
+              <cfc-fluid-grid Type="bo-table" dataKey="depotProductList" [gridData]="depotProductList" dataSelectionMode="single"
+                              [gridDataHeader]="DepotHeader" [paginationStatus]="false" paginationReportStatus="false"
+                              (rowClickedEvent)=dataSelection($event) [selectedDetail]="depotProductDetail">
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="depotProductDetail">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label [ngClass]="{'closefo-form-label': true}">{{'product.depotProduct.label.DepotType' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <ng-container>
+                    <cfc-fluid-dropdown [ngModel]="depotProductDetail?.depotCaption"
+                                        [form]="depotProductform"
+                                        Type="single"
+                                        name="depotType"
+                                        [placeholder]="placeholder"
+                                        [options]="depotProductDetail?.depotProductTypeList"
+                                        optionLabel="depotTypeCaption"
+                                        dataKey="id"
+                                        [ControlConfig]="DepotTypeCaptionDropdownConfig"
+                                        [title]="depotProductDetail?.depotTypeCaption"
+                                        [cfcFluidValidation]="{errors:depotcaptiondropdown.errors? DepotTypeCaptionDropdownConfig.Errors :'', formSubmitted:(this.DepotTypeCaptionDropdownConfig.externalError)}"
+                                        (OnSelectionChanged)="onChangeDepotTypeCaption($event)"
+                                        #depotcaptiondropdown="ngModel">
+                    </cfc-fluid-dropdown>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.ExtensionPeriod' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.extensionPeriodInMonths"
+                                     (change)="onChangeExtensionPeriodInMonths($event)"
+                                     name="extensionPeriodInMonths"
+                                     [isAllowSpace]="false"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.MaxDuration' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.maximumDurationOfDepotInMonths"
+                                     (change)="onChangeMaximumDurationOfDepotInMonths($event)"
+                                     name="maximumDurationOfDepotInMonths"
+                                     [isAllowSpace]="false"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.MaxInterest' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.maximumInterestPeriodInMonths"
+                                     (change)="onChangeMaximumInterestPeriodInMonths($event)"
+                                     name="maximumInterestPeriodInMonths"
+                                     [isAllowSpace]="false"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.MinInitialAmount' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.minimumInitialAmount"
+                                     (OnchangedAmount)="onChangeMinimumInitialAmount($event,true)"
+                                     (ngModelChange)="onChangeMinimumInitialAmount($event,false)"
+                                     name="minimumInitialAmount"
+                                     [isAllowSpace]="false"
+                                     [maxlength]="14"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="!depotProductDetail.isDueDateDepot">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.minimumProvisionAmount' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.minimumProvisionAmount"
+                                     (OnchangedAmount)="onChangeMinimumProvisionAmount($event,true)"
+                                     (ngModelChange)="onChangeMinimumProvisionAmount($event,false)"
+                                     name="minimumProvisionAmount"
+                                     [isAllowSpace]="false"
+                                     [maxlength]="14"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.DepotIntMargin' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.depotInterestPercentageMargin"
+                                     (OnchangedAmount)="onChangeDepotInterestPercentageMargin($event,true)"
+                                     (ngModelChange)="onChangeDepotInterestPercentageMargin($event,false)"
+                                     name="depotInterestPercentageMargin"
+                                     [isAllowSpace]="false"
+                                     [maxlength]="14"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'product.depotProduct.label.Interest%' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <div class="closefo-checkbox">
+                    <div class="closefo-input">
+                      <p-triStateCheckbox [ngModel]="depotProductDetail.isInterestPercentageDerivedFromCredit"
+                                          name="isInterestPercentageDerivedFromCredit"
+                                          (ngModelChange)="onChangeIsInterestPercentageDerivedFromCredit($event)">
+                      </p-triStateCheckbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.DefaultInterest' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.defaultInterestPercentage"
+                                     (OnchangedAmount)="onChangeDefaultInterestPercentage($event,true)"
+                                     (ngModelChange)="onChangeDefaultInterestPercentage($event,false)"
+                                     name="defaultInterestPercentage"
+                                     [maxlength]="14"
+                                     [isReadOnly]="!depotProductDetail.isDefaultInterestPercentageEditable"
+                                     [isAllowSpace]="false"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="depotProductDetail.isDueDateDepot">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'product.depotProduct.label.OnlyUsed' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <div class="closefo-checkbox">
+                    <div class="closefo-input">
+                      <p-triStateCheckbox [ngModel]="depotProductDetail.isOnlyUsedForCreditInterest"
+                                          name="isOnlyUsedForCreditInterest"
+                                          (ngModelChange)="onChangeIsOnlyUsedForCreditInterest($event)">
+                      </p-triStateCheckbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'product.depotProduct.label.UsedOut' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                      [ngModel]="depotProductDetail.useOutstandingForPrepaymentAllowed"
+                                      name="useOutstandingForPrepaymentAllowed"
+                                      (ngModelChange)="onChangeUseOutstandingForPrepaymentAllowed($event)"
+                                      [form]="depotProductform">
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="depotProductDetail.manualInterestPercentageChangeAllowedVisibility">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'product.depotProduct.label.manualInt' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <div class="closefo-checkbox">
+                    <div class="closefo-input">
+                      <p-triStateCheckbox [ngModel]="depotProductDetail.isManualInterestPercentageChangeAllowed"
+                                          name="isManualInterestPercentageChangeAllowed"
+                                          (ngModelChange)="onChangeIsManualInterestPercentageChangeAllowed($event)">
+                      </p-triStateCheckbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'product.depotProduct.label.ExternalReference' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="text"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="depotProductDetail.externalReference"
+                                     (ngModelChange)="onChangeExternalReference($event)"
+                                     name="externalReference"
+                                     [isAllowSpace]="false"
+                                     [maxlength]="20"
+                                     [form]="depotProductform">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="!depotProductDetail.isSubsityDepotType">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'product.depotProduct.label.CreditProvider' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="depotProductDetail?.creditProviderName"
+                                      Type="single"
+                                      [form]="depotProductform"
+                                      name="creditProviderNamedropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="depotProductDetail?.creditProviderNameList"
+                                      [ControlConfig]="CreditProviderNameDropdownConfig"
+                                      optionLabel="name.caption"
+                                      dataKey="name.caption"
+                                      [showClearIcon]="depotProductDetail?.creditProviderName?.name? true:false"
+                                      (OnSelectionChanged)="onChangeCreditProvider($event)"                                      
+                                      #creditProviderNamedropdown="ngModel"
+                                      [title]="depotProductDetail?.creditProviderName?.name?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'product.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'product.dialog.Content' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'product.dialog.Yes' | translate}}" (OnClick)="onYes(depotProductList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'product.dialog.No' | translate}}" (OnClick)="onNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'product.dialog.Cancel' | translate}}" (OnClick)="onCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>
+

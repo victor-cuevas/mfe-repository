@@ -1,0 +1,385 @@
+{
+  "process": {
+    "managefllowup": {
+      "heading": {
+        "manageFollow": "Manage Followup Configuration"
+      },
+      "card": {
+        "filter": "Filter",
+        "Filter": "Filter",
+        "FlowDet": "Flow Details",
+        "Flowname": "Flow Name",
+        "Clear": "Clear",
+        "startevent": "Start Event",
+        "Stopevent": "Stop Event",
+        "AddStopevent": "Add Stop Event"
+      },
+      "table": {
+        "Flowname": "Flow Name",
+        "": "",
+        "Addevent": " Add",
+        "stepSeq": "Step Seq Nbr.",
+        "stepName": "Step Name",
+        "ElapsePeriod": "Elapsed Period",
+        "IntervalType": "Interval Type",
+        "AddStep": "Add"
+      },
+      "tab": {
+        "name": "Name",
+        "triggerevent": "Trigger Event",
+        "elapsedType": "Elapsed Period Type",
+        "elapsedPeriod": "Elapsed Period",
+        "statusChange": "Status Change",
+        "TargetStatus": "Target Status",
+        "HandlingDate": "Handling Date",
+        "IntervalType": "Interval Type",
+        "AddActions": "Add Action",
+        "actionName": "Action Name",
+        "actionType": "Action Type",
+        "actionReceiver": "Action Receiver",
+        "TempName": "Add Template",
+        "tempName": "Template Name",
+        "communicat": "Communication Medium",
+        "roleType": "Role Type",
+        "adminRole": "Admin Role Type",
+        "collectionRole": "Collections Role Type",
+        "constructionType": "Construction Depot Role Type",
+        "R": "Registered",
+        "servicesName": "Add Services",
+        "serActionName": "Action Name",
+        "ServiceName": "Service Name",
+        "IsBlocking": "Is Blocking",
+        "EventsAdd": "Add Events",
+        "FollowUpEvent": "Followup Event"
+      },
+      "tabHeading": {
+        "FlowStepGeneral": "Flow Step General",
+        "Actions": "Actions",
+        "Communication": "Communication",
+        "Services": "Services",
+        "Events": "Events"
+      },
+      "validationErrors": {
+        "followUpName": "'Flow Name' is Mandatory.",
+        "startEvent": "'Start Event' is Mandatory.",
+        "name": "'Name' is Mandatory.",
+        "triggerEvent": "'Trigger Event' is Mandatory.",
+        "elapsedPeriodType": "'Elapsed Period Type' is Mandatory.",
+        "handlingDate": "'Handling Date' is Mandatory.",
+        "actionName": "'Action' is Mandatory.",
+        "templateName": "'Template Name' is Mandatory.",
+        "communicationMedium": "'Communication Medium' is Mandatory.",
+        "serviceActionName": "'Action Name' is Mandatory.",
+        "event": "'Event' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "businessErrors": {
+        "actionNameUnique": "An Action can only be added once for a follow up step.",
+        "oneRoleType": "Please select atleast 1 Role type.",
+        "onlyOneRoleType": "A Communication should be configured for role type, admin role type, collections role type or construction depot role type. It is not possible to combine these role types."
+      }
+    },
+    "manageNotify": {
+      "heading": {
+        "manageNotify": "Manage Notification Configuration",
+        "NotificationDef": "Notification Definition",
+        "ProductLink": "Products Linked",
+        "servicingCustomer": "Servicing Customers Linked"
+      },
+      "tabel": {
+        "mamageNot": "Manage Notification Configuration",
+        "addNew": "Add",
+        "nrofIntervals": "Nr Of Intervals",
+        "interval": "Interval",
+        "timing": "Timing",
+        "referenceDate": "Reference Date",
+        "eventContext": "Event Context",
+        "delete": "Delete",
+        "addproduct": "Add Product",
+        "addservicing": "Add Servicing Customer"
+      },
+      "card": {
+        "intervalcard": "Interval",
+        "dataype": "Date Type",
+        "eventName": "Event Name",
+        "eventContext": "Event Context",
+        "product": "Product",
+        "sevicingCustomer": "Servicing Customer"
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "timing": "'Timing'",
+        "dataype": "'Date Type'",
+        "eventName": "'Event Name'",
+        "eventContext": "'Event Context'",
+
+        "product": "'Product Name'",
+        "servicingCustomer": "'Credit Provider Name"
+
+      }
+    },
+
+    "followup-event": {
+      "heading": {
+        "followevent": "Manage BO process event configuration"
+      },
+      "card": {
+        "FollowupEventCon": "Followup Event",
+        "EventCreation": "Event Creation Date Type",
+        "EventHandling": "Event Handling Date Type",
+        "CanbeTriggeredManually": "Can be Triggered Manually",
+        "Add":"Add"
+      },
+      "tabel": {
+        "FollowupEventCon": "Followup Event Configuration",
+        "EventCreation": "Event Creation Date Type",
+        "EventHandling": "Event Handling Date Type",
+        "CanbeTriggeredManually": "Can be Triggered Manually",
+        "delete": "Delete"
+      },
+      "mandatory": {
+        "EventCreation": "'Event Creation Date Type'",
+        "EventHandling": "'Event Handling Date Type'",
+        "EventName": "'Followup Event Configuration'",
+        "error": "The given record is already in the list. Please make sure that the record is unique. ",
+        "required": " is Mandatory."
+      }
+    },
+
+    "Validation": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    },
+
+    "manage-remainder": {
+      "heading": {
+        "scenario-overview": "scenario overview",
+        "step-overview": "step overview",
+        "scenarios-overview": "Scenarios Overview",
+        "scenarioDetails": "Scenario Details",
+        "productLinks": "Products Linked",
+        "ScenarioType": "Scenario Type",
+        "applicable": "Applicable Txs",
+        "stepsOverview": "Steps Overview",
+        "stepDetail": "Step Details",
+        "ActionOverview": "Actions Overview",
+        "TemplateOverview": "Template Overview"
+      },
+      "tabel": {
+        "scenarioname": "Scenario Name",
+        "startdate": "Start Date",
+        "enddate": "End Date",
+        "commercialName": "Commercial Name",
+        "": "",
+        "creditStatus": "Credit Status",
+        "stepseq": "Step Seq Nr",
+        "stepName": "Step Name",
+        "OfDueDate": "# Of Due Dates",
+        "ActionName": "Action Name",
+        "ActionReceiver": "Action Receiver",
+        "ActionType": "Action Type",
+        "TemplateName": "Template Name",
+        "ContactMedium": "Contact Medium",
+        "FollowupEventName": "Followup Event Name",
+        "ElapsedPeriod":"Due Elapsed Period"
+      },
+      "card": {
+        "scenarioName": "Scenario Name",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "numberOfDue": "Number Of Due Days",
+        "elapseds": "Elapsed Period Based",
+        "setCredit": "Set Credit Status Back To Normal",
+        "unblock": "Unblock Outgoing Payments",
+        "resume": "Resume Commission Payments",
+        "minPeriod": "Min. Period Between Steps",
+        "txel": "TxEl Types",
+        "period": "Period Base",
+        "reminder": "Reminder Days Post Due Date",
+        "action":"Action Detail",
+        "template":"Template Detail"
+      },
+      "tab": {
+        "Name": "Name",
+        "numberOf": "Number Of Due Days",
+        "MunDue": "Min Due Amount",
+        "credit": "Credit Bureau",
+        "creditAction": "Credit Bureau Action Code",
+        "IsReminder": "Is Reminder",
+        "ChangeIOA": "Change IOA",
+        "IsFormal": "Is Formal Notice",
+        "StopCommission": "Stop Commission",
+        "CreditChange": "Credit Status Change",
+        "TargetStatus": "Target Credit Status",
+        "NotifyCredit": "Notify Credit Insurer",
+        "suspend": "Suspend Direct Debit Mandate",
+        "blockOutgoing": "Block Outgoing Payments",
+        "SetSerice": "Set Servicing Notice Upon Debtor Date",
+        "Actions": "Action",
+        "Templates": "Template",
+        "ContactMedium": "Contact Medium",
+        "RoleType": "Role Type",
+        "AdminRole": "Admin Role Type",
+        "CollectionsRole": "Collections Role Types",
+        "RegisteredSending": "Registered Sending",
+        "BlockSending": "Block Sending when letter of same Template was sent within",
+        "Days": "days",
+        "Notes": "Notes",
+        "ElapsedPeriod": "Elapsed Period"
+      },
+      "tabheader": {
+        "RenainderInfo": "Reminder Step Info",
+        "Actions": "Actions",
+        "Customer": "Communication",
+        "Events": "Events",
+        "Notes": "Notes"
+      },
+     "Add":{
+       "Scenario":"Add",
+       "Txel":"Add TxEl Type",
+       "Step":"Add Step",
+       "Action":"Add Action",
+       "Template":"Add Template",
+      "Event":"Add Event"
+      },
+      "button": {
+        "back": "Back",
+        "save": "Save & Next",
+        "newScenario": "New Scenario",
+        "Saves": "Save",
+        "Cancel": "Cancel"
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "startDate": "'Start Date' date field's year must be above 1900",
+        "minPeriod": "'Min. Period Between Steps'",
+        "scenarioName": "'Scenario Name'",
+        "txel": "'TxEl Type'",
+        "period": "'ReminderScenarioPeriodBase'",
+        "reminder": "'Reminder Days Post Due Date'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique",
+        "Name": "'Name'",
+        "ElapsedPeriod": "'Elapsed Period'",
+        "numberOf": "'Number Of Due Days'",
+        "Actions": "'Action'",
+        "actionBusinessError": "Action already exists in the list",
+        "Templates": "'Template Name'",
+        "ContactMedium": "'Communication medium'",
+        "TargetStatus": "'Target Credit Status'",
+        "TxelbusinessError": "Due amount type already exists in the list",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "ElapsedMaxValdation": "Field 'Elapsed Period' exceeded the maximum value ",
+        "DueAmountMaxValdation": "Field 'NumberofDueDates' exceeded the maximum value "
+      }
+    },
+
+    "event-config": {
+      "heading": {
+        "Event-Configuration": "Manage BO event configuration"
+      },
+      "tabel": {
+        "followEvent": "Followup Event",
+        "ServiceActionName": "Service Action Name",
+        "IntergrationQueueConfigurationName": "Intergration Queue Configuration Name",
+        "EventHandler": "Event Handler",
+        "delete": "Delete"
+      },
+      "card": {
+        "followEvent": "Followup Event",
+        "ServiceActionName": "Service Action Name",
+        "IntergrationQueueConfigurationName": "Intergration Queue Configuration Name",
+        "EventHandler": "Event Handler",
+        "Add": "Add"
+      },
+      "mandatory": {
+        "ServiceAction": "'Service Action Name'",
+        "EventName": "'Followup Event'",
+        "EventHandler": "'Event Handler'",
+        "Errormsg": "'Service Action Name' for 'Followup Event Name' must be Unique",
+        "uniqueRecord": "The given record is already in the list. Please make sure that the record is unique",
+        "required": " is Mandatory ."
+      }
+    },
+    "cm-event-config": {
+      "heading": {
+        "eventconfig": "Manage cm event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "Followup Event",
+        "ServiceActionName": "Service Action Name",
+        "EventHandler": "Event Handler",
+        "delete": ""
+      },
+      "card": {
+        "FollowupEventName": "Followup Event Name",
+        "ServiceActionName": "Service Action Name",
+        "EventHandler": "Event Handler"
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "FollowupEventName": "'Followup Event Name'",
+        "ServiceActionName": "'Service Action Name'",
+        "EventHandler": "'Event Handler'",
+        "businessError": "'Service Action Name' for 'Followup Event Name' must be Unique",
+        "uniqueRecord": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-dossier": {
+      "heading": {
+        "dossier": "Manage FUP casestatus vs dossierstatus"
+      },
+      "card": {
+        "Add": "Add",
+        "FollowupCaseStatus": "Followup Case Status",
+        "DossierStatus": "Dossier Status"
+      },
+      "tabel": {
+        "FollowupCaseStatus": "Followup Case Status",
+        "DossierStatus": "Dossier Status",
+        "Delete": ""
+      },
+      "ValidationError":{
+        "FollowupCaseStatus": "'Followup Case Status'",
+        "DossierStatus": "'Dossier Status'",
+        "required":" is Mandatory .",
+        "businessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-followup-event": {
+      "heading": {
+        "followevent": "Manage cm process  event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "Followup Event",
+        "EventCreationDateType": "Event Creation Date Type",
+        "EventHandlingDateType": "Event Handling Date Type",
+        "Delete": "Delete"
+      },
+      "card": {
+        "FollowupEvent": "Followup Event",
+        "EventCreationDateType": "Event Creation Date Type",
+        "EventHandlingDateType": "Event Handling Date Type",
+        "Add": "Add"
+      },
+      "ValidationError":{
+        "required":" is Mandatory .",
+        "FollowupEvent": "'Followup Event'",
+        "EventCreationDateType": "'Event Creation Date Type'",
+        "EventHandlingDateType": "'Event Handling Date Type'",
+        "businessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close"
+    },
+    "dialog": {
+      "Yes": "Yes",
+      "No": "No",
+      "Cancel": "Cancel",
+      "Header": "Unsaved Changes",
+      "Content": "You have unsaved data. Do you want to save?"
+    }
+  }
+}

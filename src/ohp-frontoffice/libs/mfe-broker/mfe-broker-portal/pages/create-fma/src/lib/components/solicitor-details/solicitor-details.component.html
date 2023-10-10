@@ -1,0 +1,205 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createFma.titles.solicitorDetails' | translate }}</h2>
+  <p>
+    {{
+      this.currentData?.hasFreeLegalSolicitor
+        ? ('createFma.subTitles.solicitorDetailsMsgFreeLegals' | translate)
+        : ('createFma.subTitles.solicitorDetailsMsg' | translate)
+    }}
+  </p>
+</div>
+<div class="container">
+  <form [formGroup]="solicitorDetailsForm">
+    <ng-container *ngIf="this.currentData?.hasFreeLegalSolicitor">
+      <div class="row mb-4">
+        <p-checkbox
+          name="applicantsConsentForSolicitorAssignment"
+          ngDefaultControl
+          [binary]="true"
+          formControlName="applicantsConsentForSolicitorAssignment"
+          [label]="('createFma.labels.freeLegalsCheckbox' | translate) + ' *'"
+        ></p-checkbox>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="step-header rounded px-3 py-4 bg-white shadow">
+        <div class="row">
+          <div class="col">
+            <label id="conveyancerName">{{ 'createFma.labels.conveyancerName' | translate }}</label>
+            <input
+              aria-labelledby="conveyancerName"
+              name="conveyancerName"
+              type="text"
+              pInputText
+              formControlName="conveyancerName"
+              class="journey-input text-capitalize"
+            />
+          </div>
+        </div>
+        <ng-container *ngIf="!hasConveyancerDetails">
+          <div class="row mt-4">
+            <div class="col">
+              <label id="conveyancerFirmName">{{ 'createFma.labels.conveyancerFirmName' | translate }} *</label>
+              <input
+                name="conveyancerFirmName"
+                type="text"
+                pInputText
+                formControlName="conveyancerFirmName"
+                class="journey-input text-capitalize"
+                aria-labelledby="conveyancerFirmName"
+              />
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <label id="conveyancerTown">{{ 'createFma.labels.conveyancerTown' | translate }} *</label>
+              <input
+                name="conveyancerTown"
+                type="text"
+                pInputText
+                formControlName="conveyancerTown"
+                class="journey-input text-capitalize"
+                aria-labelledby="conveyancerTown"
+              />
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <label id="conveyancerPostcode">{{ 'createFma.labels.conveyancerPostcode' | translate }} *</label>
+              <input
+                aria-labelledby="conveyancerPostcode"
+                name="conveyancerPostcode"
+                type="text"
+                pInputText
+                formControlName="conveyancerPostcode"
+                class="journey-input"
+              />
+            </div>
+          </div>
+          <div class="mt-4">
+            <p-button
+              *ngIf="dataService.activeJourney"
+              styleClass="link-button-primary mt-4 mb-2 my-lg-0 me-lg-2"
+              label="{{ 'general.buttons.findConveyancer' | translate }}"
+              (click)="findConveyancer()"
+            ></p-button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="hasConveyancerDetails">
+          <div class="address-box mt-4">
+            <p class="p--bold">{{ conveyancerDetails?.solicitorName }}</p>
+            <p class="mt-2">
+              {{ conveyancerDetails?.address?.addressLine1 }} {{ conveyancerDetails?.address?.addressLine2 }}
+              {{ conveyancerDetails?.address?.addressLine3 }},
+            </p>
+            <p>
+              {{ conveyancerDetails?.address?.addressLine4 }}
+              {{ conveyancerDetails?.address?.addressLine5 }}, {{ conveyancerDetails?.address?.city }}
+            </p>
+            <p>
+              {{ conveyancerDetails?.address?.zipCode | uppercase }}
+              {{ conveyancerDetails?.address?.country }}
+            </p>
+            <p>{{ 'createFma.labels.registrationNumber' | translate }} {{ conveyancerDetails?.externalReference | titlecase }}</p>
+          </div>
+          <div class="row" *ngIf="dataService.activeJourney">
+            <p-button styleClass="p-button-link button-link-small d-flex" (click)="changeConveyancer()">
+              {{ 'general.buttons.ChangeConveyancer' | translate }}
+            </p-button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <div class="step-header rounded-top px-4 py-3 shadow mt-5">
+      <h5 class="mb-0 fw-bold primary-color">{{ 'createFma.labels.separateRepresentation' | translate }}</h5>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col">
+          <label id="isSeparateRepresentationSelected">{{ 'createFma.labels.isSeparateRepresentationSelected' | translate }} *</label>
+          <div aria-labelledby="isSeparateRepresentationSelected">
+            <p-radioButton
+              formControlName="isSeparateRepresentationSelected"
+              [value]="true"
+              [label]="'general.labels.yes' | translate"
+              ngDefaultControl
+            ></p-radioButton>
+            <p-radioButton
+              formControlName="isSeparateRepresentationSelected"
+              [value]="false"
+              [label]="'general.labels.no' | translate"
+              class="ms-3"
+              ngDefaultControl
+            ></p-radioButton>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="solicitorDetailsForm.controls.isSeparateRepresentationSelected.value">
+        <div class="row mt-4">
+          <div class="col-md-6 col">
+            <label for="separateRepresentationName">{{ 'createFma.labels.conveyancerName' | translate }}</label>
+            <input
+              name="separateRepresentationName"
+              type="text"
+              pInputText
+              formControlName="separateRepresentationName"
+              class="journey-input text-capitalize"
+            />
+          </div>
+          <div class="col-md-6 col">
+            <label>{{ ('createFma.labels.contactNumberWork' | translate) + ' *' }}</label>
+            <cfo-phone-input controlName="separateRepresentationNumberWork"></cfo-phone-input>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6 col">
+            <label for="conveyancerFirmName">{{ ('createFma.labels.conveyancerFirmName' | translate) + ' *' }}</label>
+            <input
+              name="separateRepresentationFirm"
+              type="text"
+              pInputText
+              formControlName="separateRepresentationFirm"
+              class="journey-input text-capitalize"
+            />
+            <cfo-validation-errors
+              [control]="solicitorDetailsForm.get('separateRepresentationFirm')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col-md-6 col">
+            <label for="separateRepresentationEmail">{{ ('createFma.labels.email' | translate) + ' *' }}</label>
+            <input
+              name="separateRepresentationEmail"
+              type="text"
+              pInputText
+              formControlName="separateRepresentationEmail"
+              class="journey-input"
+            />
+            <cfo-validation-errors
+              [control]="solicitorDetailsForm.get('separateRepresentationEmail')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                email: ('general.validations.email' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div class="mt-4">
+          <cfo-address-search
+            [form]="solicitorDetailsForm"
+            (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+            [suggestedAddresses]="suggestedAddresses"
+            (selectedAddressEvent)="onSelectedAddress($event)"
+            [selectedAddress]="selectedAddress"
+            [hasButtonVisible]="hasButtonVisible"
+          >
+          </cfo-address-search>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>

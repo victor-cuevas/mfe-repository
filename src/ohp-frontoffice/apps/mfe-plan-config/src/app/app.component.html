@@ -1,0 +1,17 @@
+<ng-container *ngIf="authenticator.route === 'authenticated'">
+  <ng-container *ngIf="spinnerservice.getIsLoading()">
+    <div class="loader">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  </ng-container>
+  <router-outlet></router-outlet>
+</ng-container>
+<ng-container *ngIf="authenticator.route !== 'authenticated'">
+  <amplify-authenticator [hideSignUp]="true">
+    <ng-template amplifySlot="header">
+      <div style="text-align: center; margin: 10vh auto 0 auto; width: 50%">
+        <img class="amplify-image" alt="logo" src="{{ this.logoPath }}" />
+      </div>
+    </ng-template>
+  </amplify-authenticator>
+</ng-container>

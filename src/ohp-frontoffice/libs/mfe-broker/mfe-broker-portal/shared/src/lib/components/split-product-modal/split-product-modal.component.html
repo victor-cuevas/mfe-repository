@@ -1,0 +1,90 @@
+<div [formGroup]="$any(splitLoanPartForm)">
+  <div *ngFor="let loanPartForm of splitLoanPartForm.controls; let i = index">
+    <div [formGroup]="$any(loanPartForm)" class="row my-2 py-2">
+      <div class="col">
+        <h6>{{ 'createIllustration.labels.loanAmount' | translate }}</h6>
+        <p-inputNumber
+          styleClass="journey-input--medium"
+          currency="GBP"
+          mode="currency"
+          [maxFractionDigits]="0"
+          [max]="config.data?.loanPartAmount - 1"
+          ngDefaultControl
+          formControlName="loanPartAmount"
+          (onBlur)="divideAmount(i)"
+        ></p-inputNumber>
+      </div>
+      <div class="col ms-2" [formGroup]="$any(loanPartForm.get('feMortgageTerm'))">
+        <h6>{{ 'createIllustration.labels.termOfMortgage' | translate }}</h6>
+        <div>
+          <p-inputNumber
+            [styleClass]="
+              (loanPartForm.get('feMortgageTerm')?.touched && !loanPartForm.get('mortgageTerm')?.valid) ||
+              loanPartForm.get('feMortgageTerm')?.errors?.checkMortgageTermAge ||
+              loanPartForm.get('feMortgageTerm')?.errors?.outOfRange
+                ? 'journey-input--small input-invalid'
+                : 'journey-input--small'
+            "
+            ngDefaultControl
+            formControlName="years"
+            (onBlur)="checkMonths(i)"
+            [max]="40"
+            [min]="0"
+          ></p-inputNumber>
+          &nbsp;<strong>/</strong>&nbsp;
+          <p-inputNumber
+            [min]="0"
+            [max]="loanPartForm.get('years')?.value === 40 ? 0 : 11"
+            [styleClass]="
+              (loanPartForm.get('feMortgageTerm')?.touched && !loanPartForm.get('mortgageTerm')?.valid) ||
+              loanPartForm.get('feMortgageTerm')?.errors?.atLeastOneValue ||
+              loanPartForm.get('feMortgageTerm')?.errors?.outOfRange
+                ? 'journey-input--small input-invalid'
+                : 'journey-input--small'
+            "
+            ngDefaultControl
+            formControlName="months"
+          ></p-inputNumber>
+        </div>
+        <div class="">
+          <cfo-validation-errors
+            [control]="loanPartForm.get('feMortgageTerm')"
+            [errorMessages]="{
+              atLeastOneField: ('general.validations.atLeastOneValue' | translate),
+              outOfRange: ('general.validations.outOfRange' | translate: { min: 1, max: 40 })
+            }"
+          ></cfo-validation-errors>
+          <cfo-validation-errors
+            [control]="loanPartForm.get('mortgageTerm')"
+            [errorMessages]="{
+              max: ('general.validations.applicantAge' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="col">
+        <h6>{{ 'createIllustration.labels.type' | translate }}</h6>
+        <p-dropdown [options]="typeOptions" class="journey-dropdown" ngDefaultControl formControlName="loanPartType">
+          <ng-template let-option pTemplate="item">
+            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-5 text-center">
+  <button
+    pButton
+    label="{{ 'general.buttons.cancel' | translate }}"
+    class="p-button-outlined--bold m-2 btn-min-width"
+    (click)="closeDialog()"
+  ></button>
+  <button
+    pButton
+    label="{{ 'general.buttons.confirm' | translate }}"
+    class="p-button-primary m-2"
+    (click)="closeDialog(splitLoanPartForm.getRawValue())"
+    [disabled]="!splitLoanPartForm.valid"
+  ></button>
+</div>

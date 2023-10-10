@@ -1,0 +1,392 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #freeFieldform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':freeFieldform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'app-instance.freefield.heading.freefield' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'app-instance.button.save' | translate}}"
+                            (click)="onSave(freeFieldList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'app-instance.button.close' | translate}}"
+                            (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'app-instance.freefield.tabel.Add' | translate}}" (click)="addFreeField()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+          <div class="col-md-12 close-header-block freefield">
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="freeFieldList" (rowClickedEvent)=dataSelection($event)
+                            [gridDataHeader]="freefieldHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (deleteRowEvent)="onRowDelete($event, freeFieldList)" [selectedDetail]="freeFieldDetail">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showDetails">
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+          <div class="closefo-form-group">
+            <div class="row">
+
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'app-instance.freefield.card.FieldName' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="NameTextBoxconfig"
+                                       [ngModel]="freeFieldDetail?.fieldName"
+                                       (change)="onChangeFieldName($event)"
+                                       name="fieldName"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:fieldName.errors? NameTextBoxconfig.Errors :'', formSubmitted:(this.NameTextBoxconfig.externalError)}"
+                                       #fieldName="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label">{{'app-instance.freefield.card.TagName' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="freeFieldDetail?.tagName"
+                                       (change)="onChangeTagName($event)"
+                                       name="tagName"
+                                       [isAllowSpace]="false"
+                                       [form]="freeFieldform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'app-instance.freefield.card.ContextType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="freeFieldDetail?.freeFieldContextType"
+                                        Type="single"
+                                        name="freeFieldContextType"
+                                        [placeholder]="placeholder"
+                                        [options]="freeFieldScreenData?.freeFieldContextTypeList"
+                                        [ControlConfig]="ContextDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeContextType($event)"
+                                        [title]="freeFieldDetail?.freeFieldContextType?.caption"
+                                        [cfcFluidValidation]="{errors:freeFieldContextType.errors? ContextDropdownConfig.Errors :'', formSubmitted:(this.ContextDropdownConfig.externalError)}"
+                                        #freeFieldContextType="ngModel">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label">{{'app-instance.freefield.card.ContextSubType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="freeFieldDetail?.freeFieldContextSubType"
+                                        [form]="freeFieldform"
+                                        Type="single"
+                                        name="freeFieldContextSubType"
+                                        [placeholder]="placeholder"
+                                        [options]="freeFieldScreenData?.freeFieldContextSubTypeList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeContextSubType($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="freeFieldDetail?.freeFieldContextSubType?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'app-instance.freefield.card.FreeField' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="freeFieldDetail?.freeField"
+                                        Type="single"
+                                        name="freeField"
+                                        [placeholder]="placeholder"
+                                        [options]="freeFieldScreenData?.freeFieldList"
+                                        [ControlConfig]="FreeFieldDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeFreeField($event)"
+                                        [title]="freeFieldDetail?.freeField?.caption"
+                                        [cfcFluidValidation]="{errors:freeField.errors? FreeFieldDropdownConfig.Errors :'', formSubmitted:(this.FreeFieldDropdownConfig.externalError)}"
+                                        #freeField="ngModel">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'app-instance.freefield.card.FreeFieldType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="freeFieldDetail?.fieldType"
+                                        Type="single"
+                                        name="fieldType"
+                                        [placeholder]="placeholder"
+                                        [options]="freeFieldScreenData?.freeFieldTypeList"
+                                        [ControlConfig]="FieldTypeDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeFreeFieldType($event)"
+                                        [title]="freeFieldDetail?.fieldType?.caption"
+                                        [cfcFluidValidation]="{errors:fieldType.errors? FieldTypeDropdownConfig.Errors :'', formSubmitted:(this.FieldTypeDropdownConfig.externalError)}"
+                                        #fieldType="ngModel">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label">{{'app-instance.freefield.card.FreeFieldLength' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="MaxLimitTextBoxconfig"
+                                       [ngModel]="freeFieldDetail?.freeFieldLength"
+                                       (OnchangedNumber)="onChangeFreeFieldLength($event)"
+                                       [isReadOnly]="!freeFieldDetail.enablefreeFieldLen"
+                                       name="freeFieldLength"
+                                       [maxlength]="11"
+                                       [maximumValue]="intMaxValue"
+                                       [cfcFluidValidation]="{errors:(freeFieldLength.errors?.maxValueError)? maxErrorDto :'', formSubmitted:(this.MaxLimitTextBoxconfig.externalError)}"
+                                       [isAllowSpace]="false"
+                                       #freeFieldLength="ngModel"
+                                       [form]="freeFieldform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label">{{'app-instance.freefield.card.Sequence' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="MaxLimitTextBoxconfig"
+                                       [ngModel]="freeFieldDetail?.sequence"
+                                       (OnchangedNumber)="onChangeSequence($event)"
+                                       name="sequence"
+                                       [maxlength]="11"
+                                       [maximumValue]="intMaxValue"
+                                       [cfcFluidValidation]="{errors:(sequence.errors?.maxValueError)? maxErrorDto :'', formSubmitted:(this.MaxLimitTextBoxconfig.externalError)}"
+                                       [isAllowSpace]="false"
+                                       #sequence="ngModel"
+                                       [form]="freeFieldform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="freeFieldDetail?.freeFieldContextSubType">
+          <div class="col-md-12">
+            <div class="closefo-panel-spacing">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="closefo-form-label">
+                      {{'app-instance.freefield.picker.DossierType' | translate}}
+                    </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="closefo-form-label picklist-padding">
+                      {{'app-instance.freefield.picker.SelectedDossierType' | translate}}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="closefo-form-group">
+                  <div class="row">
+
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+
+                        <div class="col-12">
+                          <cfc-fluid-picklist [source]="dossiersource"
+                                              [target]="dossiertarget"
+                                              filterBy="caption"
+                                              sourceValue="caption"
+                                              (click)="changeDossierTarget(dossiertarget)"
+                                              (dblclick)="changeDossierTarget(dossiertarget)"
+                                              [ControlConfig]="PickListConfig">
+                          </cfc-fluid-picklist>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+          <div class="closefo-form-group">
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'app-instance.freefield.card.LegalEntity' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="freeFieldDetail?.legalEntity"
+                                        Type="single"
+                                        name="legalEntity"
+                                        [placeholder]="placeholder"
+                                        [options]="freeFieldScreenData?.legalEntityList"
+                                        [ControlConfig]="LegalEntityDropdownConfig"
+                                        optionLabel="hostedOrganizationName"
+                                        dataKey="hostedOrganizationName"
+                                        (OnSelectionChanged)="onChangeLegalEntity($event)"
+                                        [title]="freeFieldDetail?.legalEntity?.hostedOrganizationName"
+                                        [cfcFluidValidation]="{errors:legalEntity.errors? LegalEntityDropdownConfig.Errors :'', formSubmitted:(this.LegalEntityDropdownConfig.externalError)}"
+                                        #legalEntity="ngModel">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="freeFieldDetail.fieldType?.codeId === 6">
+          <div class="col-md-12">
+            <div class="closefo-panel-spacing">
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="closefo-form-label">
+                      {{'app-instance.freefield.picker.ListValue' | translate}}
+                    </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="closefo-form-label picklist-padding">
+                      {{'app-instance.freefield.picker.SelectedListValue' | translate}}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="closefo-form-group">
+                  <div class="row">
+
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+
+                        <div class="col-12">
+                          <cfc-fluid-picklist [source]="source"
+                                              [target]="target"
+                                              filterBy="caption"
+                                              sourceValue="caption"
+                                              (click)="changeTarget(target)"
+                                              (dblclick)="changeTarget(target)"
+                                              [ControlConfig]="PickListConfig">
+                          </cfc-fluid-picklist>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'app-instance.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'app-instance.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'app-instance.close.yes' | translate}}" (OnClick)="onClickYes(freeFieldList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'app-instance.close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'app-instance.close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

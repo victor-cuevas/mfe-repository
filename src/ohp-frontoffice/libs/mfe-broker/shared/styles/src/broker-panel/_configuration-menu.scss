@@ -1,0 +1,106 @@
+.configuration-menu {
+  margin-right: 40px;
+  border-bottom: 1px solid $neutral-dark-1;
+
+  .p-panelmenu .p-panelmenu-header > a .p-panelmenu-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 15px;
+    margin-right: 0px;
+    line-height: 59px;
+  }
+
+  .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link-active .p-menuitem-text {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .p-panelmenu .p-panelmenu-content {
+    background: $neutral-light-1;
+    padding: 0px 0px 20px 0px;
+  }
+
+  .p-panelmenu .p-panelmenu-header:not(.p-highlight):not(.p-disabled) > a:hover {
+    background: $neutral-light-1;
+    color: $primary;
+  }
+
+  .p-panelmenu .p-panelmenu-header.p-highlight:not(.p-disabled) > a:hover {
+    background: $neutral-light-1;
+    color: $primary;
+  }
+
+  .p-panelmenu .p-submenu-list {
+    ul {
+      padding: 0px;
+    }
+
+    li a {
+      margin-left: 15px;
+      height: 32px;
+    }
+  }
+
+  .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link:not(.p-disabled):hover {
+    background: none;
+
+    .p-menuitem-text {
+      color: $primary;
+    }
+  }
+
+  .p-panelmenu .p-panelmenu-header.p-highlight > a {
+    background-color: $neutral-light-1;
+    color: $primary;
+  }
+
+  .p-panelmenu .p-menuitem-text {
+    line-height: 60px;
+    padding-left: 10px;
+  }
+
+  .p-panelmenu .p-panelmenu-header {
+    border-top: 1px solid $neutral-dark-1;
+    display: block;
+  }
+
+  .p-panelmenu .p-panelmenu-header > a {
+    border: none;
+    background: none;
+    height: auto;
+    display: block;
+    padding: 0px;
+  }
+
+  .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link {
+    padding: 0px;
+  }
+
+  .p-panelmenu .p-panelmenu-content {
+    border: none;
+  }
+
+  .p-menu .p-menuitem-link {
+    display: block;
+  }
+
+  .p-menu .p-menuitem-link .p-menuitem-icon {
+    float: right;
+    line-height: 40px;
+  }
+
+  .p-menu .p-menuitem-link .p-menuitem-text {
+    color: $neutral-dark;
+    font-size: 16px;
+    float: left;
+    line-height: 60px;
+  }
+}
+
+.configuration-container {
+  display: flex;
+
+  .form-accordion .p-accordion-content {
+    padding-bottom: 1rem;
+  }
+}

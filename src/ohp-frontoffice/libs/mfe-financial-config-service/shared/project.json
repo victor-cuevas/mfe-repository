@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-financial-config-service/shared",
+  "sourceRoot": "libs/mfe-financial-config-service/shared/src",
+  "prefix": "mfcs",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-financial-config-service/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-financial-config-service/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-financial-config-service/shared/src/**/*.ts",
+          "libs/mfe-financial-config-service/shared/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

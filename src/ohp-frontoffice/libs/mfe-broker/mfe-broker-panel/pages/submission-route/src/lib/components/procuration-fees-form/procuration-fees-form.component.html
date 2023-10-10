@@ -1,0 +1,114 @@
+<div class="row mt-4">
+  <p-accordion styleClass="form-accordion">
+    <p-accordionTab header="Procuration fees">
+      <p-tabView>
+        <p-tabPanel *ngFor="let type of procurationFeesFormArray.controls; let i = index" [selected]="i === 0">
+          <ng-template pTemplate="header">
+            <h6>{{ type.get('applicationTypeName')?.value }}</h6>
+          </ng-template>
+          <ng-template pTemplate="content"> </ng-template>
+          <div [formGroup]="$any(type)">
+            <div class="mt-4 d-flex align-items-center">
+              <p-inputSwitch class="d-flex mt-2" formControlName="useDefaultFees" ngDefaultControl></p-inputSwitch>
+              <span style="margin-left: 8px">{{ 'submissionRoute.labels.defaultProcurationFeeStructure' | translate }}</span>
+            </div>
+            <div>
+              <div>
+                <div class="row mt-4">
+                  <div class="col-md-4 col-xs-12">
+                    <label for="completionFee">{{ 'submissionRoute.labels.completion' | translate }} *</label>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                    <label for="basedOnCompletion">{{ 'submissionRoute.labels.basedOn' | translate }}</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2 col-xs-12">
+                    <p-inputNumber formControlName="value" ngDefaultControl styleClass="journey-input--medium"></p-inputNumber>
+                    <cfo-validation-errors
+                      [control]="type.get('value')"
+                      [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                    ></cfo-validation-errors>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                    <p-dropdown [options]="completionOptions" ngDefaultControl formControlName="unit" class="journey-dropdown">
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <p-dropdown [options]="basedOnOptions" ngDefaultControl formControlName="basis" class="journey-dropdown">
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="row mt-4">
+                  <div class="col-md-4 col-xs-12">
+                    <label>{{ 'submissionRoute.labels.trail' | translate }} *</label>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                    <label for="basis">{{ 'submissionRoute.labels.basedOn' | translate }}</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2 col-xs-12">
+                    <p-inputNumber formControlName="trailValue" ngDefaultControl styleClass="journey-input--medium"></p-inputNumber>
+                    <cfo-validation-errors
+                      [control]="type.get('trailValue')"
+                      [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                    ></cfo-validation-errors>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                    <p-dropdown [options]="completionOptions" ngDefaultControl formControlName="trailUnit" class="journey-dropdown">
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <p-dropdown [options]="basedOnOptions" ngDefaultControl formControlName="trailBasis" class="journey-dropdown">
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <label for="trailStartingMonth">{{ 'submissionRoute.labels.startingMonth' | translate }} *</label>
+                  <p-inputNumber formControlName="trailStartingMonth" ngDefaultControl styleClass="journey-input--small"></p-inputNumber>
+                  <cfo-validation-errors
+                    [control]="type.get('trailStartingMonth')"
+                    [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-md-4 col-xs-12">
+                    <label for="trailEndingType">{{ 'submissionRoute.labels.ending' | translate }}</label>
+                    <p-dropdown [options]="endingOptions" ngDefaultControl formControlName="trailEndingType" class="journey-dropdown">
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-4 col-xs-12">
+                    <label for="trailPeriodInMonths">{{ 'submissionRoute.labels.period' | translate }} *</label>
+                    <p-inputNumber formControlName="trailPeriodInMonths" ngDefaultControl styleClass="journey-input--small"></p-inputNumber>
+                    <cfo-validation-errors
+                      [control]="type.get('trailPeriodInMonths')"
+                      [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </p-accordionTab>
+  </p-accordion>
+</div>

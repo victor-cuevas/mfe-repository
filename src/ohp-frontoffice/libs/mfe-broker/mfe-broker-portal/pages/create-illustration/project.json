@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/create-illustration",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/create-illustration/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/create-illustration"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/create-illustration/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/create-illustration/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/create-illustration/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

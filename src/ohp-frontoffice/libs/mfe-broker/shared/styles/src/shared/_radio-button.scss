@@ -1,0 +1,86 @@
+cfo-radio-button {
+  display: inline-flex;
+  vertical-align: bottom;
+  align-items: center;
+  &.ng-dirty.ng-invalid > .cfo-radiobutton > .cfo-radiobutton-box {
+    border-color: #f44336;
+  }
+  .cfo-radiobutton {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: bottom;
+    position: relative;
+    .cfo-radiobutton-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #ced4da;
+      background: $white;
+      width: 20px;
+      height: 20px;
+      color: #495057;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+      &:not(.cfo-highlight):hover {
+        border-color: $primary;
+      }
+      &.cfo-focus {
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: $focusShadow;
+        border-color: $primary;
+      }
+      &.cfo-highlight {
+        background: none;
+        border-color: $primary;
+        &:hover {
+          border-color: $primary;
+          background: $primary;
+          color: $white;
+        }
+        &.cfo-disabled-fade {
+          opacity: 0.6;
+          .cfo-radiobutton-icon {
+            opacity: 0.6;
+          }
+        }
+        &.cfo-disabled-fade:hover {
+          opacity: 0.6;
+        }
+        .cfo-radiobutton-icon {
+          background: $primary;
+        }
+      }
+
+      &.cfo-highlight {
+        .cfo-radiobutton-icon {
+          display: inline-block;
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          transition-duration: 0.2s;
+        }
+      }
+    }
+    &.cfo-radiobutton-disabled {
+      cursor: auto;
+      .cfo-radiobutton-box {
+        &.cfo-highlight:hover {
+          background: none;
+        }
+        &:not(.cfo-highlight):hover {
+          border-color: #ced4da;
+        }
+      }
+    }
+  }
+  .cfo-radiobutton-label {
+    font-weight: 400;
+    margin-top: 9px;
+    margin-left: 0.5rem;
+    line-height: 1;
+  }
+}

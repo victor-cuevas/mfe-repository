@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/shared/toast",
+  "sourceRoot": "libs/mfe-broker/shared/toast/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/shared/toast"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/shared/toast/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-broker/shared/toast/src/**/*.ts", "libs/mfe-broker/shared/toast/src/**/*.html"]
+      }
+    }
+  }
+}

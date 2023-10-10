@@ -1,0 +1,296 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.financialCommitments' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsForm)">
+    <p-tabView>
+      <p-tabPanel *ngFor="let applicant of applicantsForm.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"></i>
+          <h6>
+            {{ applicant.get('applicantInfo')?.get('firstName')?.value | titlecase }}
+            <span *ngIf="applicant.get('applicantInfo')?.get('familyPrefix')?.value">{{
+              ' ' + applicant.get('applicantInfo')?.get('familyPrefix')?.value | titlecase
+            }}</span>
+            {{ ' ' + applicant.get('applicantInfo')?.get('familyName')?.value | titlecase }}
+          </h6>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div [formGroup]="$any(applicant)">
+            <div class="row my-4">
+              <div class="col-12">
+                <label id="fcHasFinancialCommitments">{{ 'createDip.labels.hasFinancialCommitments' | translate }} *</label>
+                <div aria-labelledby="fcHasFinancialCommitments">
+                  <cfo-radio-button
+                    [disabledExternal]="!dataService.activeJourney"
+                    formControlName="hasFinancialCommitements"
+                    [value]="true"
+                    [label]="'general.labels.yes' | translate"
+                    ngDefaultControl
+                  ></cfo-radio-button>
+                  <cfo-radio-button
+                    [disabledExternal]="!dataService.activeJourney"
+                    formControlName="hasFinancialCommitements"
+                    [value]="false"
+                    [label]="'general.labels.no' | translate"
+                    class="ms-3"
+                    ngDefaultControl
+                  ></cfo-radio-button>
+                  <cfo-validation-errors
+                    [control]="applicant.get('hasFinancialCommitements')"
+                    [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+            </div>
+            <div class="my-4" *ngIf="applicant.get('hasFinancialCommitements')?.value">
+              <button
+                pButton
+                *ngIf="dataService.activeJourney"
+                class="p-button-outlined--bold d-inline"
+                label="Add more"
+                icon="pi pi-plus"
+                (click)="addFinancialCommitment(i)"
+              ></button>
+            </div>
+
+            <div formArrayName="financialCommitments" *ngIf="applicant.get('hasFinancialCommitements')?.value !== false">
+              <div class="rounded shadow my-3" *ngFor="let financialCommitment of getFinancialCommitments(i).controls; let j = index">
+                <ng-container [formGroup]="$any(financialCommitment)">
+                  <div class="rounded-top p-4 step-header bg-white">
+                    <div class="row">
+                      <div class="col-12">
+                        <label id="fcExpenditureType">{{ 'createDip.labels.expenditureType' | translate }} *</label>
+                        <p-dropdown
+                          [options]="expenditureTypeOptions"
+                          ngDefaultControl
+                          formControlName="expenditureType"
+                          class="journey-dropdown"
+                          [placeholder]="'createDip.placeholders.selectExpenditureType' | translate"
+                          aria-labelledby="fcExpenditureType"
+                        >
+                          <ng-template let-option pTemplate="item">
+                            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                          </ng-template>
+                        </p-dropdown>
+                        <cfo-validation-errors
+                          [control]="applicant.get('expenditureType')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <!-- TODO Change when we have the help text from April -->
+                      <div
+                        *ngIf="displayInfoMsgExpenseTypes(financialCommitment.get('expenditureType')?.value)"
+                        class="pt-3 primary-color to-be-satisfied-info-message"
+                      >
+                        <i class="pi pi-info-circle"></i>
+                        <p>{{ displayInfoMsgExpenseTypes(financialCommitment.get('expenditureType')?.value) }}</p>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col-12">
+                        <label id="fcProvider">{{ 'createDip.labels.provider' | translate }} *</label>
+                        <input pInputText class="journey-input" ngDefaultControl formControlName="provider" aria-labelledby="fcProvider" />
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('provider')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col-12">
+                        <label id="fcCurrentBalanceOwing"
+                          >{{
+                            financialCommitment.get('expenditureType')?.value === EXPENSE_TYPES.BANK_ACCOUNT_WITH_CREDIT
+                              ? ('createDip.labels.overdrawnBalance' | translate)
+                              : ('createDip.labels.balanceOnMortgageCompletion' | translate)
+                          }}
+                          *<span
+                            *ngIf="financialCommitment.get('expenditureType')?.value !== EXPENSE_TYPES.BANK_ACCOUNT_WITH_CREDIT"
+                            class="ps-2 primary-color"
+                            [pTooltip]="'createDip.tooltips.currentBalanceOwing' | translate"
+                            [hideDelay]="1000"
+                            ><i class="pi pi-info-circle"></i></span
+                        ></label>
+                        <cfo-input-number
+                          [form]="$any(financialCommitment)"
+                          controlName="currentBalanceOwing"
+                          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                          className="journey-input-fixed-width"
+                          aria-labelledby="fcCurrentBalanceOwing"
+                        ></cfo-input-number>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('currentBalanceOwing')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div
+                        class="col-12 col-lg-4 my-3"
+                        *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: regularMonthlyPaymentList"
+                      >
+                        <label id="fcRegularMonthlyPayment">{{ 'createDip.labels.regularMonthlyPayment' | translate }} *</label>
+                        <cfo-input-number
+                          [form]="$any(financialCommitment)"
+                          controlName="regularMonthlyPayment"
+                          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                          className="journey-input-fixed-width"
+                          aria-labelledby="fcRegularMonthlyPayment"
+                        ></cfo-input-number>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('regularMonthlyPayment')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <div
+                        class="col-12 col-md-4 my-3"
+                        *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: paymentEndDateList"
+                      >
+                        <label id="fcPaymentEndDate">{{ 'createDip.labels.paymentEndDate' | translate }} *</label>
+                        <p-calendar
+                          #calendarPaymentEndDate
+                          ngDefaultControl
+                          formControlName="paymentEndDate"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          dateFormat="dd/mm/yy"
+                          [minDate]="currentDate"
+                          [showIcon]="true"
+                          styleClass="journey-input-fixed-width"
+                          [yearRange]="currentDate.getFullYear().toString() + ':' + (currentDate.getFullYear() + 50).toString()"
+                          aria-labelledby="fcPaymentEndDate"
+                          (onMonthChange)="populateYearRange()"
+                          (onYearChange)="populateYearRange()"
+                          [minDate]="minDatePaymentEndDate"
+                          [maxDate]="maxDatePaymentEndDate"
+                        ></p-calendar>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('paymentEndDate')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div
+                        class="col-12 col-lg-3"
+                        *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: creditLimitList"
+                      >
+                        <label id="crediLimit">{{ 'createDip.labels.creditLimit' | translate }} *</label>
+                        <cfo-input-number
+                          [form]="$any(financialCommitment)"
+                          controlName="creditLimit"
+                          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                          className="journey-input-fixed-width"
+                          aria-labelledby="fcCreditLimit"
+                        ></cfo-input-number>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('creditLimit')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div
+                        class="col-12 col-lg-4"
+                        *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: futurePaymentsList"
+                      >
+                        <label id="fcFuturePayments">{{ 'createDip.labels.futurePayments' | translate }} *</label>
+                        <cfo-input-number
+                          [form]="$any(financialCommitment)"
+                          controlName="futurePayments"
+                          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                          className="journey-input-fixed-width"
+                          aria-labelledby="fcFuturePayments"
+                        ></cfo-input-number>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('futurePayments')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <div
+                        class="col-12 col-md-4 mt-3 mt-lg-0"
+                        *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: paymentStartDateList"
+                      >
+                        <label id="fcPaymentStartDate">{{ 'createDip.labels.paymentStartDate' | translate }} *</label>
+                        <p-calendar
+                          #calendarPaymentStartDate
+                          ngDefaultControl
+                          formControlName="paymentStartDate"
+                          styleClass="journey-input-fixed-width"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [showIcon]="true"
+                          dateFormat="dd/mm/yy"
+                          [yearRange]="(currentDate.getFullYear() - 5).toString() + ':' + (currentDate.getFullYear() + 5).toString()"
+                          aria-labelledby="fcPaymentStartDate"
+                          (onMonthChange)="populateYearRange()"
+                          (onYearChange)="populateYearRange()"
+                          [minDate]="minDatePaymentStartDate"
+                          [maxDate]="maxDatePaymentStartDate"
+                        ></p-calendar>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('paymentStartDate')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate)
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12" *cfoValueCheck="financialCommitment.get('expenditureType')?.value; list: detailsList">
+                        <label id="fcDetails">{{ 'createDip.labels.details' | translate }} *</label>
+                        <textarea
+                          cols="50"
+                          pInputTextarea
+                          placeholder="Please write here"
+                          class="journey-input-fixed-width"
+                          [autoResize]="true"
+                          ngDefaultControl
+                          formControlName="details"
+                          aria-labelledby="fcDetails"
+                        ></textarea>
+                        <cfo-validation-errors
+                          [control]="financialCommitment.get('details')"
+                          [errorMessages]="{
+                            required: ('general.validations.requiredMsg' | translate),
+                            minlength: ('general.validations.lengthMsg' | translate: { min: 10, max: 50 }),
+                            maxlength: ('general.validations.lengthMsg' | translate: { min: 10, max: 50 })
+                          }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="dataService.activeJourney" class="rounded-bottom p-3 bg-light step-body">
+                    <button
+                      class="hidden-btn d-flex align-items-center"
+                      (click)="removeFinancialCommitment(i, j)"
+                      *ngIf="getFinancialCommitments(i).length > 1"
+                    >
+                      <i class="pi pi-minus-circle me-1 fs-6"></i>
+                      <h6>{{ 'createDip.button.removeFinancialCommitment' | translate }}</h6>
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

@@ -1,0 +1,271 @@
+[
+  {
+    "id": 1,
+    "firstName": "Glenn",
+    "lastName": "Williams",
+    "FCAnumber": 1000,
+    "position": "broker",
+    "lastSeen": "12/06/2021",
+    "status": "active",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Manchester East Mortgages",
+      "address": "27 East Street, Westgate, Manchester, ME16 7AJ"
+    },
+    "contactDetails": {
+      "email": "g.williams@finance.com",
+      "phone": "+442079284640"
+    },
+    "assistants": [
+      {
+        "id": 1,
+        "name": "Adam Johnson",
+        "email": "a.johnson@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      },
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "firstName": "Derek",
+    "lastName": "Keigh",
+    "FCAnumber": 1001,
+    "position": "broker",
+    "lastSeen": "14/06/2021",
+    "status": "active",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Manchester West Mortgages",
+      "address": "45 Giggs Street, Eastgate, Manchester, KJ17 9BE"
+    },
+    "contactDetails": {
+      "email": "d.keigh@finance.com",
+      "phone": "+446782839272"
+    },
+    "assistants": [
+      {
+        "id": 1,
+        "name": "Adam Johnson",
+        "email": "a.johnson@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      },
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "Lindsay",
+    "lastName": "Flutter",
+    "FCAnumber": 1002,
+    "position": "supervisor",
+    "lastSeen": "14/06/2021",
+    "status": "pending",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Derby Count Property",
+      "address": "84 Broker Lane, Derby L92 1BN"
+    },
+    "contactDetails": {
+      "email": "l.flutter@finance.com",
+      "phone": "+448127893874"
+    },
+    "assistants": []
+  },
+  {
+    "id": 4,
+    "firstName": "Thomas",
+    "lastName": "Livingstone",
+    "FCAnumber": 1003,
+    "position": "broker",
+    "lastSeen": "16/06/2021",
+    "status": "active",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Luxury Estate Management",
+      "address": "1 Diamond Hill, Beacon Hill, London, D13 8SK"
+    },
+    "contactDetails": {
+      "email": "t.livingstone@finance.com",
+      "phone": "+448726458163"
+    },
+    "assistants": [
+      {
+        "id": 1,
+        "name": "Adam Johnson",
+        "email": "a.johnson@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      },
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "firstName": "William",
+    "lastName": "Gilmore",
+    "FCAnumber": 1004,
+    "position": "broker",
+    "lastSeen": "17/06/2021",
+    "status": "disabled",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Ordoñez Capital Investments",
+      "address": "9 Sants Streets, Spanish District, Southampton 6TH 98K"
+    },
+    "contactDetails": {
+      "email": "w.gilmore@finance.com",
+      "phone": "+447728356278"
+    },
+    "assistants": [
+      {
+        "id": 1,
+        "name": "Adam Johnson",
+        "email": "a.johnson@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      },
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "firstName": "Darren",
+    "lastName": "O Conner",
+    "FCAnumber": 1005,
+    "position": "assistant",
+    "lastSeen": "19/06/2021",
+    "status": "active",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "O Conner Real Estate",
+      "address": "45 Burger Drive, Tottenham, London, 34"
+    },
+    "contactDetails": {
+      "email": "d.oconner@finance.com",
+      "phone": "+445793749201"
+    },
+    "assistants": []
+  },
+  {
+    "id": 7,
+    "firstName": "Harry",
+    "lastName": "Johnson",
+    "FCAnumber": 1006,
+    "position": "broker",
+    "lastSeen": "17/06/2021",
+    "status": "disabled",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Harry's Houses Ltd.",
+      "address": "Seven Nation Street, Whitestripe, Bournemouth, 79K 98S"
+    },
+    "contactDetails": {
+      "email": "h.johnson@johnson.com",
+      "phone": "+445219203927"
+    },
+    "assistants": [
+      {
+        "id": 1,
+        "name": "Adam Johnson",
+        "email": "a.johnson@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      },
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "firstName": "Victoria",
+    "lastName": "Kingsley",
+    "FCAnumber": 1007,
+    "position": "broker",
+    "lastSeen": "17/06/2021",
+    "status": "active",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Brick and Mortar Ltd",
+      "address": "8 Lawnmower's Lane"
+    },
+    "contactDetails": {
+      "email": "v.kingsley@brickandmortar.com",
+      "phone": "+449823761683"
+    },
+    "assistants": [
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "firstName": "Beth",
+    "lastName": "Fletcher",
+    "FCAnumber": 1008,
+    "position": "assistant",
+    "lastSeen": "/06/2021",
+    "status": "pending",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Chalet Real Estate Services",
+      "address": "76 Watery Lane, Small Heath, Birmingham 78"
+    },
+    "contactDetails": {
+      "email": "b.fletcher@finance.com",
+      "phone": "+447829374890"
+    },
+    "assistants": [
+      {
+        "id": 2,
+        "name": "Kelly Duffreys",
+        "email": "k.duffreys@finance.com",
+        "avatar": "/assets/images/avatar1.png"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "firstName": "Craig",
+    "lastName": "Hanssen",
+    "FCAnumber": 1009,
+    "position": "broker",
+    "lastSeen": "/06/2021",
+    "status": "inactive",
+    "avatar": "/assets/images/avatar1.png",
+    "tradingDetails": {
+      "name": "Chalet Real Estate Services",
+      "address": "82 High Street, West Ham, London 89S 1K"
+    },
+    "contactDetails": {
+      "email": "c.hanssen@finance.com",
+      "phone": "+447862190382"
+    },
+    "assistants": []
+  }
+]

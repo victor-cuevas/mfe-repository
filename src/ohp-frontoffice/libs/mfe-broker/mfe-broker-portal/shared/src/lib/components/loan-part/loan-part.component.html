@@ -1,0 +1,231 @@
+<p-toast [baseZIndex]="2000"></p-toast>
+<ng-container *ngIf="loanPartForm">
+  <form [formGroup]="loanPartForm">
+    <div class="rounded shadow my-4">
+      <div class="step-header rounded-top p-3">
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <div class="col-5">
+                <label class="text-truncate">{{ 'createIllustration.labels.loanAmount' | translate }}</label>
+                <cfo-input-number
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                  [form]="loanPartForm"
+                  class="journey-input--medium"
+                  controlName="loanPartAmount"
+                ></cfo-input-number>
+              </div>
+              <div class="col-7" formGroupName="feMortgageTerm">
+                <label class="text-truncate">{{ 'createIllustration.labels.termOfMortgage' | translate }}</label>
+                <label class="cfo-hidden-accessible" id="termOfMortgageYears">Years</label>
+                <p-inputNumber
+                  [min]="0"
+                  [styleClass]="
+                    (loanPartForm.get('feMortgageTerm')?.touched && !loanPartForm.get('mortgageTerm')?.valid) ||
+                    loanPartForm.get('feMortgageTerm')?.errors?.checkMortgageTermAge ||
+                    loanPartForm.get('feMortgageTerm')?.errors?.outOfRange
+                      ? 'journey-input--small input-invalid'
+                      : 'journey-input--small'
+                  "
+                  aria-labelledby="termOfMortgageYears"
+                  formControlName="years"
+                  (onBlur)="onBlur()"
+                  ngDefaultControl
+                ></p-inputNumber>
+                &nbsp;<strong>/</strong>&nbsp;
+                <label class="cfo-hidden-accessible" id="termOfMortgageMonths">Months</label>
+                <p-inputNumber
+                  [max]="11"
+                  [min]="loanPartForm.get('years')?.value === 0 ? 1 : 0"
+                  [styleClass]="
+                    (loanPartForm.get('feMortgageTerm')?.touched && !loanPartForm.get('mortgageTerm')?.valid) ||
+                    loanPartForm.get('feMortgageTerm')?.errors?.atLeastOneValue ||
+                    loanPartForm.get('feMortgageTerm')?.errors?.outOfRange
+                      ? 'journey-input--small input-invalid'
+                      : 'journey-input--small'
+                  "
+                  aria-labelledby="termOfMortgageMonths"
+                  formControlName="months"
+                  ngDefaultControl
+                ></p-inputNumber>
+              </div>
+              <div class="col-5"></div>
+              <div class="col-7">
+                <cfo-validation-errors
+                  [control]="loanPartForm.get('mortgageTerm')"
+                  [errorMessages]="{
+                    min: 'general.validations.atLeastOneValue' | translate,
+                    max40years: 'general.validations.max40years' | translate,
+                    maxApplicantAge: 'general.validations.applicantAge' | translate
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <div class="col-5">
+                <label class="text-truncate">{{ 'createIllustration.labels.type' | translate }}</label>
+                <p-dropdown [options]="typeOptions" formControlName="repaymentType" ngDefaultControl styleClass="journey-input--medium">
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="col-5">
+                <label class="text-truncate">{{ 'createIllustration.labels.loanPartType' | translate }}</label>
+                <p-dropdown
+                  [options]="loanPartTypeOptions"
+                  formControlName="loanPartType"
+                  ngDefaultControl
+                  styleClass="journey-input--medium"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="col-2 d-flex align-items-end justify-content-center">
+                <button (click)="menu.toggle($event)" class="icon-only-btn icon-only-btn--dark-selected mb-2">
+                  <i class="pi pi-ellipsis-h"></i>
+                </button>
+                <p-menu #menu [model]="getMenuOptions()" [popup]="true" appendTo="body"></p-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-body rounded-bottom px-3 py-2">
+        <div class="row">
+          <div class="col-12">
+            <div class="row product-selection-bottom">
+              <div class="col-12 d-flex align-items-center justify-content-between">
+                <div>
+                  <div *ngIf="!loanPartForm.get('product')?.get('code')?.value; else elseBlock" class="d-flex align-items-center">
+                    <button
+                      (click)="onSelectProduct()"
+                      *ngIf="dataService.activeJourney"
+                      [disabled]="
+                        loanPartForm.get('mortgageTerm')?.status === 'INVALID' ||
+                        !loanPartForm.get('mortgageTerm')?.value ||
+                        !loanPartForm.get('loanPartAmount')?.value
+                      "
+                      class="text-start hidden-btn d-flex align-items-center p-button p-button-link text-decoration-none"
+                    >
+                      <i
+                        *ngIf="loanPartForm.get('feMortgageTerm')?.status === 'VALID' && loanPartForm.get('loanPartAmount')?.value"
+                        class="me-2 pi pi-plus-circle"
+                      ></i>
+                      <h6>{{ 'general.buttons.selectProduct' | translate }}</h6>
+                    </button>
+                    <span
+                      *ngIf="loanPartForm.get('feMortgageTerm')?.status === 'INVALID' || !loanPartForm.get('loanPartAmount')?.value"
+                      [hideDelay]="200"
+                      [pTooltip]="'createDip.tooltips.selectProduct' | translate"
+                      class="primary-color-3"
+                      style="margin: 0 0 -4px 2px"
+                      ><i class="pi pi-info-circle"></i
+                    ></span>
+                  </div>
+                  <ng-template #elseBlock>
+                    <div class="d-flex align-items-center">
+                      <button
+                        (click)="onSelectProduct()"
+                        [disabled]="
+                          !loanPartForm.get('feMortgageTerm')?.valid ||
+                          !loanPartForm.get('mortgageTerm')?.valid ||
+                          !loanPartForm.get('loanPartAmount')?.value ||
+                          ltv === undefined
+                        "
+                        class="text-start hidden-btn d-flex align-items-center p-button p-button-link text-decoration-none"
+                      >
+                        <i
+                          *ngIf="
+                            loanPartForm.get('feMortgageTerm')?.valid &&
+                            loanPartForm.get('mortgageTerm')?.valid &&
+                            loanPartForm.get('loanPartAmount')?.value
+                          "
+                          class="me-2 pi pi-times-circle"
+                        ></i>
+                        <h6>{{ 'general.buttons.changeProduct' | translate }}</h6>
+                      </button>
+                      <div *ngIf="dataService.activeJourney">
+                        <span
+                          *ngIf="
+                            !loanPartForm.get('feMortgageTerm')?.valid ||
+                            !loanPartForm.get('mortgageTerm')?.valid ||
+                            !loanPartForm.get('loanPartAmount')?.value
+                          "
+                          [pTooltip]="'createDip.tooltips.selectProduct' | translate"
+                          class="primary-color-3"
+                          style="margin: 0 0 -4px 2px"
+                          ><i class="pi pi-info-circle"></i
+                        ></span>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+                <div *ngIf="invalidLoanPartsProduct$ | async as invalidLoanPartsProduct">
+                  <div
+                    *ngIf="
+                      !invalidLoanPartsProduct.includes(loanPartForm.get('loanPartId')?.value) && !loanPartForm.hasError('ltvNoLongerValid')
+                    "
+                    class="d-flex align-items-center justify-content-end"
+                    [class.success-text]="loanPartForm.get('product')?.valid"
+                  >
+                    <i
+                      *ngIf="loanPartForm.get('feMortgageTerm')?.valid || !dataService.activeJourney"
+                      class="pi me-2"
+                      [ngClass]="'pi-check-circle'"
+                    ></i>
+                    <h6>
+                      {{
+                        ('createIllustration.labels.productSelected' | translate) +
+                          ': ' +
+                          (loanPartForm.get('product')?.get('name')?.value ? loanPartForm.get('product')?.get('name')?.value + ' - ' : '') +
+                          loanPartForm.get('product')?.get('code')?.value
+                      }}
+                    </h6>
+                  </div>
+                  <div
+                    *ngIf="invalidLoanPartsProduct.includes(loanPartForm.get('loanPartId')?.value)"
+                    class="d-flex align-items-center justify-content-end"
+                    [class.danger-text]="true"
+                  >
+                    <i
+                      *ngIf="loanPartForm.get('feMortgageTerm')?.valid || !dataService.activeJourney"
+                      class="pi me-2"
+                      [ngClass]="'pi-times-circle'"
+                    ></i>
+                    <h6>
+                      {{
+                        ('createIllustration.labels.noLongerValid' | translate) +
+                          ': ' +
+                          (loanPartForm.get('product')?.get('name')?.value ? loanPartForm.get('product')?.get('name')?.value + ' - ' : '') +
+                          loanPartForm.get('product')?.get('code')?.value
+                      }}
+                    </h6>
+                  </div>
+                  <div
+                    *ngIf="loanPartForm.hasError('ltvNoLongerValid')"
+                    class="d-flex align-items-center justify-content-end"
+                    [class.danger-text]="true"
+                  >
+                    <i
+                      *ngIf="loanPartForm.get('feMortgageTerm')?.valid || !dataService.activeJourney"
+                      class="pi me-2"
+                      [ngClass]="'pi-times-circle'"
+                    ></i>
+                    <h6>
+                      {{ 'createDip.labels.productPartWithInvalidLtvMessage' | translate }}
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

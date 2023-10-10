@@ -1,0 +1,205 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.addressHistory' | translate }}</h2>
+  <p>
+    {{ 'createDip.subtitles.addressHistorySubtitle' | translate }}
+  </p>
+</div>
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsFormArray)">
+    <p-tabView *ngIf="currentData.applicantAddressHistories && currentData.applicantAddressHistories.length">
+      <p-tabPanel *ngFor="let applicant of applicantsFormArray.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user fs-4"></i>
+          <h6>
+            {{
+              (currentData.applicantAddressHistories[i]?.applicantInfo?.firstName | titlecase) +
+                ' ' +
+                currentData.applicantAddressHistories[i]?.applicantInfo?.familyName | titlecase
+            }}
+          </h6>
+        </ng-template>
+        <ng-container [formGroup]="$any(applicant)">
+          <ng-container *ngFor="let addressHistory of addressHistoryFormArray(i).controls; let ind = index">
+            <div class="step-header rounded-top px-4 py-3 shadow mt-4">
+              <h4 class="mb-0 fw-bold">
+                {{ ind === 0 ? ('createDip.labels.currentAddress' | translate) : ('createDip.labels.previousAddress' | translate) }}
+              </h4>
+            </div>
+            <div class="step-body rounded-bottom px-4 py-5 bg-white shadow" [formGroup]="$any(addressHistory)">
+              <ng-container *ngFor="let applicant of applicantsFormArray.controls; let applicantsIndex = index">
+                <ng-container *ngIf="ind === 0 && isCaseRemortgage && applicantsIndex === 0">
+                  <button
+                    pButton
+                    class="p-button-outlined--bold d-inline me-3 mb-4"
+                    [label]="'createDip.button.residentialAddressSecurityAddress' | translate"
+                    icon="pi pi-copy"
+                    (click)="copyAddressFromSecurityScreen(i)"
+                  ></button>
+                </ng-container>
+                <ng-container *ngIf="applicantsIndex !== i">
+                  <ng-container
+                    *ngFor="
+                      let applicantAddressHistory of addressHistoryFormArray(applicantsIndex).controls;
+                      let otherApplicantsAddressHistoryIndex = index
+                    "
+                  >
+                    <button
+                      *ngIf="ind === 0 && applicantAddressHistory.valid && otherApplicantsAddressHistoryIndex === 0"
+                      pButton
+                      class="p-button-outlined--bold d-inline me-3 mb-4"
+                      [label]="
+                        ('createDip.button.copyFrom' | translate) +
+                        ' ' +
+                        (currentData.applicantAddressHistories[applicantsIndex]?.applicantInfo?.firstName +
+                          ' ' +
+                          currentData.applicantAddressHistories[applicantsIndex]?.applicantInfo?.familyName | titlecase)
+                      "
+                      icon="pi pi-plus"
+                      (click)="copyAddress(i, applicantsIndex, true)"
+                    ></button>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <div class="row">
+                <div class="col-md-8">
+                  <label id="ahAddressType">
+                    {{ ('createDip.labels.addressType' | translate) + ' *' }}
+                  </label>
+                  <p-dropdown
+                    [options]="addressTypeOptions"
+                    formControlName="addressType"
+                    ngDefaultControl
+                    class="journey-dropdown"
+                    [placeholder]="'createDip.placeholders.selectAddressType' | translate"
+                    aria-labelledby="ahAddressType"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <ng-container *ngIf="applicantsFormArray.getRawValue()[i].addressesHistory[ind].addressType">
+                <div class="row mt-4">
+                  <cfo-address-search
+                    [form]="$any(addressHistory)"
+                    (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+                    [suggestedAddresses]="suggestedAddresses"
+                    (selectedAddressEvent)="onSelectedAddress($event, i, ind)"
+                    [selectedAddress]="selectedAddress[i][ind]"
+                    [listOfCountries]="
+                      addressHistory.get('addressType')?.value === addressTypeEnum.UK
+                        ? addressFeService.countries
+                        : addressFeService.countriesWithoutUK
+                    "
+                    [hasButtonVisible]="hasButtonVisible"
+                  ></cfo-address-search>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <label class="d-inline-block" id="ahMoveInDate">
+                      {{ ('createDip.labels.moveInDate' | translate) + ' *' }}
+                      <span class="ps-2 primary-color" [pTooltip]="'createDip.labels.addressTooltip' | translate" [hideDelay]="300"
+                        ><i class="pi pi-info-circle"></i
+                      ></span>
+                    </label>
+                  </div>
+                  <p-calendar
+                    #calendar
+                    class="journey-input"
+                    formControlName="moveInDate"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="maxYear + ':' + minYear"
+                    [maxDate]="maxDateValue"
+                    ngDefaultControl
+                    aria-labelledby="ahMoveInDate"
+                    (onYearChange)="populateYearRange()"
+                    (onMonthChange)="populateYearRange()"
+                    [minDate]="minDate"
+                    [maxDate]="maxDate"
+                  ></p-calendar>
+                  <cfo-validation-errors
+                    [control]="addressHistory.get('moveInDate')"
+                    [errorMessages]="{
+                      unorderedDates: ('general.validations.unorderedDates' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <label id="ahOccupancy">
+                      {{ ('createDip.labels.occupancy' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="occupancyOptions"
+                      formControlName="occupancyType"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      [placeholder]="'createDip.placeholders.selectOccupancy' | translate"
+                      aria-labelledby="ahOccupancy"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <div *ngIf="dataService.activeJourney">
+              <div class="step-body rounded-bottom bg-light px-3 py-2" *ngIf="ind !== 0">
+                <button
+                  class="hidden-btn d-flex align-items-center"
+                  (click)="deleteAddressHistory(i, ind)"
+                  *ngIf="addressHistoryFormArray(i).controls.length > 1"
+                >
+                  <i class="pi pi-minus-circle me-1 fs-6"></i>
+                  <h6>Remove address</h6>
+                </button>
+              </div>
+            </div>
+            <button
+              *ngIf="dataService.activeJourney && ind === 0 && applicantsFormArray.status === 'INVALID'"
+              pButton
+              class="mt-4 p-button-outlined--bold d-inline"
+              [label]="'createDip.button.addMore' | translate"
+              icon="pi pi-plus"
+              (click)="addAddress(i)"
+            ></button>
+
+            <div class="my-4" *ngIf="ind === 0 && addressHistoryFormArray(i).controls.length > 1">
+              <ng-container *ngFor="let applicant of applicantsFormArray.controls; let applicantsIndex = index">
+                <ng-container *ngIf="applicantsIndex !== i">
+                  <button
+                    *ngIf="showPreviousCopy(addressHistoryFormArray(applicantsIndex).controls)"
+                    pButton
+                    class="p-button-outlined--bold d-inline mx-2"
+                    [label]="
+                      ('createDip.button.copyFrom' | translate) +
+                      ' ' +
+                      (currentData.applicantAddressHistories[applicantsIndex]?.applicantInfo?.firstName +
+                        ' ' +
+                        currentData.applicantAddressHistories[applicantsIndex]?.applicantInfo?.familyName | titlecase)
+                    "
+                    icon="pi pi-plus"
+                    (click)="copyAddress(i, applicantsIndex, false)"
+                  ></button>
+                </ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+        </ng-container>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>
+<p-toast styleClass="toast-address-history" key="address-history" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-toast-message-text-address-history">
+      <div *ngIf="message.summary">{{ message.summary }}</div>
+    </div>
+  </ng-template>
+</p-toast>

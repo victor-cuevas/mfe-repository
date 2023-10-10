@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-plan-config/shared",
+  "sourceRoot": "libs/mfe-plan-config/shared/src",
+  "prefix": "mpc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-plan-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-plan-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-plan-config/shared/src/**/*.ts", "libs/mfe-plan-config/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

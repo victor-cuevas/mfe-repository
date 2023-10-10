@@ -1,0 +1,34 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="bpanel-breadcrumb">
+  <div class="container my-4">
+    <div class="pb-2">
+      <h2 class="mb-0">{{ 'lender.titles.addNewLender' | translate }}</h2>
+    </div>
+    <div class="py-2">
+      <form [formGroup]="addNewLenderForm">
+        <cfo-user-role [isNewLender]="true"></cfo-user-role>
+        <br />
+        <cfo-personal-details [open]="true" [addNewLender]="true"></cfo-personal-details>
+        <cfo-account-info [isOpen]="true" [addNewLender]="true"></cfo-account-info>
+        <div class="mt-4">
+          <p-checkbox
+            [binary]="true"
+            ngDefaultControl
+            formControlName="automaticAccountActivation"
+            [label]="'lender.labels.automaticAccountActivation' | translate"
+          ></p-checkbox>
+          <p class="mt-2 info-paragraph">{{ 'lender.labels.automaticAccountActivationMsg' | translate }}</p>
+        </div>
+      </form>
+    </div>
+    <div class="row mt-4">
+      <div class="btn-section">
+        <p-button
+          styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+          label="{{ 'general.buttons.sendInvitation' | translate }}"
+          (click)="allFormAreValid() ? createNewLender() : null"
+          [disabled]="!allFormAreValid()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</mbpanel-layout>

@@ -1,0 +1,110 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="firm-details-header">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+    <h2 class="my-3 mb-lg-0">{{ id ? ('submissionRoute.titles.edit' | translate) : ('submissionRoute.titles.add' | translate) }}</h2>
+  </div>
+  <div class="container p-2">
+    <div class="container my-2">
+      <form [formGroup]="submissionRouteForm" id="submissionRouteForm">
+        <div class="row mt-4">
+          <label for="type">{{ ('submissionRoute.labels.type' | translate) + ' *' }} </label>
+          <div class="d-flex mbpanel-type-container" [ngClass]="{ 'type-hover-cards--disabled': isReadOnlyMode }">
+            <div *ngIf="id; else submissionTypeElseBlock" class="mbpanel-type-label mt-3 shadow">
+              <label>
+                <input
+                  type="radio"
+                  [value]="activeSubmissionType.value"
+                  [checked]="true"
+                  class="mbpanel-type-radio"
+                  formControlName="submissionRouteType"
+                  ngDefaultControl
+                />
+                <div class="type-hover-card d-flex flex-column justify-content-evenly">
+                  <i [class]="activeSubmissionType.icon + ' active'"></i>
+                  <p>{{ activeSubmissionType.type | translate }}</p>
+                </div>
+              </label>
+            </div>
+            <ng-template #submissionTypeElseBlock>
+              <div *ngFor="let submissionType of submissionTypes" class="mbpanel-type-label mt-3 shadow">
+                <label>
+                  <input
+                    type="radio"
+                    [value]="submissionType.value"
+                    class="mbpanel-type-radio"
+                    formControlName="submissionRouteType"
+                    ngDefaultControl
+                  />
+                  <div class="type-hover-card d-flex flex-column justify-content-evenly align-items-center">
+                    <i [class]="submissionType.icon"></i>
+                    <p>{{ submissionType.type | translate }}</p>
+                  </div>
+                </label>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="mt-5">
+          <p-checkbox name="isActivated" ngDefaultControl [binary]="true" formControlName="isActivated"></p-checkbox>
+          <span style="margin-left: 8px">{{ submissionRouteForm.controls['isActivated'].value ? 'Active' : 'Inactive' }}</span>
+        </div>
+        <mbpanel-details-form [submissionRouteAddressInput]="initialSubmissionRouteData"></mbpanel-details-form>
+        <mbpanel-procuration-fees-form
+          [procurationFees]="initialSubmissionRouteData?.procurationFees"
+          [defaultProcurationFees]="defaultProcurationFees?.[activeSubmissionType.value]"
+        ></mbpanel-procuration-fees-form>
+        <div class="row mt-4">
+          <p-accordion styleClass="form-accordion">
+            <p-accordionTab header="Bank account">
+              <div class="row mt-4">
+                <div class="col-md-4 col-12">
+                  <label for="bankAccountName">{{ ('submissionRoute.labels.accountName' | translate) + ' *' }} </label>
+                  <input type="text" pInputText class="journey-input--large" formControlName="bankAccountName" ngDefaultControl />
+                </div>
+                <div class="col-md-4 col-12">
+                  <label for="bankAccountNumber">{{ ('submissionRoute.labels.accountNumber' | translate) + ' *' }} </label>
+                  <p-inputMask
+                    mask="99999999?9999999999"
+                    slotChar=""
+                    formControlName="bankAccountNumber"
+                    ngDefaultControl
+                    styleClass="journey-input--large"
+                    characterPattern="[0-9]"
+                  ></p-inputMask>
+                  <cfo-validation-errors
+                    [control]="submissionRouteForm.get('bankAccountNumber')"
+                    [errorMessages]="{
+                      pattern: ('general.validations.bankAccountNumber' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="col-md-4 col-12">
+                  <label for="bankSortCode">{{ ('submissionRoute.labels.sortCode' | translate) + ' *' }}</label>
+                  <input type="text" pInputText class="journey-input" formControlName="bankSortCode" ngDefaultControl />
+                  <cfo-validation-errors
+                    [control]="submissionRouteForm.get('bankSortCode')"
+                    [errorMessages]="{
+                      pattern: ('general.validations.sortCode' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+
+        <div class="my-4">
+          <a class="link-outlined" routerLink="../">{{ 'general.buttons.cancel' | translate }}</a>
+          <button
+            [disabled]="isReadOnlyMode"
+            pButton
+            type="button"
+            class="p-button-primary mx-4"
+            icon="none"
+            (click)="submit()"
+            [label]="'general.buttons.save' | translate"
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</mbpanel-layout>

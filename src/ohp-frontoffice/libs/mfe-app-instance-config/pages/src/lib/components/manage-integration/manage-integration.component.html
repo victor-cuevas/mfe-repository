@@ -1,0 +1,294 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #integrationform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':integrationform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'app-instance.manage-integration.heading.manage-integration' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'app-instance.button.save' | translate}}" (click)="onSave(integrationList.freeFieldConfigList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'app-instance.button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'app-instance.manage-integration.heading.integrationField' | translate}}</div>
+        </div>
+        <div class="col-3 closefo-btn-wrapper text-right">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'app-instance.manage-integration.card.Add' | translate}}" (click)="addIntegration()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="integrationList?.freeFieldConfigList"
+                          [gridDataHeader]="IntegrationDataHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onRowDelete($event,integrationList.freeFieldConfigList)"
+                          (rowClickedEvent)=dataSelection($event) [selectedDetail]="integrationDetail">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+      <ng-container *ngIf="onShowDetails">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'app-instance.manage-integration.heading.integrationFieldDetail' | translate}}</div>
+          </div>
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center ">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue}">{{'app-instance.manage-integration.card.FieldDescription' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="fieldDescriptionTextBoxconfig"
+                                       [ngModel]="integrationDetail?.fieldName"
+                                       (change)="onChangeFieldName($event)"
+                                       name="fieldName"
+                                       [maxlength]="50"
+                                       [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:fieldName.errors? fieldDescriptionTextBoxconfig.Errors :'', formSubmitted:(this.fieldDescriptionTextBoxconfig.externalError)}"
+                                       #fieldName="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue}">{{'app-instance.manage-integration.card.ServicingOrg' | translate}}</label>
+                  </div>
+
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="integrationDetail?.servicingOrganization"
+                                        Type="single"
+                                        name="Dropdown"
+                                        [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                        [placeholder]="placeholder"
+                                        [options]="integrationList.manageFreeFieldConfigInitialData?.servicingOrganizationList"
+                                        [ControlConfig]="servicingOrganizationDropdownConfig"
+                                        optionLabel="name.caption"
+                                        dataKey="name.codeId"
+                                        (OnSelectionChanged)="onChangeServicingOrganization($event)"
+                                        #servicingOrganization="ngModel"
+                                        [cfcFluidValidation]="{errors:servicingOrganization.errors? servicingOrganizationDropdownConfig.Errors :'', formSubmitted: (this.servicingOrganizationDropdownConfig.externalError)}"
+                                        [title]="integrationDetail?.servicingOrganization?.name?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue}">{{'app-instance.manage-integration.card.FieldType' | translate}}</label>
+                  </div>
+
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="integrationDetail?.fieldType"
+                                        Type="single"
+                                        name="fieldType"
+                                        [placeholder]="placeholder"
+                                        [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                        [options]="integrationList.manageFreeFieldConfigInitialData?.fieldTypeList"
+                                        [ControlConfig]="fieldTypeDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeFieldType($event)"
+                                        #fieldType="ngModel"
+                                        [cfcFluidValidation]="{errors:fieldType.errors? fieldTypeDropdownConfig.Errors :'', formSubmitted:(this.fieldTypeDropdownConfig.externalError)}"
+                                        [title]="integrationDetail?.fieldType?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue && integrationDetail.enablefreeFieldLen}">{{'app-instance.manage-integration.card.Length' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="freeFieldLenTextBoxconfig"
+                                       [ngModel]="integrationDetail?.freeFieldLen"
+                                       (OnchangedNumber)="onChangeFreeFieldLength($event)"
+                                       name="freeFieldLen"
+                                       [isReadOnly]="!integrationDetail.enablefreeFieldLen || integrationDetail.isLinkedToFreeFieldValue"
+                                       [isAllowSpace]="false"
+                                       [maximumValue]="maxValue"
+                                       [minimumValue]="minValue"
+                                       [maxlength]="11"
+                                       [cfcFluidValidation]="{errors:freeFieldLen.errors? (freeFieldLen.errors?.maxValueError) ? maxErrorDto : (freeFieldLen.errors?.invalidDefaultError) ? minErrorDto : freeFieldLenTextBoxconfig.Errors :'', formSubmitted: freeFieldLenTextBoxconfig.externalError}"
+                                       #freeFieldLen="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue}">{{'app-instance.manage-integration.card.FieldCaption' | translate}}</label>
+                  </div>
+
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="integrationDetail?.freeField"
+                                        Type="single"
+                                        name="freeField"
+                                        [placeholder]="placeholder"
+                                        [options]="integrationList.manageFreeFieldConfigInitialData?.freeFieldList"
+                                        [ControlConfig]="fieldCaptionDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeFieldCaption($event)"
+                                        #freeField="ngModel"
+                                        [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                        [cfcFluidValidation]="{errors:freeField.errors? fieldCaptionDropdownConfig.Errors :'', formSubmitted:(this.fieldCaptionDropdownConfig.externalError)}"
+                                        [title]="integrationDetail?.freeField?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'app-instance.manage-integration.card.Sequence' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="integrationDetail?.sequence"
+                                       (OnchangedNumber)="onChangeSequence($event)"
+                                       name="sequence"
+                                       [maxlength]="11"
+                                       [isAllowSpace]="false"
+                                       [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                       [form]="integrationform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label [ngClass]="{'closefo-form-label': true, 'required': !integrationDetail.isLinkedToFreeFieldValue}">{{'app-instance.manage-integration.card.TagName' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="tagNameTextBoxconfig"
+                                       [ngModel]="integrationDetail?.tagName"
+                                       (change)="onChangeTagName($event)"
+                                       name="tagName"
+                                       [maxlength]="50"
+                                       [isAllowSpace]=false
+                                       [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                       [cfcFluidValidation]="{errors:tagName.errors? tagNameTextBoxconfig.Errors :'', formSubmitted:(this.tagNameTextBoxconfig.externalError)}"
+                                       #tagName="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <ng-container *ngIf="integrationDetail?.isListItemVisible">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'app-instance.manage-integration.heading.List' | translate}}</div>
+
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div class="row">
+                  <ng-container *ngFor=" let col of integrationDetail.freeFieldConfig2ListValueList; let i=index">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-1">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [form]="integrationform"
+                                              [ngModel]="col?.isSelected"
+                                              name="isSelected{{i}}"
+                                              [isReadOnly]="integrationDetail.isLinkedToFreeFieldValue"
+                                              (ngModelChange)=" onChangeisSelected($event,i)">
+                          </cfc-fluid-checkbox>
+                        </div>
+                        <div class="col-11">
+                          <label class="closefo-form-label text-left">{{col.listValue.caption}}</label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </ng-container>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'app-instance.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'app-instance.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'app-instance.close.yes' | translate}}" (OnClick)="onClickYes(integrationList.freeFieldConfigList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'app-instance.close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'app-instance.close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>
+
+

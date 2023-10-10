@@ -1,0 +1,77 @@
+<div class="toggle-box-modules">
+  <div class="d-flex align-items toggle-hover" (click)="selector.toggle($event)">
+    <div>
+      <svg
+        width="28"
+        xmlns="http://www.w3.org/2000/svg"
+        class="module-menu"
+        version="1.1"
+        viewBox="0 0 612 612"
+        xml:space="preserve"
+        fill="#b9bed8"
+      >
+        <g>
+          <circle cx="69.545" cy="528.545" r="69.545" stroke="" />
+          <circle cx="306" cy="306" r="69.545" />
+          <circle cx="306" cy="83.455" r="69.545" />
+          <circle cx="69.545" cy="83.455" r="69.545" />
+          <circle cx="69.545" cy="306" r="69.545" />
+          <circle cx="306" cy="528.545" r="69.545" />
+          <circle cx="542.454" cy="528.545" r="69.545" />
+          <circle cx="542.454" cy="83.455" r="69.545" />
+          <circle cx="542.454" cy="306" r="69.545" />
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+<p-overlayPanel #selector [dismissable]="true" class="selector">
+  <ng-template pTemplate>
+    <div class="selector-content">
+      <ul *ngIf="canSwitchToPortal" class="selector-items">
+        <li class="active">
+          <a routerLink="/">
+            <i class="pi pi-arrow-circle-right"></i>
+            Broker Portal
+          </a>
+        </li>
+      </ul>
+
+      <div *ngIf="firms$">
+        <span class="subtitle">Switch to Firms</span>
+        <div class="firm-holder mt-2 mb-4">
+          <div class="firm-search-holder">
+            <p-autoComplete
+              [(ngModel)]="selectedFirm"
+              class="search-firm-input"
+              [suggestions]="(searchFirms$ | async) || []"
+              (completeMethod)="searchFirm($event)"
+              panelStyleClass="overlaySearch"
+              [minLength]="0"
+              placeholder="start typing..."
+            >
+            </p-autoComplete>
+            <i class="pi pi-search"></i>
+          </div>
+        </div>
+        <span>Recently viewed</span>
+        <ul class="selector-items mt-2">
+          <li *ngFor="let firm of firms$ | async">
+            <a [routerLink]="'/broker/' + firm.id">
+              <i class="pi pi-sitemap"></i>
+              {{ firm.firmName }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ul *ngIf="firm$ | async as firm" class="selector-items mt-2">
+        <li>
+          <a [routerLink]="'/broker/' + firm.firmId">
+            <i class="pi pi-sitemap"></i>
+            {{ firm.firmName || 'ee' }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</p-overlayPanel>

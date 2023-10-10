@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "caseRef": "ABCDE000000000000",
+    "decision": "Accept | DIP expiry date: 23/08/2021;",
+    "stage": "resume",
+    "certificate": "",
+    "dips": [
+      {
+        "loanAmount": 200000,
+        "applicants": [
+          {
+            "name": "John Dung"
+          },
+          {
+            "name": "Jason Trail"
+          }
+        ],
+        "employmentStatus": [
+          {
+            "status": "Employed"
+          },
+          {
+            "status": "Not Employed"
+          }
+        ],
+        "netMonthlyIncome": [
+          {
+            "income": 4000
+          },
+          {
+            "income": 0
+          }
+        ],
+        "product": [
+          {
+            "title": "ABC123"
+          },
+          {
+            "title": "BC#@!"
+          }
+        ],
+        "term": [
+          {
+            "length": "20 years"
+          },
+          {
+            "length": "20 years 8 months"
+          }
+        ],
+        "type": [
+          {
+            "description": "Repayment"
+          },
+          {
+            "description": "Interest Only"
+          }
+        ]
+      }
+    ]
+  }
+]

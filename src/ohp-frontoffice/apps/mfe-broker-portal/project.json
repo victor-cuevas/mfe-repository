@@ -1,0 +1,218 @@
+{
+  "projectType": "application",
+  "root": "apps/mfe-broker-portal",
+  "sourceRoot": "apps/mfe-broker-portal/src",
+  "prefix": "mbp",
+  "targets": {
+    "build": {
+      "scripts": ["./node_modules/chart.js/dist/chart.js"],
+      "executor": "ngx-build-plus:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mfe-broker-portal",
+        "index": "apps/mfe-broker-portal/src/index.html",
+        "main": "apps/mfe-broker-portal/src/main.ts",
+        "polyfills": "apps/mfe-broker-portal/src/polyfills.ts",
+        "tsConfig": "apps/mfe-broker-portal/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "input": "libs/mfe-broker/shared/assets/src/lib",
+            "glob": "**/*",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          {
+            "input": "libs/mfe-broker/shared/styles/src/index.scss",
+            "bundleName": "broker_portal_styles",
+            "inject": false
+          }
+        ],
+        "allowedCommonJsDependencies": [
+          "@aws-crypto/crc32",
+          "@aws-crypto/sha256-browser",
+          "@aws-crypto/sha256-js",
+          "crypto-js/sha256",
+          "axios",
+          "buffer",
+          "camelcase-keys",
+          "crypto-js/core",
+          "crypto-js/enc-base64",
+          "crypto-js/hmac-sha256",
+          "crypto-js/lib-typedarrays",
+          "fast-xml-parser",
+          "isomorphic-unfetch",
+          "js-cookie",
+          "lodash",
+          "lodash/get",
+          "lodash/isEmpty",
+          "lodash/isEqual",
+          "qrcode",
+          "style-dictionary/lib/utils/deepExtend",
+          "style-dictionary/lib/utils/flattenProperties",
+          "style-dictionary/lib/utils/references/usesReference",
+          "ulid",
+          "url",
+          "uuid",
+          "xstate/lib/actions",
+          "zen-observable"
+        ],
+        "extraWebpackConfig": "apps/mfe-broker-portal/webpack.config.js",
+        "commonChunk": false
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/mfe-broker-portal/src/environments/environment.ts",
+              "with": "apps/mfe-broker-portal/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "extraWebpackConfig": "apps/mfe-broker-portal/webpack.prod.config.js"
+        },
+        "april-test": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/mfe-broker-portal/src/environments/environment.ts",
+              "with": "apps/mfe-broker-portal/src/environments/environment.apr.tst.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "extraWebpackConfig": "apps/mfe-broker-portal/webpack.prod.config.js"
+        },
+        "april-acc": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/mfe-broker-portal/src/environments/environment.ts",
+              "with": "apps/mfe-broker-portal/src/environments/environment.apr.acc.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "extraWebpackConfig": "apps/mfe-broker-portal/webpack.prod.config.js"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        },
+        "mocks": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mfe-broker-portal/src/environments/environment.ts",
+              "with": "apps/mfe-broker-portal/src/environments/environment.mocks.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "ngx-build-plus:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "mfe-broker-portal:build:production",
+          "extraWebpackConfig": "apps/mfe-broker-portal/webpack.prod.config.js"
+        },
+        "development": {
+          "browserTarget": "mfe-broker-portal:build:development"
+        },
+        "mocks": {
+          "browserTarget": "mfe-broker-portal:build:mocks"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "publicHost": "http://localhost:4210",
+        "extraWebpackConfig": "apps/mfe-broker-portal/webpack.config.js",
+        "port": 4210
+      }
+    },
+    "extract-i18n": {
+      "executor": "ngx-build-plus:extract-i18n",
+      "options": {
+        "browserTarget": "mfe-broker-portal:build",
+        "extraWebpackConfig": "apps/mfe-broker-portal/webpack.config.js"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mfe-broker-portal/src/**/*.ts", "apps/mfe-broker-portal/src/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/mfe-broker-portal"],
+      "options": {
+        "jestConfig": "apps/mfe-broker-portal/jest.config.js",
+        "passWithNoTests": true,
+        "extraWebpackConfig": "apps/mfe-broker-portal/webpack.config.js"
+      }
+    },
+    "upload": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nx build mfe-broker-portal --with-deps --prod && node tools/upload.mjs --appName=mfe-broker-portal --s3target=${S3_VERSION_CONTROL}"
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "node tools/deploy.mjs --appName=mfe-broker-portal --s3source=${S3_VERSION_CONTROL} --s3target=${S3_MFE_BROKERPORTAL}"
+      }
+    },
+    "deploy-tst": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "node tools/deploy.mjs --appName=mfe-broker-portal-tst --s3source=${S3_VERSION_CONTROL} --s3target=${S3_MFE_BROKERPORTAL}"
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+    "collectionMeasure": {
+      "heading": {
+        "collectionMeasure": "Manage collection measure",
+        "collectionMeasureType": "NL - Collection Measure Type"
+      },
+      "card": {
+        "collectionMeasureType": "NL - Collection Measure Type",
+        "startEvent": "NL - Start Event Name",
+        "stopEvent": "NL - Stop Event Name",
+        "creationEvent": "NL - Creation Event Name",
+        "isRole": "NL - Is Role Linking Applicable",
+        "showSimulation": "NL - Show Simulation",
+        "dossierStatus": "NL - Dossier Status",
+        "selectedDossier": "NL - Selected Dossier Status",
+        "closeMeasureIntervalType": "NL - Close Measure Interval Type",
+        "elapsedPeriodToCloseMeasure":"NL - Elapsed Period To Close Measure",
+        "isParty":"NL - Is Party Measure"
+      },
+      "ValidationError":{
+        "required":" is verplicht.",
+        "collectionMeasureType": "'NL - Collection Measure Type'",
+        "DossierBusinessError":"Atleast one Record Should Exist in 'NL - Selected Dossier Status'.",
+        "BusinessValidation":"NL - The given record is already in the list. Please make sure that the record is unique.",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "tabel": {
+        "type": "NL - Type",
+        "delete": "",
+        "add": "Voeg toe"
+      },
+      "button": {
+        "save": "Opslaan",
+        "close": "Sluiten",
+        "add": "Voeg toe",
+        "clear": "Wissen"
+      },
+      "validations": {
+        "Header": "Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+      },
+      "dialog": {
+        "Yes": "Ja",
+        "No": "Nee",
+        "Cancel": "Annuleer",
+        "Header": "Onopgeslagen wijzigingen",
+        "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+        "ok": "Ok",
+        "Continue":"Continue"
+      }
+    }
+  }

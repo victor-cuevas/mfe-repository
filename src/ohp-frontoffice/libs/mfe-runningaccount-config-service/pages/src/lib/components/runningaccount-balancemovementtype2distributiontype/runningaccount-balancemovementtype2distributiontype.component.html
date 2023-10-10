@@ -1,0 +1,145 @@
+<div class="whitelabel-config-styles">
+  <div class="close-running-config container">
+    <form #balMov2DisTypeform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':balMov2DisTypeform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'runningAccount.distributiontype.heading.distributiontype' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'runningAccount.button.save' | translate}}" (click)="onSave(balMov2DisTypeList.balanceMovementType2DistTypeList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'runningAccount.button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'runningAccount.type-mapping.card.Add' | translate}}" (click)="addBalMov2DisType()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="balMov2DisTypeList?.balanceMovementType2DistTypeList" [gridData]="balMov2DisTypeList?.balanceMovementType2DistTypeList"
+                          [gridDataHeader]="distributedHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onRowDelete($event, balMov2DisTypeList.balanceMovementType2DistTypeList)" (rowClickedEvent)=dataSelection($event)
+                          [selectedDetail]="balMov2DisTypeDetail">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="showDetails">
+        <div class="closefo-form-group">
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-6">
+                  <label class="closefo-form-label required">{{'runningAccount.distributiontype.card.BalancemovementType' | translate}}</label>
+                </div>
+                <div class="col-6">
+                  <cfc-fluid-dropdown [ngModel]="balMov2DisTypeDetail?.balanceMovementType"
+                                      Type="single"
+                                      name="balanceMovementType"
+                                      [placeholder]="placeholder"
+                                      [options]="balMov2DisTypeDetail?.balanceMovementTypeList"
+                                      [ControlConfig]="BalanceMovementTypeDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="codeId"
+                                      [isReadOnly]="!editable"
+                                      (OnSelectionChanged)="onChangeBalanceMovement($event)"
+                                      [cfcFluidValidation]="{errors:balanceMovementType.errors? BalanceMovementTypeDropdownConfig.Errors :'', formSubmitted: (this.BalanceMovementTypeDropdownConfig.externalError)}"
+                                      #balanceMovementType="ngModel"
+                                      [title]="balMov2DisTypeDetail?.balanceMovementType?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-6">
+                  <label class="closefo-form-label required">{{'runningAccount.distributiontype.card.DistributionType' | translate}}</label>
+                </div>
+                <div class="col-6">
+                  <cfc-fluid-dropdown [ngModel]="balMov2DisTypeDetail?.distributionType"
+                                      Type="single"
+                                      name="distributionType"
+                                      [placeholder]="placeholder"
+                                      [options]="balMov2DisTypeList?.distributionTypeList"
+                                      [ControlConfig]="DistributionTypeDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="codeId"
+                                      (OnSelectionChanged)="onChangeDistribution($event)"
+                                      [cfcFluidValidation]="{errors:distributionType.errors? DistributionTypeDropdownConfig.Errors :'', formSubmitted: (this.DistributionTypeDropdownConfig.externalError)}"
+                                      #distributionType="ngModel"
+                                      [title]="balMov2DisTypeDetail?.distributionType?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'runningAccount.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'runningAccount.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'runningAccount.close.yes' | translate}}" (OnClick)="onClickYes(balMov2DisTypeList.balanceMovementType2DistTypeList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'runningAccount.close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'runningAccount.close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

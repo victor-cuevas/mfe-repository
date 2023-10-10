@@ -1,0 +1,318 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'plan.ruleEngine.heading.ruleEngine' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'plan.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(ruleEngineListResponse)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'plan.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.ruleEngine.button.addRuleName' | translate}}"
+
+                            [ControlConfig]="ButtonConfig" (click)="addRERow()"></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="ruleEngineListResponse" [selectedDetail]="ruleEngineCard"
+                          [gridDataHeader]="ruleEngineHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onRERowDelete($event,ruleEngineListResponse)" (rowClickedEvent)="clickREGrid($event)">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="NotREHide">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'plan.ruleEngine.card.RuleModelName' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="text"
+                                     [ControlConfig]="NameTextBoxconfig"
+                                     [ngModel]="ruleEngineCard?.ruleModelName"
+                                     (OnchangedText)="changeRuleName($event)"
+                                     [cfcFluidValidation]="{errors:Name.errors? NameTextBoxconfig.Errors :'', formSubmitted:(NameTextBoxconfig.externalError)}"
+                                     name="ruleModelName"
+                                     [maxlength]="250"
+                                     [isAllowSpace]="false"
+                                     #Name="ngModel">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.ruleEngine.button.addRule' | translate}}"
+
+                              [ControlConfig]="ButtonConfig" (click)="addRECRow()"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+          
+                  <p-table
+                           [value]="ruleEngineCard.ruleEnginePlanDerivationCriterionList"
+                           [columns]="ruleEngine1Header"
+                           styleClass="closefo-datatable closefo-bo-table"
+                            [resizableColumns]="true"
+                           [reorderableColumns]="true"
+                           [rowHover]="true"
+                           >
+                    <ng-template pTemplate="header" let-columns >
+                      <tr>
+                        <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                          <span>{{col.header}}</span>
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+                      <tr *ngIf="!(rowData.isDelete)" (click)="clickRECGrid(rowData)" [ngClass]="{'highlight' : ruleEngineCriterionCard === rowData }" >
+                        <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                          <span *ngSwitchCase="'outputText'">
+                            <span>
+                              {{rowData.output}}
+                            </span>
+                          </span>
+
+                          <span *ngSwitchCase="'TPText'">
+                            <span>
+                              {{rowData.treatmentPlan?.name}}
+                            </span>
+                          </span>
+
+                          <span *ngSwitchCase="'RPText'">
+                            <span>
+                              {{rowData.reminderPlan?.name}}
+                            </span>
+                          </span>
+
+                          <span *ngSwitchCase="'CPText'">
+                            <span>
+                              {{rowData.costPlan?.name}}
+                            </span>
+                          </span>
+
+                          <span *ngSwitchCase="'PAText'">
+                            <span>
+                              {{rowData.paymentAllocationPlan?.name}}
+                            </span>
+                          </span>
+
+                          <span *ngSwitchCase="'Delete'">
+                            <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRECRowDelete(rowData,ruleEngineCard.ruleEnginePlanDerivationCriterionList)"></i></span>
+                          </span>
+
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                
+
+
+          </div>
+        </div>
+
+
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="NotRECHide">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{'plan.ruleEngine.card.Output' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="OutputTextBoxconfig"
+                                       [ngModel]="ruleEngineCriterionCard?.output"
+                                       (OnchangedText)="changeOutput($event)"
+                                       name="output"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:output.errors? OutputTextBoxconfig.Errors :'', formSubmitted:(OutputTextBoxconfig.externalError)}"
+                                       [maxlength]="250"
+                                       #output="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label ">{{'plan.ruleEngine.card.TreatmentPlan' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="ruleEngineCriterionCard?.treatmentPlan"
+                                        Type="single"
+                                        name="treatmentPlanDropdown"
+                                        [placeholder]="placeholder"
+                                        [options]="ruleEngineTreatmentPlan"
+                                        [ControlConfig]="TreatmentDropdownConfig"
+                                        optionLabel="name"
+                                        dataKey="name"
+                                        (OnSelectionChanged)="changeTreatmentPlan($event)"
+                                        #Treatmentdropdown="ngModel"
+                                        [title]="ruleEngineCriterionCard?.treatmentPlan?.name">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label ">{{'plan.ruleEngine.card.ReminderPlan' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="ruleEngineCriterionCard?.reminderPlan"
+                                        Type="single"
+                                        name="reminderPlanDropdown"
+                                        [placeholder]="placeholder"
+                                        [options]="ruleEngineReminderPlan"
+                                        [ControlConfig]="ReminderDropdownConfig"
+                                        optionLabel="name"
+                                        dataKey="name"
+                                        (OnSelectionChanged)="changeReminderPlan($event)"
+                                        #Reminderdropdown="ngModel"
+                                        [title]="ruleEngineCriterionCard?.reminderPlan?.name">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label ">{{'plan.ruleEngine.card.CostPlan' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="ruleEngineCriterionCard?.costPlan"
+                                        Type="single"
+                                        name="costPlanDropdown"
+                                        [placeholder]="placeholder"
+                                        [options]="ruleEngineCostPlan"
+                                        [ControlConfig]="CostDropdownConfig"
+                                        optionLabel="name"
+                                        dataKey="name"
+                                        (OnSelectionChanged)="changeCostPlan($event)"
+                                        #Costdropdown="ngModel"
+                                        [title]="ruleEngineCriterionCard?.costPlan?.name">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label ">{{'plan.ruleEngine.card.PaymentAllocationPlan' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="ruleEngineCriterionCard?.paymentAllocationPlan"
+                                        Type="single"
+                                        name="paymentAllocationDropdown"
+                                        [placeholder]="placeholder"
+                                        [options]="ruleEnginePaymentAllocationPlan"
+                                        [ControlConfig]="PaymentDropdownConfig"
+                                        optionLabel="name"
+                                        dataKey="name"
+                                        (OnSelectionChanged)="changePaymentPlan($event)"
+                                        #Paymentdropdown="ngModel"
+                                        [title]="ruleEngineCriterionCard?.paymentAllocationPlan?.name">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'plan.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'plan.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'plan.dialog.Yes' | translate}}"
+                              (click)="onYes(ruleEngineListResponse)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

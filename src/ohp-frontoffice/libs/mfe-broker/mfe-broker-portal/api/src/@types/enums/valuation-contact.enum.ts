@@ -1,0 +1,6 @@
+export enum ValuationContact {
+  APPLICANT_1 = 'APPLICANT_1',
+  APPLICANT_2 = 'APPLICANT_2',
+  ESTATE_AGENT = 'ESTATE_AGENT',
+  SELLER = 'SELLER',
+}

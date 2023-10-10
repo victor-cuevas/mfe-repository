@@ -1,0 +1,230 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.householdExpenditure' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="householdExpenditureForm">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.labels.property' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <label id="heServiceCharge">{{ ('createDip.labels.serviceCharge' | translate) + ' *' }}</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            controlName="serviceCharge"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            className="journey-input-fixed-width"
+            aria-labelledby="heServiceCharge"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('serviceCharge')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12" *ngIf="securityPropertyData?.tenure === tenure.LEASEHOLD">
+          <label id="heGroundRent">{{ ('createDip.labels.groundRent' | translate) + ' *' }}</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            controlName="groundRent"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            className="journey-input-fixed-width"
+            aria-labelledby="heGroundRent"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('groundRent')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+    </div>
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.labels.monthlyExpenses' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heChildCare">{{ 'createDip.labels.childCosts' | translate }} *</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            class="journey-input-fixed-width"
+            controlName="childCare"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            aria-labelledby="heChildCare"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('childCare')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heSchoolFees">{{ 'createDip.labels.scholarCosts' | translate }} *</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            class="journey-input-fixed-width"
+            controlName="schoolFees"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            aria-labelledby="heSchoolFees"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('schoolFees')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heMaintenance">{{ 'createDip.labels.maintenance' | translate }} *</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            class="journey-input-fixed-width"
+            controlName="maintenance"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            aria-labelledby="heMaintenance"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('maintenance')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heOtherProperty">{{ 'createDip.labels.rentCosts' | translate }} *</label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            class="journey-input-fixed-width"
+            controlName="otherProperty"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            aria-labelledby="heOtherProperty"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('otherProperty')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heOther"
+            >{{ 'createDip.labels.otherMonthlyCosts' | translate }} *
+            <span class="ps-2 primary-color" [pTooltip]="'createDip.tooltips.otherMonthlyCosts' | translate" [hideDelay]="1000"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <cfo-input-number
+            [form]="householdExpenditureForm"
+            class="journey-input-fixed-width"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            controlName="other"
+            aria-labelledby="heOther"
+          ></cfo-input-number>
+
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('other')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="otherValue">
+        <div class="col-md-3 col-sm-12 mb-2 mb-md-0">
+          <label id="heDescription">{{ 'createDip.labels.otherCostsDetails' | translate }} *</label>
+          <textarea
+            cols="50"
+            formControlName="description"
+            class="journey-input-fixed-width"
+            pInputTextarea
+            [autoResize]="true"
+            aria-labelledby="heDescription"
+            [maxLength]="100"
+          ></textarea>
+          <cfo-validation-errors
+            [control]="householdExpenditureForm.get('description')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.labels.financialDependants' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 mb-2 mb-md-0">
+          <label id="heNumberOfAdults">{{ 'createDip.labels.adults' | translate }}</label>
+          <button
+            *ngIf="dataService.activeJourney"
+            type="button"
+            class="hidden-btn p-button p-button-link number-selector"
+            (click)="subtract('numberOfAdults')"
+          >
+            <i class="pi pi-minus journey-icon mx-2"></i>
+          </button>
+          <p-inputNumber
+            formControlName="numberOfAdults"
+            ngDefaultControl
+            [min]="0"
+            styleClass="journey-input--small"
+            aria-labelledby="heNumberOfAdults"
+          ></p-inputNumber>
+          <button
+            *ngIf="dataService.activeJourney"
+            type="button"
+            class="hidden-btn p-button p-button-link number-selector"
+            (click)="add('numberOfAdults')"
+          >
+            <i class="pi pi-plus journey-icon mx-2"></i>
+          </button>
+        </div>
+        <div class="col-md-6 mb-2 mb-md-0">
+          <label id="heNumberOfChildren"
+            >{{ 'createDip.labels.children' | translate }}
+            <span class="ps-2 primary-color" [pTooltip]="'createDip.tooltips.numberOfChildren' | translate" [hideDelay]="1000"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <button
+            *ngIf="dataService.activeJourney"
+            type="button"
+            class="hidden-btn p-button p-button-link number-selector"
+            (click)="subtract('numberOfChildren')"
+          >
+            <i class="pi pi-minus journey-icon mx-2"></i>
+          </button>
+          <p-inputNumber
+            formControlName="numberOfChildren"
+            ngDefaultControl
+            [min]="0"
+            styleClass="journey-input--small"
+            aria-labelledby="heNumberOfChildren"
+          ></p-inputNumber>
+          <button
+            *ngIf="dataService.activeJourney"
+            type="button"
+            class="hidden-btn p-button p-button-link number-selector"
+            (click)="add('numberOfChildren')"
+          >
+            <i class="pi pi-plus journey-icon mx-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

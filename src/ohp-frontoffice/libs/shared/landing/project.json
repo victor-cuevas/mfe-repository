@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/landing",
+  "sourceRoot": "libs/shared/landing/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/landing"],
+      "options": {
+        "jestConfig": "libs/shared/landing/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/landing/src/**/*.ts", "libs/shared/landing/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

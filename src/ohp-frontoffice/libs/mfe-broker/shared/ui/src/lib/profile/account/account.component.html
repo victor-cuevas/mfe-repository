@@ -1,0 +1,66 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ title }}</h2>
+</div>
+<div class="pb-2" *ngIf="intermediaryName">
+  <h3>{{ intermediaryName }}</h3>
+</div>
+<div class="pb-2">
+  <form [formGroup]="accountForm">
+    <cfo-account-info [isOpen]="true" [readOnly]="readOnly"></cfo-account-info>
+    <ng-container *ngIf="!intermediaryName">
+      <cfo-login-details [isOpen]="true"></cfo-login-details>
+      <div class="row mt-4">
+        <h3 class="primary-color">{{ 'profile.labels.emailNotification' | translate }}</h3>
+      </div>
+      <div class="row mt-4">
+        <p class="info-paragraph">{{ 'profile.labels.emailNotificationsMsg' | translate }}</p>
+      </div>
+      <div class="mt-4">
+        <p-radioButton
+          formControlName="emailNotification"
+          [value]="true"
+          [label]="'profile.labels.on' | translate"
+          ngDefaultControl
+        ></p-radioButton>
+        <p-radioButton
+          formControlName="emailNotification"
+          [value]="false"
+          [label]="'profile.labels.off' | translate"
+          class="ms-3"
+          ngDefaultControl
+        ></p-radioButton>
+      </div>
+      <div class="row mt-4">
+        <h3 class="primary-color">{{ 'profile.labels.deactivateAccount' | translate }}</h3>
+      </div>
+      <div class="row mt-4">
+        <p class="info-paragraph">{{ 'profile.labels.deactivateAccountMsg' | translate }}</p>
+      </div>
+      <div class="row">
+        <div class="my-4 btn-section">
+          <p-button
+            styleClass="p-button-danger mb-2 my-lg-0 me-lg-2"
+            label="{{ 'profile.labels.deactivateAccount' | translate }}"
+            (click)="openDeactivateAccountModal()"
+          ></p-button>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  <cfo-dialog [showDialog]="showDeactivateAccount" [data]="deactivateAccountDataPopup">
+    <ng-template #footerTemplate>
+      <div class="text-center">
+        <p-button
+          styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+          label="{{ 'general.buttons.cancel' | translate }}"
+          (click)="cancelDeactivateAccount()"
+        ></p-button>
+        <p-button
+          styleClass="p-button-danger mb-2 my-lg-0 me-lg-2 mx-2"
+          label="{{ 'dialog.yes' | translate }}"
+          (click)="confirmDeactivateAccount()"
+        ></p-button>
+      </div>
+    </ng-template>
+  </cfo-dialog>
+</div>

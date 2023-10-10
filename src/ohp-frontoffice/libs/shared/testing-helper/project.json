@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/testing-helper",
+  "sourceRoot": "libs/shared/testing-helper/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/testing-helper"],
+      "options": {
+        "jestConfig": "libs/shared/testing-helper/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/testing-helper/src/**/*.ts", "libs/shared/testing-helper/src/**/*.html"]
+      }
+    }
+  }
+}

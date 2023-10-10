@@ -1,0 +1,191 @@
+<div class="container pb-4">
+  <h2 class="mb-2">{{ 'createFma.titles.valuationDetails' | translate }}</h2>
+  <p>
+    {{ 'createFma.subTitles.valuationDetailsMsg' | translate }}
+  </p>
+</div>
+<div class="container">
+  <form [formGroup]="valuationDetailsForm">
+    <ng-container
+      *ngIf="
+        (valuationDetailsForm.controls.valuationContact?.value === VALUATION_CONTACT.APPLICANT_1 ||
+          valuationDetailsForm.controls.valuationContact?.value === VALUATION_CONTACT.APPLICANT_2) &&
+        valuationDetailsForm.hasError('atLeastOneField')
+      "
+    >
+      <cfo-error-card
+        [title]="'createFma.labels.missingContactDetailsTitle' | translate"
+        [detail]="'createFma.labels.missingContactDetailsDetail' | translate"
+      ></cfo-error-card>
+    </ng-container>
+    <div class="step-header bg-white rounded shadow px-4 py-3 my-4">
+      <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 mb-4">
+          <label id="valuationContact">{{ 'createFma.labels.valuationContact' | translate }} *</label>
+          <p-dropdown
+            aria-labelledby="valuationContact"
+            id="valuationContact"
+            [placeholder]="'createFma.placeholders.selectContact' | translate"
+            ngDefaultControl
+            formControlName="valuationContact"
+            class="journey-dropdown"
+            [options]="valuationContactOptions"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="valuationDetailsForm.get('valuationContact')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-12 col-md-4 col-lg-3 mb-4" *ngIf="valuationDetailsForm.get('valuationContact')?.value">
+          <label id="preferredContactMethod">{{ 'createFma.labels.preferredContactPhone' | translate }} *</label>
+          <p-dropdown
+            ariaLabelledBy="preferredContactMethod"
+            [placeholder]="'createFma.labels.preferredContactMethod' | translate"
+            ngDefaultControl
+            formControlName="preferredContactMethod"
+            class="journey-dropdown"
+            [options]="contactMethodOptions"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="valuationDetailsForm.get('preferredContactMethod')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row" *ngIf="valuationDetailsForm.get('valuationContact')?.value">
+        <div
+          class="col-12 col-md-4 col-lg-3 mb-4"
+          *ngIf="!contactIsApplicant || (contactIsApplicant && valuationDetailsForm.get('mobilePhone')?.value)"
+        >
+          <!--          inputId is in child component-->
+          <label for="mobilePhone"
+            >{{ 'createFma.labels.mobilePhone' | translate }}
+            {{ valuationDetailsForm.get('preferredContactMethod')?.value === PREFERRED_CONTACT_METHOD.MOBILE_PHONE ? '*' : '' }}</label
+          >
+          <cfo-phone-input controlName="mobilePhone"></cfo-phone-input>
+        </div>
+        <div
+          class="col-12 col-md-4 col-lg-3 mb-4"
+          *ngIf="!contactIsApplicant || (contactIsApplicant && valuationDetailsForm.get('workPhone')?.value)"
+        >
+          <!--          inputId is in child component-->
+          <label for="workPhone"
+            >{{ 'createFma.labels.workPhone' | translate }}
+            {{ valuationDetailsForm.get('preferredContactMethod')?.value === PREFERRED_CONTACT_METHOD.WORK_PHONE ? '*' : '' }}</label
+          >
+          <cfo-phone-input controlName="workPhone"></cfo-phone-input>
+        </div>
+        <div
+          class="col-12 col-md-4 col-lg-3 mb-4"
+          *ngIf="!contactIsApplicant || (contactIsApplicant && valuationDetailsForm.get('homePhone')?.value)"
+        >
+          <!--          inputId is in child component-->
+          <label for="homePhone"
+            >{{ 'createFma.labels.homePhone' | translate }}
+            {{ valuationDetailsForm.get('preferredContactMethod')?.value === PREFERRED_CONTACT_METHOD.HOME_PHONE ? '*' : '' }}</label
+          >
+          <cfo-phone-input controlName="homePhone"></cfo-phone-input>
+        </div>
+      </div>
+      <ng-container *ngIf="!contactIsApplicant && valuationDetailsForm.get('valuationContact')?.value">
+        <div class="row">
+          <div class="col-md-4 col-xs-12 col-lg-3 mb-4">
+            <label id="title">{{ 'intermediary.labels.title' | translate }} *</label>
+            <div class="col-md-3 col-xs-12">
+              <p-dropdown
+                [options]="titles"
+                aria-labelledby="title"
+                ngDefaultControl
+                formControlName="title"
+                class="journey-dropdown"
+                [placeholder]="'general.placeholders.generic' | translate: { type: 'createDip.labels.title' | translate | lowercase }"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+              <cfo-validation-errors
+                [control]="valuationDetailsForm.get('title')"
+                [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-4 col-lg-3 mb-4">
+            <label for="firstName">{{ 'intermediary.labels.firstName' | translate }} *</label>
+            <input
+              id="firstName"
+              type="text"
+              [cfoOnlyCharacters]="true"
+              pInputText
+              class="journey-input text-capitalize"
+              formControlName="firstName"
+            />
+            <cfo-validation-errors
+              [control]="valuationDetailsForm.get('firstName')"
+              [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3 mb-4">
+            <label for="lastName">{{ 'intermediary.labels.surName' | translate }} *</label>
+            <input
+              type="text"
+              pInputText
+              [cfoOnlyCharacters]="true"
+              id="lastName"
+              class="journey-input text-capitalize"
+              formControlName="lastName"
+            />
+            <cfo-validation-errors
+              [control]="valuationDetailsForm.get('lastName')"
+              [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3 mb-4" *ngIf="!contactIsApplicant">
+            <label for="companyName"
+              >{{ 'createFma.labels.companyName' | translate }}
+              {{
+                valuationDetailsForm.get('valuationContact')?.value === VALUATION_CONTACT.SELLER
+                  ? ('createFma.labels.ifApplicable' | translate)
+                  : '*'
+              }}</label
+            >
+            <input id="companyName" type="text" pInputText ngDefaultControl formControlName="companyName" class="journey-input" />
+            <cfo-validation-errors
+              [control]="valuationDetailsForm.get('companyName')"
+              [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row mb-4">
+        <div class="col-12 col-lg-6">
+          <label for="additionInformationForValuer">{{ 'createFma.labels.additionalInfo' | translate }}</label>
+          <textarea
+            id="additionInformationForValuer"
+            pInputTextarea
+            class="journey-textarea--full-width"
+            [rows]="4"
+            [maxlength]="180"
+            placeholder="Max 180 characters"
+            ngDefaultControl
+            formControlName="additionalInformationForValuer"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,8 @@
+export enum PreferredContactMethod {
+  NO_CONTACT = 'PREFER_NO_CONTACT',
+  EMAIL = 'EMAIL',
+  WORK_PHONE = 'WORK_PHONE',
+  MOBILE_PHONE = 'MOBILE_PHONE',
+  HOME_PHONE = 'HOME_PHONE',
+  POSTAL_MAIL = 'POSTAL_MAIL',
+}

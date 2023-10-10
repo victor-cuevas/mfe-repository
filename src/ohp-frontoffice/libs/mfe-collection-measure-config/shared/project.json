@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-collection-measure-config/shared",
+  "sourceRoot": "libs/mfe-collection-measure-config/shared/src",
+  "prefix": "mcmc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-collection-measure-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-collection-measure-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-collection-measure-config/shared/src/**/*.ts",
+          "libs/mfe-collection-measure-config/shared/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

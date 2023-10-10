@@ -1,0 +1,59 @@
+<form [formGroup]="affordabilityCheckForm">
+  <ng-container>
+    <div class="step-header rounded px-3 py-4 bg-white shadow">
+      <div class="row mb-2">
+        <div class="d-flex align-items-center" *ngIf="!isAffordable">
+          <div class="status-icon bg-declined-light pr-4">
+            <i class="pi pi-times danger-text"></i>
+          </div>
+          <h5>{{ 'createFma.subTitles.alternativeLendingProposal' | translate }}</h5>
+        </div>
+        <div class="d-flex align-items-center" *ngIf="isAffordable">
+          <div class="status-icon bg-accepted-light">
+            <i class="pi pi-check success-text"></i>
+          </div>
+          <h5>{{ 'createFma.subTitles.affordable' | translate }}</h5>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <p class="primary-color fw-bold">
+          {{
+            'createFma.labels.affordabilityCheckResult'
+              | translate
+                : {
+                    loanAmount: affordabilityData?.totalLoanAmount | currency: 'GBP',
+                    termYears: termYears,
+                    termMonths: termMonths
+                  }
+          }}
+        </p>
+      </div>
+
+      <ng-container *ngIf="!isAffordable">
+        <div class="row mt-4">
+          <p>{{ 'createFma.labels.affordabilityUnfortunately' | translate }}</p>
+        </div>
+        <div class="row mt-4">
+          <p class="fw-bold">
+            {{
+              'createFma.labels.affordabilityMaximum'
+                | translate: { maximumLoanAmount: affordabilityData?.maximumLoanAmount | currency: 'GBP' }
+            }}
+          </p>
+          <p class="fw-bold">{{ 'createFma.labels.affordabilityBorrowed' | translate }}</p>
+          <div class="row mt-4">
+            <p *ngIf="isInDipJourney">{{ 'createFma.labels.affordabilityMaxLoanAmount' | translate }}</p>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="isAffordable">
+        <div class="row mt-4">
+          <p>{{ 'createFma.labels.affordabilityIsAffordable' | translate }}</p>
+          <p class="mt-4">{{ 'createFma.labels.affordabilityWarning' | translate }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</form>

@@ -1,0 +1,370 @@
+<div class="whitelabel-config-styles">
+  <div class="close-tax-config container">
+    <form #creditProviderform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': creditProviderform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'tax-statement.taxcertificate.heading.TaxCertificateConfig' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'tax-statement.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(taxCertificateConfigListData)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'tax-statement.button.clear' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{ 'tax-statement.button.Add' | translate }}"
+            (click)="onAdd()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+          <div class="col-md-12 close-header-block">
+            <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="Username"
+              [gridData]="taxCertificateConfigListData"
+              [gridDataHeader]="taxconfigHeader"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              (deleteRowEvent)="onRowDelete($event)"
+              (rowClickedEvent)="onRowselect($event)"
+              [selectedDetail]="highlightTaxConfigList"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey m-0" *ngIf="hideCard">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{
+                    'tax-statement.taxcertificate.card.TaxCertificateConfigTypes' | translate
+                  }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.taxCertificateConfigType"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="taxCertificateConfigType"
+                    [placeholder]="placeholder"
+                    [options]="taxConfigTypeList"
+                    [ControlConfig]="RequiredConfigTypeDropdown"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="ontaxCertificateConfigType($event)"
+                    #taxConfigdropdown="ngModel"
+                    [title]="
+                      taxCertificateConfigData?.taxCertificateConfigType?.caption === null
+                        ? ''
+                        : taxCertificateConfigData?.taxCertificateConfigType?.caption
+                    "
+                    [showClearIcon]="taxCertificateConfigData?.taxCertificateConfigType ? true : false"
+                    [cfcFluidValidation]="{
+                      errors: taxConfigdropdown.errors ? RequiredConfigTypeDropdown.Errors : '',
+                      formSubmitted: creditProviderform.submitted || RequiredConfigTypeDropdown.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'tax-statement.taxcertificate.card.TxelType' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.txElType"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="txElType"
+                    [placeholder]="placeholder"
+                    [options]="taxTxelList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onTxelTypeChange($event)"
+                    #txElTypedropdown="ngModel"
+                    [title]="taxCertificateConfigData?.txElType?.caption === null ? '' : taxCertificateConfigData?.txElType?.caption"
+                    [showClearIcon]="taxCertificateConfigData?.txElType ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'tax-statement.taxcertificate.card.ConvertedtxType' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.convertedTxType"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="convertedTxType"
+                    [placeholder]="placeholder"
+                    [options]="convertedTxTypeList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onConvertedtxelType($event)"
+                    #taxCertificateCategorydropdown="ngModel"
+                    [title]="
+                      taxCertificateConfigData?.convertedTxType?.caption === null ? '' : taxCertificateConfigData?.convertedTxType?.caption
+                    "
+                    [showClearIcon]="taxCertificateConfigData?.convertedTxType ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'tax-statement.taxcertificate.card.Decrease' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox
+                    [ControlConfig]="CheckboxConfig"
+                    [ngModel]="taxCertificateConfigData?.decrease"
+                    name="decrease"
+                    (ngModelChange)="ondecreaseChange($event)"
+                  >
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{
+                    'tax-statement.taxcertificate.card.TaxCeritificateType' | translate
+                  }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.taxCertificateType"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="taxCertificateType"
+                    [placeholder]="placeholder"
+                    [options]="taxCertificateList"
+                    [ControlConfig]="RequiredCertificateTypeDropdown"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onTaxCertificateTypeChange($event)"
+                    #taxCertificateTypedropdown="ngModel"
+                    [title]="
+                      taxCertificateConfigData?.taxCertificateType?.caption === null
+                        ? ''
+                        : taxCertificateConfigData?.taxCertificateType?.caption
+                    "
+                    [showClearIcon]="taxCertificateConfigData?.taxCertificateType ? true : false"
+                    [cfcFluidValidation]="{
+                      errors: taxCertificateTypedropdown.errors ? RequiredCertificateTypeDropdown.Errors : '',
+                      formSubmitted: creditProviderform.submitted || RequiredCertificateTypeDropdown.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{
+                    'tax-statement.taxcertificate.card.TaxCeritificateCategorys' | translate
+                  }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.taxCertificateCategory"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="taxCertificateCategory"
+                    [placeholder]="placeholder"
+                    [options]="taxCertificateCategoryList"
+                    [ControlConfig]="RequiredCategoryDropdown"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onTaxCertificateCategoryChange($event)"
+                    #taxCategorydropdown="ngModel"
+                    [title]="
+                      taxCertificateConfigData?.taxCertificateCategory?.caption === null
+                        ? ''
+                        : taxCertificateConfigData?.taxCertificateCategory?.caption
+                    "
+                    [showClearIcon]="taxCertificateConfigData?.taxCertificateCategory ? true : false"
+                    [cfcFluidValidation]="{
+                      errors: taxCategorydropdown.errors ? RequiredCategoryDropdown.Errors : '',
+                      formSubmitted: creditProviderform.submitted || RequiredCategoryDropdown.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'tax-statement.taxcertificate.card.BalancemovementType' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxCertificateConfigData?.balanceMovementType"
+                    [form]="creditProviderform"
+                    Type="single"
+                    name="balanceMovementType"
+                    [placeholder]="placeholder"
+                    [options]="balanceMovementList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onBalanceMovementType($event)"
+                    #languagedropdown="ngModel"
+                    [title]="
+                      taxCertificateConfigData?.balanceMovementType?.caption === null
+                        ? ''
+                        : taxCertificateConfigData?.balanceMovementType?.caption
+                    "
+                    [showClearIcon]="taxCertificateConfigData?.balanceMovementType ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-panel-spacing">
+              <!--<div class="closefo-heading-3 closefo-text-primary"> {{'accounting.CreditProvider.picklist.heading.FinancialAmortization' | translate}}</div>-->
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <label class="closefo-form-label text-left required">
+                  {{ 'tax-statement.taxcertificate.picklist.heading.CreditProvider' | translate }}
+                </label>
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+                        <div class="col-12">
+                          <cfc-fluid-picklist
+                            [source]="sourceCaption"
+                            [target]="targetCaption"
+                            filterBy="caption"
+                            sourceValue="caption"
+                            (click)="changeTarget(targetCaption)"
+                            (dblclick)="changeTarget(targetCaption)"
+                            [ControlConfig]="PickListConfig"
+                          >
+                          </cfc-fluid-picklist>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'tax-statement.close.header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'tax-statement.close.body' | translate }}</div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'tax-statement.close.yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(taxCertificateConfigListData)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.close.no' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.close.cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate> Technical Exception </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.button.continue' | translate }}"
+            (click)="onException()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+  </div>
+</div>

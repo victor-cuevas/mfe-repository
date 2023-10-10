@@ -1,0 +1,111 @@
+<p-table
+  #linkedAdvisorsTable
+  dataKey="id"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  scrollHeight="flex"
+  styleClass="boxed-table"
+  [globalFilterFields]="['fullName', 'permission', 'role', 'email']"
+  [paginator]="totalRecords > 10"
+  [responsive]="true"
+  [rows]="pageSize"
+  [scrollable]="true"
+  [showCurrentPageReport]="!!totalRecords"
+  [showLoader]="false"
+  [value]="advisors"
+>
+  <ng-template pTemplate="header">
+    <tr class="px-3">
+      <th pSortableColumn="fullName">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3">
+            <p-sortIcon field="fullName" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.name' | translate }}
+          </div>
+          <p-columnFilter
+            field="fullName"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.name' | translate | lowercase }"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="permission">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3">
+            <p-sortIcon field="permission" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.collaboration' | translate }}
+          </div>
+          <p-columnFilter
+            field="permission"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.collaboration' | translate | lowercase }"
+          >
+          </p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="role">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3">
+            <p-sortIcon field="role" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.position' | translate }}
+          </div>
+          <p-columnFilter
+            field="role"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.position' | translate | lowercase }"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="email">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3">
+            <p-sortIcon field="email" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.contacts' | translate }}
+          </div>
+          <p-columnFilter
+            field="email"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.contacts' | translate | lowercase }"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <th [ngStyle]="{ width: '70px' }"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td class="text-center">No records found</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-assistant>
+    <tr class="px-3">
+      <td>
+        <strong>{{ assistant.fullName }}</strong>
+      </td>
+      <td>
+        <p>{{ assistant.permission | userPermission }}</p>
+      </td>
+      <td>
+        <p>{{ assistant.role | userRole }}</p>
+      </td>
+      <td>
+        <p>{{ assistant.email }}</p>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

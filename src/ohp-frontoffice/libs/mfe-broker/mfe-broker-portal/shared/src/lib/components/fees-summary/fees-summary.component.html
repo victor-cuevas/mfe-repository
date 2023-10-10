@@ -1,0 +1,57 @@
+<!-- summary -->
+<div class="step-header rounded-top px-4 py-3 shadow">
+  <h4 class="mb-0 fw-bold">Summary</h4>
+</div>
+<div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+  <div class="row">
+    <div class="col-xl-6 col-12 mb-4 my-1 d-flex align-items-stretch">
+      <div class="summarycontainer pretty-text fs-6 p-4 w-100">
+        <div class="d-flex flex-column justify-content-between">
+          <h6 class="largelabel mb-4">Fees to be paid</h6>
+          <div *ngFor="let feeToPay of feesToPay$ | async" class="col-11 my-2 d-flex justify-content-between">
+            <div>
+              {{ feeToPay?.feFeeType ? feeToPay.feFeeType : 'Intermediary Fee' }}
+            </div>
+            <div>
+              <strong>{{ feeToPay.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="col-11 mt-5 d-flex justify-content-between">
+          <div>{{ 'createIllustration.labels.totalFeesAdvance' | translate }}</div>
+          <div>
+            <strong>{{ feesToPayAmount$ | async | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+        <div *ngIf="paymentActive" class="col-11 mt-3 d-flex">
+          <!-- TODO add payment action -->
+          <button class="p-button-primary--bold mt-2 d-inline" pButton style="width: 180px" [disabled]="readOnlyMode">
+            {{ 'general.buttons.payNow' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-12 mb-4 d-flex align-items-stretch">
+      <div class="summarycontainer pretty-text-wrap fs-6 p-4 w-100 d-flex flex-column justify-content-between">
+        <div>
+          <h6 class="largelabel mb-4">Other fees</h6>
+          <div *ngFor="let otherFee of otherFees$ | async" class="my-2 d-flex justify-content-between">
+            <div>
+              {{ otherFee?.feeType ? (otherFee.feeType | fee) : 'Intermediary fee' }}
+            </div>
+            <div class="d-flex" style="max-width: 50%">
+              <strong>{{ otherFee.feeAmount | currency: 'GBP':'symbol':'1.0-0' }} </strong>
+              <span class="d-flex ms-1">{{ otherFee.payableTo && ' - payable to ' + otherFee.payableTo }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-11 mt-5 d-flex justify-content-between">
+          <div>{{ 'createIllustration.labels.totalOtherFees' | translate }}</div>
+          <div>
+            <strong>{{ otherFeesAmount$ | async | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

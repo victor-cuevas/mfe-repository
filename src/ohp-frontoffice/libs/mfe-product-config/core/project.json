@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-product-config/core",
+  "sourceRoot": "libs/mfe-product-config/core/src",
+  "prefix": "mprdc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-product-config/core"],
+      "options": {
+        "jestConfig": "libs/mfe-product-config/core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-product-config/core/src/**/*.ts", "libs/mfe-product-config/core/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

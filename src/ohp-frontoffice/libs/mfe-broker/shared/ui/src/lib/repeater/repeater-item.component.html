@@ -1,0 +1,14 @@
+<div class="cfo-repeater-item__content"><ng-content></ng-content></div>
+<div class="cfo-repeater-item__remove">
+  <button
+    class="hidden-btn d-flex align-items-center"
+    tooltipStyleClass="p-tooltip-blue"
+    [pTooltip]="removeButtonLabel"
+    tooltipPosition="top"
+    *ngIf="isRemovable"
+    (click)="onClick()"
+    [disabled]="readOnlyMode"
+  >
+    <i class="pi pi-minus-circle me-1 fs-6"></i>
+  </button>
+</div>

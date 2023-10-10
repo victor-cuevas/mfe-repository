@@ -1,0 +1,97 @@
+{
+
+  "agenda": {
+    "general": {
+      "Delete": "Supprimer"
+    },
+    "holidaycalendar": {
+      "Description": "Message",
+      "Date": "Date",
+      "New": "Ajoute",
+      "CardHeader": "FR - Holiday Details",
+      "ScreenHeader":"Manage Holiday Calendar",
+      "ValidationError":{
+        "required":" est obligatoire. ",
+        "Date": "'Date'",
+        "buisnessError":"FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "action": {
+      "ActionTypeColon": "Type d'action",
+      "DefaultHandleTimeDay": " D",
+      "DefaultHandleTimeHour": "H",
+      "DefaultHandleTimeMinute": "M",
+      "Name": "Nom",
+      "Maxdays": "Marge de traitement par défaut",
+      "Functionality": "FR - Action Functionality",
+      "Description": "Message",
+      "Department": "Destinataire de l'action",
+      "TreatmentTime": "Temps de traitement par défaut",
+      "Priority": "Priorité",
+      "New": "Ajoute",
+      "GridHeader": "Aperçu d'actions",
+      "CardHeader": "Détail de l'action",
+      "ScreenHeader": "Manage Actions",
+      "ValidationError": {
+        "required": " est obligatoire. ",
+        "Priority": "'Priorité'",
+        "ActionTypeColon": "'Type d'action'"
+      }
+    },
+    "actionReceiver": {
+      "section": "Destinataire de l'action",
+      "generalAgenda": "Agenda Principal",
+      "departmentTasksOverview": "Aperçu du destinataire d'action",
+      "detailsDepartmentalTask": "Détail du destinataire d'action",
+      "users": "Utilisateurs",
+      "addusers": "Ajout d'utilisateurs",
+      "actionReceiverUserdetail": "FR - Action Receiver User Detail",
+      "user": "FR - User",
+      "isonlyfortaskcreation": "FR - Is only for task creation",
+      "ValidationError": {
+        "required": " est verplichit ",
+        "generalAgenda": "'Agenda Principal'",
+        "section": "'Type de destinataire d'action'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+
+    },
+    "masterAgenda": {
+      "name": "Nom",
+      "gridname": "Nom",
+      "commercialOwner": "Client Servicing",
+      "mainOwner": "Master de l'utilisateur",
+      "type": "Type",
+      "overviewGeneralAgenda": "Aperçu de l'agenda master",
+      "generalAgendaDetail": "Détail de l'agenda master",
+      "masterAgenda": "Master Agenda",
+      "ScreenHeader": "Master Agenda",
+      "ValidationError": {
+        "required": " is verplichit ",
+        "name": "'name'",
+        "commercialOwner": "'Client Servicing'",
+        "mainOwner": "'Master de l'utilisateur'",
+        "type": "'Type'"
+      }
+    },
+    "buttons": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "new": "Ajoute"
+    },
+    "Validation": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "dialog": {
+      "Yes": "Oui",
+      "No": "Non",
+      "Cancel": "Annuler",
+      "Header": "Changements non sauvegardé",
+      "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "exception": "Technical Exception",
+      "continue": "Continue"
+    }
+
+  }
+ 
+}

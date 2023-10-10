@@ -1,0 +1,162 @@
+a:hover {
+  color: $primary-4;
+}
+
+a {
+  color: $primary;
+
+  .pi {
+    font-size: 10px;
+    margin-right: 4px;
+  }
+}
+
+.divlink {
+  color: $primary;
+  font-family: 'Gilroy', sans-serif;
+  // text-decoration: underline;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.link-outlined {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 8px 16px;
+  color: $primary;
+  border: 1px solid $primary;
+  text-align: center;
+  line-height: 20px;
+  min-width: 180px;
+
+  &:focus {
+    box-shadow: $focusShadow;
+  }
+}
+
+a.p-menuitem-link {
+  box-shadow: none;
+}
+
+div.p-menubar {
+  a.p-menubar-button:focus {
+    box-shadow: none;
+  }
+}
+
+.nav-menu {
+  .p-menuitem-link:hover {
+    .p-menuitem-text {
+      text-decoration: underline;
+    }
+  }
+
+  .p-menuitem-link-active {
+    font-weight: 500;
+  }
+}
+
+.link-button-primary {
+  cursor: pointer;
+  color: #fff;
+  background: $primary;
+  border-radius: 3px;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid $primary;
+  min-width: 180px;
+  line-height: 20px;
+
+  &:hover {
+    color: #fff;
+  }
+
+  &:focus,
+  &:hover {
+    background: $primary-4;
+    border: 1px solid $primary-4;
+    box-shadow: $focusShadow;
+  }
+
+  &:active {
+    background: $primary;
+    border: 1px solid $primary;
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.document-link {
+  color: $neutral-dark;
+
+  &:hover {
+    color: $neutral-dark-4;
+  }
+}
+
+.link-disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.p-button {
+  &.p-button-link {
+    margin: 0.5rem 0;
+    padding: 0;
+    text-decoration: underline;
+    transition: 0.2s;
+
+    &.button-link-small {
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    &:not(:disabled) {
+      color: $primary;
+    }
+
+    &:enabled:hover,
+    &:enabled:focus {
+      border: none;
+      color: $secondary;
+      box-shadow: none;
+    }
+
+    .p-button-label {
+      display: none;
+    }
+
+    &.number-selector {
+      text-decoration: none;
+
+      &:focus {
+        .journey-icon {
+          border-color: $secondary;
+        }
+      }
+    }
+  }
+}
+
+mbpanel-header-logo a:focus,
+mbp-header-logo a:focus {
+  box-shadow: none;
+  filter: drop-shadow(0 6px 4px $primary-2);
+}
+
+.p-link {
+  &:focus {
+    box-shadow: $focusShadow;
+  }
+}

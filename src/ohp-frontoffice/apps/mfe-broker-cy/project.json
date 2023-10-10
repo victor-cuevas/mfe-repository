@@ -1,0 +1,41 @@
+{
+  "root": "apps/mfe-broker-cy",
+  "sourceRoot": "apps/mfe-broker-cy/src",
+  "projectType": "application",
+  "targets": {
+    "cy-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mfe-broker-cy/cypress.config.ts",
+        "skipServe": true,
+        "watch": true,
+        "baseUrl": "http://localhost:4200"
+      },
+      "configurations": {
+        "production": {
+          "skipServe": false,
+          "devServerTarget": "app-shell:serve-broker:production",
+          "watch": false
+        },
+        "dip-bot": {
+          "cypressConfig": "apps/mfe-broker-cy/cypress.bot.config.ts",
+          "skipServe": true,
+          "watch": false
+        },
+        "dip-bot-ci": {
+          "cypressConfig": "apps/mfe-broker-cy/cypress.bot.config.ts",
+          "devServerTarget": "mfe-broker-portal:serve-with-shell",
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mfe-broker-cy/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mfe-broker-portal", "mfe-broker-panel", "app-shell"]
+}

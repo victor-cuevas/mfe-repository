@@ -1,0 +1,132 @@
+[
+  {
+    "id": "AB123",
+    "initialRate": 1.59,
+    "productFee": 995,
+    "monthlyPayment": 1002.35,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 2,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 1,
+        "until": "31/08/2023"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "repayment",
+    "interestRateType": "fixed",
+    "term": 24,
+    "features": ["cashback", "free-legals"]
+  },
+  {
+    "id": "CB153",
+    "initialRate": 1.7,
+    "productFee": 950,
+    "monthlyPayment": 1054.34,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 3,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 2,
+        "until": "31/08/2023"
+      },
+      {
+        "interest": 1,
+        "until": "31/08/2024"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "interest only",
+    "interestRateType": "fixed",
+    "term": 18,
+    "features": ["cashback", "free-legals"]
+  },
+  {
+    "id": "CD718",
+    "initialRate": 1.85,
+    "productFee": 900,
+    "monthlyPayment": 997.2,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 1,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 2,
+        "until": "31/08/2023"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "repayment",
+    "interestRateType": "tracker",
+    "term": 36,
+    "features": ["cashback", "free-legals"]
+  },
+  {
+    "id": "AC901",
+    "initialRate": 2.01,
+    "productFee": 995,
+    "monthlyPayment": 1021.45,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 2,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 1,
+        "until": "31/08/2023"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "repayment",
+    "interestRateType": "fixed",
+    "term": 24,
+    "features": ["cashback", "free-legals"]
+  },
+  {
+    "id": "BK124",
+    "initialRate": 1.59,
+    "productFee": 995,
+    "monthlyPayment": 1039.46,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 2,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 1,
+        "until": "31/08/2023"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "interest only",
+    "interestRateType": "fixed",
+    "term": 120,
+    "features": ["cashback", "free-legals"]
+  },
+  {
+    "id": "CD124",
+    "initialRate": 1.59,
+    "productFee": 400,
+    "monthlyPayment": 874.82,
+    "earlyRepaymentCharge": [
+      {
+        "interest": 2,
+        "until": "31/08/2022"
+      },
+      {
+        "interest": 1,
+        "until": "31/08/2023"
+      }
+    ],
+    "annualPercentageRateOfCharge": 2.5,
+    "repaymentType": "repayment",
+    "interestRateType": "tracker",
+    "term": 36,
+    "features": ["cashback", "free-legals"]
+  }
+]

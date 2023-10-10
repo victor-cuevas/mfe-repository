@@ -1,0 +1,329 @@
+<form [formGroup]="filterForm">
+  <div class="d-flex scrollable-table">
+    <p-table
+      #firmsTable
+      [lazy]="true"
+      [loading]="loading"
+      [paginator]="totalRecords > 10"
+      [responsive]="true"
+      [rows]="pageSize"
+      [scrollable]="true"
+      [showCurrentPageReport]="!!totalRecords"
+      [showLoader]="false"
+      [totalRecords]="totalRecords"
+      [value]="firms"
+      (onLazyLoad)="loadFirms($event)"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      scrollHeight="flex"
+      styleClass="boxed-table"
+    >
+      <!-- table header -->
+      <ng-template pTemplate="header">
+        <tr class="px-3">
+          <th [colSpan]="2">
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.firmName' | translate }}</h6>
+              <div class="d-flex align-items-center">
+                <!-- name sort-->
+                <button class="hidden-btn" (click)="sort()">
+                  <i [class]="'mt-1 pi ' + sortOrder.icon"></i>
+                </button>
+                <!-- name filter -->
+                <cfo-filter-menu #nameFilter>
+                  <li class="row bg-light">
+                    <div class="col-12 py-2">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                          type="text"
+                          [placeholder]="'firms.placeholders.name' | translate"
+                          pInputText
+                          ngDefaultControl
+                          class="filter-input"
+                          formControlName="firmName"
+                        />
+                      </span>
+                    </div>
+                  </li>
+
+                  <li class="row my-1">
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__clear"
+                        (click)="clearFilter('firmName', 'nameFilter')"
+                        [disabled]="!filterForm.controls.firmName.value"
+                      >
+                        {{ 'general.buttons.clear' | translate }}
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__apply"
+                        [disabled]="!filterForm.controls.firmName.value"
+                        (click)="filter('nameFilter')"
+                      >
+                        {{ 'general.buttons.apply' | translate }}
+                      </button>
+                    </div>
+                  </li>
+                </cfo-filter-menu>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.fcaNumber' | translate }}</h6>
+              <!-- number filter -->
+              <cfo-filter-menu #numberFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="number"
+                        [placeholder]="'firms.placeholders.number' | translate"
+                        ngDefaultControl
+                        formControlName="fcaNumber"
+                        class="number-input__icon"
+                      />
+                    </span>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('fcaNumber', 'numberFilter')"
+                      [disabled]="!filterForm.controls.fcaNumber.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.fcaNumber.value"
+                      (click)="filter('numberFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.firmRef' | translate }}</h6>
+              <!-- ref filter -->
+              <cfo-filter-menu #referenceFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="text"
+                        [placeholder]="'firms.placeholders.reference' | translate"
+                        pInputText
+                        ngDefaultControl
+                        class="filter-input"
+                        formControlName="reference"
+                      />
+                    </span>
+                  </div>
+                </li>
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('reference', 'referenceFilter')"
+                      [disabled]="!filterForm.controls.reference.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.reference.value"
+                      (click)="filter('referenceFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.status' | translate }}</h6>
+              <!-- status filter -->
+              <cfo-filter-menu #statusFilter>
+                <li class="row" [ngClass]="filterForm.controls.isActivated?.value ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex">
+                    <p-radioButton [value]="true" ngDefaultControl formControlName="isActivated" inputId="active"></p-radioButton>
+                    <label for="active" class="radio-btn-label ms-2 mb-0">Active</label>
+                  </div>
+                </li>
+                <li class="row" [ngClass]="filterForm.controls.isActivated?.value === false ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex align-items-center">
+                    <p-radioButton [value]="false" ngDefaultControl formControlName="isActivated" inputId="inactive"></p-radioButton>
+                    <label for="inactive" class="radio-btn-label ms-2 mb-0">Inactive</label>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('isActivated', 'statusFilter')"
+                      [disabled]="filterForm.controls.isActivated.value === null"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="filterForm.controls.isActivated.value === null"
+                      (click)="filter('statusFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.isInReview' | translate }}</h6>
+              <!-- review filter -->
+              <cfo-filter-menu #reviewFilter>
+                <li class="row" [ngClass]="filterForm.controls.isInReview?.value ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex">
+                    <p-radioButton [value]="true" ngDefaultControl formControlName="isInReview" inputId="active"></p-radioButton>
+                    <label for="inReview" class="radio-btn-label ms-2 mb-0">Yes</label>
+                  </div>
+                </li>
+                <li class="row" [ngClass]="filterForm.controls.isActivated?.value === false ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex align-items-center">
+                    <p-radioButton [value]="false" ngDefaultControl formControlName="isInReview" inputId="notInReview"></p-radioButton>
+                    <label for="notInReview" class="radio-btn-label ms-2 mb-0">No</label>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('isInReview', 'reviewFilter')"
+                      [disabled]="filterForm.controls.isInReview.value === null"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="filterForm.controls.isInReview.value === null"
+                      (click)="filter('reviewFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items">
+              <h6>{{ 'firms.columns.firmType' | translate }}</h6>
+              <!-- type filter -->
+              <cfo-filter-menu #typeFilter>
+                <li class="row" [ngClass]="filterForm.controls.type?.value === 'DirectlyAuthorized' ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex">
+                    <p-radioButton value="DirectlyAuthorized" ngDefaultControl formControlName="type" inputId="directAuth"></p-radioButton>
+                    <label for="directAuth" class="radio-btn-label ms-2 mb-0">Directly Authorised</label>
+                  </div>
+                </li>
+                <li class="row" [ngClass]="filterForm.controls.type?.value === 'AppointedRepresentative' ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex align-items-center">
+                    <p-radioButton
+                      value="AppointedRepresentative"
+                      ngDefaultControl
+                      formControlName="type"
+                      inputId="inactive"
+                    ></p-radioButton>
+                    <label for="appointedRep" class="radio-btn-label ms-2 mb-0">Appointed Representative</label>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('type', 'typeFilter')"
+                      [disabled]="!filterForm.controls.type.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.type.value"
+                      (click)="filter('typeFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <!-- end of table header -->
+      <!-- empty table body -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="7" class="text-center">No records found</td>
+        </tr>
+      </ng-template>
+      <!-- main table body (rows) -->
+      <ng-template pTemplate="body" let-firm>
+        <tr class="px-3">
+          <td [colSpan]="2">
+            <a [routerLink]="firm.id ? routePaths.LIST_INTERMEDIARIES.replace(':id', firm.id) : ''" class="divlink nounderline">{{
+              firm.firmName
+            }}</a>
+          </td>
+          <td>{{ firm.fcaReference }}</td>
+          <td>
+            <div *ngIf="firm.reference; else referenceElseBlock">{{ firm.reference }}</div>
+            <ng-template #referenceElseBlock> N/A </ng-template>
+          </td>
+          <td>
+            <div *ngIf="firm.isActive; else statusElseBlock">Active</div>
+            <ng-template #statusElseBlock>Inactive</ng-template>
+          </td>
+          <td>
+            <div *ngIf="firm.isInReview; else reviewElseBlock">Yes</div>
+            <ng-template #reviewElseBlock>No</ng-template>
+          </td>
+          <td>
+            <div *ngIf="firm.firmType === 'DirectlyAuthorized'; else typeElseBlock">Direct Auth</div>
+            <ng-template #typeElseBlock>App'd Rep</ng-template>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- end of main table body (rows) -->
+      <ng-template pTemplate="loadingbody">
+        <td class="table-loader" [attr.colspan]="7"></td>
+      </ng-template>
+    </p-table>
+  </div>
+</form>

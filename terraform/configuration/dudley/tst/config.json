@@ -1,0 +1,35 @@
+{
+  "AWS": {
+    "REGION": "eu-west-1",
+    "USER_POOL_ID": "eu-west-1_ZnZzzuHc1",
+    "USER_POOL_APP_CLIENT_ID": "7o0rmd4mh8to6j9mmejvr9j6q0",
+    "USER_POOL_SIGN_IN_REDIRECT_URL": "https://intermediary.dudley-test.project.cloud",
+    "USER_POOL_REDIRECT_URL": "https://intermediary.dudley-test.project.cloud",
+    "USER_POOL_AUTH_DOMAIN": "https://dudley-test.auth.eu-west-1.amazoncognito.com/"
+  },
+  "CLIENT": "dly",
+  "STAGE": "tst",
+  "DATADOG": {
+    "applicationId": "b4a1736a-e73a-48d8-b7fa-2a866a590840",
+    "clientToken": "pub4794a37b50efdbde1f705e55adaf97ec",
+    "site": "datadoghq.eu",
+    "service": "mfes-app-angular"
+  },
+  "DEFAULT_ROUTE": "broker",
+  "REMOTE_MFES": [
+    {
+      "path": "broker",
+      "remoteUrl": "https://portal.dudley-test.project.cloud",
+      "remoteName": "mfeBrokerPortal",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPortalModule"
+    },
+    {
+      "path": "panel",
+      "remoteUrl": "https://panel.dudley-test.project.cloud",
+      "remoteName": "mfeBrokerPanel",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPanelModule"
+    }
+  ]
+}

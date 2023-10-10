@@ -1,0 +1,155 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'communication.DefaultReference.heading.DefaultReference' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'communication.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(defaultRefTypeList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'communication.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'communication.button.Add' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="defaultRefTypeList"
+                          [gridDataHeader]="defaultHeader" [paginationStatus]="false" paginationReportStatus="false" [selectedDetail]="defualtRefTypeCard"
+                          (deleteRowEvent)="onRowDelete($event,defaultRefTypeList)" (rowClickedEvent)="clickGrid($event)">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="Nothide">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.DefaultReference.card.Referencetypeusage' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="defualtRefTypeCard?.referenceTypeUsage"
+                                      Type="single"
+                                      name="Referencetypeusage"
+                                      [placeholder]="placeholder"
+                                      [options]="referenceTypeUsageList"
+                                      [ControlConfig]="TypeUsageDropdownConfig"
+                                      optionLabel="caption"
+                                      [isReadOnly]="notEditable"
+                                      dataKey="caption"
+                                      [cfcFluidValidation]="{errors:TypeUsagedropdown.errors? TypeUsageDropdownConfig.Errors :'', formSubmitted:(TypeUsageDropdownConfig.externalError)}"
+                                      (OnSelectionChanged)="changeReferenceTypeUsage($event)"
+                                      #TypeUsagedropdown="ngModel"
+                                      [title]="defualtRefTypeCard?.referenceTypeUsage?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.DefaultReference.card.ReferencetypeName' | translate}}</label>
+                </div>
+                <div class="col-7">
+
+                  <cfc-fluid-dropdown [ngModel]="defualtRefTypeCard?.referenceType"
+                                      Type="single"
+                                      name="ReferencetypeName"
+                                      [placeholder]="placeholder"
+                                      [options]="referenceTypeList"
+                                      [ControlConfig]="TypeDropdownConfig"
+                                      optionLabel="name"
+                                      dataKey="name"
+                                      [cfcFluidValidation]="{errors:Typedropdown.errors? TypeDropdownConfig.Errors :'', formSubmitted:(TypeDropdownConfig.externalError)}"
+                                      (OnSelectionChanged)="changeReferenceType($event)"
+                                      #Typedropdown="ngModel"
+                                      [title]="defualtRefTypeCard?.referenceType?.name">
+                  </cfc-fluid-dropdown>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'communication.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'communication.close.body' | translate}}
+
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'communication.close.yes' | translate}}"
+                              (click)="onYes(defaultRefTypeList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'communication.close.no' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'communication.close.cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+
+                Technical Exception has occured in a component in our application.<br />
+                If you click Continue, the application will ignore this error
+                and attempt to continue.
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

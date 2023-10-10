@@ -1,0 +1,31 @@
+<div class="closefo-input">
+  <textarea [(ngModel)]="value"
+            [required]="IsRequired()"
+            [disabled]="isReadOnly"
+            [name]="name"
+            #inputModel="ngModel"
+            pInputTextarea
+            [maxLength]="maxLength"
+            >
+
+  </textarea>
+  
+  <div *ngIf="inputModel?.errors && form?.submitted">
+    <div class="closefo-validation-error"
+         *ngFor="let error of ControlConfig.Errors">
+      <small *ngIf="
+            error.isModelError && 
+            error['validation'] && (inputModel.errors!==null && inputModel.errors[error['validation']])
+          ">
+        {{ error["validationMessage"] }}
+      </small>
+    </div>
+    <div *ngIf="form?.submitted">
+      <div class="form-feedback" *ngFor="let error of ControlConfig.Errors">
+        <span class="form-error"
+              *ngIf="!error.isModelError && error.isShowValidation">{{ error["validationMessage"] }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>

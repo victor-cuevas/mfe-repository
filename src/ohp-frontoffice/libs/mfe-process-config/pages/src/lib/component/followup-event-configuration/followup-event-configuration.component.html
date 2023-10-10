@@ -1,0 +1,226 @@
+<div class="whitelabel-config">
+  <div class="close-process-config container">
+    <form class="closefo-form" #followUpForm="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': followUpForm.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'process.cm-followup-event.heading.followevent' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'process.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(followUpEventConfigList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'process.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{ 'process.cm-followup-event.card.Add' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="addNewRow()"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="followUpEventConfigList"
+            [gridDataHeader]="followupHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDelete($event)"
+            (rowClickedEvent)="onRowselect($event)"
+            [selectedDetail]="highlightFollowUpData"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="hideCard">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-5 text-right">
+                <label class="closefo-form-label required">{{ 'process.cm-followup-event.card.FollowupEvent' | translate }}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown
+                  [ngModel]="followUpEventConfigData?.followUpEventName"
+                  [form]="followUpForm"
+                  Type="single"
+                  name="followUpEventName"
+                  [placeholder]="placeholder"
+                  [options]="followUpEventNameList"
+                  [ControlConfig]="RequiredFollowUp"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="onfollowUpEventNameChange($event)"
+                  #followUpEventNamedropdown="ngModel"
+                  [title]="
+                    followUpEventConfigData?.followUpEventName?.caption === null ? '' : followUpEventConfigData?.followUpEventName?.caption
+                  "
+                  [cfcFluidValidation]="{
+                    errors: followUpEventNamedropdown.errors ? RequiredFollowUp.Errors : '',
+                    formSubmitted: followUpForm.submitted || RequiredFollowUp.externalError
+                  }"
+                >
+                </cfc-fluid-dropdown>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-5 text-right">
+                <label class="closefo-form-label required">{{ 'process.cm-followup-event.card.EventCreationDateType' | translate }}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown
+                  [ngModel]="followUpEventConfigData?.eventCreationDateType"
+                  [form]="followUpForm"
+                  Type="single"
+                  name="eventCreationDateType"
+                  [placeholder]="placeholder"
+                  [options]="eventDateTypeList"
+                  [ControlConfig]="RequiredEventCreation"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="oneventCreationDateTypeChange($event)"
+                  #eventCreationDateTypedropdown="ngModel"
+                  [title]="
+                    followUpEventConfigData?.eventCreationDateType?.caption === null
+                      ? ''
+                      : followUpEventConfigData?.eventCreationDateType?.caption
+                  "
+                  [cfcFluidValidation]="{
+                    errors: eventCreationDateTypedropdown.errors ? RequiredEventCreation.Errors : '',
+                    formSubmitted: followUpForm.submitted || RequiredEventCreation.externalError
+                  }"
+                >
+                </cfc-fluid-dropdown>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-5 text-right">
+                <label class="closefo-form-label required">{{ 'process.cm-followup-event.card.EventHandlingDateType' | translate }}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown
+                  [ngModel]="followUpEventConfigData?.eventHandlingDateType"
+                  [form]="followUpForm"
+                  Type="single"
+                  name="eventHandlingDateType"
+                  [placeholder]="placeholder"
+                  [options]="eventDateTypeList"
+                  [ControlConfig]="RequiredEventHandling"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="oneventHandlingDateTypeChange($event)"
+                  #eventHandlingDateTypedropdown="ngModel"
+                  [title]="
+                    followUpEventConfigData?.eventHandlingDateType?.caption === null
+                      ? ''
+                      : followUpEventConfigData?.eventHandlingDateType?.caption
+                  "
+                  [cfcFluidValidation]="{
+                    errors: eventHandlingDateTypedropdown.errors ? RequiredEventHandling.Errors : '',
+                    formSubmitted: followUpForm.submitted || RequiredEventHandling.externalError
+                  }"
+                >
+                </cfc-fluid-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'process.dialog.Header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'process.dialog.Content' | translate }}</div>          
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="submit"
+            class="ms-auto" 
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'process.dialog.Yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(followUpEventConfigList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'process.dialog.No' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'process.dialog.Cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate>
+        Technical Exception
+      </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+        <div class="warning-main">
+          <div class="war-left">
+            <i class="pi pi-exclamation-triangle"></i>
+          </div>
+        </div>
+        <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error
+            and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+
+
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                            (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </ng-template>
+
+    </cfc-fluid-dialog>
+
+  </div>
+</div>

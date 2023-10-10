@@ -1,0 +1,213 @@
+{
+  "accounting": {
+    "txtype": {
+      "heading": {
+        "AccountingTxt": "Manage AM Transactions"
+      },
+      "card": {
+        "TxType": "TxType",
+        "isaccountingtx": "Is AccountingTx"
+      },
+      "tabel": {
+        "TxType": "TxType",
+        "isAccountingtx": "Is AccountingTx",
+        "delete": "Delete"
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "card": " 'TxType'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "mutation-type": {
+      "heading": {
+        "mutationType": "Manage AM Mutation Types"
+      },
+      "tabel": {
+        "MutationT": "Mutation Type",
+        "delete": "Delete"
+      },
+      "card": {
+        "MutationType": "Mutation Type"
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "section": " 'Mutation Type'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "ltvmodification": {
+      "heading": {
+        "ltvmodificationsurcharges": "Manage AM LTV modifications"
+      },
+      "tabel": {
+        "RateAdaptionName": "Rate Adaption Name",
+        "delete": "Delete"
+      },
+      "card": {
+        "RateAdaptionName": "Rate Adaption Name"
+      },
+      "mandatory": {
+        "required": " is Mandatory.",
+        "RateAdaptionName": " 'Rate Adaption Name'"
+      }
+    },
+
+    "Periodicity": {
+      "heading": {
+        "Periodicity": "Manage AM Periodicities"
+      },
+      "tabel": {
+        "Periodicity": "Periodicity",
+        "delete": "Delete"
+      },
+      "card": {
+        "Periodicitys": "Periodicity"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "section": " 'Periodicity'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'Financial Amortization Type' is Mandatory."
+      }
+    },
+
+    "CreditProvider": {
+      "heading": {
+        "CreditProvider": "Manage AM Credit Provider"
+      },
+      "tabel": {
+        "CreditProvider": "Credit Provider Name",
+        "delete": "Delete"
+      },
+      "card": {
+        "CreditProviders": "Credit Provider Name"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "section": " 'Credit Provider Name'",
+        "picklist": "'Financial Amortization Type'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'Financial Amortization Type' is Mandatory."
+      }
+    },
+
+    "Divergent": {
+      "heading": {
+        "DivergentEffect": "Manage AM Divergent Effective Rate Sheet"
+      },
+      "tabel": {
+        "EffectiveRate": "Effective Rate",
+        "nrofyears": "Nr Of Years",
+        "delete": "Delete"
+      },
+      "card": {
+        "EffectiveRate": "Effective Rate",
+        "Numberofyears": "Nr Of Years"
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "errorRate": " 'Effective Rate'",
+        "nrofYears": "'Nr Of Years'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "interest-mediation": {
+      "heading": {
+        "interestMediation": "Manage AM Interest Mediation Surcharge"
+      },
+      "card": {
+        "RateAdaption": "Rate Adaption Name"
+
+      },
+      "tabel": {
+        "RateAdaptionName": "Rate Adaption Name",
+        "delete": "Delete"
+      },
+      "mandatory": {
+        "required": " is Mandatory.",
+        "RateAdaptionName": " 'Rate Adaption Name'"
+      }
+    },
+
+    "forbearance-measure": {
+      "heading": {
+        "forbearanceMeasure": "Manage Forbearance Measure"
+      },
+      "card": {
+        "forbearanceMeasure": "Forbearance Measure",
+        "paymentHoliday": "No Of Months For Payment Holiday",
+        "substantialModification": "Substantial Modification Percentage",
+        "concessiontx": "No Of Days For Concession Tx",
+        "isSubstantialModification": "Is Substantial Modification Applicable"
+      },
+      "validation": {
+        "forbearanceMeasure": "'Forbearance Measure' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+
+    "market-rate": {
+      "heading": {
+        "marketRate": "Manage Marketrate for Substantial Modification"
+      },
+      "card": {
+        "Noofyrs": "No Of Years",
+        "ValidFrom": "Valid From",
+        "ValidTo": "Valid To",
+        "MarketRate": "Market Rate"
+
+      },
+      "tabel": {
+        "Noofyrs": "No Of Years",
+        "ValidFrom": "Valid From",
+        "ValidTo": "Valid To",
+        "MarketRate": "Market Rate"
+      },
+      "mandatory": {
+        "required": " is Mandatory.",
+        "Noofyrs": "'No Of Years'",
+        "ValidFrom": "'Valid From'",
+        "ValidTo": "'Valid To'",
+        "MarketRate": "'Market Rate'",
+        "zeroRate": "'Market Rate' must be greater than zero",
+        "businessError": "Date fields cannot overlap per 'No Of Years'"
+
+      }
+    },
+
+    "button": {
+      "save": "Save",
+      "close": "Close",
+      "add": "Add"
+    },
+    "Validation": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    },
+    "dialog": {
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel",
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "exception": "Technical Exception",
+      "continue": "Continue"
+    }
+  }
+}

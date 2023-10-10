@@ -1,0 +1,96 @@
+.dialog-popup {
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  .p-dialog-header {
+    padding: 0 !important;
+  }
+
+  .header-box {
+    padding-top: 10px;
+    text-align: center;
+    width: 100%;
+    background-color: $neutral-light-1;
+  }
+
+  .header-dialog {
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .header-box-success {
+    color: $primary;
+  }
+
+  .header-box-danger {
+    color: $auxiliary-c;
+  }
+
+  .dialog-icon {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    padding: 10px 10px 0 10px;
+  }
+
+  .p-dialog-content {
+    padding: 0;
+
+    .content-box {
+      padding: 20px;
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+      word-wrap: break-word;
+    }
+  }
+}
+
+.dialog-popup {
+  &.dialog-popup-sm {
+    max-width: 400px;
+  }
+
+  &.dialog-popup-md {
+    max-width: 600px;
+  }
+
+  &.dialog-popup-lg {
+    max-width: 800px;
+  }
+
+  &.dialog-popup-xl {
+    max-width: 1000px;
+  }
+
+  .p-dialog-header {
+    padding: 0 !important;
+  }
+
+  .header-box {
+    padding-top: 14px;
+    text-align: center;
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .p-dialog-content {
+    padding-bottom: 10px;
+  }
+
+  .footer-box {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.p-dialog {
+  .p-dialog-header {
+    .p-dialog-header-icon {
+      &:focus {
+        box-shadow: $focusShadow;
+      }
+    }
+  }
+}

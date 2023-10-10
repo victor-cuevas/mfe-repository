@@ -1,0 +1,332 @@
+<ng-container [ngSwitch]="Type">
+  <ng-container *ngSwitchCase="'bo-table'"
+                [ngTemplateOutlet]="boTable"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
+</ng-container>
+<ng-template #default>
+  <p-table #fluidGridTable
+           [value]="dataList"
+           [columns]="headerList"
+           dataKey="id"
+           styleClass="closefo-datatable"
+           [resizableColumns]="true"
+           [rowHover]="true"
+           [rows]="5"
+           [showCurrentPageReport]="paginationReportStatus"
+           [rowsPerPageOptions]="rowsPageOption"
+           [paginator]="paginationStatus"
+           currentPageReportTemplate="{{ pageReportContent }}"
+           (onPage)="paginate($event)"
+           [expandedRowKeys]="expandedItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let header of headerList; let i = index">
+          {{ header.header }}
+        </th>
+      </tr>
+      <tr>
+        <!--<th>
+        <div class="prod-checkbox">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </div>
+        </th>-->
+        <div *ngIf="headerStatus">
+        <th *ngFor="let header of headerList; let i = index">
+          <span *ngIf="header.type === 'text'">
+            <input pInputText
+                   type="text"
+                   (input)="
+                filterTable(
+                   $event,
+                  header.field,
+                  header.condition)
+              "
+                   placeholder="Search"
+                   class="p-column-filter" />
+          </span>
+          <span *ngIf="header.type === 'multi-dropdown'">
+            <p-multiSelect [options]="representatives"
+                           placeholder="All"
+                           (onChange)="multiDropdownFilter($event)"
+                           styleClass="p-column-filter"
+                           optionLabel="name">
+              <ng-template let-option pTemplate="item">
+                <div class="p-multiselect-representative-option">
+                  <span class="p-ml-1">{{ option.label }}</span>
+                </div>
+              </ng-template>
+            </p-multiSelect>
+          </span>
+          <span *ngIf="header.type === 'single-dropdown'">
+            <p-calendar (onSelect)="onDateSelect($event)"
+                        (onClearClick)="
+                fluidGridTable.filter('', 'header.field', 'header.condition')
+              "
+                        [showButtonBar]="true"
+                        styleClass=""
+                        placeholder="Registration Date"
+                        [readonlyInput]="true"
+                        dateFormat="yy-mm-dd"></p-calendar>
+          </span>
+          <span></span>
+        </th>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body"
+                 let-rowData
+                 let-columns="columns"
+                 let-rowIndex="rowIndex">
+      <tr>
+        <td *ngFor="let col of columns">
+          <ng-container [ngSwitch]="col.fieldType">
+            <ng-container *ngSwitchCase="'date'"
+                          [ngTemplateOutlet]="dateControl"></ng-container>
+          </ng-container>
+
+          <ng-template #dateControl>
+            <span> {{ rowData[col.field] | date: "medium" }}</span>
+          </ng-template>
+
+          <span *ngIf="col.fieldType !== 'date'">
+            {{ getCellData(rowData, col) }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template let-data pTemplate="rowexpansion">
+      {{ expandedRow | json }}
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">{{ gridNoDataContent }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>
+<ng-template #boTable>
+  <p-table #fluidGridTable
+           [value]="dataList"
+           [columns]="headerList"
+           [dataKey]="dataKey"
+           styleClass="closefo-datatable closefo-bo-table"
+           [resizableColumns]="true"
+           [rowHover]="true"
+           [rows]="PageRows"
+           [showCurrentPageReport]="paginationReportStatus"
+           [paginator]="paginationStatus"
+           currentPageReportTemplate="{{ pageReportContent }}"
+           [selectionMode]="dataSelectionMode" [(selection)]="dataSelection"
+           (selectionChange)="dataChange($event)"
+           [totalRecords]="totalRecords"
+           [lazy]='paginationStatus'
+           (onLazyLoad)=paginate($event)
+           [first]="resetFirst"
+           >
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col *ngFor="let col of columns">
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <!--<th style="width: 2.25em"></th>-->
+        <th *ngFor="let header of headerList; let i = index" pReorderableColumn [style.width]="header.width" pResizableColumn [pSortableColumn]="(header.dateSort) ? header.dateSort: (header.amountSort)?header.amountSort : header.field" [pSortableColumnDisabled]="header.pSortableColumnDisabled">
+          {{ header.header }}
+          <p-sortIcon [field]="(header.dateSort)? header.dateSort : (header.amountSort) ? header.amountSort : header.field" *ngIf="header.fieldType!=='deleteButton' && header.fieldType!=='customizeDeleteButton'"></p-sortIcon>
+
+        </th>
+      </tr>
+      <tr>
+
+        <!--<th>
+        <div class="prod-checkbox">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </div>
+        </th>-->
+        <div *ngIf="headerStatus">
+
+        <th *ngFor="let header of headerList; let i = index">
+          <span *ngIf="header.type === 'text'">
+            <input pInputText
+                   type="text"
+                   (input)="
+                filterTable(
+                   $event,
+                  header.field,
+                  header.condition)
+              "
+                   placeholder="Search"
+                   class="p-column-filter" />
+          </span>
+          <span *ngIf="header.type === 'multi-dropdown'">
+            <p-multiSelect [options]="representatives"
+                           placeholder="All"
+                           (onChange)="multiDropdownFilter($event)"
+                           styleClass="p-column-filter"
+                           optionLabel="name">
+              <ng-template let-option pTemplate="item">
+                <div class="p-multiselect-representative-option">
+                  <span class="p-ml-1">{{ option.label }}</span>
+                </div>
+              </ng-template>
+            </p-multiSelect>
+          </span>
+          <span *ngIf="header.type === 'single-dropdown'">
+            <p-calendar (onSelect)="onDateSelect($event)"
+                        (onClearClick)="
+                fluidGridTable.filter('', 'header.field', 'header.condition')
+              "
+                        [showButtonBar]="true"
+                        styleClass=""
+                        placeholder="Registration Date"
+                        [readonlyInput]="true"
+                        dateFormat="yy-mm-dd"></p-calendar>
+          </span>
+          <span></span>
+        </th>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body"
+                 let-rowData
+                 let-columns="columns"
+                 let-rowIndex="rowIndex" let-expanded="expanded">
+
+      <tr [pSelectableRow]="rowData" (click)="rowClicked(rowData)" (dblclick)="onRowDblClick(rowData)" [ngClass]="{'highlight' : selectedDetail === rowData }">
+        <!--<td style="width: 2.25em">
+          <a href="#" [pRowToggler]="rowData">
+            <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"></i>
+          </a>
+        </td>-->
+        <ng-container *ngFor="let col of columns">
+          <td *ngIf="col.fieldType !== 'checkbox'" [style.width]="col.width">
+            <ng-container [ngSwitch]="col.fieldType">
+              <ng-container *ngSwitchCase="'date'"
+                            [ngTemplateOutlet]="dateControl"></ng-container>
+              <ng-container *ngSwitchCase="'link'"
+                            [ngTemplateOutlet]="linkControl"></ng-container>
+              <ng-container *ngSwitchCase="'copyRequestLink'"
+                            [ngTemplateOutlet]="copyRequestlinkControl"></ng-container>
+              <ng-container *ngSwitchCase="'copyResponseLink'"
+                            [ngTemplateOutlet]="copyResponselinkControl"></ng-container>
+              <ng-container *ngSwitchCase="'button'"
+                            [ngTemplateOutlet]="btnControl"></ng-container>
+              <ng-container *ngSwitchCase="'deleteButton'"
+                            [ngTemplateOutlet]="deleteBtnControl"></ng-container>
+              <ng-container *ngSwitchCase="'dropdown'"
+                            [ngTemplateOutlet]="dropdownControl"></ng-container>
+              <ng-container *ngSwitchCase="'customizeDeleteButton'"
+                            [ngTemplateOutlet]="customizeDeleteBtnControl"></ng-container>
+              <ng-container *ngSwitchCase="'remaindercustomizeDeleteButton'"
+                            [ngTemplateOutlet]="remaindercustomizeDeleteButton"></ng-container>
+              <ng-container *ngSwitchCase="'dueamountDeleteButton'"
+                            [ngTemplateOutlet]="dueamountDeleteButton"></ng-container>
+              <ng-container *ngSwitchCase="'documentTemplateDeleteButton'"
+                            [ngTemplateOutlet]="documentTemplateDeleteBtnControl"></ng-container>
+            </ng-container>
+
+            <ng-template #dateControl>
+              <span> {{ rowData[col.field] | date: "medium" }}</span>
+            </ng-template>
+            <ng-template #linkControl>
+              <a href="#" (click)="OnClickLink(rowData,$event)"> {{ rowData[col.field] }}</a>
+            </ng-template>
+            <ng-template #copyRequestlinkControl>
+              <a href="#" (click)="OnCopyRequest($event)"> {{ rowData[col.field] }}</a>
+            </ng-template>
+            <ng-template #copyResponselinkControl>
+              <a href="#" (click)="OnCopyResponse($event)"> {{ rowData[col.field] }}</a>
+            </ng-template>
+            <ng-template #btnControl>
+              <button class="closefo-primary-btn"> {{ rowData[col.field] }}</button>
+            </ng-template>
+            <ng-template #deleteBtnControl>
+              <span class="closefo-delete-btn" (click)="OnDeleteRow(rowData)"><i class="pi pi-times-circle"></i> </span>
+            </ng-template>
+            <ng-template #customizeDeleteBtnControl>
+              <span class="closefo-delete-btn" (click)="OnDeleteRow(rowData)" *ngIf="rowData.hasNoProductCopy"><i class="pi pi-times-circle"></i> </span>
+            </ng-template>
+            <ng-template #remaindercustomizeDeleteButton>
+              <span class="closefo-delete-btn" (click)="OnDeleteRow(rowData)" *ngIf="rowData.canDeleteEnable"><i class="pi pi-times-circle"></i> </span>
+            </ng-template>
+            <ng-template #dueamountDeleteButton>
+              <span class="closefo-delete-btn" (click)="OnDeleteRow(rowData)" *ngIf="rowData.canDeleteEnable"><i class="pi pi-times-circle"></i> </span>
+            </ng-template>
+            <ng-template #documentTemplateDeleteBtnControl>
+              <span class="closefo-delete-btn" (click)="OnDeleteRow(rowData)" *ngIf="!rowData.isLinkedwithCommunication"><i class="pi pi-times-circle"></i> </span>
+            </ng-template>
+
+            <ng-template #dropdownControl>
+              <div class="closefo-input closefo-dropdown closefo-dropdown-with-clear">
+                <p-dropdown [options]="rowData[col.field].options"
+                            name="{{rowData[col.field].name}}"
+                            optionLabel="name"
+                            optionValue="name"
+                            [(ngModel)]="rowData[col.field].value"
+                            (onChange)="onSelectionchange($event,rowIndex,rowData[col.field].names)"
+                            #inputModel="ngModel"
+                            placeholder="select"
+                            [showClear]="true"
+                            appendTo="body"
+                            [showTransitionOptions]="'0ms'"
+                            [hideTransitionOptions]="'0ms'"
+                            [required]="true"
+                            [title]="rowData[col.field].value"
+                            [form]="col.form"
+                            [ngClass]="{ 'close-externalerror': inputModel.errors && ( col?.config?.externalError) }"
+                            [cfcFluidValidation]="{errors:(inputModel.errors)?(col?.config?.Errors):'', formSubmitted: col?.config?.externalError}">
+                </p-dropdown>
+              </div>
+              <div *ngIf="inputModel.errors && ( col?.config?.externalError)">
+                <div class="closefo-validation-error "
+                     *ngFor="let error of col?.config?.Errors">
+                  <small *ngIf="
+                  error.isModelError &&
+                  inputModel.errors[error['validation']] &&
+                  error['validation']
+                  ">{{ error["validationMessage"] }}</small>
+                </div>
+              </div>
+            </ng-template>
+
+            <span *ngIf="col.fieldType !== 'date' && col.fieldType !== 'link' && col.fieldType !== 'copyRequestLink' && col.fieldType !== 'copyResponseLink' && col.fieldType!=='button' && col.fieldType!=='deleteButton' && col.fieldType!=='checkbox' && col.fieldType!=='dropdown'">
+              <span *ngIf="col.fieldType === 'amount'; else elseblock">{{ getCellData(rowData,col,true) | decimalTransform}}</span>
+
+              <ng-template #elseblock>
+                {{getCellData(rowData, col)}}
+              </ng-template>
+            </span>
+          </td>
+          <td *ngIf="col.fieldType === 'checkbox'">
+            <div class="closefo-checkbox">
+              <div class="closefo-input">
+                <p-checkbox [(ngModel)]="rowData[col.field]" (ngModelChange)="onCheckBoxChange(rowData)" [binary]="true" [disabled]="rowData[col.isReadOnly]">
+                </p-checkbox>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="col.fieldType === 'triCheckbox'">
+            <div class="closefo-checkbox">
+              <div class="closefo-input">
+                <p-triStateCheckbox [(ngModel)]="rowData[col.field]" [binary]="true">
+                </p-triStateCheckbox>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-template>
+    <ng-template let-data pTemplate="rowexpansion">
+      <ng-template [ngTemplateOutlet]="rowExpansionTemplate"> </ng-template>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9">{{ gridNoDataContent }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>

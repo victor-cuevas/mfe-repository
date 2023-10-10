@@ -1,0 +1,536 @@
+<form [formGroup]="filterForm">
+  <div class="d-flex scrollable-table">
+    <p-table
+      #intermediariesTable
+      [lazy]="true"
+      (onLazyLoad)="loadFirmMembers($event)"
+      [value]="firmMembers"
+      [paginator]="totalRecords > 10"
+      [rows]="pageSize"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [showLoader]="false"
+      dataKey="id"
+      [showCurrentPageReport]="!!totalRecords"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      (onRowExpand)="onRowSelect($event.data)"
+      [scrollable]="true"
+      scrollHeight="flex"
+      styleClass="boxed-table"
+    >
+      <!-- table header -->
+      <ng-template pTemplate="header">
+        <tr class="px-3">
+          <th class="button-cell"></th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.name' | translate }}</h6>
+              <div class="d-flex align-items-center">
+                <!-- name sort-->
+                <button class="hidden-btn" (click)="sort()">
+                  <i [class]="'mt-1 pi ' + sortOrder.icon"></i>
+                </button>
+                <!-- name filter -->
+                <cfo-filter-menu #nameFilter>
+                  <li class="row bg-light">
+                    <div class="col-12 py-2">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                          type="text"
+                          [placeholder]="'intermediaries.placeholders.name' | translate"
+                          pInputText
+                          ngDefaultControl
+                          class="filter-input"
+                          formControlName="intermediaryName"
+                          ngDefaultControl
+                        />
+                      </span>
+                    </div>
+                  </li>
+
+                  <li class="row my-1">
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__clear"
+                        (click)="clearFilter('intermediaryName', 'nameFilter')"
+                        [disabled]="!filterForm.controls.intermediaryName.value"
+                      >
+                        {{ 'general.buttons.clear' | translate }}
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__apply"
+                        [disabled]="!filterForm.controls.intermediaryName.value"
+                        (click)="filter('nameFilter')"
+                      >
+                        {{ 'general.buttons.apply' | translate }}
+                      </button>
+                    </div>
+                  </li>
+                </cfo-filter-menu>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.IRNNumber' | translate }}</h6>
+              <!-- irn number filter -->
+              <cfo-filter-menu #numberFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="text"
+                        [placeholder]="'intermediaries.placeholders.id' | translate"
+                        pInputText
+                        ngDefaultControl
+                        class="filter-input"
+                        formControlName="irnNumber"
+                        ngDefaultControl
+                      />
+                    </span>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('irnNumber', 'numberFilter')"
+                      [disabled]="!filterForm.controls.irnNumber.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.irnNumber.value"
+                      (click)="filter('numberFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.position' | translate }}</h6>
+              <!-- position filter -->
+              <cfo-filter-menu #positionFilter>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(0) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.supervisor' | translate"
+                      [value]="0"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(1) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.advisor' | translate"
+                      [value]="1"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(2) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.assistant' | translate"
+                      [value]="2"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(3) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.viewer' | translate"
+                      [value]="3"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(4) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.lenderAdvisorAdmin' | translate"
+                      [value]="4"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(5) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.lenderAdvisorSupport' | translate"
+                      [value]="5"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(6) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.supervisorAndAdvisor' | translate"
+                      [value]="6"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.position?.value?.includes(7) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['position'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.supervisorAssistant' | translate"
+                      [value]="7"
+                    ></p-checkbox>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('position', 'positionFilter')"
+                      [disabled]="!filterForm.controls.position.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      (click)="filter('positionFilter')"
+                      [disabled]="!filterForm.controls.position.value"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.contacts' | translate }}</h6>
+              <!-- contacts filter -->
+              <cfo-filter-menu #contactsFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="text"
+                        [placeholder]="'intermediaries.placeholders.email' | translate"
+                        pInputText
+                        ngDefaultControl
+                        class="filter-input"
+                        formControlName="contacts"
+                      />
+                    </span>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('contacts', 'contactsFilter')"
+                      [disabled]="!filterForm.controls.contacts.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.contacts.value"
+                      (click)="filter('contactsFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.underReview' | translate }}</h6>
+              <!-- is in review filter -->
+              <cfo-filter-menu #reviewFilter>
+                <li class="row" [ngClass]="filterForm.controls.isInReview?.value ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex">
+                    <p-radioButton [value]="true" ngDefaultControl formControlName="isInReview" inputId="active"></p-radioButton>
+                    <label for="inReview" class="radio-btn-label ms-2 mb-0">Yes</label>
+                  </div>
+                </li>
+                <li class="row" [ngClass]="filterForm.controls.isInReview?.value === false ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex align-items-center">
+                    <p-radioButton [value]="false" ngDefaultControl formControlName="isInReview" inputId="notInReview"></p-radioButton>
+                    <label for="notInReview" class="radio-btn-label ms-2 mb-0">No</label>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('isInReview', 'reviewFilter')"
+                      [disabled]="filterForm.controls.isInReview.value === null"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="filterForm.controls.isInReview.value === null"
+                      (click)="filter('reviewFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'intermediaries.columns.status' | translate }}</h6>
+              <!-- status filter -->
+              <cfo-filter-menu #statusFilter>
+                <li [ngClass]="filterForm.controls.status?.value?.includes(0) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['status'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.pending' | translate"
+                      [value]="0"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.status?.value?.includes(1) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['status'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.active' | translate"
+                      [value]="1"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.status?.value?.includes(2) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['status'])"
+                      ngDefaultControl
+                      [label]="'intermediaries.labels.inactive' | translate"
+                      [value]="2"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('status', 'statusFilter')"
+                      [disabled]="!filterForm.controls.status.value"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      (click)="filter('statusFilter')"
+                      [disabled]="!filterForm.controls.status.value"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <!-- end of table header -->
+      <!--  empty table body  -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="colspan" class="text-center">No records found</td>
+        </tr>
+      </ng-template>
+      <!-- main body-->
+      <ng-template pTemplate="body" let-firmMember let-expanded="expanded" let-i="rowIndex">
+        <tr class="px-3">
+          <td class="pi-fw button-cell">
+            <button
+              type="button"
+              pButton
+              [pRowToggler]="firmMember"
+              class="p-button-text p-button-rounded p-button-plain expand-btn"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></button>
+          </td>
+          <td [ngClass]="{ 'link-td': canViewIntermediaries && firmId }">
+            <div
+              class="d-flex align-items-center"
+              [routerLink]="
+                canViewIntermediaries && firmId
+                  ? routePaths.EDIT_PROFILE.replace(':id', firmId).replace(':userId', firmMember.id)
+                  : undefined
+              "
+            >
+              <p-avatar
+                [label]="firmMember.person | initials"
+                [styleClass]="'me-2 ' + firmMember.position.toLowerCase()"
+                shape="circle"
+              ></p-avatar>
+              <h6 class="mt-1">{{ firmMember.person.firstName | titlecase }} {{ firmMember.person.lastName | titlecase }}</h6>
+            </div>
+          </td>
+          <td class="text-contain">
+            {{ firmMember.advisorUniqueId }}
+          </td>
+          <td class="text-contain">
+            {{ formattingPosition(firmMember.position) | titlecase }}
+          </td>
+          <td class="text-contain">
+            {{ firmMember.email }}
+          </td>
+          <td>
+            <div *ngIf="firmMember.isInReview; else isInReviewElseBlock">Yes</div>
+            <ng-template #isInReviewElseBlock>No</ng-template>
+          </td>
+          <td>
+            <div [class]="'p-tag-rectangle p-tag-' + firmMember.status.toLowerCase()">{{ firmMember.status | uppercase }}</div>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- end of main table body (rows) -->
+      <ng-template pTemplate="loadingbody">
+        <td class="table-loader" [attr.colspan]="colspan"></td>
+      </ng-template>
+      <!-- row expansion for single firm member -->
+      <ng-template pTemplate="rowexpansion" let-firmMember>
+        <tr *ngIf="firmMember.intermediariesData && firmMember.addressesData">
+          <td [attr.colspan]="colspan">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-4 border-end">
+                  <div class="row">
+                    <div class="col-3 my-auto">
+                      <p-avatar
+                        [label]="firmMember.person | initials"
+                        [styleClass]="'me-2 avatar-lg ' + firmMember.position.toLowerCase()"
+                        size="large"
+                        shape="circle"
+                      ></p-avatar>
+                    </div>
+                    <div class="col-4">
+                      <div>
+                        <strong>{{ 'intermediary.labels.name' | translate }}:</strong>
+                      </div>
+                      <div *ngIf="firmMember.intermediariesData.advisorUniqueId">
+                        <strong>{{ 'intermediaries.columns.IRNNumber' | translate }}</strong>
+                      </div>
+                      <div>
+                        <strong>{{ 'intermediary.labels.position' | translate }}:</strong>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div>
+                        {{ firmMember.intermediariesData.person.firstName | titlecase }}
+                        {{ firmMember.intermediariesData.person.lastName | titlecase }}
+                      </div>
+                      <div *ngIf="firmMember.intermediariesData.advisorUniqueId">{{ firmMember.intermediariesData.advisorUniqueId }}</div>
+                      <div>
+                        {{ getPosition(firmMember.intermediariesData.roleMappings, firmMember.intermediariesData.intermediaryId) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4 border-end">
+                  <div
+                    class="row"
+                    *ngIf="
+                      firmMember.position === intermediaryRole.Advisor || firmMember.position === intermediaryRole.SupervisorAndAdvisor
+                    "
+                  >
+                    <div class="col-4">
+                      <strong>{{ 'intermediary.labels.assistants' | translate }}:</strong>
+                    </div>
+                    <div class="col-8">
+                      {{
+                        firmMember.intermediariesData.subordinateIntermediaries?.length
+                          ? firmMember.intermediariesData.subordinateIntermediaries?.length
+                          : 0
+                      }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <strong>{{ 'intermediary.labels.contacts' | translate }}:</strong>
+                    </div>
+                    <div class="col-8">
+                      <div>{{ firmMember.intermediariesData.email }}</div>
+                      <div>{{ firmMember.intermediariesData.telephone.mobile }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-4">
+                      <div *ngIf="firmMember.addressesData.tradingName" class="custom-div">
+                        <strong>{{ 'intermediary.labels.tradingName' | translate }}:</strong>
+                      </div>
+                      <div>
+                        <strong>{{ 'intermediary.labels.tradingAddress' | translate }}:</strong>
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div *ngIf="firmMember.addressesData.tradingName">{{ firmMember.addressesData.tradingName }}</div>
+                      <div class="custom-div">
+                        {{ firmMember.addressesData.lineOne ? firmMember.addressesData.lineOne + ', ' : '' }}
+                        {{ firmMember.addressesData.lineTwo ? firmMember.addressesData.lineTwo + ', ' : '' }}
+                        {{ firmMember.addressesData.lineThree ? firmMember.addressesData.lineThree + ', ' : '' }}
+                        {{ firmMember.addressesData.lineFour ? firmMember.addressesData.lineFour + ', ' : '' }}
+                        {{ firmMember.addressesData.lineFive ? firmMember.addressesData.lineFive + ', ' : '' }}
+                        {{ firmMember.addressesData.numberOrBuilding ? firmMember.addressesData.numberOrBuilding + ', ' : '' }}
+                      </div>
+                      <div>
+                        {{ firmMember.addressesData.postcode ? firmMember.addressesData.postcode + ', ' : '' }}
+                        {{ firmMember.addressesData.city ? firmMember.addressesData.city + ', ' : '' }}
+                        {{ firmMember.addressesData.country ? firmMember.addressesData.country + ', ' : '' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- end row expansion for single firm member -->
+    </p-table>
+  </div>
+</form>

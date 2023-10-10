@@ -1,0 +1,1241 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'plan.treatment.heading.treatment' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'plan.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(treatmentGridData.treatmentPlanConfigList.items)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'plan.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+
+      <div class="col-12 closefo-btn-wrapper text-right mb-2">
+        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.create' | translate}}"
+                          [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.copy' | translate}}"
+                          [ControlConfig]="ButtonConfig" (click)="copy()"></cfc-fluid-button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table"
+                          dataKey="Username"
+                          [gridData]="treatmentGridData?.treatmentPlanConfigList?.items"
+                          [gridDataHeader]="treat1Header"
+                          [paginationStatus]="true"
+                          paginationReportStatus="true"
+                          [(dataSelection)]="dataSelected"
+                          [pageReportContent]="paginationContent"
+                          (gridPageIndex)="onPagination($event)"
+                          dataSelectionMode="single"
+                          [PageRows]="pageRow"
+                          (rowClickedEvent)="clickTreatmentPlanList($event)"
+                          [totalRecords]="recordsAvailable"
+                          [selectedDetail]="treatmentPlanCard"
+                          [resetFirst]="resetPagination">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+      
+      <div class="tab-top closefo-form-group">
+       
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+         
+          <p-tabView class="reminder-flow-tab" [(activeIndex)]="SelectedTabIndex">
+
+            <p-tabPanel header="{{'plan.treatment.tab.Generalsetting' | translate}}" [selected]="true">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-2 text-right">
+                      <label class="closefo-form-label required">{{'plan.treatment.card.name' | translate}}</label>
+                    </div>
+                    <div class="col-4">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="NameTextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.name"
+                                         (OnchangedText)="changeName($event)"
+                                         name="Name"
+                                         [cfcFluidValidation]="{errors:name.errors ? NameTextBoxconfig.Errors :'', formSubmitted:(NameTextBoxconfig.externalError)}"
+                                         [isAllowSpace]="false"
+                                         [maxlength]="250"
+                                         #name="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+
+                    <div class="col-2 text-right">
+
+
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [form]="userDetailsform"
+                                          [ngModel]="treatmentPlanCard?.treatmentPlan?.isRemindedManually"
+                                          (ngModelChange)="changeManualFollowUp($event)"
+                                          name="manual">
+                      </cfc-fluid-checkbox>
+                    </div>
+                    <div class="col-7">
+                      <label class="closefo-form-label text-start">{{'plan.treatment.card.manual' | translate}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+
+                    <div class="col-2 text-right">
+
+
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [ngModel]="treatmentPlanCard?.treatmentPlan?.isPaidOutManually"
+                                          (ngModelChange)="changeManualPayment($event)"
+                                          [form]="userDetailsform"
+                                          name="manualPayment">
+                      </cfc-fluid-checkbox>
+                    </div>
+                    <div class="col-7">
+                      <label class="closefo-form-label text-start">{{'plan.treatment.card.manualPayment' | translate}}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+
+                    <div class="col-2 text-right">
+
+
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [ngModel]="treatmentPlanCard?.treatmentPlan?.isAllocatedManually"
+                                          (ngModelChange)="changeManualOutgoing($event)"
+                                          [form]="userDetailsform"
+                                          name="manualoutgoing">
+                      </cfc-fluid-checkbox>
+                    </div>
+                    <div class="col-7">
+                      <label class="closefo-form-label text-start">{{'plan.treatment.card.manualoutgoing' | translate}}</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="{{'plan.treatment.tab.payPlan' | translate}}">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.treatment.card.caption' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="CaptionTextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.paymentPlanTerminateDaysAfterLastReminder"
+                                         (OnchangedNumber)="changeCaptionPayment($event)"
+                                         name="captionPayment"
+                                         [isAllowSpace]="false"
+                                         [cfcFluidValidation]="{errors:capPay.errors? (capPay.errors?.maxValueError) ? numberErrorDto : CaptionTextBoxconfig.Errors :'', formSubmitted:(CaptionTextBoxconfig.externalError)}"
+                                         [maxlength]="10"
+                                         [maximumValue]="maxLimitForNumbers"
+                                         #capPay="ngModel">
+                      </cfc-fluid-textbox>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.treatment.card.MaxWarning' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="MaxWarningTextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.paymentPlanMaxWarnings"
+                                         (OnchangedNumber)="changeMaxWarning($event)"
+                                         name="MaxWarning"
+                                         [maxlength]="10"
+                                         [cfcFluidValidation]="{errors:MaxWar.errors? (MaxWar.errors?.maxValueError) ? numberErrorDto : MaxWarningTextBoxconfig.Errors :'', formSubmitted:(MaxWarningTextBoxconfig.externalError)}"
+                                         [isAllowSpace]="false"
+                                         [maximumValue]="maxLimitForNumbers"
+                                         #MaxWar="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'plan.treatment.card.Grace' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="amount"
+                                         [ControlConfig]="TextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.paymentPlanGraceAmount"
+                                         (OnchangedAmount)="changeGraceAmount($event,true)"
+                                         (ngModelChange)="changeGraceAmount($event,false)"
+                                         name="grace"
+                                         [isAllowSpace]="false"
+                                         [maxlength]="14"
+                                         #penaltypercentage="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.treatment.card.MinInatall' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="MinInstallTextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.paymentPlanMinimumInstallmentAmount"
+                                         (OnchangedNumber)="changeMinInstallment($event)"
+                                         name="MinimumInstallmentAmount"
+                                         [cfcFluidValidation]="{errors:MinInstall.errors? (MinInstall.errors?.maxValueError) ? numberErrorDto : MinInstallTextBoxconfig.Errors :'', formSubmitted:(MinInstallTextBoxconfig.externalError)}"
+                                         [maxlength]="10"
+                                         [isAllowSpace]="false"
+                                         [maximumValue]="maxLimitForNumbers"
+                                         #MinInstall="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.treatment.card.DaysFrom' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="ImportTextBoxconfig"
+                                         [ngModel]="treatmentPlanCard?.treatmentPlan?.paymentPlanStartDateFromImportDays"
+                                         (OnchangedNumber)="changeImportDays($event)"
+                                         name="DateFromImportDays"
+                                         [cfcFluidValidation]="{errors:ImportDays.errors? (ImportDays.errors?.maxValueError) ? numberErrorDto : ImportTextBoxconfig.Errors :'', formSubmitted:(ImportTextBoxconfig.externalError)}"
+                                         [maxlength]="10"
+                                         [isAllowSpace]="false"
+                                         [maximumValue]="maxLimitForNumbers"
+                                         #ImportDays="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'plan.treatment.card.enforce' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.treatmentPlan?.enforceMinDueAmount"
+                                            (ngModelChange)="changeEnforceMinDue($event)"
+                                            name="enforce">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'plan.treatment.card.enforcePro' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.treatmentPlan?.enforceMinPromiseAmount"
+                                            (ngModelChange)="changeEnforceMinPromise($event)"
+                                            name="enforcePro">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'plan.treatment.card.automatic' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.treatmentPlan?.automaticDossierClosureAtPaymentPlanFinalization"
+                                            (ngModelChange)="changeAutomaticDossier($event)"
+                                            name="automatic">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'plan.treatment.card.dossier' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.treatmentPlan?.dossierClosureAllowedWithPreventivePaymentPlan"
+                                            (ngModelChange)="changeDossierClosure($event)"
+                                            name="dossier">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="{{'plan.treatment.tab.PaymentPlan' | translate}}">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.treatment.heading.reminders' | translate }}</div>
+                </div>
+                <div class="col-3 closefo-btn-wrapper text-right">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addPR()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12 close-header-block ">
+                      <div class="row" *ngIf="this.treatmentPlanCard?.treatmentPlan?.paymentPlanReminder">
+                        <p-table [value]="this.treatmentPlanCard.treatmentPlan.paymentPlanReminder" [columns]="treat2Header" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width">
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                            <tr *ngIf="!rowData.isDelete">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                                <span *ngSwitchCase="'textbox'">
+                                  <cfc-fluid-textbox Type="duration"
+                                                     [ControlConfig]="AfterPromise1Boxconfig"
+                                                     [ngModel]="rowData?.numberOfDaysAfterPromise"
+                                                     (OnchangedNumber)="changePRDaysAfterPromise($event,index)"
+                                                     name="DaysAfterPromise{{index}}"
+                                                     [isAllowSpace]="false"
+                                                     [cfcFluidValidation]="{errors:afterpromise1.errors? (afterpromise1.errors?.maxValueError || afterpromise1.errors?.minValueError ) ? numberErrorDto : AfterPromise1Boxconfig.Errors :'', formSubmitted:(AfterPromise1Boxconfig.externalError)}"
+                                                     [maxlength]="11"
+                                                     [maximumValue]="maxLimitForNumbers"
+                                                     [minimumValue]="minLimitForNumbers"
+                                                     #afterpromise1="ngModel">
+                                  </cfc-fluid-textbox>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown1'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.followUpEventName"
+                                                      Type="single"
+                                                      name="followUpEventName{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.followUpEventNameList"
+                                                      [ControlConfig]="followUpEventName1Dropdown"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.followUpEventName?.caption"
+                                                      [showClearIcon]="rowData?.followUpEventName ? true : false"
+                                                      (OnSelectionChanged)="changePRFollowUpEventName($event,index)"
+                                                      #followUpEventName1="ngModel"
+                                                  [cfcFluidValidation]="{errors:followUpEventName1.errors ? followUpEventName1Dropdown.Errors :'', formSubmitted:(followUpEventName1Dropdown.externalError)}">
+                                                                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown2'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.lastPromiseEvent"
+                                                      Type="single"
+                                                      name="lastPromiseEvent{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.followUpEventNameList"
+                                                      [ControlConfig]="lastPromiseEvent1Dropdown"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.lastPromiseEvent?.caption"
+                                                      [showClearIcon]="rowData?.lastPromiseEvent ? true : false"
+                                                      (OnSelectionChanged)="changePRLastPromiseEvent($event,index)"
+                                                      [cfcFluidValidation]="{errors:lastPromiseEvent1.errors ? lastPromiseEvent1Dropdown.Errors :'', formSubmitted:(lastPromiseEvent1Dropdown.externalError)}"
+                                                      #lastPromiseEvent1="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown3'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.paymentMethod"
+                                                      Type="single"
+                                                      name="paymentMethod{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.paymentMethodList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.paymentMethod?.caption"
+                                                      [showClearIcon]="rowData?.paymentMethod ? true : false"
+                                                      (OnSelectionChanged)="changePRPaymentMethod($event,index)"
+                                                      #chargingOfdropdown="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deletepaymentPlanReminderList(rowData,this.treatmentPlanCard.treatmentPlan.paymentPlanReminder)"></i></span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.treatment.heading.notify' | translate }}</div>
+                </div>
+                <div class="col-3 closefo-btn-wrapper text-right">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addPN()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12 close-header-block ">
+                      <div class="row" *ngIf="this.treatmentPlanCard?.treatmentPlan?.paymentPlanNotification">
+                        <p-table [value]="this.treatmentPlanCard.treatmentPlan.paymentPlanNotification" [columns]="treat3Header" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width">
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                            <tr *ngIf="!rowData.isDelete">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                                <span *ngSwitchCase="'textbox1'">
+                                  <cfc-fluid-textbox Type="duration"
+                                                     [ControlConfig]="AfterPromise2TextBoxconfig"
+                                                     [ngModel]="rowData?.numberOfDaysBeforePromise"
+                                                     (OnchangedNumber)="changePNDaysBeforePromise($event,index)"
+                                                     name="DaysAfterPromise1{{index}}"
+                                                     [isAllowSpace]="false"
+                                                     [maxlength]="11"
+                                                     [maximumValue]="maxLimitForNumbers"
+                                                     [minimumValue]="minLimitForNumbers"
+                                                     [cfcFluidValidation]="{errors:afterpromise2.errors? (afterpromise2.errors?.maxValueError || afterpromise2.errors?.minValueError) ? numberErrorDto : AfterPromise2TextBoxconfig.Errors :'', formSubmitted:(AfterPromise2TextBoxconfig.externalError)}"
+                                                     #afterpromise2="ngModel">
+                                  </cfc-fluid-textbox>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown11'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.followUpEventName"
+                                                      Type="single"
+                                                      name="followUpEventName1{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.followUpEventNameList"
+                                                      [ControlConfig]="followUpEventName2Dropdown"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.followUpEventName?.caption"
+                                                      [showClearIcon]="rowData?.followUpEventName ? true : false"
+                                                      (OnSelectionChanged)="changePNFollowUpEventName($event,index)"
+                                                      [cfcFluidValidation]="{errors:followUpEventName2.errors ? followUpEventName2Dropdown.Errors :'', formSubmitted:(followUpEventName2Dropdown.externalError)}"
+                                                      #followUpEventName2="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown12'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.lastPromiseEvent"
+                                                      Type="single"
+                                                      name="lastPromiseEvent1{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.followUpEventNameList"
+                                                      [ControlConfig]="lastPromiseEvent2Dropdown"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.lastPromiseEvent?.caption"
+                                                      [showClearIcon]="rowData?.lastPromiseEvent ? true : false"
+                                                      (OnSelectionChanged)="changePNLastPromiseEvent($event,index)"
+                                                      [cfcFluidValidation]="{errors:lastPromiseEvent2.errors ? lastPromiseEvent2Dropdown.Errors :'', formSubmitted:(lastPromiseEvent2Dropdown.externalError)}"
+                                                      #lastPromiseEvent2="ngModel"
+                                                      >
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown13'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.paymentMethod"
+                                                      Type="single"
+                                                      name="paymentMethod1{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.paymentMethodList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.paymentMethod?.caption"
+                                                      [showClearIcon]="rowData?.paymentMethod ? true : false"
+                                                      (OnSelectionChanged)="changePNPaymentMethod($event,index)"
+                                                      #chargingOfdropdown="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete1'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deletepaymentPlanReminderList(rowData,this.treatmentPlanCard.treatmentPlan.paymentPlanNotification)"></i></span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.treatment.heading.plan' | translate }}</div>
+                </div>
+              </div>
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12 close-header-block ">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label">{{'plan.treatment.card.nomatch' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.noMachtingPaymentAmountEvent"
+                                                  Type="single"
+                                                  name="noMachtingPaymentAmountEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.noMachtingPaymentAmountEvent?.caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.noMachtingPaymentAmountEvent ? true : false"
+                                                  (OnSelectionChanged)="changeNoMatching($event)"
+                                                  #chargingOfdropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label ">{{'plan.treatment.card.excessive' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.remainingPromiseAmountEvent"
+                                                  Type="single"
+                                                  name="remainingPromiseAmountEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.remainingPromiseAmountEvent?.caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.remainingPromiseAmountEvent ? true : false"
+                                                  (OnSelectionChanged)="changeExcessiveAmount($event)"
+                                                  #chargingOfdropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label required">{{'plan.treatment.card.terminate' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.terminatePaymentPlanEvent"
+                                                  Type="single"
+                                                  name="terminatePaymentPlanEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="TerminateDropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.terminatePaymentPlanEvent ? true : false"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.terminatePaymentPlanEvent?.caption"
+                                                  [cfcFluidValidation]="{errors:terminatedropdown.errors ? TerminateDropdownConfig.Errors :'', formSubmitted:(TerminateDropdownConfig.externalError)}"
+                                                  (OnSelectionChanged)="changeTerminate($event)"
+                                                  #terminatedropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label required">{{'plan.treatment.card.finalize' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.finalizePaymentPlanEvent"
+                                                  Type="single"
+                                                  name="finalizePaymentPlanEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="FinalizeDropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.finalizePaymentPlanEvent ? true : false"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.finalizePaymentPlanEvent?.caption"
+                                                  [cfcFluidValidation]="{errors:finalizedropdown.errors ? FinalizeDropdownConfig.Errors :'', formSubmitted:(FinalizeDropdownConfig.externalError)}"
+                                                  (OnSelectionChanged)="changeFinalize($event)"
+                                                  #finalizedropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label required">{{'plan.treatment.card.activate' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.activatePaymentPlan"
+                                                  Type="single"
+                                                  name="activatePaymentPlan"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="ActivateDropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.activatePaymentPlan ? true : false"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.activatePaymentPlan?.caption"
+                                                  [cfcFluidValidation]="{errors:Activatedropdown.errors ? ActivateDropdownConfig.Errors :'', formSubmitted:(ActivateDropdownConfig.externalError)}"
+                                                  (OnSelectionChanged)="changeActivate($event)"
+                                                  #Activatedropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label required">{{'plan.treatment.card.deactivate' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.deactivatePaymentPlan"
+                                                  Type="single"
+                                                  name="deactivatePaymentPlan"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DeactivateDropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.deactivatePaymentPlan ? true : false"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.deactivatePaymentPlan?.caption"
+                                                  [cfcFluidValidation]="{errors:deactivatedropdown.errors ? DeactivateDropdownConfig.Errors :'', formSubmitted:(DeactivateDropdownConfig.externalError)}"
+                                                  (OnSelectionChanged)="changeDeactivate($event)"
+                                                  #deactivatedropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label">{{'plan.treatment.card.promiseMetEvent' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.promiseIsMetEvent"
+                                                  Type="single"
+                                                  name="promiseIsMetEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.promiseIsMetEvent?.caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.promiseIsMetEvent ? true : false"
+                                                  (OnSelectionChanged)="changePromiseIsmetEvent($event)"
+                                                  #chargingOfdropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label">{{'plan.treatment.card.promiseMetAfter' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.promiseIsMetAfterResetEvent"
+                                                  Type="single"
+                                                  name="promiseIsMetAfterResetEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.promiseIsMetAfterResetEvent?.caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.promiseIsMetAfterResetEvent ? true : false"
+                                                  (OnSelectionChanged)="changePromiseIsMetAfterResetEvent($event)"
+                                                  #chargingOfdropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row align-items-center">
+                            <div class="col-5">
+                              <label class="closefo-form-label">{{'plan.treatment.card.promiseReset' | translate}}</label>
+                            </div>
+                            <div class="col-7">
+                              <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.treatmentPlan?.promiseIsResetEvent"
+                                                  Type="single"
+                                                  name="promiseIsResetEvent"
+                                                  [placeholder]="placeholder"
+                                                  [options]="getInitialData.followUpEventNameList"
+                                                  [ControlConfig]="DropdownConfig"
+                                                  optionLabel="caption"
+                                                  dataKey="caption"
+                                                  [title]="treatmentPlanCard?.treatmentPlan?.promiseIsResetEvent?.caption"
+                                                  [showClearIcon]="treatmentPlanCard?.treatmentPlan?.promiseIsResetEvent ? true : false"
+                                                  (OnSelectionChanged)="changePromiseIsResetEvent($event)"
+                                                  #chargingOfdropdown="ngModel">
+                              </cfc-fluid-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </p-tabPanel>
+
+            <p-tabPanel header="{{'plan.treatment.tab.Derivation' | translate}}" *ngIf="!this.treatmentGridData.isPlanDerivationConfigExists">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.treatment.heading.General' | translate }}</div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">{{'plan.treatment.card.Legal' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="treatmentPlanCard?.planDerivationCriteria?.legalEntity"
+                                                name="legalEntity"
+                                                [filteredNames]="filteredLegal"
+                                                (filtername)="filterLegal($event)"
+                                                (Selected)="changeLegal($event)"
+                                                (Clear)=" clearLegal($event)"
+                                                [isReadOnly]="treatmentPlanCard ? treatmentPlanCard.isLegalDisable : false "
+                                                (ngModelChange)="treatmentPlanCard.planDerivationCriteria.legalEntity=$event"
+                                                [ControlConfig]="LegalAutoCompleteTextBoxconfig"
+                                                field="hostedOrganizationName"
+                                                #autocomplete1="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.planDerivationCriteria?.isLegalEntityIndependent"
+                                            (ngModelChange)="changeLegalCheck($event)"
+                                            name="isLegalEntityIndependent">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.treatment.card.LegalIn' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.Customer' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="treatmentPlanCard?.planDerivationCriteria?.customer"
+                                                name="customer"
+                                                [filteredNames]="filteredCustomer"
+                                                (filtername)="filterCustomer($event)"
+                                                (Selected)="changeCustomer($event)"
+                                                (ngModelChange)="treatmentPlanCard.planDerivationCriteria.customer=$event"
+                                                [isReadOnly]="treatmentPlanCard ? treatmentPlanCard.isCustomerDisable : false"
+                                                [ControlConfig]="AutoCompleteTextBoxconfig"
+                                                field="name"
+                                                #autocomplete2="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.planDerivationCriteria?.isCustomerindependent"
+                                            (ngModelChange)="changeCustomerCheck($event)"
+                                            name="isCustomerindependent">
+                        </cfc-fluid-checkbox>
+
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.treatment.card.CustomerIn' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.Initiator' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="treatmentPlanCard?.planDerivationCriteria?.initiator"
+                                                name="initiator"
+                                                [filteredNames]="filteredInitiator"
+                                                (filtername)="filterInitiator($event)"
+                                                (Selected)="changeInitiator($event)"
+                                                (ngModelChange)="treatmentPlanCard.planDerivationCriteria.initiator=$event"
+                                                [isReadOnly]="treatmentPlanCard ? treatmentPlanCard.isInitiatorDisable : false"
+                                                [ControlConfig]="AutoCompleteTextBoxconfig"
+                                                field="name"
+                                                #autocomplete3="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="treatmentPlanCard?.planDerivationCriteria?.isInitiatorIndependent"
+                                            (ngModelChange)="changeInitiatorCheck($event)"
+                                            name="isInitiatorIndependent">
+                        </cfc-fluid-checkbox>
+
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.treatment.card.InitiatorIn' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">{{'plan.treatment.card.ValidFor' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="ValidFromDateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.validFrom"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changeValidFrom($event)"
+                                              name="validFrom"
+                                              [maxDate]="treatmentPlanCard?.planDerivationCriteria?.validTo"
+                                              [isReadOnly]="treatmentPlanCard ? treatmentPlanCard.validFromDisable : false"
+                                              [cfcFluidValidation]="{errors:ValidFrom.errors ? ValidFromDateconfig.Errors :'', formSubmitted:(ValidFromDateconfig.externalError)}"
+                                              appendToBody="body"
+                                              #ValidFrom="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.ValidTo' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.validTo"
+                                              yearRange="1800:2100"
+                                              [isReadOnly]="treatmentPlanCard ? treatmentPlanCard.validToDisable : false"
+                                              (ngModelChange)="changeValidTo($event)"
+                                              [minDate]="treatmentPlanCard?.planDerivationCriteria?.validFrom"
+                                              name="validTo"
+                                              appendToBody="body"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">{{'plan.treatment.card.priority' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="PriorityTextBoxconfig"
+                                           [ngModel]="treatmentPlanCard?.planDerivationCriteria?.priority"
+                                           (OnchangedNumber)="changePriority($event)"
+                                           name="priority"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:priority.errors? (priority.errors?.maxValueError) ? numberErrorDto : PriorityTextBoxconfig.Errors :'', formSubmitted:(PriorityTextBoxconfig.externalError)}"
+                                           [maximumValue]="maxLimitForNumbers"
+                                           #priority="ngModel">
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.debtor' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.planDerivationCriteria?.debtorType"
+                                            Type="single"
+                                            name="debtorType"
+                                            [placeholder]="placeholder"
+                                            [options]="getInitialData.debtorTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [showClearIcon]="treatmentPlanCard?.planDerivationCriteria?.debtorType ? true : false"
+                                            [title]="treatmentPlanCard?.planDerivationCriteria?.debtorType?.caption"
+                                            (OnSelectionChanged)="changeDebtorType($event)"
+                                            #chargingOfdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.dossiertype' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="treatmentPlanCard?.planDerivationCriteria?.dossierType"
+                                            Type="single"
+                                            name="dossierType"
+                                            [placeholder]="placeholder"
+                                            [options]="getInitialData.dossierTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [showClearIcon]="treatmentPlanCard?.planDerivationCriteria?.dossierType ? true : false"
+                                            [title]="treatmentPlanCard?.planDerivationCriteria?.dossierType?.caption"
+                                            (OnSelectionChanged)="changeDossierType($event)"
+                                            #chargingOfdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.treatment.heading.General' | translate }}</div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.minamount' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="MinAmtTextBoxconfig"
+                                           [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMinAmount"
+                                           (OnchangedAmount)="changeMinAmount($event,true)"
+                                           (ngModelChange)="changeMinAmount($event,false)"
+                                           name="invoiceMinAmount"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="14"
+                                           [cfcFluidValidation]="{errors:minamt.errors? (minamt.errors?.maxValueError) ? minAmtErrorDto : MinAmtTextBoxconfig.Errors :'', formSubmitted:(MinAmtTextBoxconfig.externalError)}"
+                                           [maximumValue]="treatmentPlanCard ? treatmentPlanCard.planDerivationCriteria.invoiceMaxAmount : 0"
+                                           #minamt="ngModel">
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.maxamount' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="MaxAmtTextBoxconfig"
+                                           [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMaxAmount"
+                                           (OnchangedAmount)="changeMaxAmount($event,true)"
+                                           (ngModelChange)="changeMaxAmount($event,false)"
+                                           name="invoiceMaxAmount"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="14"
+                                           [cfcFluidValidation]="{errors:maxamt.errors? (maxamt.errors?.minValueError) ? maxAmtErrorDto : MaxAmtTextBoxconfig.Errors :'', formSubmitted:(MaxAmtTextBoxconfig.externalError)}"
+                                           [minimumValue]="treatmentPlanCard ? treatmentPlanCard.planDerivationCriteria.invoiceMinAmount : 0"
+                                           #maxamt="ngModel">
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.minold' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMinOldestDate"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changeMinOldest($event)"
+                                              name="invoiceMinOldestDate"
+                                              appendToBody="body"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.maxold' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMaxOldestDate"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changemaxOldest($event)"
+                                              name="invoiceMaxOldestDate"
+                                              appendToBody="body"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.minnew' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMinNewestDate"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changeMinNewest($event)"
+                                              name="invoiceMinNewestDate"
+                                              appendToBody="body"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.maxnew' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMaxNewestDate"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changeMaxNewest($event)"
+                                              name="invoiceMaxNewestDate"
+                                              appendToBody="body"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.minavg' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="MinAvgTextBoxconfig"
+                                           [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMinAvgAge"
+                                           (OnchangedNumber)="changeMinAvg($event)"
+                                           name="invoiceMinAvgAge"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:minAvg.errors? (minAvg.errors?.maxValueError) ? minAvgErrorDto : MinAvgTextBoxconfig.Errors :'', formSubmitted:(MinAvgTextBoxconfig.externalError)}"
+                                           [maximumValue]="(treatmentPlanCard ? treatmentPlanCard.planDerivationCriteria.invoiceMaxAvgAge : 0) || maxLimitForNumbers"
+                                           #minAvg="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.treatment.card.maxavg' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="MaxAvgTextBoxconfig"
+                                           [ngModel]="treatmentPlanCard?.planDerivationCriteria?.invoiceMaxAvgAge"
+                                           (OnchangedNumber)="changeMaxAvg($event)"
+                                           name="invoiceMaxAvgAge"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:maxAvg.errors? (maxAvg.errors?.maxValueError) ? numberErrorDto : (maxAvg.errors?.minValueError) ? maxAvgErrorDto : MaxAvgTextBoxconfig.Errors :'', formSubmitted:(MaxAvgTextBoxconfig.externalError)}"
+                                           [minimumValue]="treatmentPlanCard ? treatmentPlanCard.planDerivationCriteria.invoiceMinAvgAge : 0"
+                                           [maximumValue]="maxLimitForNumbers"
+                                           #maxAvg="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'plan.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'plan.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'plan.dialog.Yes' | translate}}"
+                              (click)="onYes(treatmentGridData.treatmentPlanConfigList.items)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

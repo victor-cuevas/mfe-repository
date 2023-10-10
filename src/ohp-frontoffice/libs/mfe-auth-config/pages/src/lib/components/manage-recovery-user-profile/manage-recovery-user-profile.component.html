@@ -1,0 +1,317 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #UserProfileForm="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':UserProfileForm.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'manage-recovery-user-profile.title.manageRecoveryUserProfile' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'button.save' | translate}}" (click)="onSave(userProfileList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+
+      </div>
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col-lg-9 closefo-heading-3 closefo-text-primary ">{{'manage-recovery-user-profile.sub-headings.overView' | translate}}</div>
+          <div class="col-3 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'manage-recovery-user-profile.table.add' | translate}}" (click)="addUserProfile()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+
+            <cfc-fluid-grid Type="bo-table" [paginationStatus]="false" paginationReportStatus="false" dataSelectionMode="single"
+                            [gridDataHeader]="userProfileHeader" [gridData]="userProfileList" [dataSelection]="dataSelected"
+                            (rowClickedEvent)=dataSelection($event) dataKey="userProfileList"
+                            (deleteRowEvent)="onRowDelete($event,userProfileList)" [selectedDetail]="userProfileDetail">
+            </cfc-fluid-grid>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showDetails">
+        <div class="col-md-12">
+
+          <div class="closefo-panel-spacing">
+            <div class="closefo-heading-3 closefo-text-primary ">{{'manage-recovery-user-profile.sub-headings.detail' | translate}}</div>
+
+
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey mb-3">
+              <div class="closefo-form-group">
+                <div class="row align-items-center">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">{{'manage-recovery-user-profile.card.userProfile' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="NameTextBoxconfig"
+                                           [ngModel]="userProfileDetail?.name"
+                                           (change)="onChangeName($event)"
+                                           name="Name"
+                                           [isAllowSpace]="false"
+                                           [cfcFluidValidation]="{errors:nameTextBox.errors? NameTextBoxconfig.Errors :'', formSubmitted:(this.NameTextBoxconfig.externalError)}"
+                                           #nameTextBox="ngModel">
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row align-items-center">
+                      <div class="col-4 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="userProfileDetail?.isReadOnly"
+                                            name="IsReadonlyUser"
+                                            (ngModelChange)="onChangeIsReadOnly($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-8">
+                        <label class="closefo-form-label text-left">
+                          {{'manage-recovery-user-profile.card.isReadOnly' | translate}}
+                        </label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="row align-items-center">
+                      <div class="col-4 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [ngModel]="userProfileDetail?.isDefaultDebtorProfileForPortal"
+                                            name="default"
+                                            (ngModelChange)="onChangeIsDefaultDebtorProfileForPortal($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-8">
+                        <label class="closefo-form-label text-left">
+                          {{'manage-recovery-user-profile.card.defaultProfile' | translate}}
+                        </label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-6">
+
+                    <p-table class="real-table" [value]="userProfileDetail.webMenuItemList" [columns]="LinkedWebMenuHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                            <span>{{col.header}}</span>
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                        <tr>
+                          <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                            <span *ngSwitchCase="'access'">
+                              <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                  [form]="UserProfileForm"
+                                                  [ngModel]="rowData.isAccessible"
+                                                  name="isAccessible-{{rowData.name?.codeId}}"
+                                                  (ngModelChange)="onChangeWebMenuIsAccessible($event,rowData)">
+                              </cfc-fluid-checkbox>
+                            </span>
+
+                            <span *ngSwitchCase="'label'">
+                              <span>{{rowData.name?.caption}}</span>
+                            </span>
+                            <span *ngSwitchCase="'landingPage'">
+                              <div class=" closefo-radio-button-wrapper centeralign">
+                                <div class="closefo-radio-button">
+
+                                  <p-radioButton name="isDefault-{{rowData.name?.codeId}}"
+                                                 [value]="true"
+                                                 [ngModel]="rowData.isDefault"
+                                                 (ngModelChange)="onChangeWebMenuLandingPage($event,rowData)">
+                                  </p-radioButton>
+                                </div>
+                              </div>
+                            </span>
+                            <span *ngSwitchCase="'sequence'">
+                              <cfc-fluid-textbox Type="numbers"
+                                                 [ControlConfig]="(rowData.isAccessible)?SequenceTextBoxconfig:TextBoxconfig"
+                                                 [ngModel]="rowData.seq"
+                                                 (OnchangedNumber)="onChangeSeq($event,rowData)"
+                                                 name="sequence-{{rowData.name?.codeId}}"
+                                                 [maxlength]="10"
+                                                 [cfcFluidValidation]="{errors:sequence.errors? SequenceTextBoxconfig.Errors :'', formSubmitted:(this.SequenceTextBoxconfig.externalError)}"
+                                                 [isAllowSpace]="false"
+                                                 #sequence="ngModel">
+                              </cfc-fluid-textbox>
+                            </span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div class="col-6">
+
+                    <cfc-fluid-grid Type="bo-table" dataKey="userProfileDetail.webFunctionalityList" [gridData]="userProfileDetail.webFunctionalityList"
+                                    [gridDataHeader]="LinkedWebFunctionalityHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" dataSelectionMode="multiple" (CheckboxChanged)="onWebFunctionalityChange($event)">
+
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+
+                    <p-table class="real-table" [value]="userProfileDetail.functionalityMenuItemInfo" [columns]="LinkedFunctionalitiesHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                            <span>{{col.header}}</span>
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                        <tr>
+                          <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                            <span *ngSwitchCase="'access'">
+                              <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                  [form]="UserProfileForm"
+                                                  [ngModel]="rowData.isAccessible"
+                                                  name="isIndexationApplicable-{{rowData.name?.codeId}}"
+                                                  (ngModelChange)="onChangeFuncMenuIsAccessible($event, rowData)">
+                              </cfc-fluid-checkbox>
+                            </span>
+
+                            <span *ngSwitchCase="'label'">
+                              <span>{{rowData.name?.caption}}</span>
+                            </span>
+                            <span *ngSwitchCase="'landingPage'">
+                              <div class=" closefo-radio-button-wrapper centeralign">
+                                <div class="closefo-radio-button">
+                                  <p-radioButton name="landingPage-{{rowData.name?.codeId}}"
+                                                 [value]="true"
+                                                 [ngModel]="rowData.isDefault"
+                                                 (ngModelChange)="onChangeFuncMenuLandingPage($event,rowData)">
+                                  </p-radioButton>
+                                </div>
+                              </div>
+                            </span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div class="col-6">
+
+                    <cfc-fluid-grid Type="bo-table" dataKey="userProfileDetail.functionalityApplicationRelatedActionInfo"
+                                    [gridData]="userProfileDetail.functionalityApplicationRelatedActionInfo"
+                                    [gridDataHeader]="LinkedApplicationHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" dataSelectionMode="multiple" (CheckboxChanged)="onApplicationFunctionalityChange($event)">
+
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+
+                    <cfc-fluid-grid Type="bo-table" dataKey="linkedPortalMenuList" [gridData]="userProfileDetail.portalMenuItemInfo"
+                                    [gridDataHeader]="LinkedPortalMenuHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" dataSelectionMode="multiple" (CheckboxChanged)="onPortalMenuChange($event)">
+
+                    </cfc-fluid-grid>
+                  </div>
+
+                  <div class="col-6">
+
+                    <cfc-fluid-grid Type="bo-table" dataKey="linkedPortalFuncList" [gridData]="userProfileDetail.portalFunctionalityInfo"
+                                    [gridDataHeader]="LinkedPortalFuncHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                    [(dataSelection)]="dataSelected" dataSelectionMode="multiple" (CheckboxChanged)="onPortalFunctionalityChange($event)">
+                                    [(dataSelection)]="dataSelected" dataSelectionMode="multiple" (CheckboxChanged)="onPortalFunctionalityChange($event)">
+
+                    </cfc-fluid-grid>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'close.yes' | translate}}" (OnClick)="onClickYes(userProfileList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>
+

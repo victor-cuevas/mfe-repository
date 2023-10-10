@@ -1,0 +1,45 @@
+.doughnutcontainer {
+  position: relative;
+  height: 240px;
+  width: 100%;
+}
+
+.doughnut-absolute-center {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+  transform: translate(-50%, -37%);
+}
+
+.donuttitle {
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: 700;
+}
+
+.donutsubtitle {
+  font-size: 28px;
+  line-height: 28px;
+}
+
+.mock-title {
+  font-family: Arial;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  color: $secondary;
+}
+
+.orange-box {
+  /* Dutch Orange 1 - April */
+  background: #fdddcb4d;
+  border-radius: 4px;
+  line-height: 2rem;
+  font-size: 1rem;
+}
+
+.illustration-item {
+  list-style-type: none;
+}

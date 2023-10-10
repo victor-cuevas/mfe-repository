@@ -1,0 +1,92 @@
+{
+  "tax-statement": {
+    "taxcertificate": {
+      "heading": {
+        "tax-certificate": "Manage Tax Certificate Mapping ",
+        "TaxCertificateSystem": "Manage Tax Certificate System Parameters",
+        "TaxCertificateConfig": "Manage Tax Certificate Transactions"
+      },
+      "tabel": {
+        "TaxCertificate": "Tax Certificate Config Type",
+        "TaxcertificateCategory": "Tax Certificate Category",
+        "TaxCertificateReference": "Tax Certificate Reference",
+        "Direction": "Direction",
+        "delete": "",
+        "TaxCertificateConfig": "Tax Certificate Config Type",
+        "TxelType": "TxEl Type",
+        "ConvertedtxType": "ConvertedTx Type",
+        "Decrease": "Decrease",
+        "TaxcertificateType": "Tax Certificate Type",
+        "TaxcertificateCategorys": "Tax Certificate Category",
+        "BalancemovementType": "Balance Movement Type"
+      },
+      "card": {
+        "TaxCertificateConfigType": "Tax Certificate Config Type",
+        "TaxCeritificateCategory": "Tax Certificate Category",
+        "TaxCertificateReference": "Tax Certificate Reference",
+        "Direction": "Direction",
+        "Cutoffdays": "Cut Off Days",
+        "CutoffdaysPreviousYear": "Cut Off Days Previous Year",
+        "UseFirst": "Use First Day Of Year For Tax Certificate",
+        "ReporterName": "Reporter Name",
+        "ReporterCompanyNumber": "Reporter Company Number",
+        "RelationNumber": "Relation Number",
+        "NameLabel": "Name Label For Running Account",
+        "Maxnumber": "Max Number Of Root Objects For Annual Overview Batch",
+        "Communication": "Communication Medium For Annual Overview",
+        "TaxCertificateConfigTypes": "Tax Certificate Config Type",
+        "TxelType": "TxEl Type",
+        "ConvertedtxType": "ConvertedTx Type",
+        "Decrease": "Decrease",
+        "TaxCeritificateType": "Tax Certificate Type",
+        "TaxCeritificateCategorys": "Tax Certificate Category",
+        "BalancemovementType": "Balance Movement Type"
+      },
+      "picklist": {
+        "heading": {
+          "CreditProvider": "Credit Provider"
+        },
+        "ValidationError":{
+          "CreditProvider":"Atleast one Record Should Exist in 'Credit Provider'"
+        }
+      },
+      "ValidationError":{
+        "required":" is Mandatory .",
+        "TaxCertificateConfigType": "'Tax Certificate Config Type'",
+        "TaxCeritificateCategory": "'Tax Ceritificate Category'",
+        "TaxCertificateReference": "'Tax Certificate Reference'",
+        "BusinessValidation":"The given record is already in the list. Please make sure that the record is unique.",
+        "Cutoffdays": "'Cut Off Days'",
+        "CutoffdaysPreviousYear": "'Cut Off Days Previous Year'",
+        "UseFirst": "'Use First Day Of Year For Tax Certificate'",
+        "ReporterName": "'Reporter Name'",
+        "ReporterCompanyNumber": "'Reporter Company Number'",
+        "RelationNumber": "'Relation Number'",
+        "Maxnumber": "'Max Number Of Root Objects For Annual Overview Batch'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "TaxCertificateConfigTypes": "'Tax Certificate Config Type'",
+        "TaxCeritificateType": "'Tax Certificate Type'",
+        "TaxCeritificateCategorys": "'Tax Certificate Category'",
+        "Communication": "'Communication Medium For Annual Overview'",
+        "CreditBusinessValidation":"Only one field should be filled in 'TxEl Type','ConvertedTx Type','Balance Movement Type'."
+      }
+    },
+    "button": {
+      "save": "Save",
+      "clear": "Close",
+      "Add" :"Add",
+      "continue": "Continue"
+    },
+    "Validation": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    },
+    "close": {
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    }
+  }
+}

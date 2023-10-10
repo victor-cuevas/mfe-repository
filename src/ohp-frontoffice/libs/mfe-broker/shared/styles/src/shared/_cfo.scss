@@ -1,0 +1,48 @@
+.cfo-component {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  font-size: 1rem;
+  font-weight: normal;
+}
+.cfo-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  top: 0;
+  right: 0;
+}
+.cfo-advice {
+  background: $neutral-light-1;
+  border-radius: 2px;
+  border-left: 12px solid $auxiliary-c-4;
+  text-align: left;
+  padding: 16px 32px;
+  h6 {
+    font-size: 16px;
+    font-weight: 700;
+    color: $auxiliary-c-4;
+    margin-bottom: 16px;
+  }
+  ul {
+    margin-left: 25px;
+    margin-bottom: 10px;
+  }
+}
+.cfo-truncated-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cfo-text-tooltip.p-tooltip {
+  .p-tooltip-arrow,
+  .p-tooltip-text {
+    margin-left: 15px;
+  }
+}

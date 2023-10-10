@@ -1,0 +1,617 @@
+// switch
+
+.p-inputswitch .p-inputswitch-slider,
+.p-input-switch {
+  height: 22px;
+  width: 38px;
+
+  &::before {
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.525rem;
+  }
+}
+
+.p-inputswitch {
+  &.p-inputswitch-checked {
+    &:not(.p-disabled):hover {
+      .p-inputswitch-slider {
+        background: $primary;
+      }
+    }
+
+    &.switch-success {
+      &:not(.p-disabled):hover {
+        .p-inputswitch-slider {
+          background: $success;
+        }
+      }
+
+      .p-inputswitch-slider {
+        background: $success;
+      }
+    }
+
+    &.switch-danger {
+      &:not(.p-disabled):hover {
+        .p-inputswitch-slider {
+          background: $alert;
+        }
+      }
+
+      .p-inputswitch-slider {
+        background: $alert;
+      }
+    }
+
+    .p-inputswitch-slider {
+      background: $primary;
+    }
+  }
+
+  &.p-focus {
+    .p-inputswitch-slider {
+      box-shadow: $focusShadow;
+    }
+  }
+}
+
+.p-inputswitch-checked {
+  .p-inputswitch-slider::before {
+    left: -0.1rem;
+  }
+}
+
+// radiobutton
+.p-radiobutton .p-radiobutton-box {
+  &.p-highlight {
+    background: none;
+    border-color: $primary;
+
+    .p-radiobutton-box {
+      border-color: $neutral-dark-2;
+    }
+
+    .p-radiobutton-icon {
+      background: $primary;
+    }
+
+    .p-radiobutton-box:not(.p-disabled).p-focus {
+      outline: 0 none;
+      outline-offset: 0;
+      border-color: $primary;
+      box-shadow: $focusShadow;
+    }
+  }
+
+  &:not(.p-disabled).p-focus {
+    outline: 0 none;
+    outline-offset: 0;
+    border-color: $primary;
+    box-shadow: $focusShadow;
+  }
+
+  &:hover {
+    border-color: $primary !important;
+  }
+}
+
+.journey-input-fixed-width .p-inputnumber,
+span.journey-input-fixed-width input.p-inputtext,
+.journey-input-fixed-width input {
+  width: 100%;
+}
+
+.journey-input-fixed-width .p-datepicker-calendar th {
+  text-align: center;
+}
+
+.journey-input--large,
+.journey-input--large input {
+  width: 100%;
+  max-width: 500px;
+}
+
+.autocomplete-text-input .p-autocomplete {
+  display: block;
+}
+
+p-inputnumber.ng-dirty.ng-invalid .p-inputtext,
+p-inputnumber.ng-touched.ng-invalid .p-inputtext,
+p-password.ng-dirty.ng-invalid .p-inputtext,
+p-password.ng-touched.ng-invalid .p-inputtext,
+p-dropdown.ng-dirty.ng-invalid .p-dropdown,
+p-dropdown.ng-touched.ng-invalid .p-dropdown,
+p-radioButton.ng-touched.ng-invalid .p-radiobutton > .p-radiobutton-box {
+  border: 1px solid $alert !important;
+}
+
+.input-invalid > input {
+  border: 1px solid $alert !important;
+}
+
+.p-inputtext.ng-dirty.ng-invalid,
+.p-inputtext.ng-touched.ng-invalid {
+  border: 1px solid $alert !important;
+}
+
+p-calendar.ng-touched.ng-invalid > .p-calendar > .p-inputtext {
+  border: 1px solid $alert !important;
+}
+
+.journey-textarea {
+  width: 250px;
+  resize: none;
+}
+
+.journey-textarea--full-width {
+  width: 93%;
+  resize: none;
+}
+
+.journey-dropdown .p-dropdown,
+.journey-dropdown--large .p-dropdown,
+.journey-input .p-inputtext,
+.journey-input.p-inputtext {
+  min-width: 85px;
+  min-height: 42px;
+  max-width: 500px;
+  width: 100%;
+  border: 1px solid #ced4da;
+
+  :enabled:hover {
+    border-color: $primary;
+    box-shadow: 0 0 4px $primary;
+  }
+
+  .p-dropdown-panel {
+    max-width: 248px;
+  }
+}
+
+.journey-dropdown--full-width {
+  .p-dropdown {
+    max-width: initial;
+  }
+
+  .p-autocomplete {
+    width: 100%;
+    max-width: initial;
+
+    .p-autocomplete-input {
+      width: 100%;
+    }
+  }
+}
+
+.journey-input .p-inputnumber,
+.journey-input .p-inputtext {
+  display: block;
+}
+
+.journey-dropdown-small .p-dropdown,
+.journey-input-small.p-inputtext {
+  width: 100%;
+  border: 1px solid $neutral-dark-2;
+}
+
+.journey-input--small {
+  max-width: 60px;
+
+  input {
+    max-width: 60px;
+  }
+}
+
+.journey-input--medium {
+  width: 100%;
+
+  input {
+    width: 100%;
+  }
+}
+
+.no-border-input {
+  border: none;
+
+  .p-dropdown-trigger {
+    width: 20px;
+  }
+}
+
+.p-inputtext:enabled:hover,
+.p-inputtext:enabled:focus {
+  border-color: $primary;
+  box-shadow: $focusShadow;
+}
+
+.p-dropdown:not(.p-disabled):hover,
+.p-dropdown:not(.p-disabled):focus,
+.p-dropdown:not(.p-disabled):active {
+  border-color: $primary;
+  box-shadow: none;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: $primary;
+  box-shadow: $focusShadow;
+}
+
+p-checkbox {
+  align-items: flex-start !important;
+
+  .p-checkbox {
+    margin-top: 2px;
+
+    .p-checkbox-box.p-highlight {
+      border-color: $primary;
+      background: $primary;
+      outline: none !important;
+      box-shadow: none;
+    }
+
+    &:not(.p-checkbox-disabled) {
+      .p-checkbox-box {
+        &.p-highlight:hover {
+          border-color: $primary;
+          background: $primary;
+        }
+
+        &.p-highlight.p-focus,
+        &.p-focus,
+        &:hover {
+          border-color: $primary;
+          box-shadow: $focusShadow;
+        }
+      }
+    }
+  }
+
+  .p-checkbox-label {
+    line-height: 1.5rem;
+    margin: 0 0 0 0.5rem;
+    white-space: normal;
+  }
+
+  &.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
+    border-color: $secondary;
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
+.forminput {
+  &__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__hint {
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+}
+
+.false-input--disabled {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  color: #ced4da;
+  border-radius: 3px;
+  background: #fff;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  max-width: 250px;
+
+  p {
+    display: block;
+  }
+}
+
+.address-box {
+  width: 40%;
+  padding: 1rem 0.5rem;
+  border: 1px solid #ced4da;
+  font-weight: 400;
+  color: $neutral-dark;
+  border-radius: 3px;
+  background: $white;
+
+  .p--bold {
+    font-weight: 700;
+  }
+
+  &--disabled {
+    opacity: 0.6;
+  }
+}
+
+.filter-input {
+  max-width: 180px;
+
+  &__number {
+    input {
+      padding-left: 1.8rem;
+    }
+  }
+}
+
+.number-input__icon {
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-radius: 3px;
+
+  &:hover,
+  :focus {
+    border-color: $primary;
+  }
+}
+
+// inputs max-width on bigger screens (md)
+@media screen and (min-width: 768px) {
+  .journey-dropdown .p-dropdown,
+  .journey-input .p-inputtext,
+  .journey-input.p-inputtext,
+  .journey-input .p-calendar {
+    max-width: 250px;
+    width: 90%;
+  }
+
+  .journey-dropdown--large .p-dropdown {
+    max-width: 250px;
+    width: 100%;
+  }
+
+  .journey-dropdown--full-width {
+    .p-dropdown {
+      width: 100%;
+      max-width: initial;
+    }
+
+    .p-autocomplete {
+      width: 100%;
+      max-width: initial;
+
+      .p-autocomplete-input {
+        width: 100%;
+      }
+    }
+  }
+
+  .p-inputnumber {
+    display: inline-flex;
+  }
+
+  .journey-input-fixed-width .p-inputnumber,
+  .journey-input-fixed-width input {
+    width: 250px;
+  }
+
+  span.journey-input-fixed-width input.p-inputtext {
+    flex: none;
+    width: 250px;
+  }
+}
+
+span.journey-input-fixed-width.p-calendar {
+  display: flex;
+}
+
+.future-changes {
+  .p-inputtextarea {
+    margin-left: 8px;
+    width: 96%;
+    height: 120px;
+  }
+}
+
+.p-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  width: 1px;
+  top: 0;
+  right: 0;
+}
+
+.password-requirements {
+  li {
+    list-style: none;
+    font-size: 14px;
+    line-height: 24px;
+
+    &.password-requirement--valid {
+      color: $success;
+    }
+  }
+}
+
+.p-autocomplete-panel {
+  ul.p-autocomplete-items {
+    li.p-autocomplete-item {
+      .p-autocomplete-item-primary-text {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: $neutral-dark;
+      }
+
+      .p-autocomplete-item-secondary-text {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        color: $neutral-dark-2;
+      }
+    }
+  }
+}
+
+.search-assistants-input {
+  .p-autocomplete-panel {
+    ul.p-autocomplete-items {
+      li.p-autocomplete-item {
+        padding: 0;
+
+        div {
+          padding: 0.5rem 1rem;
+
+          &.p-autocomplete-item--disabled {
+            cursor: not-allowed;
+
+            .p-autocomplete-item-primary-text {
+              color: $neutral-dark-2;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.phone-input--medium {
+  width: 90%;
+  max-width: 250px;
+}
+
+.phone-input--large {
+  max-width: 500px;
+}
+
+.phone-input--full-width {
+  width: 100%;
+}
+
+.phone-input {
+  .iti {
+    width: 100%;
+    border-radius: 3px;
+
+    .form-control {
+      padding: 0.5rem 6px 0.5rem 52px;
+      border-radius: 3px;
+
+      &:focus {
+        border: 1px solid $primary;
+      }
+    }
+  }
+
+  &--invalid {
+    .iti {
+      .form-control,
+      .form-control:focus {
+        border: 1px solid $alert;
+      }
+    }
+  }
+
+  .form-control--read-only {
+    border: 1px solid rgba(118, 118, 118, 0.3) !important;
+    background: transparent !important;
+    color: rgb(170, 170, 170) !important;
+  }
+}
+
+::placeholder,
+input::placeholder,
+input.form-control::placeholder,
+.p-dropdown .p-dropdown-label.p-placeholder {
+  color: $placeholder;
+}
+
+.trading-address-search {
+  .firm-search-holder {
+    .search-address-input {
+      span {
+        width: 80%;
+      }
+    }
+  }
+
+  .address-box {
+    width: 80%;
+  }
+}
+
+p-dropdown {
+  .p-dropdown {
+    .dropdown-header {
+      .dropdown-header-item {
+        position: relative;
+        margin-right: 32px;
+        transition: color 0.2s ease-in;
+        &::after {
+          content: '';
+          position: absolute;
+          height: 0px;
+          width: 100%;
+          left: 0;
+          bottom: -8px;
+          background: $primary;
+          transition: height 0.2s ease-in;
+        }
+        &:hover,
+        &.selected {
+          color: $primary;
+          &::after {
+            height: 2px;
+          }
+        }
+      }
+    }
+  }
+  .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
+    padding: 0.5rem 1rem;
+  }
+}
+
+p-multiselect {
+  .p-multiselect {
+    width: 100%;
+    &.p-multiselect-chip {
+      .p-multiselect-token {
+        // background: $neutral-light-1;
+        border: 1px solid #ced4da;
+        color: $primary;
+        &.p-multiselect-token--disabled {
+          border-color: $neutral-dark-3;
+          color: $neutral-dark-3;
+          background-color: $neutral-light-1;
+        }
+      }
+    }
+  }
+  &.p-multiselect-multiline {
+    .p-multiselect {
+      .p-multiselect-label {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        &.p-multiselect-label-empty {
+          visibility: unset;
+        }
+      }
+      .p-multiselect-token {
+        margin: 0.15rem;
+      }
+      .p-multiselect-trigger {
+        align-items: flex-start;
+        margin-top: 12px;
+      }
+      .p-multiselect-panel {
+        top: calc(100% + 2px) !important;
+      }
+    }
+    &.p-inputwrapper-filled {
+      .p-multiselect.p-multiselect-chip {
+        .p-multiselect-label {
+          padding: 0.039rem 0.2rem;
+        }
+      }
+    }
+  }
+}

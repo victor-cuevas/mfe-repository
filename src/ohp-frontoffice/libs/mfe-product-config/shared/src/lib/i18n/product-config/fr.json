@@ -1,0 +1,359 @@
+{
+  "product": {
+    "general": {
+      "Delete": "Supprimer"
+    },
+    "SearchProduct": {
+      "commercialowner": "Client Servicing",
+      "economicalowner": "Propriétaire Economique",
+      "judicialowner": "Propriétaire Juridique",
+      "producttype": "Type de produit",
+      "productfamily": "FR - Product Family",
+      "startdate": "Date début",
+      "productname": "Sorte Produit",
+      "commnercialname": "Nom commercial",
+      "product": "Produit",
+      "gridProduct": "Produit",
+      "GridHeader": "Résultats",
+      "Commercial_card_header": "Sélectionner le client servicing",
+      "Search Card Header": "Critères recherche",
+      "End": "Fin",
+      "Begin": "Début "
+    },
+    "newProduct": {
+      "fields": {
+        "Country": "'Pays'",
+        "Start": "'Start datum'",
+        "Product Family": "'FR - Product Family'",
+
+        "Retail leading type": "'Type Crédit'",
+
+        "Retail leading sub type": "'FR - Retail lending subType'",
+
+        "Product name": "'FR - Product name'",
+        "Servicing Customer": "'Client Servicing'",
+        "Commercial name": "'Nom Commercial Produit'",
+
+        "Product nbr": "'FR - Product nr'",
+        "Credit Insurer": "'FR - Credit Insurer'",
+        "PaymentAllocation": "'Ventilation paiement'",
+        "PayCreditStatus": "'FR - Credit Status'",
+        "Value Reduction": "'Réduction valeur'",
+        "ValCredit Status": "'FR - Credit Status'",
+        "Prepayment calculation": "'Calcul PA'",
+        "PrepaymentMethod": "'FR - Prepayment Penalty Method'",
+        "PrepaymentPercentage": "'FR - Prepayment Penalty Percentage'",
+        "PrepaymentExemption": "'FR - Prepayment Penalty Exemption Percentage'",
+        "PenaltyBefore": "'FR - Penalty Free Period Before Revision'",
+        "PenaltyAfter": "'FR - Penalty Free Period After Revision'",
+
+        "WriteMethod": "'FR - Write Off Penalty Method'",
+        "revisionPeriodSelectionMethodForPenalty": "'FR - Revision Period Selection Method'",
+        "Remainder Scenario": "'Scénario Rappel'",
+        "RCredit Status": "'FR - Credit Status'",
+
+        "Grace days": "'Nb.Jours avant Majorations'",
+        "Percentage definition": "'FR - Percentage definition'",
+        "Calculation base": "'FR - Calculation base'",
+        "Calculation method": "'FR - Calculation method'",
+
+        "Percentagedef": "'FR - Percentage definition'",
+        "WriteOffPer": "'FR - Write Off Percentage'",
+        "Calculation Day": "'FR - Calculation Day'",
+        "Minimal duration": "'Durée Minimale'",
+        "Maximal duration": "'Durée Maximale'",
+        "Periodicity": "'Périodicité'",
+        "Interest": "'Calcul Intérêts'",
+
+        "Default list": "'Stardard% Limite'",
+        "Min list": "'Min% Limite'",
+        "Max list": "'Maximum % Limiet'",
+
+        "nrOfBeforeLR": "'FR - Nr Of Months Before Limit Reduction Starts'",
+        "LRAge": "'FR - Limit Reduction Age'",
+        "LRBorrower": "'FR - Limit Reduction Borrower'",
+
+        "LRPeriods": "'FR - Limit Reduction Periods'",
+        "LRPeriodicity": "'FR - Limit Reduction Periodicity'",
+        "startPeriod": "'FR - Start Period'",
+        "endPeriod": "'FR - End Period'",
+        "rate": "'FR - Rate'",
+        "feeType": "'FR - Fee Type'",
+
+        "FeecalcType": "'FR - Fee Calculation Type'",
+
+        "feePerc": "'FR - Fee Percentage'",
+        "feeAmount": "'FR - Fee Amount'",
+        "dueTransfer": "'FR - Due Transfer Method'",
+        "highestRevision": "'FR - Highest Revision Period Method'",
+        "NewProductNameAtRateRevision": "'FR - New Product Name At Rate Revision'",
+        "minduration": "FR - Minimum duration must be smaller than Maximum duration",
+        "maxduration": "FR - Maximum duration must be greater than Minimum duration",
+        "feeconfig": "FR - Only one Fee Configuration can be added for a Fee Type",
+        "paymentAllocation": "FR - Credit Status for Ventilation paiement must be unique",
+        "ValueReduction": "FR -  Credit Status for Réduction valeur must be unique",
+        "reminderScenario": "FR - Credit Status for Scénario Rappel must be unique",
+        "country": "FR - Retail Lending SubType : Not defined is not allowed if country is Netherlands",
+        "amortization": "FR - Atleast one Amortization Schedule must be linked to the product",
+        "DMIMA": "FR - PayPercOfLimitMin must be <= PayPercOfLimitDefault must be <= PayPercOfLimitMax"
+
+      },
+      "tabel": {
+        "MutationType": "FR - Mutation Type",
+        "Applicable": "FR - Applicable",
+        "ChanceMutationCosts": "FR - Charge Mutation Costs",
+        "ChangeCostsVariable": "FR - Charge Cost for Variable Conversion",
+        "ValidationApplicable": "FR - No 4-Eye Validation Applicable",
+        "FreeType": "FR - Fee Type",
+        "FreeCalculationType": "FR - Fee Calculation Type",
+        "": "",
+        "Outstanding": "Capital Restant dû",
+        "DueDateCalculation": "FR - Due Date Calculation",
+        "FreeDelete": "Supprimer",
+        "CostType": "Type de frais",
+        "Incl": "Inclus",
+        "StartPeriod": " FR - Start Period",
+        "RevEndPeriod": "FR - End Period",
+        "RevRate": "FR - Rate",
+        "RevDelete": "Supprimer",
+        "ValLoanPurpose": "FR - Loan Purpose",
+        "ValIncl": "Inclus"
+      },
+
+      "heading": {
+        "newproduct": "NEW PRODUCT",
+        "updateproduct": "UPDATE PRODUCT"
+
+      },
+      "titles": {
+        "newproductgeneral": "Info Produit",
+        "Prepayment": "FR - Prepayment",
+        "Write Off": "FR - Write Off",
+        "Write Off Intrest": "FR - Write Off Interest",
+        "productNameUseAPC": "FR - Product Names Allowed For Product Conversion"
+      },
+      "card": {
+        "Country": "Pays",
+        "Start": "Start datum",
+        "Product Family": "FR - Product Family",
+        "End Date": "FR - End Date",
+        "Retail leading type": "Type Crédit ",
+        "Economical owner": "Propriétaire Economique",
+        "Retail leading sub type": "FR - Retail lending SubType",
+        "Judicial owner": "Propriétaire Juridique",
+        "Product name": "FR - Product name",
+        "Servicing Customer": "Client Servicing",
+        "Commercial name": "Nom Commercial Produit",
+        "External Product Nr": "FR - External Product Nr",
+        "Product nbr": "FR - Product nbr",
+        "Credit Insurer": "FR - Credit Insurer",
+        "No SEPA CT Out": "FR - No SEPA CT Out",
+        "Construction Depot Allowed": "FR - Construction Depot Allowed",
+        "Rewithdrawable": "FR - Rewithdrawable",
+        "Commission Calculation Method": "FR - Commission Calculation Method",
+        "Deposit Allocation method": "FR - Depot Allocation Method",
+        "Capitalize Int": "FR - Capitalize Interest Allowed For Interest Only",
+        "Automatic Rate Reevaluation": "FR - Automatic Rate Reevaluation",
+        "Rate Rev": "FR - Rate Revision Reevaluation Method",
+        "Is Mortgage For Tax Certificate": "FR - Is Mortgage For Tax Certificate",
+        "PaymentAllocation": "Ventilation paiement",
+        "PayCreditStatus": "FR - Credit Status",
+        "Value Reduction": "Réduction valeur",
+        "ValCredit Status": "FR - Credit Status",
+        "Prepayment calculation": "Calcul PA",
+        "PrepaymentMethod": "FR - Prepayment Penalty Method",
+        "PrepaymentPercentage": "FR - Prepayment Penalty Percentage",
+        "PrepaymentExemption": "FR - Prepayment Penalty Exemption Percentage",
+        "PenaltyBefore": "FR - Penalty Free Period Before Revision",
+        "PenaltyAfter": "FR - Penalty Free Period After Revision",
+        "Block STP": "FR - Block STP Prepayment",
+        "revisionPeriodSelectionMethodForPenalty": "FR - Revision Period Selection Method",
+        "WriteMethod": "FR - Write Off Penalty Method",
+        "Remainder Scenario": "Scénario Rappel",
+        "RCredit Status": "FR - Credit Status",
+        "Intereston": "FR - Interests on arrears applicable",
+        "Grace days": "Nb.Jours avant Majorations",
+        "Percentage definition": "FR - Percentage definition",
+        "Calculation base": "FR - Calculation base",
+        "Calculation method": "FR - Calculation method",
+        "WriteApplication": "FR - Write Off Interest Applicable",
+        "Percentagedef": "FR - Percentage definition",
+        "WriteOffPer": "FR - Write Off Percentage",
+        "Calculation Day": "FR - Calculation Day",
+        "Minimal duration": "Durée Minimale",
+        "Maximal duration": "Durée Maximale",
+        "Actualization Type": "FR - Actualization Type",
+        "RevisionStart": "FR - Revision Process Start Event",
+        "RevisionRestart": "FR - Revision Process Restart Event",
+        "RevisionReference": "FR - Revision Process Reference Date Offset",
+        "ExtensionStart": "FR - Extension Process Start Event",
+        "ExtensionRestart": "FR - Extension Process Restart Event",
+        "DefaultRevision": "FR - Default Revision Period For Rate Revision",
+        "ProductConversionNecessaryAtRateRevision": "FR - Product Conversion Necessary At Rate Revision",
+        "NewProductNameAtRateRevision": "FR - New Product Name At Rate Revision",
+        "dueTransfer": "FR - Due Transfer Method",
+        "highestRevision": "FR - Highest Revision Period Method"
+      },
+      "tab": {
+        "tabHead": {
+          "Principalandinterest": "Capital - intérêt",
+          "PaymentAllocation": "Ventilation paiement",
+          "ValueReduction": "Réduction valeur",
+          "Penalty": "FR - Penalty",
+          "RemainderScenario": "Scénario Rappel",
+          "Interestonarrears": "Intérêts de Retard",
+          "Validations": "Validations",
+          "LimitReduction": "FR - Limit Reduction",
+          "ReservationCommission": "FR - Reservation Commission",
+          "Costs": "Frais",
+          "FreeConfiguration": "FR - Fee Configuration",
+          "RevisionProcess": "FR - Revision Process",
+          "MutationType": "FR - Mutation Type"
+        },
+        "addButtons": {
+          "addPaymentAllocation": "Ajout Ventilation du Paiement",
+          "addValueReduction": "Ajout de réduction de valeur",
+          "addScenario": "Ajout du scénario",
+          "addProductName": "FR - Add Product Name",
+          "addfeeConfiguration": "FR - Add Fee Configuration",
+          "addReserveationCommision": "FR - Add Reservation Commission",
+          "copy": "Copie"
+        },
+        "Periodicity": "Périodicité",
+        "Interest": "Calcul Intérêts",
+        "Max. calibration months": "Max. mois de calibration",
+        "Amortiization Recalculation Type": "FR - Amortization Recalculation Type",
+        "Due Date Calc.": "FR - Due Date Calc.",
+        "Default list": "Stardard% Limite",
+        "Min list": "Min% Limite",
+        "Max list": "Maximum % Limiet",
+        "AmortizationSchedule": "FR - Amortization Schedule",
+        "ResetGracePeriod": "FR - Reset Grace Period after change of new due date",
+        "MinimumAmount": "FR - Minimum Amount",
+        "nrOfBeforeLR": "FR - Nr Of Months Before Limit Reduction Start",
+        "LRAge": "FR - Limit Reduction Age",
+        "LRBorrower": "FR - Limit Reduction Borrower",
+        "nlLRApplicable": "FR - Is Limit Reduction Applicable",
+        "blockOutgoing": "FR - Block Outgoing Payments",
+        "LRPeriods": "FR - Limit Reduction Periods",
+        "LRPeriodicity": "FR - Limit Reduction Periodicity",
+        "startPeriod": "FR - Start Period",
+        "endPeriod": "FR - End Period",
+        "rate": "FR - Rate",
+        "feeType": "FR - Fee Type",
+        "incOutstanding": "FR - Included in Outstanding",
+        "FeecalcType": "FR - Fee Calculation Type",
+        "incDueDate": "FR - Included in Due Date Calculation",
+        "feePerc": "FR - Fee Percentage",
+        "feeAmount": "FR - Fee Amount",
+        "months": "FR - Months"
+      },
+      "RequiredMsg": {
+        "mandatory": " est obligatoire."
+      }
+    },
+    "depotProduct": {
+      "heading": {
+        "DepotProduct": "Manage Depot Product"
+      },
+      "label": {
+        "DepotType": "FR - Depot Type",
+        "ExtensionPeriod": "FR - Extension Period In Months",
+        "MaxDuration": "FR - Maximum Duration Of Depot",
+        "MaxInterest": "FR - Maximum Interest Period",
+        "minimumProvisionAmount": "FR - Minimum Provision Amount",
+        "MinInitialAmount": "FR - Minimum Initial Amount",
+        "DepotIntMargin": "FR - Depot Interest Pct Margin",
+        "Interest%": "FR - Interest Percentage Derived From Credit",
+        "DefaultInterest": "FR - Default Interest Percentage",
+        "OnlyUsed": "FR - Only Used For Credit Interest",
+        "UsedOut": "FR - Use Outstanding For Prepayment Allowed",
+        "manualInt": "FR - Manual Interest Percentage Change Allowed",
+        "ExternalReference": "FR - External Reference",
+        "add": "Ajoute"
+      },
+      "validation": {
+        "depotType": "'Depot Type' est obligatoire."
+      }
+    },
+    "RelatedProduct": {
+      "heading": {
+        "RelatedProduct": "Manage Related Product"
+      },
+      "label": {
+        "DefaultPolicy": "FR - Default Policy Percentage",
+        "RelatedProType": "FR - Related Product Type",
+        "AddNew": "Ajoute"
+      },
+      "ValidationError": {
+        "required": " est obligatoire. ",
+        "DefaultPolicy": "'FR - Default Policy Percentage'",
+        "RelatedProType": "'FR - Related Product Type'"
+      }
+    },
+    "DepotPurposeProduct": {
+      "heading": {
+        "DepotPurpose": "Manage Depot Purpose"
+      },
+      "label": {
+        "ConstructionDepot": "FR - Construction Depot Purpose Type ",
+        "BlockedTypeDepot": "FR - Blocked For Use In Other Purposes"
+      }
+    },
+    "ManageMutation": {
+      "heading": {
+        "ManageMutation": "Manage Credit Mutation",
+        "RateAdaptationCriteria": "FR - Rate Adaptation Criterion",
+        "MissingDocumentHeader": "FR - Missing Document Config ",
+        "RequiredActionHeader": "FR - Required Action Config"
+      },
+      "tabel": {
+        "MutationType": "FR - Mutation type",
+        "RateSelectionDate": "FR - Rate selection date type",
+        "AutomaticRateRevaluation": "FR - Automatic Rate Reevaluation Check Needed",
+        "MutationRes": "FR - Mutation Reason",
+        "MissingDocName": "FR - Missing Doc Name",
+        "BlockingType": "FR - Blocking Type",
+        "RequiredAction": "FR - Required Action",
+        "AddNew": "Ajoute"
+      },
+      "tab": {
+        "tabDefinition": "FR -Mutation Definition",
+        "tabReason": "FR - Mutation Reason"
+      },
+      "validationError": {
+        "required": " est obligatoire. ",
+        "MutationType": "'FR - Mutation type'",
+        "RateSelectionDate": "'FR - Rate selection date type'",
+        "MutationRes": "'FR - Mutation Reason'",
+        "MissingDocName": "'FR - Missing Doc Name'",
+        "BlockingType": "'FR - Blocking Type'",
+        "RequiredAction": "'FR - Required Action'"
+      }
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "search": "Chercher",
+      "clear": "Effacer",
+      "update": "Update",
+      "read": "Lire"
+    },
+    "Validation": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description.",
+      "SearchValidation": "There is no Records match for your search criteria",
+      "SearchCriteria": "Minimum One Search Criteria must be given to search",
+      "DepotProductValidation": "Depot Product already exist for the selected servicing customer and depot type",
+      "DepotType": "'Depot Type' is Mandatory."
+    },
+    "dialog": {
+      "Yes": "Oui",
+      "No": "Non",
+      "Cancel": "Annuler",
+      "Header": "Changements non sauvegardé",
+      "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "WarningHeader": "Attention",
+      "WarningContent": "FR - Are you sure you want to delete the product?"
+    }
+  }
+}

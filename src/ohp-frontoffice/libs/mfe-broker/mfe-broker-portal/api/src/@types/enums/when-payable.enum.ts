@@ -1,0 +1,4 @@
+export enum WhenPayable {
+  ON_COMPLETION = 'ON_COMPLETION',
+  ON_APPLICATION = 'ON_APPLICATION',
+}

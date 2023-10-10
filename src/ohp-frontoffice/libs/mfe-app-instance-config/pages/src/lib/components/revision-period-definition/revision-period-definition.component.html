@@ -1,0 +1,241 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'app-instance.revision-period.heading.RevisionPeriod' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'app-instance.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(revisionPeriodResponse.revisionPeriodDefinitionList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'app-instance.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-9">
+            </div>
+            <div class="col-3 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'app-instance.revision-period.card.Add' | translate}}"
+                                [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+            </div>
+            <div class="col-md-12 close-header-block ">
+              <cfc-fluid-grid Type="bo-table" dataKey="codeId" [gridData]="revisionPeriodResponse?.revisionPeriodDefinitionList" [selectedDetail]="revisionPeriodCard"
+                              [gridDataHeader]="RevisionHeader" [paginationStatus]="false" paginationReportStatus="false"
+                              (deleteRowEvent)="onRowDelete($event,revisionPeriodResponse.revisionPeriodDefinitionList)" (rowClickedEvent)="clickGrid($event)">
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'app-instance.revision-period.heading.' | translate}}</div>
+            </div>
+          </div>
+
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="Nothide">
+            <div class="closefo-form-group">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'app-instance.revision-period.card.RevisionPT' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+
+
+                      <cfc-fluid-dropdown [ngModel]="revisionPeriodCard?.revisionPeriodType"
+                                          Type="single"
+                                          name="revisionPeriodTypeDropdown"
+                                          [placeholder]="placeholder"
+                                          [options]="revisionPeriodResponse?.revisionPeriodTypeList"
+                                          [ControlConfig]="revisionPeriodTypeDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="caption"
+                                          [cfcFluidValidation]="{errors:revisionPeriodTypedropdown.errors? revisionPeriodTypeDropdownConfig.Errors :'', formSubmitted:(revisionPeriodTypeDropdownConfig.externalError)}"
+                                          (OnSelectionChanged)="changeRevisionPeriodType($event)"
+                                          #revisionPeriodTypedropdown="ngModel"
+                                          [title]="revisionPeriodCard?.revisionPeriodType?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label [ngClass]="{'closefo-form-label': true,
+                      'required': revisionPeriodCard?.isRevisionPeriodEditable}">{{'app-instance.revision-period.card.RevisionPeriod' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+                      <cfc-fluid-dropdown [ngModel]="revisionPeriodCard?.revisionPeriod"
+                                          Type="single"
+                                          name="revisionPeriodListDropdown"
+                                          [isReadOnly]="!revisionPeriodCard?.isRevisionPeriodEditable"
+                                          [placeholder]="placeholder"
+                                          [options]="revisionPeriodResponse?.revisionPeriodList"
+                                          [ControlConfig]="revisionPeriodDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="caption"
+                                          [cfcFluidValidation]="{errors:revisionPeriodListdropdown.errors? revisionPeriodDropdownConfig.Errors :'', formSubmitted: (revisionPeriodDropdownConfig.externalError)}"
+                                          (OnSelectionChanged)="changeRevisionPeriod($event)"
+                                          #revisionPeriodListdropdown="ngModel"
+                                          [title]="revisionPeriodCard?.revisionPeriod?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="revisionPeriodCard?.isRevisionPeriodTypeRateRevision">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'app-instance.revision-period.card.PeriodInYears' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="periodInYearsTextBoxconfig"
+                                         [ngModel]="revisionPeriodCard?.periodInYears"
+                                         (OnchangedNumber)="changePeriodInYears($event)"
+                                         name="periodInYears"
+                                         [cfcFluidValidation]="{errors:PeriodInYears.errors? periodInYearsTextBoxconfig.Errors :'', formSubmitted: (periodInYearsTextBoxconfig.externalError)}"
+                                         [maxlength]="10"
+                                         [isAllowSpace]="false"
+                                         #PeriodInYears="ngModel">
+                      </cfc-fluid-textbox>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="revisionPeriodCard?.isRevisionPeriodTypeVariable">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'app-instance.revision-period.card.PeriodInMonths' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="TextBoxconfig"
+                                         [ngModel]="revisionPeriodCard?.periodInMonths"
+                                         (OnchangedNumber)="changePeriodInMonths($event)"
+                                         name="periodInMonths"
+                                         [maxlength]="10"
+                                         [isAllowSpace]="false"
+                                         #PeriodInMonths="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="revisionPeriodCard?.isRevisionPeriodTypeVariable">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'app-instance.revision-period.card.isAllowed' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+                      <div class="closefo-checkbox">
+                        <div class="closefo-input">
+                          <p-triStateCheckbox [ngModel]="revisionPeriodCard?.isAllowedForRateRevision"
+                                              name="isAllowedForRateRevision"
+                                              (ngModelChange)="changeAllowedForRateRevision($event)">
+                          </p-triStateCheckbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="revisionPeriodCard?.isStartsOnNextQuarterVisible">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'app-instance.revision-period.card.quarter' | translate}}</label>
+                    </div>
+
+                    <div class="col-7">
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [ngModel]="revisionPeriodCard?.revisionPeriodStartsOnNextQuarter"
+                                          name="StartsOnNextQuarter"
+                                          (ngModelChange)="changeStartOnNextQuarter($event)">
+                      </cfc-fluid-checkbox>
+                    </div>
+                  </div>
+                </div>
+
+                <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+                  <ng-template #headerTemplate>
+                    {{'app-instance.close.header' | translate}}
+                  </ng-template>
+                  <ng-template #contentTemplate>
+                    <div class="dialog-content-inner">
+                      {{'app-instance.close.body' | translate}}
+
+                    </div>
+                  </ng-template>
+                  <ng-template #footerTemplate>
+                    <div class="d-flex closefo-btn-wrapper">
+                      <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'app-instance.close.yes' | translate}}"
+                                        (click)="onYes(revisionPeriodResponse.revisionPeriodDefinitionList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'app-instance.close.no' | translate}}"
+                                        (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'app-instance.close.cancel' | translate}}"
+                                        (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                    </div>
+                  </ng-template>
+                </cfc-fluid-dialog>
+
+                <div>
+                  <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+                    <ng-template #headerTemplate>
+                      Technical Exception
+                    </ng-template>
+                    <ng-template #contentTemplate>
+                      <div id="warning-dialog" class="dialog-inner-content">
+                        <div class="warning-main">
+                          <div class="war-left">
+                            <i class="pi pi-exclamation-triangle"></i>
+                          </div>
+                        </div>
+                        <div class="war-right">
+                          Technical Exception has occured in a component in our application.<br />
+                          If you click continue, the application will ignore this error
+                          and attempt to continue
+                          <br />
+                          <br />
+                          Fault Code: {{errorCode}}.
+                        </div>
+                      </div>
+
+
+                    </ng-template>
+                    <ng-template #footerTemplate>
+                      <div class="d-flex closefo-btn-wrapper">
+                        <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                          (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </ng-template>
+
+                  </cfc-fluid-dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

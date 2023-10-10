@@ -1,0 +1,304 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #fallBackform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': fallBackform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'communication.fallback.heading.FallbackMechanism' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'communication.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(fallbackMechanismList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'communication.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'communication.button.Add' | translate}}" (click)="AddFallback()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="fallbackMechanismList"
+            [gridDataHeader]="fallbackHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onFallBackDelete($event)"
+            (rowClickedEvent)="onRowselect($event)"
+            [selectedDetail]="highlightMechanismData"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="hideFallBack">
+        <div class="closefo-form-group">
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{ 'communication.fallback.card.name' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        #name="ngModel"
+                        Type="text"
+                        [ControlConfig]="RequiredName"
+                        [ngModel]="fallbackMechanismData.name"
+                        (ngModelChange)="onNameChange($event)"
+                        name="Name"
+                        [isAllowSpace]="false"
+                        [form]="fallBackform"
+                        [cfcFluidValidation]="{
+                          errors: name.errors ? RequiredName.Errors : '',
+                          formSubmitted: fallBackform.submitted || RequiredName.externalError
+                        }"
+                        [isReadOnly]="readonlyName"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-12 closefo-btn-wrapper text-right mb-2">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-add-btn-small"
+                caption="{{'communication.button.Add' | translate}}"
+                [ControlConfig]="ButtonConfig"
+                (click)="onAddFallbackCommunication()"
+              ></cfc-fluid-button>
+            </div>
+
+            <div class="col-md-12 close-header-block">
+
+              <p-table
+              [value]="fallbackMechanismData.fallbackCommunicationList"
+              [columns]="fallupHeader"
+              [resizableColumns]="true"
+              styleClass="closefo-datatable closefo-bo-table checkboxalign"
+              [reorderableColumns]="true"
+            >
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn [pSortableColumn]="col.field">
+                    <span>{{ col.header }}</span>
+
+                    <p-sortIcon [field]="col.field" *ngIf="!col.pSortableColumnDisabled"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                <tr *ngIf="!rowData.isDeleted" [pSelectableRow]="rowData" [ngClass]="{'highlight' : fallbackCommunicationData === rowData }">
+                  <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property" (click)="onCommunicationselect(rowData,index)">
+                    <span *ngSwitchCase="'followUpEventName'">
+                      {{ rowData?.followUpEventName?.caption }}
+                    </span>
+                    <span *ngSwitchCase="'communicationMedium'"> 
+                      {{ rowData?.communicationMedium?.caption }}
+                     </span>
+                    <span *ngSwitchCase="'seqNr'">
+                       {{ rowData?.seqNr }} 
+                      </span>
+
+                    <span *ngSwitchCase="'deleteButton'">
+                      <span class="closefo-delete-btn"
+                        ><i class="pi pi-times-circle" (click)="onCommunicationDelete(rowData,index)"></i>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            </div>
+          </div>
+
+          
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="hideCommCard">
+            <div class="closefo-form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label ">{{ 'communication.fallback.card.FollowupEventName' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="fallbackCommunicationData.followUpEventName"
+                        Type="single"
+                        name="followUpEventName"
+                        [placeholder]="placeholder"
+                        [options]="followUpNameList"
+                        [ControlConfig]="RequiredFollowUp"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onfollowupNameChange($event)"
+                        #followupdropdown="ngModel"
+                        [title]="
+                          fallbackCommunicationData?.followUpEventName?.caption === null
+                            ? ''
+                            : fallbackCommunicationData?.followUpEventName?.caption
+                        "
+                       [showClearIcon]="fallbackCommunicationData?.followUpEventName ? true : false"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'communication.fallback.card.CommunicationMedium' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="fallbackCommunicationData.communicationMedium"
+                        Type="single"
+                        name="communicationMedium"
+                        [placeholder]="placeholder"
+                        [options]="communicationList"
+                        [ControlConfig]="RequiredCommunication"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="oncommunicationChange($event)"
+                        #communicationMediumdropdown="ngModel"
+                        [title]="
+                          fallbackCommunicationData?.communicationMedium?.caption === null
+                            ? ''
+                            : fallbackCommunicationData?.communicationMedium?.caption
+                        "
+                        [showClearIcon]="fallbackCommunicationData?.communicationMedium ? true : false"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{ 'communication.fallback.card.Seqnr' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        #seqNr="ngModel"
+                        Type="numbers"
+                        [ControlConfig]="RequiredSeqNr"
+                        [ngModel]="fallbackCommunicationData.seqNr"
+                        (OnchangedNumber)="onSeqNrChange($event)"
+                        name="SeqNr"
+                        [isAllowSpace]="false"
+                        [maxlength]="10"
+                        [maximumValue]="intMaxValue"
+                        [cfcFluidValidation]="{
+                          errors: seqNr.errors ? (seqNr.errors?.maxValueError) ? seqNrDto : RequiredSeqNr.Errors : '',
+                          formSubmitted: RequiredSeqNr.externalError
+                        }"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'communication.close.header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'communication.close.body' | translate }}</div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'communication.close.yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(fallbackMechanismList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.close.no' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.close.cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate> Technical Exception </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.button.continue' | translate }}"
+            (click)="onException()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div
+  *ngIf="show && contactsInformation.length"
+  class="d-flex align-items-center"
+  tooltipStyleClass="p-tooltip-blue"
+  [pTooltip]="applicantsHtml"
+  [escape]="false"
+  tooltipPosition="bottom"
+>
+  <h6 class="mx-3">
+    {{
+      (contactsInformation.length > 1 ? 'createIllustration.labels.applicantsName' : 'createIllustration.labels.applicantName') | translate
+    }}
+  </h6>
+  <div class="icon-with-circle">
+    <i class="pi pi-users"></i>
+  </div>
+</div>

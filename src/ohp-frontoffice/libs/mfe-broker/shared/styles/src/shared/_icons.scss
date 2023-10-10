@@ -1,0 +1,38 @@
+.journey-icon {
+  padding: 4px;
+  border: 1px solid $primary;
+  border-radius: 50%;
+}
+
+.radio-button-info-icon {
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
+.icon-with-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+
+  i {
+    font-size: 14px;
+  }
+}
+
+.status-icon {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.lender-fee-tooltip-fix {
+  transform: translateY(7px);
+}

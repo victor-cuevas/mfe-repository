@@ -1,0 +1,186 @@
+<form [formGroup]="createCaseForm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-sm-12 pb-5">
+        <h2 class="mb-1">{{ 'createCase.titles.createCase' | translate }}</h2>
+        <p>{{ 'createCase.subTitles.createCase' | translate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-2" *ngIf="brokers">
+    <div class="step-header rounded-top" [ngClass]="{ 'rounded-bottom': !caseOwner }">
+      <div class="row p-4">
+        <div class="col-md-6 col-sm-12 pb-3">
+          <ng-template [cfoPermissions]="'assistants'" [cfoPermissionsFeatures]="['support']">
+            <label id="caseOwner">{{ 'createCase.labels.caseOwner' | translate }} *</label>
+            <p-dropdown
+              [options]="brokers"
+              role="combobox"
+              aria-labelledby="caseOwner"
+              ngDefaultControl
+              optionLabel="fullName"
+              formControlName="caseOwner"
+              class="journey-dropdown"
+              [filter]="true"
+              filterBy="fullName"
+              [placeholder]="'createCase.placeholders.selectCaseOwner' | translate"
+            >
+              <ng-template let-broker pTemplate="item">
+                <p class="fw-bold">{{ broker.fullName | titlecase }}</p>
+                <p>{{ broker.email }}</p>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="createCaseForm.get('caseOwner')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="step-body rounded-bottom" *ngIf="caseOwner">
+      <div class="row p-4 pb-2">
+        <div class="col-md-4 col-sm-12">
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.intermediary' | translate }}:</label>
+            <p class="mb-2 px-2">{{ caseOwner?.fullName }}</p>
+          </div>
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.email' | translate }}:</label>
+            <p class="mb-2 px-2">{{ caseOwner?.email }}</p>
+          </div>
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.telephone' | translate }}:</label>
+            <p class="mb-2 px-2">{{ caseOwner?.telephone }}</p>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-12 pb-3">
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.advisorUniqueId' | translate }}:</label>
+            <p class="mb-2 px-2">{{ caseOwner?.advisorUniqueId }}</p>
+          </div>
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.tradingName' | translate }}:</label>
+            <p class="mb-2 px-2">{{ caseOwner?.tradingAddress.tradingName }}</p>
+          </div>
+          <div class="d-flex align-items-center pb-1">
+            <label>{{ 'createCase.labels.tradingAddress' | translate }}:</label>
+            <p class="mb-2 px-2">{{ tradingAddress }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-2">
+    <div class="step-header rounded-top py-2">
+      <div class="row p-4">
+        <div class="col-md-4 col-sm-12 pb-3">
+          <label id="casePurposeType">{{ 'createCase.labels.applicationType' | translate }} *</label>
+          <p-dropdown
+            [options]="casePurposeTypes"
+            role="combobox"
+            ngDefaultControl
+            class="journey-dropdown"
+            formControlName="casePurposeType"
+            [placeholder]="'createCase.placeholders.selectApplicationType' | translate"
+            aria-labelledby="casePurposeType"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="createCaseForm.get('casePurposeType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-4 col-sm-12 pb-3">
+          <label id="propertyPurpose">{{ 'createCase.labels.propertyPurpose' | translate }} *</label>
+          <p-dropdown
+            [options]="propertyPurposes"
+            ngDefaultControl
+            formControlName="propertyPurpose"
+            class="journey-dropdown"
+            [cfoDisableControl]="true"
+            aria-labelledby="propertyPurpose"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="createCaseForm.get('propertyPurpose')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+    </div>
+    <div class="step-body rounded-bottom" formGroupName="killerQuestions">
+      <div class="p-4" *ngIf="killerQuestions && killerQuestions.length">
+        <h6 class="fw-medium secondary-font fs-6 mb-2">{{ 'createCase.labels.continueConfirmation' | translate }}</h6>
+        <ul class="mb-3 indent">
+          <li *ngFor="let killerQuestion of killerQuestions">{{ killerQuestion }}</li>
+        </ul>
+        <div class="my-1">
+          <p-checkbox
+            *ngIf="killerQuestions && killerQuestions.length"
+            name="confirmationCheck"
+            inputId="confirmationCheck"
+            [binary]="true"
+            ngDefaultControl
+            formControlName="statementsCorrect"
+            [label]="CONFIG.CONDITIONS.STATEMENTS_CONFIRMATION + ' *'"
+          ></p-checkbox>
+        </div>
+        <p-checkbox
+          name="confirmationCheck"
+          [binary]="true"
+          ngDefaultControl
+          inputId="permissionCheck"
+          formControlName="permissionCheck"
+          [label]="CONFIG.CONDITIONS.PERMISSIONS_CONFIRMATION + ' *'"
+        ></p-checkbox>
+      </div>
+      <div [ngClass]="killerQuestions && killerQuestions.length ? 'px-4 pb-5' : 'px-4 pb-5 pt-4'">
+        <h6 class="fw-medium secondary-font fs-6 mb-2">
+          <a [href]="CONFIG.TERMS_CONDITIONS_URL" target="_blank">{{ 'createCase.labels.dataDocument' | translate }}</a>
+        </h6>
+        <div class="mb-3">
+          <p-checkbox
+            name="confirmationCheck"
+            [binary]="true"
+            ngDefaultControl
+            inputId="dataConsent"
+            formControlName="dataConsent"
+            [label]="CONFIG.CONDITIONS.DATA_CONSENT + ' *'"
+          ></p-checkbox>
+        </div>
+        <h6 class="fw-medium secondary-font fs-6 mb-2">
+          <a [href]="CONFIG.USE_DATA_DOC_URL" target="_blank">{{ 'createCase.labels.termsAndConditions' | translate }}</a>
+        </h6>
+        <p-checkbox
+          name="confirmationCheck"
+          [binary]="true"
+          inputId="termsAndConditions"
+          ngDefaultControl
+          formControlName="termsAndConditions"
+          [label]="CONFIG.CONDITIONS.TERMS_AND_CONDITIONS + ' *'"
+        ></p-checkbox>
+      </div>
+    </div>
+    <div class="my-4">
+      <a class="link-outlined" [routerLink]="'/cases'">{{ 'general.buttons.cancel' | translate }}</a>
+      <a class="link-button-primary mx-4" [routerLink]="'../' + routePaths.CREATE_CASE_ADD_APPLICANT">{{
+        'general.buttons.next' | translate
+      }}</a>
+    </div>
+  </div>
+</form>

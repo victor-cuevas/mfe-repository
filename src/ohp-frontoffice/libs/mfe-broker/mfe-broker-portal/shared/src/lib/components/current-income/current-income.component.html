@@ -1,0 +1,59 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.currentIncome' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsFormArray)">
+    <p-tabView *ngIf="currentData.applicantIncomes && currentData.applicantIncomes.length">
+      <p-tabPanel *ngFor="let applicant of applicantsFormArray.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"> </i>
+          <h6>
+            {{
+              currentData.applicantIncomes[i]?.applicantInfo?.firstName + ' ' + currentData.applicantIncomes[i]?.applicantInfo?.familyName
+                | titlecase
+            }}
+          </h6>
+        </ng-template>
+        <div class="mb-4">
+          <button
+            *ngIf="dataService.activeJourney"
+            pButton
+            class="p-button-outlined--bold d-inline mt-4"
+            label="Add more"
+            icon="pi pi-plus"
+            (click)="addIncomes(i)"
+          ></button>
+        </div>
+        <ng-container [formGroup]="$any(applicant)">
+          <div class="mt-4">
+            <ng-container *ngFor="let incomeHistory of currentIncomeFormArray(i).controls; let ind = index">
+              <ng-container [formGroup]="$any(incomeHistory)">
+                <div class="rounded shadow">
+                  <div class="step-body bg-white">
+                    <mbp-main-employment [form]="$any(incomeHistory)" [otherEmployment]="ind"></mbp-main-employment>
+                    <mbp-more-employer-details
+                      [form]="$any(incomeHistory)"
+                      *ngIf="isFMA"
+                      [otherEmployment]="ind"
+                    ></mbp-more-employer-details>
+                    <mbp-income-details [form]="$any(incomeHistory)" [otherEmployment]="ind"></mbp-income-details>
+                  </div>
+                  <div *ngIf="dataService.activeJourney" class="step-body rounded-bottom bg-light px-3 py-2 mb-4">
+                    <button
+                      *ngIf="currentIncomeFormArray(i).controls.length > 1"
+                      (click)="deleteCurrentIncome(i, ind)"
+                      class="hidden-btn d-flex align-items-center"
+                    >
+                      <i class="pi pi-minus-circle me-1 fs-6"></i>
+                      <h6>{{ 'general.buttons.removeCurrentIncome' | translate }}</h6>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

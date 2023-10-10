@@ -1,0 +1,212 @@
+{
+  "accounting": {
+    "txtype": {
+      "heading": {
+        "AccountingTxt": "Manage AM Transactions"
+      },
+      "card": {
+        "TxType": "NL - TxType",
+        "isaccountingtx": "NL - Is AccountingTx"
+      },
+      "tabel": {
+        "TxType": "NL - TxType",
+        "isAccountingtx": "NL - Is AccountingTx",
+        "delete": "Verwijderen"
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "card": " 'NL - TxType'",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "mutation-type": {
+      "heading": {
+        "mutationType": "Manage AM Mutation Types"
+      },
+      "tabel": {
+        "MutationT": "NL - Mutation Type",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "MutationType": "NL - Mutation Type"
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "section": " 'NL - Mutation Type'",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "ltvmodification": {
+      "heading": {
+        "ltvmodificationsurcharges": "Manage AM LTV modifications"
+      },
+      "tabel": {
+        "RateAdaptionName": "NL - Rate Adaption Name",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "RateAdaptionName": "NL - Rate Adaption Name"
+      },
+      "mandatory": {
+        "required": " is Verplicht.",
+        "RateAdaptionName": " 'NL - Rate Adaption Name'"
+      }
+    },
+
+    "Periodicity": {
+      "heading": {
+        "Periodicity": "Manage AM Periodicities"
+      },
+      "tabel": {
+        "Periodicity": "NL - Periodicity",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "Periodicitys": "NL - Periodicity"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "NL - Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "section": " 'NL - Periodicity'",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'NL - Financial Amortization Type' is verplicht."
+      }
+    },
+
+    "CreditProvider": {
+      "heading": {
+        "CreditProvider": "Manage AM Credit Provider"
+      },
+      "tabel": {
+        "CreditProvider": "NL - Credit Provider Name",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "CreditProviders": "NL - Credit Provider Name"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "NL - Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "section": " 'NL - Credit Provider Name'",
+        "picklist": "'NL - Financial Amortization Type'",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'NL - Financial Amortization Type' is verplicht."
+      }
+    },
+
+    "Divergent": {
+      "heading": {
+        "DivergentEffect": "Manage AM Divergent Effective Rate Sheet"
+      },
+      "tabel": {
+        "EffectiveRate": "Effectieve rente",
+        "nrofyears": "NL - Nr Of Years",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "EffectiveRate": "Effectieve rente",
+        "Numberofyears": "NL - Nr Of Years"
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "errorRate": " 'Effectieve rente'",
+        "nrofYears": "'NL - Nr Of Years'",
+        "InputIncorrect": "NL - Input is not in correct format.",
+        "numberInt32Check": "NL - Value was either too large or too small for an Int32.",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "interest-mediation": {
+      "heading": {
+        "interestMediation": "Manage AM Interest Mediation Surcharge"
+      },
+      "card": {
+        "RateAdaption": "NL - Rate Adaption Name"
+      },
+      "tabel": {
+        "RateAdaptionName": "NL - Rate Adaption Name",
+        "delete": "Verwijderen"
+      },
+      "mandatory": {
+        "required": " is Verplicht.",
+        "RateAdaptionName": " 'NL - Rate Adaption Name'"
+      }
+    },
+
+    "forbearance-measure": {
+      "heading": {
+        "forbearanceMeasure": "Manage Forbearance Measure"
+      },
+      "card": {
+        "forbearanceMeasure": "NL - Forbearance Measure",
+        "paymentHoliday": "NL - No Of Months For Payment Holiday",
+        "substantialModification": "NL - Substantial Modification Percentage",
+        "concessiontx": "NL - No Of Days For Concession Tx",
+        "isSubstantialModification": "NL - Is Substantial Modification Applicable"
+      },
+      "validation": {
+        "forbearanceMeasure": "NL - 'Forbearance Measure' is verplicht.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+
+    "market-rate": {
+      "heading": {
+        "marketRate": "Manage Marketrate for Substantial Modification"
+      },
+      "card": {
+        "Noofyrs": "NL - No Of Years",
+        "ValidFrom": "NL - Valid From",
+        "ValidTo": "NL - Valid To",
+        "MarketRate": "NL - Market Rate"
+
+      },
+      "tabel": {
+        "Noofyrs": "NL - No Of Years",
+        "ValidFrom": "NL - Valid From",
+        "ValidTo": "NL - Valid To",
+        "MarketRate": "NL - Market Rate"
+      },
+      "mandatory": {
+        "required": " is Verplicht.",
+        "Noofyrs": "'NL - No Of Years'",
+        "ValidFrom": "'NL - Valid From'",
+        "ValidTo": "'NL - Valid To'",
+        "MarketRate": "'NL - Market Rate'",
+        "zeroRate": "NL - 'Market Rate' must be greater than zero",
+        "businessError": "NL - Date fields cannot overlap per 'No Of Years'"
+
+      }
+    },
+
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "add": "Voeg toe"
+    },
+    "Validation": {
+      "Header": "Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+    },
+    "dialog": {
+      "yes": "Ja",
+      "no": "Nee",
+      "cancel": "Annuleer",
+      "header": "Onopgeslagen wijzigingen",
+      "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan? ",
+      "exception": "NL -Technical Exception",
+      "continue": "NL -Continue"
+    }
+  }
+  }

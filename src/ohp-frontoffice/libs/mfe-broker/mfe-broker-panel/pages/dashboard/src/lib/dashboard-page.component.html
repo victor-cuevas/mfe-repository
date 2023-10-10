@@ -1,0 +1,39 @@
+<mbpanel-layout>
+  <div class="container">
+    <div class="row mt-5 mb-5">
+      <div class="col-12">
+        <h5 class="dashboard-header-title mb-2">{{ 'dashBoard.labels.welcomeBack' | translate: { loginName: loginName } }}</h5>
+        <div class="dashboard-header-subtitle">
+          {{ 'dashBoard.labels.notifications' | translate: { nrNotifications: nrNotifications } }}
+        </div>
+      </div>
+      <div class="row" *ngIf="isDev">
+        <div class="col-md-3 col-xs-12 mt-4">
+          <input class="journey-input" name="error" [formControl]="error" pInputText type="text" placeholder="Insert the error code" />
+        </div>
+        <div class="col-md-9 col-xs-12 mt-4">
+          <button
+            pButton
+            label="Throw error"
+            class="link-button-primary fw-bold"
+            style="height: 43px"
+            (click)="throwError(error?.value)"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let item of dashboardItems" class="col-md-6 col-lg-4">
+        <ng-template [cfoPermissions]="item.id" [cfoPermissionsFeatures]="['viewer', 'lender']">
+          <a [routerLink]="item.linkpath" class="dashboard-hover-card d-flex flex-column justify-content-between">
+            <h2>{{ item.type | translate }}</h2>
+            <div class="d-flex justify-content-between align-items-end">
+              <i [class]="item.icon"></i>
+              <i [class]="item.linkicon"></i>
+            </div>
+          </a>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</mbpanel-layout>

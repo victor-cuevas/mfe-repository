@@ -1,0 +1,123 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2020",
+    "module": "esnext",
+    "lib": ["es2021", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@close-front-office/mfe-accounting-config/core": ["libs/mfe-accounting-config/core/src/index.ts"],
+      "@close-front-office/mfe-accounting-config/pages": ["libs/mfe-accounting-config/pages/src/index.ts"],
+      "@close-front-office/mfe-accounting-config/shared": ["libs/mfe-accounting-config/shared/src/index.ts"],
+      "@close-front-office/mfe-agenda-config/core": ["libs/mfe-agenda-config/core/src/index.ts"],
+      "@close-front-office/mfe-agenda-config/pages": ["libs/mfe-agenda-config/pages/src/index.ts"],
+      "@close-front-office/mfe-agenda-config/shared": ["libs/mfe-agenda-config/shared/src/index.ts"],
+      "@close-front-office/mfe-app-instance-config/core": ["libs/mfe-app-instance-config/core/src/index.ts"],
+      "@close-front-office/mfe-app-instance-config/pages": ["libs/mfe-app-instance-config/pages/src/index.ts"],
+      "@close-front-office/mfe-app-instance-config/shared": ["libs/mfe-app-instance-config/shared/src/index.ts"],
+      "@close-front-office/mfe-asset-config/core": ["libs/mfe-asset-config/core/src/index.ts"],
+      "@close-front-office/mfe-asset-config/pages": ["libs/mfe-asset-config/pages/src/index.ts"],
+      "@close-front-office/mfe-asset-config/shared": ["libs/mfe-asset-config/shared/src/index.ts"],
+      "@close-front-office/mfe-auth-config/core": ["libs/mfe-auth-config/core/src/index.ts"],
+      "@close-front-office/mfe-auth-config/pages": ["libs/mfe-auth-config/pages/src/index.ts"],
+      "@close-front-office/mfe-auth-config/shared": ["libs/mfe-auth-config/shared/src/index.ts"],
+      "@close-front-office/mfe-broker/core": ["libs/mfe-broker/core/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/api": ["libs/mfe-broker/mfe-broker-panel/api/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/core": ["libs/mfe-broker/mfe-broker-panel/core/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/configuration": [
+        "libs/mfe-broker/mfe-broker-panel/pages/configuration/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/dashboard": ["libs/mfe-broker/mfe-broker-panel/pages/dashboard/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/firms": ["libs/mfe-broker/mfe-broker-panel/pages/firms/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/lender-page": [
+        "libs/mfe-broker/mfe-broker-panel/pages/lender-page/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/not-found": ["libs/mfe-broker/mfe-broker-panel/pages/not-found/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/profile": ["libs/mfe-broker/mfe-broker-panel/pages/profile/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-panel/pages/submission-route": [
+        "libs/mfe-broker/mfe-broker-panel/pages/submission-route/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-panel/shared": ["libs/mfe-broker/mfe-broker-panel/shared/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/api": ["libs/mfe-broker/mfe-broker-portal/api/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/api-mocks": ["libs/mfe-broker/mfe-broker-portal/api-mocks/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/core": ["libs/mfe-broker/mfe-broker-portal/core/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/case-summary": [
+        "libs/mfe-broker/mfe-broker-portal/pages/case-summary/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/cases-page": [
+        "libs/mfe-broker/mfe-broker-portal/pages/cases-page/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/complete-registration": [
+        "libs/mfe-broker/mfe-broker-portal/pages/complete-registration/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/create-case": [
+        "libs/mfe-broker/mfe-broker-portal/pages/create-case/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/create-dip": [
+        "libs/mfe-broker/mfe-broker-portal/pages/create-dip/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/create-fma": [
+        "libs/mfe-broker/mfe-broker-portal/pages/create-fma/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/create-illustration": [
+        "libs/mfe-broker/mfe-broker-portal/pages/create-illustration/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/not-found": [
+        "libs/mfe-broker/mfe-broker-portal/pages/not-found/src/index.ts"
+      ],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/products": ["libs/mfe-broker/mfe-broker-portal/pages/products/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/pages/profile": ["libs/mfe-broker/mfe-broker-portal/pages/profile/src/index.ts"],
+      "@close-front-office/mfe-broker/mfe-broker-portal/shared": ["libs/mfe-broker/mfe-broker-portal/shared/src/index.ts"],
+      "@close-front-office/mfe-broker/shared-assets": ["libs/mfe-broker/shared/assets/src/index.ts"],
+      "@close-front-office/mfe-broker/shared-styles": ["libs/mfe-broker/shared/styles/src/index.ts"],
+      "@close-front-office/mfe-broker/shared-toast": ["libs/mfe-broker/shared/toast/src/index.ts"],
+      "@close-front-office/mfe-broker/shared-ui": ["libs/mfe-broker/shared/ui/src/index.ts"],
+      "@close-front-office/mfe-collection-measure-config/core": ["libs/mfe-collection-measure-config/core/src/index.ts"],
+      "@close-front-office/mfe-collection-measure-config/pages": ["libs/mfe-collection-measure-config/pages/src/index.ts"],
+      "@close-front-office/mfe-collection-measure-config/shared": ["libs/mfe-collection-measure-config/shared/src/index.ts"],
+      "@close-front-office/mfe-communication-config-service/core": ["libs/mfe-communication-config-service/core/src/index.ts"],
+      "@close-front-office/mfe-communication-config-service/pages": ["libs/mfe-communication-config-service/pages/src/index.ts"],
+      "@close-front-office/mfe-communication-config-service/shared": ["libs/mfe-communication-config-service/shared/src/index.ts"],
+      "@close-front-office/mfe-financial-config-service/core": ["libs/mfe-financial-config-service/core/src/index.ts"],
+      "@close-front-office/mfe-financial-config-service/pages": ["libs/mfe-financial-config-service/pages/src/index.ts"],
+      "@close-front-office/mfe-financial-config-service/shared": ["libs/mfe-financial-config-service/shared/src/index.ts"],
+      "@close-front-office/mfe-plan-config/core": ["libs/mfe-plan-config/core/src/index.ts"],
+      "@close-front-office/mfe-plan-config/pages": ["libs/mfe-plan-config/pages/src/index.ts"],
+      "@close-front-office/mfe-plan-config/shared": ["libs/mfe-plan-config/shared/src/index.ts"],
+      "@close-front-office/mfe-process-config/core": ["libs/mfe-process-config/core/src/index.ts"],
+      "@close-front-office/mfe-process-config/pages": ["libs/mfe-process-config/pages/src/index.ts"],
+      "@close-front-office/mfe-process-config/shared": ["libs/mfe-process-config/shared/src/index.ts"],
+      "@close-front-office/mfe-product-config/core": ["libs/mfe-product-config/core/src/index.ts"],
+      "@close-front-office/mfe-product-config/pages": ["libs/mfe-product-config/pages/src/index.ts"],
+      "@close-front-office/mfe-product-config/shared": ["libs/mfe-product-config/shared/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config-service/core": ["libs/mfe-runningaccount-config-service/core/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config-service/pages": ["libs/mfe-runningaccount-config-service/pages/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config-service/shared": ["libs/mfe-runningaccount-config-service/shared/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config/core": ["libs/mfe-runningaccount-config/core/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config/pages": ["libs/mfe-runningaccount-config/pages/src/index.ts"],
+      "@close-front-office/mfe-runningaccount-config/shared": ["libs/mfe-runningaccount-config/shared/src/index.ts"],
+      "@close-front-office/mfe-tax-statement-config/core": ["libs/mfe-tax-statement-config/core/src/index.ts"],
+      "@close-front-office/mfe-tax-statement-config/pages": ["libs/mfe-tax-statement-config/pages/src/index.ts"],
+      "@close-front-office/mfe-tax-statement-config/shared": ["libs/mfe-tax-statement-config/shared/src/index.ts"],
+      "@close-front-office/shared/assets": ["libs/shared/assets/src/index.ts"],
+      "@close-front-office/shared/config": ["libs/shared/config/src/index.ts"],
+      "@close-front-office/shared/core": ["libs/shared/core/src/index.ts"],
+      "@close-front-office/shared/fluid-controls": ["libs/shared/fluid-controls/src/index.ts"],
+      "@close-front-office/shared/i18n": ["libs/shared/i18n/src/index.ts"],
+      "@close-front-office/shared/interceptor-inheritance": ["libs/shared/interceptor-inheritance/src/index.ts"],
+      "@close-front-office/shared/landing": ["libs/shared/landing/src/index.ts"],
+      "@close-front-office/shared/testing-helper": ["libs/shared/testing-helper/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

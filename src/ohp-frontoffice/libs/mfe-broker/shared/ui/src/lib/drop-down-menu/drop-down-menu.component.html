@@ -1,0 +1,9 @@
+<div class="menu-container ml-2">
+  <button class="d-flex justify-content-evenly align-items-center menu-btn" (click)="toggleMenu()" aria-label="menu button">
+    {{ label | titlecase }}
+    <i class="pi pi-chevron-down mx-1"></i>
+  </button>
+  <ul *ngIf="showMenu" class="overlay-panel bg-white shadow">
+    <ng-content></ng-content>
+  </ul>
+</div>

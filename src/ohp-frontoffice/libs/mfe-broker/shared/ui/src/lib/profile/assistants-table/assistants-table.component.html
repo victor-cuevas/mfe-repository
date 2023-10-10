@@ -1,0 +1,141 @@
+<p-table
+  #assistantsTable
+  dataKey="brokerId"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  scrollHeight="flex"
+  styleClass="boxed-table"
+  [globalFilterFields]="['fullName', 'permission', 'role', 'email']"
+  [paginator]="totalRecords > 10"
+  [responsive]="true"
+  [rows]="pageSize"
+  [scrollable]="true"
+  [showCurrentPageReport]="!!totalRecords"
+  [showLoader]="false"
+  [value]="(assistants$ | async) || []"
+>
+  <ng-template pTemplate="header">
+    <tr class="px-3">
+      <th pSortableColumn="fullName">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3">
+            <p-sortIcon field="fullName" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.name' | translate }}
+          </div>
+          <p-columnFilter
+            field="fullName"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.name' | translate | lowercase }"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="permission">
+        <div class="d-flex">
+          <div class="d-flex align-items-center text-truncate pe-3">
+            <p-sortIcon field="permission" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.collaboration' | translate }}
+          </div>
+          <p-columnFilter
+            field="permission"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [placeholder]="'general.placeholders.searchBy' | translate: { field: 'profile.labels.collaboration' | translate | lowercase }"
+          >
+          </p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="role">
+        <div class="d-flex">
+          <div class="d-flex align-items-center text-truncate pe-3">
+            <p-sortIcon field="role" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.position' | translate }}
+          </div>
+          <p-columnFilter
+            field="role"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="email">
+        <div class="d-flex">
+          <div class="d-flex align-items-center pe-3 text-truncate">
+            <p-sortIcon field="email" class="d-flex pe-2"></p-sortIcon>{{ 'profile.labels.contacts' | translate }}
+          </div>
+          <p-columnFilter
+            field="email"
+            type="text"
+            matchMode="contains"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+          ></p-columnFilter>
+        </div>
+      </th>
+      <ng-template [cfoPermissions]="'assistants'" [cfoPermissionsFeatures]="['me', 'others']">
+        <th [ngStyle]="{ width: '70px' }"></th>
+      </ng-template>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td class="text-center">No records found</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-assistant let-rowIndex="rowIndex">
+    <tr class="px-3">
+      <td>
+        <strong class="text-truncate">{{ assistant.fullName }}</strong>
+      </td>
+      <td>
+        <p-dropdown
+          [disabled]="readOnly"
+          styleClass="no-border-input"
+          [options]="permissionsOptions"
+          placeholder="Select Collaboration"
+          [(ngModel)]="assistant.permission"
+          (onChange)="onChangeCollaboration($event, assistant.brokerId)"
+        >
+          <ng-template let-option pTemplate="item">
+            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+          </ng-template>
+        </p-dropdown>
+      </td>
+      <td>
+        <p class="text-truncate">{{ assistant.role }}</p>
+      </td>
+      <td>
+        <p class="text-truncate">{{ assistant.email }}</p>
+      </td>
+      <ng-template [cfoPermissions]="'assistants'" [cfoPermissionsFeatures]="['me', 'others']">
+        <td [ngStyle]="{ width: '70px' }">
+          <span
+            class="d-flex primary-color"
+            tooltipPosition="left"
+            [pTooltip]="'profile.labels.unlinkAssistant' | translate"
+            [hideDelay]="300"
+          >
+            <button
+              [disabled]="readOnly"
+              pButton
+              type="button"
+              icon="pi pi-link"
+              class="p-button-rounded p-button-secondary p-button-text"
+              (click)="onUnlink(assistant.brokerId)"
+            ></button>
+          </span>
+        </td>
+      </ng-template>
+    </tr>
+  </ng-template>
+</p-table>

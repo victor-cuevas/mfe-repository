@@ -1,0 +1,29 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="bpanel-breadcrumb">
+  <!-- Title -->
+
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+    <h2 class="my-3 mb-lg-0">{{ 'firms.title' | translate }}</h2>
+
+    <div class="d-flex flex-column flex-lg-row">
+      <button
+        *ngIf="checkActiveFilters()"
+        pButton
+        icon="pi pi-times"
+        label="{{ 'general.buttons.clearFilters' | translate }}"
+        class="p-button-outlined--bold mb-2 mb-lg-0 me-lg-3"
+        (click)="firmsTable.clearAllFilters()"
+      ></button>
+      <ng-template [cfoPermissions]="'firms'" [cfoPermissionsFeatures]="['lender']">
+        <p-button
+          label="{{ 'general.buttons.addFirm' | translate }}"
+          styleClass=" p-button-primary  mb-2 my-lg-0 me-lg-2"
+          [routerLink]="routePaths.CREATE_FIRM"
+        ></p-button>
+      </ng-template>
+    </div>
+  </div>
+  <!-- Table -->
+  <div class="container p-2">
+    <mbpanel-firms-table #firmsTable></mbpanel-firms-table>
+  </div>
+</mbpanel-layout>

@@ -1,0 +1,863 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #legislationform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': legislationform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'app-instance.manage-legislation.heading.managelegislation' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'app-instance.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(this.legislationList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'app-instance.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-3">{{ 'app-instance.manage-legislation.heading.search' | translate }}</div>
+        </div>
+      </div>
+
+      <form
+        #searchCriteriaform="ngForm"
+        class="closefo-form closefo-panel-spacing"
+        [ngClass]="{ 'closefo-form-submitted': searchCriteriaform.submitted }"
+      >
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'app-instance.manage-legislation.card.country' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-autocomplete
+                      [ngModel]="searchlegislation?.country"
+                      [form]="searchCriteriaform"
+                      name="countryName"
+                      [filteredNames]="CountryList"
+                      (filtername)="filterCountry($event)"
+                      (focusout)="changeCountry($event)"
+                      [ControlConfig]="AutoCompleteConfig"
+                      field="caption"
+                      #autocomplete="ngModel"
+                      minLength="1"
+                    >
+                    </cfc-fluid-autocomplete>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'app-instance.manage-legislation.card.activeDate' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker
+                      [ControlConfig]="Dateconfig"
+                      [ngModel]="searchlegislation?.activeDate"
+                      name="activeDate"
+                      (ngModelChange)="onStartDatChange($event)"
+                      [form]="searchCriteriaform"
+                    >
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end closefo-btn-wrapper">
+                <cfc-fluid-button
+                  Type="submit"
+                  ButtonStyle="closefo-btn-primary"
+                  caption="{{ 'app-instance.button.search' | translate }}"
+                  [ControlConfig]="ButtonConfig"
+                  class="margin-right"
+                  (click)="onSearch(searchlegislation)"
+                ></cfc-fluid-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-3">
+            {{ 'app-instance.manage-legislation.heading.ResultSet' | translate }}
+          </div>
+        </div>
+        <div class="col-3 closefo-btn-wrapper text-right">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{ 'app-instance.manage-legislation.AddButtons.AddLegislation' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onAddResult()"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="legislationList"
+            [gridDataHeader]="ResultHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDelete($event)"
+            (rowClickedEvent)="onRowselect($event)"
+            [selectedDetail]="SelectedLegislationDetail"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div *ngIf="hideCard">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="closefo-heading-3 closefo-text-primary mb-3">
+              {{ 'app-instance.manage-legislation.heading.Detail' | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{ 'app-instance.manage-legislation.card.countrys' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-autocomplete
+                      [ngModel]="legislationData?.country"
+                      [form]="legislationform"
+                      name="country"
+                      [filteredNames]="cardCountryList"
+                      (filtername)="filterCardCountry($event)"
+                      (Selected)="changeCardCountry($event)"
+                      (Clear)="clearCountry($event)"
+                      (ngModelChange)="legislationData.country = $event"
+                      [ControlConfig]="RequiredAutoComplete"
+                      field="caption"
+                      #autolegislationcomplete="ngModel"
+                      minLength="1"
+                    >
+                    </cfc-fluid-autocomplete>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{ 'app-instance.manage-legislation.card.StartDate' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker
+                      #startDate="ngModel"
+                      [ControlConfig]="RequiredDateConfig"
+                      [ngModel]="legislationData?.startDate"
+                      name="StartDate"
+                      [form]="legislationform"
+                      (ngModelChange)="onStartDateChange($event)"
+                      [maxDate]="legislationData.endDate"
+                      [minDate]="defaultDate"
+                      [cfcFluidValidation]="{
+                        errors: startDate.errors ? RequiredDateConfig.Errors : '',
+                        formSubmitted: RequiredDateConfig.externalError
+                      }"
+                    >
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{ 'app-instance.manage-legislation.card.EndDate' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker
+                      #endDate="ngModel"
+                      [ControlConfig]="Dateconfig"
+                      [ngModel]="legislationData.endDate"
+                      name="EndDate"
+                      [form]="legislationform"
+                      [minDate]="minDate"
+                      (ngModelChange)="onEndDateChange($event)"
+                    >
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-9">
+                <div class="closefo-heading-3 closefo-text-primary mb-3">
+                  {{ 'app-instance.manage-legislation.heading.Validation' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="tab-top closefo-form-group">
+              <div class="closefo-form-group closefo-card closefo-card-rounded closefo-bg-grey">
+                <p-tabView [(activeIndex)]="SelectedTabIndex" class="credit-provider-tab scrollhide">
+                  <p-tabPanel header="{{ 'app-instance.manage-legislation.tabheader.precomputed' | translate }}" [selected]="true">
+                    <div class="row">
+                      <div class="col-md-9"></div>
+                      <div class="col-3 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button
+                          Type="button"
+                          ButtonStyle="closefo-add-btn-small"
+                          caption="{{ 'app-instance.manage-legislation.AddButtons.AddDetail' | translate }}"
+                          [ControlConfig]="ButtonConfig"
+                          (click)="onAddPrecomputedDetail()"
+                        ></cfc-fluid-button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 close-header-block">
+                        <p-table
+                          [value]="legislationData.precomputedDetails"
+                          [columns]="precomputedsHeader"
+                          [resizableColumns]="true"
+                          styleClass="closefo-datatable closefo-bo-table"
+                          [reorderableColumns]="true"
+                          [rowHover]="true"
+                        >
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{ col.header }}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr [pSelectableRow]="rowData" *ngIf="!rowData.isDeleted">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property" (click)="onPreComputedRowSelect(rowData)">
+                                <span *ngSwitchCase="'financeAmountMin'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMin="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="PreComputedMinAmountConfig"
+                                    [ngModel]="rowData.financeAmountMin"
+                                    name="financeAmountMinPreComputed{{ index }}"
+                                    (OnchangedAmount)="onfinanceAmountMinChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMinChange($event,rowData,index,false)"
+                                    [maxlength]="14"
+                                    [defaultValidationForAmount]="true"
+                                    [form]="legislationform"
+                                    [maximumValue]="rowData.financeAmountMax"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMin.errors
+                                        ? financeAmountMin.errors?.maxValueError
+                                          ? preComputedMinAmountDto
+                                          : PreComputedMinAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: PreComputedMinAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+
+                                <span *ngSwitchCase="'financeAmountMax'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMax="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="PreComputedMaxAmountConfig"
+                                    [ngModel]="rowData.financeAmountMax"
+                                    name="financeAmountMaxPreComputed{{ index }}"
+                                    (OnchangedAmount)="onfinanceAmountMaxChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMaxChange($event,rowData,index,false)"
+                                    [maxlength]="14"
+                                    [form]="legislationform"
+                                    [minimumValue]="rowData.financeAmountMin"
+                                    [defaultValidationForAmount]="true"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMax.errors
+                                        ? financeAmountMax.errors?.minValueError
+                                          ? preComputedMaxAmountDto
+                                          : PreComputedMaxAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: PreComputedMaxAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'creditDurationMinInMonths'">
+                                  <cfc-fluid-textbox
+                                    #creditDurationMinInMonths="ngModel"
+                                    Type="numbers"
+                                    [ControlConfig]="PreComputedMinDurationConfig"
+                                    [ngModel]="rowData.creditDurationMinInMonths"
+                                    name="creditDurationMinInMonths{{ index }}"
+                                    (OnchangedNumber)="creditDurationMinChange($event, rowData, index)"
+                                    [maxlength]="10"
+                                    [form]="legislationform"
+                                    [maximumValue]="intMaxValue"
+                                    [cfcFluidValidation]="{
+                                      errors: creditDurationMinInMonths.errors
+                                        ? creditDurationMinInMonths.errors?.maxValueError
+                                          ? preComputedMinDuration
+                                          : PreComputedMinDurationConfig.Errors
+                                        : '',
+                                      formSubmitted: PreComputedMinDurationConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'creditDurationMaxInMonths'">
+                                  <cfc-fluid-textbox
+                                    #creditDurationMaxInMonths="ngModel"
+                                    Type="numbers"
+                                    [ControlConfig]="PreComputedMaxDurationConfig"
+                                    [ngModel]="rowData.creditDurationMaxInMonths"
+                                    name="creditDurationMaxInMonths{{ index }}"
+                                    (OnchangedNumber)="creditDurationMaxChange($event, rowData, index)"
+                                    [maxlength]="10"
+                                    [form]="legislationform"
+                                    [maximumValue]="intMaxValue"
+                                    [cfcFluidValidation]="{
+                                      errors: creditDurationMaxInMonths.errors
+                                        ? creditDurationMaxInMonths.errors?.maxValueError
+                                          ? preComputedMaxDuration
+                                          : PreComputedMaxDurationConfig.Errors
+                                        : '',
+                                      formSubmitted: PreComputedMaxDurationConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'aprMax'">
+                                  <cfc-fluid-textbox
+                                    #aprMax="ngModel"
+                                    Type="amount"
+                                    [ControlConfig]="PreComputedAprMaxConfig"
+                                    [ngModel]="rowData.aprMax"
+                                    name="aprMaxPreComputed{{index}}"
+                                    [form]="legislationform"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="aprMaxChange($event, rowData, index,true)"
+                                    (ngModelChange) = "aprMaxChange($event,rowData,index,false)"
+                                    [cfcFluidValidation]="{
+                                      errors: aprMax.errors ? PreComputedAprMaxConfig.Errors:'',
+                                      formSubmitted:  PreComputedAprMaxConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'delete'">
+                                  <span class="closefo-delete-btn"
+                                    ><i
+                                      class="pi pi-times-circle"
+                                      (click)="onRowDeletePrecomputed(rowData, legislationData.precomputedDetails, index)"
+                                    ></i>
+                                  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+                  <p-tabPanel header="{{ 'app-instance.manage-legislation.tabheader.Revolving' | translate }}">
+                    <div class="row">
+                      <div class="col-md-9"></div>
+                      <div class="col-3 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button
+                          Type="button"
+                          ButtonStyle="closefo-add-btn-small"
+                          caption="{{ 'app-instance.manage-legislation.AddButtons.AddDetail' | translate }}"
+                          [ControlConfig]="ButtonConfig"
+                          (click)="onAddRevolvingDetail()"
+                        ></cfc-fluid-button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 close-header-block">
+
+                        <p-table
+                          [value]="legislationData.revolvingDetailsWithRepay"
+                          [columns]="RevolvingsHeader"
+                          [resizableColumns]="true"
+                          styleClass="closefo-datatable closefo-bo-table"
+                          [reorderableColumns]="true"
+                          [rowHover]="true"
+                        >
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{ col.header }}</span>
+                                <span *ngIf="col.property === 'revPrincipalRepayAbsMinwithRepay'"> <span class="euro-icon">&euro;</span> </span>
+                               
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr [pSelectableRow]="rowData" *ngIf="!rowData.isDeleted">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property" (click)="onrevolvingwithRepaySelect(rowData)">
+                                <span *ngSwitchCase="'financeAmountMinwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMinRepay="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="RevolvingwithRepayMinAmountConfig"
+                                    [ngModel]="rowData.financeAmountMin"
+                                    name="financeAmountMinRepay{{ index }}"
+                                    [maxlength]="14"
+                                    [defaultValidationForAmount]="true"
+                                    (OnchangedAmount)="onfinanceAmountMinRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMinRepayChange($event,rowData,index,false)"
+                                    [maximumValue]="rowData.financeAmountMax"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMinRepay.errors
+                                        ? financeAmountMinRepay.errors?.maxValueError
+                                          ? revolvingwithRepayMinAmountDto
+                                          : RevolvingwithRepayMinAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingwithRepayMinAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+
+                                <span *ngSwitchCase="'financeAmountMaxwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMaxRepay="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="RevolvingwithRepayMaxAmountConfig"
+                                    [ngModel]="rowData.financeAmountMax"
+                                    name="financeAmountMaxRepay{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onfinanceAmountMaxRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMaxRepayChange($event,rowData,index,false)"
+                                    [minimumValue]="rowData.financeAmountMin"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMaxRepay.errors
+                                        ? financeAmountMaxRepay.errors?.minValueError
+                                          ? revolvingwithRepayMaxAmountDto
+                                          : RevolvingwithRepayMaxAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingwithRepayMaxAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'aprMaxwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #revolvingRepayaprMax="ngModel"
+                                    Type="amount"
+                                    [ControlConfig]="RevolvingwithRepayAPRMaxConfig"
+                                    [ngModel]="rowData.aprMax"
+                                    name="aprMax{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onaprMaxRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onaprMaxRepayChange($event,rowData,index,false)"
+                                    [cfcFluidValidation]="{
+                                      errors: revolvingRepayaprMax.errors ? RevolvingwithRepayAPRMaxConfig.Errors:'',
+                                      formSubmitted:  RevolvingwithRepayAPRMaxConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'revPrincipalRepayAbsMinwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #revPrincipalRepayAbsMin="ngModel"
+                                    Type="amount"
+                                    [ControlConfig]=" RevPrincipalRepayAbsConfig"
+                                    [ngModel]="rowData.revPrincipalRepayAbsMin"
+                                    name="revPrincipalRepayAbsMin{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onrevPrincipalRepayAbsMinChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onrevPrincipalRepayAbsMinChange($event,rowData,index,false)"
+                                    [cfcFluidValidation]="{
+                                      errors: revPrincipalRepayAbsMin.errors ? RevPrincipalRepayAbsConfig.Errors:'',
+                                      formSubmitted:  RevPrincipalRepayAbsConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'revPrincipalRepayRelMinwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #revPrincipalRepayRelMin="ngModel"
+                                    Type="amount"
+                                    [ControlConfig]="RevPrincipalRepayRelConfig"
+                                    [ngModel]="rowData.revPrincipalRepayRelMin"
+                                    name="revPrincipalRepayRelMin{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onrevPrincipalRepayRelMaxChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onrevPrincipalRepayRelMaxChange($event,rowData,index,false)"
+                                    [cfcFluidValidation]="{
+                                      errors: revPrincipalRepayRelMin.errors ? RevPrincipalRepayRelConfig.Errors:'',
+                                      formSubmitted:  RevPrincipalRepayRelConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"
+                                    >
+                                  </cfc-fluid-textbox>                               
+                                </span>
+                                <span *ngSwitchCase="'maxCalibrationDurationwithRepay'">
+                                  <cfc-fluid-textbox
+                                    #maxCalibrationDuration="ngModel"
+                                    Type="numbers"
+                                    [ControlConfig]="RevolvingMaxCalibrationConfig"
+                                    [ngModel]="rowData.maxCalibrationDuration"
+                                    name="maxCalibrationDuration{{ index }}"
+                                    [maxlength]="10"
+                                    (OnchangedNumber)="onmaxCalibrationDurationChange($event, rowData, index)"
+                                    [cfcFluidValidation]="{
+                                      errors: maxCalibrationDuration.errors
+                                        ? maxCalibrationDuration.errors?.maxValueError
+                                          ? revolvingwithRepayMaxCalib
+                                          : RevolvingMaxCalibrationConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingMaxCalibrationConfig.externalError
+                                    }" 
+                                    [maximumValue]="intMaxValue"  
+                                    [isReadOnly]="rowData.disableTextbox"                             
+                                    >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'delete'">
+                                  <span class="closefo-delete-btn"
+                                    ><i
+                                      class="pi pi-times-circle"
+                                      (click)="onRowDeleteRevolvingwithRepay(rowData, legislationData.revolvingDetailsWithRepay, index)"
+                                    ></i>
+                                  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+                  <p-tabPanel header="{{ 'app-instance.manage-legislation.tabheader.Revolvingwo' | translate }}">
+                    <div class="row">
+                      <div class="col-md-9"></div>
+                      <div class="col-3 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button
+                          Type="button"
+                          ButtonStyle="closefo-add-btn-small"
+                          caption="{{ 'app-instance.manage-legislation.AddButtons.AddDetail' | translate }}"
+                          [ControlConfig]="ButtonConfig"
+                          (click)="onAddRevolvingwithoutRepay()"
+                        ></cfc-fluid-button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 close-header-block">
+                        <p-table
+                          [value]="legislationData.revolvingDetailsWithoutRepay"
+                          [columns]="RevolvingwooHeader"
+                          [resizableColumns]="true"
+                          styleClass="closefo-datatable closefo-bo-table"
+                          [reorderableColumns]="true"
+                          [rowHover]="true"
+                        >
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{ col.header }}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr [pSelectableRow]="rowData" *ngIf="!rowData.isDeleted">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property" (click)="onRevolvingwithoutRepaySelect(rowData)">
+                                <span *ngSwitchCase="'financeAmountMinwithoutRepay'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMinwithout="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="RevolvingwithoutRepayMinAmountConfig"
+                                    [ngModel]="rowData.financeAmountMin"
+                                    [defaultValidationForAmount]="true"
+                                    name="financeAmountMinwithoutRepay{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onfinanceAmountMinwithoutRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMinwithoutRepayChange($event,rowData,index,false)"
+                                    [maximumValue]="rowData.financeAmountMax"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMinwithout.errors
+                                        ? financeAmountMinwithout.errors?.maxValueError
+                                          ? revolvingwithoutRepayMinAmountDto
+                                          : RevolvingwithoutRepayMinAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingwithoutRepayMinAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"  
+                                    >
+                                  </cfc-fluid-textbox>
+                                </span>
+
+                                <span *ngSwitchCase="'financeAmountMaxwithoutRepay'">
+                                  <cfc-fluid-textbox
+                                    #financeAmountMaxwithout="ngModel"
+                                    Type="amountLimitValidation"
+                                    [ControlConfig]="RevolvingwithoutRepayMaxAmountConfig"
+                                    [ngModel]="rowData.financeAmountMax"
+                                    name="financeAmountMaxwithoutRepay{{ index }}"
+                                    [defaultValidationForAmount]="true"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onfinanceAmountMaxwithoutRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onfinanceAmountMaxwithoutRepayChange($event,rowData,index,false)"
+                                    [minimumValue]="rowData.financeAmountMin"
+                                    [cfcFluidValidation]="{
+                                      errors: financeAmountMaxwithout.errors
+                                        ? financeAmountMaxwithout.errors?.minValueError
+                                          ? revolvingwithoutRepayMaxAmountDto
+                                          : RevolvingwithoutRepayMaxAmountConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingwithoutRepayMaxAmountConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"  
+                                    >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'aprMaxwithoutRepay'">
+                                  <cfc-fluid-textbox
+                                    #revolvingwoaprMax="ngModel"
+                                    Type="amount"
+                                    [ControlConfig]="RevolvingwithoutAprMaxConfig"
+                                    [ngModel]="rowData.aprMax"
+                                    name="aprMaxwithoutRepay{{ index }}"
+                                    [maxlength]="14"
+                                    (OnchangedAmount)="onaprMaxwithoutRepayChange($event, rowData, index,true)"
+                                    (ngModelChange) = "onaprMaxwithoutRepayChange($event,rowData,index,false)"
+                                    [cfcFluidValidation]="{
+                                      errors: revolvingwoaprMax.errors ? RevolvingwithoutAprMaxConfig.Errors:'',
+                                      formSubmitted:  RevolvingwithoutAprMaxConfig.externalError
+                                    }"
+                                    [isReadOnly]="rowData.disableTextbox"  
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'maxCalibrationDurationwithoutRepay'">
+                                  <cfc-fluid-textbox
+                                    #revwomaxCalibrationDuration="ngModel"
+                                    Type="numbers"
+                                    [ControlConfig]="RevolvingwithoutMaxCalibrationConfig"
+                                    [ngModel]="rowData.maxCalibrationDuration"
+                                    name="maxCalibrationDurationwithoutRepay{{ index }}"
+                                    [maxlength]="10"
+                                    (OnchangedNumber)="onmaxCalibrationwithoutRepayChange($event, rowData, index)"
+                                    [cfcFluidValidation]="{
+                                      errors: revwomaxCalibrationDuration.errors
+                                        ? revwomaxCalibrationDuration.errors?.maxValueError
+                                          ? revolvingwithoutMaxCalib
+                                          : RevolvingwithoutMaxCalibrationConfig.Errors
+                                        : '',
+                                      formSubmitted: RevolvingwithoutMaxCalibrationConfig.externalError
+                                    }" 
+                                    [maximumValue]="intMaxValue" 
+                                    [isReadOnly]="rowData.disableTextbox"  
+                                  >
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'delete'">
+                                  <span class="closefo-delete-btn"
+                                    ><i
+                                      class="pi pi-times-circle"
+                                      (click)="onRowDeleteRevolvingwithoutRepay(rowData, legislationData.revolvingDetailsWithoutRepay, index)"
+                                    ></i>
+                                  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+                </p-tabView>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-9">
+                <div class="closefo-heading-3 closefo-text-primary mb-3">
+                  {{ 'app-instance.manage-legislation.heading.threadholderdetail' | translate }}
+                </div>
+              </div>
+              <div class="col-3 closefo-btn-wrapper text-right">
+                <cfc-fluid-button
+                  Type="button"
+                  ButtonStyle="closefo-add-btn-small"
+                  caption="{{ 'app-instance.manage-legislation.AddButtons.AddThreshold' | translate }}"
+                  [ControlConfig]="ButtonConfig"
+                  (click)="onAddThreshold()"
+                ></cfc-fluid-button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 close-header-block">
+
+                <p-table
+                  [value]="legislationData.thresholdForCreditBureauRegistrationList"
+                  [columns]="ThresholdHeader"
+                  [resizableColumns]="true"
+                  styleClass="closefo-datatable closefo-bo-table"
+                  [reorderableColumns]="true"
+                  [rowHover]="true"
+                >
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                        <span>{{ col.header }}</span>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="rowData" *ngIf="!rowData.isDeleted">
+                      <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property" (click)="onThresholdRowSelect(rowData)">
+                        <span *ngSwitchCase="'retailLendingSubType'">
+                          <cfc-fluid-dropdown
+                            #retailLendingDropdown="ngModel"
+                            [ngModel]="rowData.retailLendingSubType"
+                            Type="single"
+                            name="RelatedProDef{{ index }}"
+                            [placeholder]="placeholder"
+                            [options]="retailLendingCodeTable"
+                            [ControlConfig]="ThresholdDropdownConfig"
+                            optionLabel="caption"
+                            dataKey="caption"
+                            (OnSelectionChanged)="onretailLendingSubTypeChange($event, rowData, index)"
+                            [cfcFluidValidation]="{
+                              errors: retailLendingDropdown.errors ? ThresholdDropdownConfig.Errors:'',
+                              formSubmitted:  ThresholdDropdownConfig.externalError
+                            }"
+                           
+                            [title]="rowData?.retailLendingSubType?.caption === null ? '' : rowData?.retailLendingSubType?.caption"
+                          >
+                          </cfc-fluid-dropdown>
+                        </span>
+
+                        <span *ngSwitchCase="'thresholdAmount'">
+                          <cfc-fluid-textbox
+                            #financeAmountMax="ngModel"
+                            Type="amount"
+                            [ControlConfig]="TextBoxconfig"
+                            [ngModel]="rowData.thresholdAmount"
+                            name="thresholdAmount{{ index }}"
+                            [maxlength]="15"
+                            (OnchangedAmount)="onthresholdAmountChange($event, rowData, index,true)"
+                            (ngModelChange) = "onthresholdAmountChange($event,rowData,index,false)"
+                          >
+                          </cfc-fluid-textbox>
+                        </span>
+
+                        <span *ngSwitchCase="'delete'">
+                          <span class="closefo-delete-btn"
+                            ><i
+                              class="pi pi-times-circle"
+                              (click)="onThresholdDelete(rowData, legislationData.thresholdForCreditBureauRegistrationList, index)"
+                            ></i>
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'app-instance.close.header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'app-instance.close.body' | translate }}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'app-instance.close.yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogYes(legislationList)"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'app-instance.close.no' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'app-instance.close.cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="{{ 'app-instance.manage-legislation.AddButtons.continue' | translate }}"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

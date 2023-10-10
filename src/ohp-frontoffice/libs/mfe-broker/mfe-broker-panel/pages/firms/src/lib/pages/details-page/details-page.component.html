@@ -1,0 +1,43 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="firm-details-header">
+  <!-- Title -->
+
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+    <h2 class="my-3 mb-lg-0">{{ firmName }}</h2>
+
+    <div class="d-flex flex-column flex-lg-row">
+      <button
+        *ngIf="checkActiveFilters()"
+        pButton
+        icon="pi pi-times"
+        label="{{ 'general.buttons.clearFilters' | translate }}"
+        class="p-button-outlined--bold mb-2 mb-lg-0 me-lg-3"
+        (click)="intermediariesTable.clearAllFilters()"
+      ></button>
+      <button
+        pButton
+        label="{{ isReadOnlyMode ? ('general.buttons.seeFirmDetails' | translate) : ('general.buttons.editFirmDetails' | translate) }}"
+        icon="pi pi-pencil"
+        class="p-button-outlined--bold mb-2 my-lg-0 me-lg-2"
+        [routerLink]="firmId ? routePaths.FIRM_DETAILS.replace(':id', firmId) : ''"
+      ></button>
+      <button
+        pButton
+        label="{{ 'general.buttons.seeFirmCases' | translate }}"
+        icon="pi pi-book"
+        class="p-button-outlined--bold mb-2 my-lg-0 me-lg-2"
+        [routerLink]="[firmId && '/broker/' + firmId]"
+      ></button>
+      <ng-template [cfoPermissions]="'profiles'" [cfoPermissionsFeatures]="['firm', 'lender']">
+        <p-button
+          label="{{ 'general.buttons.inviteIntermediary' | translate }}"
+          styleClass=" p-button-primary  mb-2 my-lg-0 me-lg-2 shadow"
+          [routerLink]="firmId ? routePaths.CREATE_INTERMEDIARY.replace(':id', firmId) : null"
+        ></p-button>
+      </ng-template>
+    </div>
+  </div>
+  <!-- Table -->
+  <div class="container p2">
+    <mbpanel-intermediaries-table #intermediariesTable></mbpanel-intermediaries-table>
+  </div>
+</mbpanel-layout>

@@ -1,0 +1,194 @@
+<div class="whitelabel-config-styles">
+  <div class="close-running-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'runningAccount.Owner2ParticipantMapping.heading.ParticipantMapping' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'runningAccount.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(responseOwner2Participant.owner2ParticipantMappingList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'runningAccount.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'runningAccount.button.add' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+        </div>
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="responseOwner2Participant.owner2ParticipantMappingList" [selectedDetail]="owner2participantCard"
+                          [gridDataHeader]="ownersHeader" [paginationStatus]="false" paginationReportStatus="false" (rowClickedEvent)="clickGrid($event)"
+                          (deleteRowEvent)="onRowDelete($event,responseOwner2Participant.owner2ParticipantMappingList)">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="Nothide">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'runningAccount.Owner2ParticipantMapping.card.OwnerReference' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="owner2participantCard?.ownerReferenceType"
+                                      Type="single"
+                                      name="OwnerReferenceDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="responseOwner2Participant.creditProviderList"
+                                      [ControlConfig]="OwnerRefDropdownConfig"
+                                      optionLabel="name.caption"
+                                      dataKey="name.caption"
+                                      (OnSelectionChanged)="changeOwnerReference($event)"
+                                      [cfcFluidValidation]="{errors:OwnerReferencedropdown.errors? OwnerRefDropdownConfig.Errors :'', formSubmitted: (OwnerRefDropdownConfig.externalError)}"
+                                      #OwnerReferencedropdown="ngModel"
+                                      [title]="owner2participantCard?.ownerReferenceType?.name?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'runningAccount.Owner2ParticipantMapping.card.BookingOwnerReference' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="owner2participantCard?.bookingOwnerReferenceType"
+                                      Type="single"
+                                      name="BookingOwnerDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="responseOwner2Participant.creditProviderList"
+                                      [ControlConfig]="BookingOwnerDropdownConfig"
+                                      optionLabel="name.caption"
+                                      dataKey="name.caption"
+                                      (OnSelectionChanged)="changeBookingOwnerReference($event)"
+                                      [cfcFluidValidation]="{errors:BookingOwnerdropdown.errors? BookingOwnerDropdownConfig.Errors :'', formSubmitted: (BookingOwnerDropdownConfig.externalError)}"
+                                      #BookingOwnerdropdown="ngModel"
+                                      [title]="owner2participantCard?.bookingOwnerReferenceType?.name?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'runningAccount.Owner2ParticipantMapping.card.ParticipantReferenceFrom' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="owner2participantCard?.participantReferenceFromType"
+                                      Type="single"
+                                      name="ParticipantFromDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="responseOwner2Participant.creditProviderList"
+                                      [ControlConfig]="ParticipantFromDropdownConfig"
+                                      optionLabel="name.caption"
+                                      dataKey="name.caption"
+                                      [cfcFluidValidation]="{errors:ParticipantFromdropdown.errors? ParticipantFromDropdownConfig.Errors :'', formSubmitted: (ParticipantFromDropdownConfig.externalError)}"
+                                      (OnSelectionChanged)="changeParticipantFromReference($event)"
+                                      #ParticipantFromdropdown="ngModel"
+                                      [title]="owner2participantCard?.participantReferenceFromType?.name?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'runningAccount.Owner2ParticipantMapping.card.ParticipantReferenceTo' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="owner2participantCard?.participantReferenceToType"
+                                      Type="single"
+                                      name="ParticipanToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="responseOwner2Participant.creditProviderList"
+                                      [ControlConfig]="ParticipantToDropdownConfig"
+                                      optionLabel="name.caption"
+                                      dataKey="name.caption"
+                                      [cfcFluidValidation]="{errors:ParticipanTodropdown.errors? ParticipantToDropdownConfig.Errors :'', formSubmitted: (ParticipantToDropdownConfig.externalError)}"
+                                      (OnSelectionChanged)="changeParticipantToReference($event)"
+                                      #ParticipanTodropdown="ngModel"
+                                      [title]="owner2participantCard?.participantReferenceToType?.name?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'runningAccount.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'runningAccount.close.body' | translate}}
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'runningAccount.close.yes' | translate}}"
+                              (click)="onYes(responseOwner2Participant.owner2ParticipantMappingList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'runningAccount.close.no' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'runningAccount.close.cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

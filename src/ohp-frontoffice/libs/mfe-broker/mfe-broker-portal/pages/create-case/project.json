@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/create-case",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/create-case/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/create-case"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/create-case/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/create-case/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/create-case/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

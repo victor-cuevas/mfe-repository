@@ -1,0 +1,287 @@
+<form [formGroup]="filterForm">
+  <div class="d-flex scrollable-table">
+    <p-table
+      #submissionRoutesTable
+      [lazy]="true"
+      [loading]="loading"
+      [paginator]="totalRecords > 10"
+      [responsive]="true"
+      [rows]="pageSize"
+      [scrollable]="true"
+      [showCurrentPageReport]="!!totalRecords"
+      [showLoader]="false"
+      [totalRecords]="totalRecords"
+      [value]="submissionRoutes"
+      (onLazyLoad)="loadSubmissionRoutes($event)"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      scrollHeight="flex"
+      styleClass="boxed-table"
+    >
+      <ng-template pTemplate="header">
+        <tr class="px-3">
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'submissionRoutes.columns.name' | translate }}</h6>
+              <div class="d-flex align-items-center">
+                <!-- name sort-->
+                <button class="hidden-btn" (click)="sort()">
+                  <i [class]="'mt-1 pi ' + sortOrder.icon"></i>
+                </button>
+                <!-- name filter -->
+                <cfo-filter-menu #nameFilter>
+                  <li class="row bg-light">
+                    <div class="col-12 py-2">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                          type="text"
+                          [placeholder]="'submissionRoutes.placeholders.name' | translate"
+                          pInputText
+                          ngDefaultControl
+                          class="filter-input"
+                          formControlName="submissionRouteName"
+                        />
+                      </span>
+                    </div>
+                  </li>
+
+                  <li class="row my-1">
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__clear"
+                        (click)="clearFilter('submissionRouteName', 'nameFilter')"
+                        [disabled]="!filterForm.controls.submissionRouteName.touched"
+                      >
+                        {{ 'general.buttons.clear' | translate }}
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button
+                        class="filter-text-btn filter-text-btn__apply"
+                        [disabled]="!filterForm.controls.submissionRouteName.value"
+                        (click)="filter('nameFilter')"
+                      >
+                        {{ 'general.buttons.apply' | translate }}
+                      </button>
+                    </div>
+                  </li>
+                </cfo-filter-menu>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'submissionRoutes.columns.fcaNumber' | translate }}</h6>
+              <!-- number filter -->
+              <cfo-filter-menu #numberFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="number"
+                        [placeholder]="'submissionRoutes.placeholders.number' | translate"
+                        ngDefaultControl
+                        formControlName="fcaNumber"
+                        class="number-input__icon"
+                      />
+                    </span>
+                  </div>
+                </li>
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('fcaNumber', 'numberFilter')"
+                      [disabled]="!filterForm.controls.fcaNumber.touched"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.fcaNumber.value"
+                      (click)="filter('numberFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'submissionRoutes.columns.reference' | translate }}</h6>
+              <!-- reference filter -->
+              <cfo-filter-menu #referenceFilter>
+                <li class="row bg-light">
+                  <div class="col-12 py-2">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        type="text"
+                        [placeholder]="'submissionRoutes.placeholders.reference' | translate"
+                        pInputText
+                        ngDefaultControl
+                        formControlName="reference"
+                      />
+                    </span>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('reference', 'referenceFilter')"
+                      [disabled]="!filterForm.controls.reference.touched"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="!filterForm.controls.reference.value"
+                      (click)="filter('referenceFilter')"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'submissionRoutes.columns.fcaStatus' | translate }}</h6>
+              <!-- status filter -->
+              <cfo-filter-menu #statusFilter>
+                <li class="row" [ngClass]="filterForm.controls.isActivated?.value ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex">
+                    <p-radioButton [value]="true" ngDefaultControl formControlName="isActivated" inputId="active"></p-radioButton>
+                    <label for="active" class="radio-btn-label ms-2 mb-0">Active</label>
+                  </div>
+                </li>
+                <li class="row" [ngClass]="filterForm.controls.isActivated?.value === false ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1 d-flex align-items-center">
+                    <p-radioButton [value]="false" ngDefaultControl formControlName="isActivated" inputId="inactive"></p-radioButton>
+                    <label for="inactive" class="radio-btn-label ms-2 mb-0">Inactive</label>
+                  </div>
+                </li>
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      (click)="clearFilter('isActivated', 'statusFilter')"
+                      class="filter-text-btn filter-text-btn__clear"
+                      [disabled]="!filterForm.controls.isActivated.touched"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      (click)="filter('statusFilter')"
+                      class="filter-text-btn filter-text-btn__apply"
+                      [disabled]="filterForm.controls.isActivated.value === null"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex justify-content-between align-items-center">
+              <h6>{{ 'submissionRoutes.columns.submissionRouteType' | translate }}</h6>
+              <!-- type filter -->
+              <cfo-filter-menu #typeFilter>
+                <li [ngClass]="filterForm.controls.type?.value?.includes(0) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['type'])"
+                      [label]="'submissionRoutes.labels.network' | translate"
+                      [value]="0"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.type?.value?.includes(1) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['type'])"
+                      [label]="'submissionRoutes.labels.mortgageClub' | translate"
+                      [value]="1"
+                    ></p-checkbox>
+                  </div>
+                </li>
+                <li [ngClass]="filterForm.controls.type?.value?.includes(2) ? 'row bg-light' : 'row'">
+                  <div class="col-12 py-1">
+                    <p-checkbox
+                      [formControl]="$any(filterForm.controls['type'])"
+                      [label]="'submissionRoutes.labels.directAuth' | translate"
+                      [value]="2"
+                    ></p-checkbox>
+                  </div>
+                </li>
+
+                <li class="row my-1">
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__clear"
+                      (click)="clearFilter('type', 'typeFilter')"
+                      [disabled]="!filterForm.controls.type.touched"
+                    >
+                      {{ 'general.buttons.clear' | translate }}
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button
+                      class="filter-text-btn filter-text-btn__apply"
+                      (click)="filter('typeFilter')"
+                      [disabled]="!filterForm.controls.type.value"
+                    >
+                      {{ 'general.buttons.apply' | translate }}
+                    </button>
+                  </div>
+                </li>
+              </cfo-filter-menu>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <!-- empty table body -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="5" class="text-center">No records found</td>
+        </tr>
+      </ng-template>
+      <!-- table body  -->
+      <ng-template pTemplate="body" let-submissionRoute>
+        <tr class="px-3">
+          <td>
+            <a
+              [routerLink]="submissionRoute.id ? routePaths.EDIT_SUBMISSION_ROUTE.replace(':id', submissionRoute.id) : ''"
+              class="divlink nounderline"
+            >
+              {{ submissionRoute.firmName }}
+            </a>
+          </td>
+          <td>{{ submissionRoute.firmFcaReference }}</td>
+          <td>{{ submissionRoute.reference }}</td>
+          <td>
+            <div *ngIf="submissionRoute.isActivated; else statusElseBlock">Active</div>
+            <ng-template #statusElseBlock>Inactive</ng-template>
+          </td>
+          <td>{{ submissionRoute.submissionRouteType | submissionRoute }}</td>
+        </tr>
+      </ng-template>
+      <!-- end of main table body (rows) -->
+      <ng-template pTemplate="loadingbody">
+        <td class="table-loader" [attr.colspan]="5"></td>
+      </ng-template>
+    </p-table>
+  </div>
+</form>

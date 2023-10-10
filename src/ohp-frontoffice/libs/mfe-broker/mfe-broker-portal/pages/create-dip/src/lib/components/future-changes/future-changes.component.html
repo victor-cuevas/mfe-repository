@@ -1,0 +1,171 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.futureChanges' | translate }}</h2>
+</div>
+<div class="container my-2 future-changes">
+  <form [formGroup]="$any(applicantsFormArray)">
+    <p-tabView>
+      <p-tabPanel *ngFor="let applicant of applicantsFormArray.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"> </i>
+          <h6>{{ applicant.get('applicantFullName')?.value | titlecase }}</h6>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <ng-container [formGroup]="$any(applicant)">
+            <div class="mt-4">
+              <label id="fcAwareOfFutureChanges">{{ 'createDip.labels.awareOfFutureChangesMsg' | translate }} *</label>
+              <div aria-labelledby="fcAwareOfFutureChanges">
+                <cfo-radio-button
+                  [disabledExternal]="!dataService.activeJourney"
+                  formControlName="awareOfFutureChanges"
+                  [value]="true"
+                  [label]="'general.labels.yes' | translate"
+                  ngDefaultControl
+                  name="awareOfFutureChanges"
+                ></cfo-radio-button>
+                <cfo-radio-button
+                  [disabledExternal]="!dataService.activeJourney"
+                  formControlName="awareOfFutureChanges"
+                  [value]="false"
+                  [label]="'general.labels.no' | translate"
+                  class="ms-3"
+                  ngDefaultControl
+                  name="awareOfFutureChanges"
+                ></cfo-radio-button>
+              </div>
+            </div>
+            <ng-container *ngIf="applicantsFormArray.at(i).get('awareOfFutureChanges')?.value">
+              <button
+                *ngIf="dataService.activeJourney"
+                pButton
+                class="p-button-outlined--bold d-inline mt-4"
+                label="Add future changes"
+                icon="pi pi-plus"
+                (click)="addFutureChange(i)"
+              ></button>
+              <div class="my-4 rounded shadow" *ngFor="let change of futureChangesFormArray(i).controls; let ind = index">
+                <div class="step-header rounded-top py-2 bg-white" [formGroup]="$any(change)">
+                  <div class="row p-4">
+                    <div class="col-md-3 col-sm-12">
+                      <label id="fcTypeOfChange">{{ 'createDip.labels.typeOfChange' | translate }} *</label>
+                      <p-dropdown
+                        [options]="typeOfChangeOptions"
+                        formControlName="typeOfChange"
+                        ngDefaultControl
+                        class="journey-dropdown"
+                        [placeholder]="
+                          'general.placeholders.generic' | translate: { type: 'createDip.labels.typeOfChange' | translate | lowercase }
+                        "
+                        aria-labelledby="fcTypeOfChange"
+                      >
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors
+                        [control]="change.get('typeOfChange')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <label id="fcChangeType">{{ 'createDip.labels.change' | translate }} *</label>
+                      <p-dropdown
+                        [options]="changeOptions"
+                        formControlName="changeType"
+                        ngDefaultControl
+                        class="journey-dropdown"
+                        [placeholder]="
+                          'general.placeholders.generic' | translate: { type: 'createDip.labels.change' | translate | lowercase }
+                        "
+                        aria-labelledby="fcChangeType"
+                      >
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors
+                        [control]="change.get('changeType')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <label id="fcReason">{{ 'createDip.labels.reason' | translate }} *</label>
+                      <p-dropdown
+                        [options]="reasonOptions"
+                        formControlName="reason"
+                        ngDefaultControl
+                        class="journey-dropdown"
+                        [placeholder]="
+                          'general.placeholders.generic' | translate: { type: 'createDip.labels.reason' | translate | lowercase }
+                        "
+                        aria-labelledby="fcReason"
+                      >
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors
+                        [control]="change.get('reason')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                      <label id="fcTimeScale">{{ 'createDip.labels.timeScale' | translate }} *</label>
+                      <p-dropdown
+                        [options]="timeScaleOptions"
+                        formControlName="timeScale"
+                        ngDefaultControl
+                        class="journey-dropdown"
+                        [placeholder]="
+                          'general.placeholders.generic' | translate: { type: 'createDip.labels.timeScale' | translate | lowercase }
+                        "
+                        aria-labelledby="fcTimeScale"
+                      >
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors
+                        [control]="change.get('timeScale')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                  </div>
+                  <div class="row p-4">
+                    <label id="fcDescription">{{ 'createDip.labels.details' | translate }} </label>
+                    <textarea
+                      cols="50"
+                      ngDefaultControl
+                      formControlName="description"
+                      class="journey-input-fixed-width"
+                      pInputTextarea
+                      [autoResize]="true"
+                      aria-labelledby="fcDescription"
+                    ></textarea>
+                  </div>
+                </div>
+                <div *ngIf="dataService.activeJourney" class="rounded-bottom step-body p-3 bg-light">
+                  <button
+                    class="hidden-btn d-flex align-items-center"
+                    (click)="removeFutureChanges(i, ind)"
+                    *ngIf="futureChangesFormArray(i).controls.length > 1"
+                  >
+                    <i class="pi pi-minus-circle me-1 fs-6"></i>
+                    <h6>{{ 'createDip.button.removeFutureChanges' | translate }}</h6>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

@@ -1,0 +1,370 @@
+{
+  "plan": {
+    "treatment": {
+      "heading": {
+        "treatment": "Manage treatmentplan configuration",
+        "General": "General Data",
+        "reminders": "Reminders",
+        "notify": "Notifications",
+        "plan": "Payment plan events"
+      },
+      "tab": {
+        "Generalsetting": "General Settings",
+        "payPlan": "Pay. Plan Settings",
+        "PaymentPlan": "Payment plan events",
+        "Derivation": "Derivation Criteria"
+      },
+      "card": {
+        "name": "Name",
+        "manual": "Manual Follow up",
+        "manualPayment": "Manual payment allocation",
+        "manualoutgoing": "Manual outgoing payments",
+        "caption": "Payment Plan Terminate Days After Last Reminder",
+        "MaxWarning": "Max Warnings",
+        "Grace": "Grace Amount",
+        "MinInatall": "Min. installment amount",
+        "DaysFrom": "Days From Import",
+        "enforce": "Enforce min. due amount",
+        "enforcePro": "Enforce min. promise amount",
+        "automatic": "Automatic Dossier Closure At Payment Plan Finalization",
+        "dossier": "Dossier Closure Allowed With Preventive Payment Plan",
+        "nomatch": "No matching payment amount",
+        "excessive": "Excessive remaining promise amount",
+        "terminate": "Terminate payment plan",
+        "finalize": "Finalize payment plan",
+        "activate": "Activate payment plan",
+        "deactivate": "Deactivate payment plan",
+        "ValidFor": "Valid From",
+        "ValidTo": "Valid To",
+        "Customer": "Customer",
+        "Initiator": "Initiator",
+        "Legal": "Legal entity",
+        "CustomerIn": "Customer independent",
+        "InitiatorIn": "Initiator Independent",
+        "LegalIn": "Legal entity independant",
+        "priority": "Priority",
+        "dossiertype": "Dossier type",
+        "debtor": "Debtor type",
+        "minamount": "Min Amount",
+        "maxamount": "Max Amount",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minavg": "Min av. Age",
+        "maxavg": "Max av. Age",
+        "promiseMetEvent": "Promise Is Met Event",
+        "promiseMetAfter": "Promise Is Met After Reset Event",
+        "promiseReset": "Promise Is Reset Event"
+      },
+      "tabel": {
+        "TreatmentPlan": "Treatment plan",
+        "ValidFor": "Valid From",
+        "ValidTo": "Valid To",
+        "Customer": "Customer",
+        "Initiator": "Initiator",
+        "HostedOrg": "Hosted Org",
+        "NoOfDays": "Number of days after promise",
+        "before": "Number of days before promise",
+        "FollowUp": "Follow Up Event",
+        "LastPromise": "Last promise event",
+        "Payment": "Payment method",
+        "": ""
+      },
+      "mandatory": {
+        "name": "'Name'",
+        "terminate": "'TerminatePaymentPlanEvent'",
+        "caption": "'Payment Plan Terminate Days After Last Reminder'",
+        "finalize": "'FinalizePaymentPlanEvent'",
+        "activate": "'Activate payment plan'",
+        "deactivate": "'Deactivate payment plan'",
+        "Legal": "'Legal entity'",
+        "priority": "'Priority'",
+        "ValidFor": "'Valid From'",
+        "NoOfDays": "'Number of days after promise'",
+        "before": "'Number of days before promise'",
+        "maxamt": "InvoiceMaxAmount cannot be lesser than InvoiceMinAmount",
+        "minamt": "InvoiceMinAmount cannot be greater than InvoiceMaxAmount",
+        "maxavg": "InvoiceMaxAvAge cannot be lesser than InvoiceMinAvAge",
+        "minavg": "InvoiceMinAvAge cannot be greater than InvoiceMaxAvAge",
+        "followUpEvent":"'Follow Up Event'",
+        "lastPromiseEvent":"'Last Promise Event'",
+        "required": "  is Mandatory."
+      }
+    },
+    "flow": {
+      "heading": {
+        "manageFlow": "Manage reminder flow configuration",
+        "filter": "Filter",
+        "sampel": "Sample"
+      },
+      "card": {
+        "flowname": "Flow Name",
+        "flowtype": "Flow Type",
+        "flowname1": "Flow Name",
+        "flowtype1": "Flow Type",
+        "startevent": "Start Event",
+        "stopevent": "Stop Event",
+        "name": "Name",
+        "triggerevent": "Trigger Event",
+        "elapsedperiod": "Elapsed Period",
+        "elapsedperiod1": "Elapsed Period",
+        "statuschange": "Status Change",
+        "targetChange": "Target Status",
+        "handling": "Handling date type",
+        "intervalmeasure": "Interval Measure",
+        "actionname": "Action Name",
+        "actiontype": "Action Type",
+        "default": "Default Handle Time",
+        "defaultmargin": "Default Handle Margin",
+        "actionreceiver": "Action Receiver",
+        "actinPriority": "Action Priority",
+        "minDueAmount": "Min Due Amount",
+        "d": "D",
+        "h": "H",
+        "m": "M",
+        "role": "Role"
+      },
+      "tabel": {
+        "flowname": "Flow Name",
+        "flowtype": "Flow Type",
+        "": "",
+        "stepseq": "Step Seq Nr.",
+        "stepname": "Step Name",
+        "elapserperiod": "Elapsed Period",
+        "actionname": "Action Name",
+        "actiontype": "Action Type",
+        "actionreceive": "Action Receiver",
+        "referencetype": "Reference Type",
+        "communicationmedium": "Communication Medium",
+        "templatename": "Template Name",
+        "fallBackMech": "Fallback Mechnism",
+        "communicationreceiver": "Communication Receiver",
+        "receivertype": "Receiver Type",
+        "registered": "Registered",
+        "addresstype": "Address Type",
+        "name": "Name",
+        "servicename": "Service Name",
+        "isblocking": "Is Blocking",
+        "eventname": "Event Name",
+        "ruleName": "Rule Model Name",
+        "role": "Role",
+        "ruleOutput": "Rule Engine Output",
+        "goToStep": "Go to Step",
+        "stopProcess": "Stop Process",
+        "docTemplate": "Document Template Type",
+        "docGen": "DocGen Type",
+        "attachmentType": "Attachment Type",
+        "add": "Add"
+      },
+      "button": {
+        "clear": "Clear",
+        "filter": "Filter"
+      },
+      "tab": {
+        "flowstep": "Flow Step General",
+        "actions": "Actions",
+        "communication": "Communication",
+        "services": "Services",
+        "events": "Events",
+        "ruleengine": "Rule Engine",
+        "role": "Roles",
+        "document": "Document"
+      },
+      "validation": {
+        "name": "'Name' is Mandatory.",
+        "scenarioName": "'Scenario Name' is Mandatory.",
+        "triggerEvent": "'Trigger Event' is Mandatory.",
+        "minDueAmount":"'Min Due Amount' is Mandatory.",
+        "elapsedPeriod": "'Elapsed Period' is Mandatory.",
+        "elapsedPeriodType": "'Elapsed Period Type' is Mandatory.",
+        "actionName": "'Action Name' is Mandatory.",
+        "actionReceiverType": "'ActionReceiverTypeName' is Mandatory.",
+        "actionType": "'Action Type' is Mandatory.",
+        "priority": "'Action Priority' is Mandatory.",
+        "docTemplate": "'DocumentTemplate' is Mandatory.",
+        "communicationMedium": "'Communication medium' is Mandatory.",
+        "communicationReceiver": "'Communication Receiver' is Mandatory.",
+        "serviceAction": "'ServiceAction' is Mandatory.",
+        "event": "'Event' is Mandatory.",
+        "eventName": "'Event name' is Mandatory.",
+        "ruleName": "'Rule Model Name' is Mandatory.",
+        "ruleOutput": "'Output' is Mandatory.",
+        "roleType": "'Role Type' is Mandatory.",
+        "docTemplateType": "'Document Template Type' is Mandatory.",
+        "docGen": "'DocGen Type' is Mandatory.",
+        "attachmentType": "'Attachment Type' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "hour": "The value of 'DefaultHandleTimeHours' should be between 0 and 23.",
+        "minute": "The value of 'DefaultHandleTimeMinutes' should be between 0 and 59."
+      },
+      "businessError": {
+        "oneRuleAction": "It's not allowed to configure more than 1 Rule engine action to a step",
+        "oneRuleOutput": "At least one output has to be configured for a Rule engine action",
+        "fillStepNr": "For a Rule engine output it's mandatory to fill in the step nr, if the process isn't to be stopped",
+        "noFillStepNr": "For a Rule engine output it's not allowed to fill in the step nr, if the process is to be stopped",
+        "StepBeforeNotAllowed": "For a Rule engine output it's not allowed to go to a step before the one the Rule engine action is created for",
+        "matchingFollowUpStep": "For each configured Rule engine output there should be a matching follow up step with elapsed period type 'Elapsed period from rule engine'"
+      }
+    },
+    "reminder": {
+      "heading": {
+        "reminderplan": "manage reminder plan configuration",
+        "generaldata": "General Data"
+      },
+      "tabel": {
+        "reminderplan": "Reminder Plan",
+        "validfrom": "Valid From",
+        "validto": "Valid To",
+        "customer": "Customer",
+        "Initiator": "Initiator",
+        "hostedorg": "Hosted org",
+        "dossierstatus": "Dossier Status",
+        "Remindersenario": "Reminder Scenario",
+        "": ""
+      },
+      "card": {
+        "legelentity": "Legal Entity",
+        "Legelindi": "Legal entity indipendent",
+        "customer": "Customer",
+        "customerindi": "Customer independent",
+        "intrrior": "Initiator",
+        "initiator": "Initiator independent",
+        "validfrom": "Valid From",
+        "validto": "Valid To",
+        "priority": "Priority",
+        "debtortype": "Debtor Type",
+        "dossiertype": "Dossier Type",
+        "minamount": "Min Amount",
+        "maxamount": "Max Amount",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minav": "Min av. Age",
+        "maxav": "Max av. Age",
+        "name1": "Name"
+      },
+      "tab": {
+        "Generalsetting": "General Settings",
+        "derivation": "Derivation Criteria"
+      },
+      "mandatory": {
+        "name": "'Name'",
+        "Legal": "'Legal entity'",
+        "priority": "'Priority'",
+        "ValidFor": "'Valid From'",
+        "required": "  is Mandatory.",
+        "dossierstatus": "'Dossier Status'",
+        "Remindersenario": "'ReminderScenarioRef'",
+        "businessErr": "Multiple flows cannot belong to the same status"
+
+      }
+    },
+    "ruleEngine": {
+      "heading": {
+        "ruleEngine": "Manage Rule Engine Plan Derivation"
+      },
+      "tabel": {
+        "RuleModelName": "Rule Model Name",
+        "Delete": "Delete",
+        "TreatmentPlan": "Treatment Plan",
+        "Output": "Output",
+        "ReminderPlan": "Reminder Plan",
+        "CostPlan": "Cost Plan",
+        "PaymentAllocationPlan": "Payment Allocation Plan",
+        "Delete1": "Delete"
+      },
+      "card": {
+        "RuleModelName": "Rule Model Name",
+        "Output": "Output",
+        "TreatmentPlan": "Treatment Plan",
+        "ReminderPlan": "Reminder Plan",
+        "CostPlan": "Cost Plan",
+        "PaymentAllocationPlan": "Payment Allocation Plan"
+      },
+
+      "button": {
+        "addRuleName": "Add Rule Model Name",
+        "addRule": "Add Rule"
+      },
+
+      "mandatory": {
+        "RuleModelName": "'Rule Model Name'",
+        "Output": "'Output'",
+        "TreatmentPlan": "'Treatment Plan'",
+        "ReminderPlan": "'Reminder Plan'",
+        "CostPlan": "'Cost Plan'",
+        "PaymentAllocationPlan": "'Payment Allocation Plan'",
+        "required": "  is Mandatory.",
+
+        "REError": "The given record is already in the list. Please make sure that the record is unique",
+        "RECError": "The given record is already in the list. Please make sure that the record is unique"
+
+      }
+    },
+    "arrearsTrigger": {
+      "heading": {
+        "ArrearsTrigge": "Manage Arrearstrigger Plan"
+      },
+      "tabel": {
+        "CalculationType": "Calculation Type",
+        "Context": "Context",
+        "Delete": "",
+        "ExternalProductReference": "External Product Reference",
+        "Delete1": "",
+        "Number": "Number Of Days Due",
+        "duedates": "Number Of Due Dates",
+        "StartEvent": "Start Event",
+        "Delete2": ""
+      },
+      "card": {
+        "CalculationType": "Calculation Type",
+        "Context": "Context",
+        "ExternalProductReference": "External Product Reference",
+        "Number": "Number Of Days Due",
+        "duedates": "Number Of Due Dates",
+        "StartEvent": "Start Event"
+      },
+      "picker": {
+        "DebtSourceStatus": "Debt Source Status",
+        "SelectedDebtSourceStatus": "Selected Debt Source Status"
+
+      },
+      "ValidationError": {
+        "required": "  is Mandatory.",
+        "CalculationType": "'Calculation Type'",
+        "Context": "'Context'",
+        "ExternalProduct": "'External Product Reference'",
+        "DaysDue": "'Number Of Days Due'",
+        "DueDates": "'Number Of Due Dates'",
+        "StartEvent": "'Start Event'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateError": "The given record is already in the list. Please make sure that the record is unique.",
+        "EmptyStepConfigError": "At least 1 ArrearsTriggerStepConfig record should be there for each ArrearsTriggerPlan.",
+        "EmptyDebtSourceError": "At least 1 debt source status should be added to an ArrearsTriggerPlan.",
+        "EmptyProductError": "At least 1 linked product reference should be added to an ArrearsTriggerPlan."
+      }
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close",
+      "add": "Add",
+      "copy": "Copy",
+      "create": "Create"
+    },
+    "dialog": {
+      "Yes": "Yes",
+      "No": "No",
+      "Cancel": "Cancel",
+      "Header": "Unsaved Changes",
+      "Content": "You have unsaved data. Do you want to save?"
+    },
+    "Validation": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    }
+  }
+
+}

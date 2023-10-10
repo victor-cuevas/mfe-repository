@@ -1,0 +1,45 @@
+
+<div class="closefo-input">
+  <p-autoComplete [(ngModel)]="value"
+                  [name]="name"
+                  #inputModel="ngModel"
+                  [showEmptyMessage]="showEmpty"
+                  [suggestions]="filteredNames"
+                  (completeMethod)="filterName($event)"
+                  (onClear)="clear($event)"
+                  (onSelect)="onSelect($event)"
+                  [forceSelection]="showEmpty"
+                  [autoHighlight]="showEmpty"
+                  autoFillOff
+                  [required]="ControlConfig.required"
+                  [field]="field"
+                  [disabled]="isReadOnly"
+                  [cfcFluidValidation]="{errors:inputModel.errors? ControlConfig.Errors : '' , formSubmitted:form?.submitted || (ControlConfig.externalError)}"
+                  [minLength]="minLength"
+                  [maxLength]="maxLength"
+                  [ngClass]="{ 'close-externalerror': inputModel.errors && (form?.submitted || ControlConfig.externalError) }">
+                  
+  </p-autoComplete>
+</div>
+
+
+  <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError) ">
+    <div class="closefo-validation-error"
+         *ngFor="let error of ControlConfig.Errors">
+      <small *ngIf="
+        error.isModelError &&
+        inputModel.errors[error['validation']] &&
+        error['validation']
+      ">{{ error["validationMessage"] }}</small>
+    </div>
+  </div>
+  <div *ngIf="form?.submitted || ControlConfig.externalError">
+    <div class="closefo-validation-error"
+         *ngFor="let error of ControlConfig.Errors">
+      <small *ngIf="!error.isModelError && error.isShowValidation">
+        {{
+      error["validationMessage"]
+        }}
+      </small>
+    </div>
+  </div>

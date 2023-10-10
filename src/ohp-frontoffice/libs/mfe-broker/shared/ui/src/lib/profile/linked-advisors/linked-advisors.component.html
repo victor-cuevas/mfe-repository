@@ -1,0 +1,11 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ title }}</h2>
+</div>
+<div class="pb-2" *ngIf="intermediaryName">
+  <h3>{{ intermediaryName }}</h3>
+</div>
+<div class="pt-4 pb-2">
+  <div class="d-flex scrollable-table">
+    <cfo-linked-advisors-table #linkedAdvisorsTable [advisors]="advisors"></cfo-linked-advisors-table>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<ng-container *ngIf="stipulationStatus?.status as status">
+  <ng-container
+    *ngIf="
+      status?.class === statusEnum.SUCCESS || status?.class === statusEnum.WARNING || status?.class === statusEnum.ERROR;
+      else genericText
+    "
+  >
+    <ng-container *ngIf="status?.class === statusEnum.SUCCESS">
+      <p class="color-success">{{ status?.label }}</p>
+    </ng-container>
+    <ng-container *ngIf="status?.class === statusEnum.WARNING">
+      <p class="color-warning">{{ status?.label }}</p>
+    </ng-container>
+    <ng-container *ngIf="status?.class === statusEnum.ERROR">
+      <p class="color-error">{{ status?.label }}</p>
+    </ng-container>
+  </ng-container>
+  <ng-template #genericText>
+    <p>{{ status?.label }}</p>
+  </ng-template>
+</ng-container>

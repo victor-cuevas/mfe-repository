@@ -1,0 +1,470 @@
+{
+  "general": {
+    "validations": {
+      "required": " *",
+      "requiredMsg": "This field is required",
+      "password": "Invalid format",
+      "passwordMatch": "New password and confirm password does not match",
+      "email": "Please enter a valid email",
+      "phone": "Please enter a valid phone number",
+      "url": "Please enter a valid url",
+      "sortCode": "Please enter a valid sort code",
+      "postcode": "Please enter a valid postcode",
+      "bankAccountNumber": "Please enter a valid bank account number",
+      "fcaNumber": "Please enter a number between 1 and 9999999",
+      "dataReceived": "Data received correctly!",
+      "enterAllFields": "Please enter all fields correctly",
+      "maxValueMsg": "Value too high",
+      "minValueMsg": "Value too low",
+      "fcaNumberValid": "Please enter a valid FCA number",
+      "advisorUniqueID": "The introduced unique advisor ID does not exist. Please, provide a valid one.",
+      "inactiveSubmissionRoute": "An inactive submission route is selected. Please review it.",
+      "inactiveClub": "An inactive club is selected. Please review selected clubs.",
+      "fillAllRequiredFields": "Please fill in all required fields",
+      "newIntermediaryCreatedSuccessfully": "Intermediary created successfully"
+    },
+    "errors": {
+      "403": "We are sorry, we cannot process the request",
+      "404": "We are sorry, we couldn't find the requested resource",
+      "409": "We are sorry. There was an error, please refresh the page",
+      "500": "We are sorry, an error occurred",
+      "003005": "The trading address must be active, please check your data",
+      "default400": "The request was malformed or contained invalid parameters, please check your data",
+      "default422": "We are sorry, we cannot process the request",
+      "defaultErrorMsg": "Ops! An error occurred",
+      "clientSideError": "Client side error:"
+    },
+    "buttons": {
+      "add": "Add",
+      "addMore": "Add more",
+      "addClubs": "Add clubs",
+      "addFirm": "Add new firm",
+      "addNetwork": "Add network",
+      "addSubmissionRoute": "Add submission route",
+      "addNewSubmissionRoute": "Add new submission route",
+      "apply": "Apply",
+      "back": "Back",
+      "cancel": "Cancel",
+      "clear": "Clear",
+      "clearFilters": "Clear all filters",
+      "confirm": "Confirm",
+      "editFirmAddress": "Edit the firm address",
+      "editFirmDetails": "Edit firm details",
+      "seeFirmDetails": "See firm details",
+      "home": "Go home",
+      "inviteIntermediary": "Invite a new intermediary",
+      "next": "Next",
+      "ok": "OK",
+      "populateDate": "Populate data",
+      "previous": "Previous",
+      "promote": "Promote",
+      "remove": "Remove",
+      "review": "Review",
+      "save": "Save",
+      "seeFirmCases": "See firm cases",
+      "submit": "Submit",
+      "view": "view",
+      "invite": "Invite",
+      "changePassword": "Change password",
+      "addLenderUser": "Add new lender user",
+      "sendInvitation": "Send invitation"
+    },
+    "labels": {
+      "no": "No",
+      "yes": "Yes"
+    },
+    "placeholders": {
+      "generic": "Select {{type}}",
+      "select": "Select...",
+      "searchBy": "Search by {{field}}",
+      "nameEmailSearch": "Search by name or email",
+      "selectCountry": "Select a country"
+    },
+    "warnings": {
+      "deactivateTradingAddressHeader": "Deactivate trading address",
+      "deactivateTradingAddressContent": "You are about to permanently deactivate the trading address. This cannot be undone. Are you sure about this action?"
+    }
+  },
+  "submissionRoutes": {
+    "columns": {
+      "fcaNumber": "FCA number",
+      "name": "Submission route name",
+      "reference": "Submission route ref.",
+      "fcaStatus": "Status",
+      "submissionRouteType": "Type"
+    },
+    "placeholders": {
+      "name": "Filter by name...",
+      "number": "Filter by number...",
+      "reference": "Filter by ref..."
+    },
+    "labels": {
+      "network": "Network",
+      "mortgageClub": "Mortgage club",
+      "directAuth": "Directly authorised"
+    }
+  },
+  "firms": {
+    "title": "List of firms",
+    "titles": {
+      "profile": "Profile",
+      "account": "Account",
+      "assistants": "Assistants",
+      "linkedAdvisors": "Linked advisors",
+      "tradingAddress": "Trading address"
+    },
+    "columns": {
+      "fcaNumber": "FCA number",
+      "firmName": "Firm name",
+      "firmRef": "Firm ref.",
+      "firmType": "Firm type",
+      "isInReview": "Under review",
+      "status": "Status"
+    },
+    "placeholders": {
+      "name": "Filter by name...",
+      "number": "Filter by number...",
+      "reference": "Filter by ref..."
+    },
+    "labels": {
+      "addNewFirm": "Add new firm",
+      "type": "Type",
+      "firmFCANumber": "Firm FCA number",
+      "principalFCANumber": "Principal FCA number",
+      "submissionRouteFCANumber": "Submission route FCA number",
+      "firmName": "Firm name",
+      "firmReference": "Firm reference",
+      "firmWebsite": "Firm website",
+      "complaintsWebpage": "Complaints webpage",
+      "telephoneNumber": "Firm telephone number",
+      "emailAddress": "Firm email address",
+      "numberOrBuilding": "Number or building",
+      "postcode": "Postcode",
+      "city": "City",
+      "country": "Country",
+      "lineOne": "Address 1",
+      "lineTwo": "Address 2",
+      "lineThree": "Address 3",
+      "lineFour": "Address 4",
+      "lineFive": "Address 5",
+      "tradingName": "Trading name",
+      "businessDevelopmentManager": "Business development manager",
+      "isTradingAddress": "This is a trading address",
+      "firmActive": "Firm active",
+      "isInReview": "Firm under review",
+      "availableClubs": "Available clubs",
+      "availableNetwork": "Available networks",
+      "availableSubmissionRoutes": "Available submission routes",
+      "submissionRoute": "Submission route",
+      "memberOf": "Member of",
+      "editFirm": "Edit firm details",
+      "unlockDefaultStructure": "Unlock default structure",
+      "tradingAddress": "Trading address",
+      "deactivateTradingAddress": "This action will make the trading address permanently unusable.",
+      "addressHasIntermediaries": "This trading address cannot be deactivated. There are linked intermediaries at the moment.",
+      "submissionRoutesGroup": {
+        "All": "All",
+        "Network": "Network",
+        "MortgageClub": "Mortgage Club",
+        "DirectlyAuthorized": "Directly Authorized"
+      }
+    }
+  },
+  "submissionRoute": {
+    "titles": {
+      "add": "Add submission route",
+      "edit": "Edit submission route"
+    },
+    "labels": {
+      "accountName": "Account name",
+      "accountNumber": "Account number",
+      "basedOn": "Based on",
+      "city": "City",
+      "completion": "Completion",
+      "country": "Country",
+      "defaultProcurationFeeStructure": "Use default procuration fee structure",
+      "directAuth": "Directly authorised",
+      "ending": "Ending",
+      "fcaNumber": "Submission route FCA number",
+      "firmAddressLine1": "Firm address line 1",
+      "firmAddressLine2": "Firm address line 2",
+      "firmAddressLine3": "Firm address line 3",
+      "firmAddressLine4": "Firm address line 4",
+      "firmAddressLine5": "Firm address line 5",
+      "loanAmount": "Loan Amount",
+      "mortgageClub": "Mortgage club",
+      "name": "Submission route name",
+      "network": "Network",
+      "newLending": "New lending",
+      "purchase": "Purchase",
+      "numberOrBuilding": "Number or building",
+      "outstandingBalance": "Outstanding balance",
+      "period": "Period (months)",
+      "postcode": "Postcode",
+      "reference": "Submission route reference",
+      "remortgage": "Remortgage",
+      "selectType": "Select type",
+      "sortCode": "Sort code",
+      "startingMonth": "Starting month",
+      "submissionRoutes": "Submission routes",
+      "trail": "Trail",
+      "type": "Type"
+    },
+    "alerts": {
+      "create": "Submission route created successfully",
+      "update": "Submission route updated successfully"
+    }
+  },
+  "dashBoard": {
+    "labels": {
+      "firms": "Firms",
+      "submissionRoutes": "Submission routes",
+      "configuration": "Configuration",
+      "welcomeBack": "Welcome back, {{loginName}}",
+      "notifications": "You have {{nrNotifications}} new notifications.",
+      "lender": "Lender"
+    },
+    "placeholders": {
+      "search": "Search by firm, FCA, ref..."
+    }
+  },
+  "intermediary": {
+    "titles": {
+      "add": "Invite new intermediary",
+      "personalDetails": "Personal details",
+      "accountInfo": "Contact",
+      "tradingAddress": "Trading address"
+    },
+    "labels": {
+      "advisorUniqueId": "Advisor unique ID",
+      "bdm": "Business developer manager",
+      "dob": "Date of birth",
+      "email": "Email",
+      "firmName": "Firm name",
+      "firstName": "First name",
+      "mobile": "Mobile",
+      "surName": "Surname",
+      "tel": "Phone number (work)",
+      "title": "Title",
+      "userRole": "User's role",
+      "name": "Name",
+      "position": "Position",
+      "assistants": "Assistants",
+      "contacts": "Contacts",
+      "addAssistants": "Add assistants",
+      "tradingName": "Trading name",
+      "tradingAddress": "Trading address",
+      "addNewAssistant": "Add new assistant",
+      "unlinkAssistant": "Unlink an assistant",
+      "unlinkAssistantPopup": "This assistant will not be able to collaborate in your cases anymore. Are you sure about this action?",
+      "noTradingAddressMsg": "The firm {{ firmName }} does not have assigned any trading address yet"
+    }
+  },
+  "intermediaries": {
+    "columns": {
+      "name": "Name",
+      "IRNNumber": "IRN number",
+      "position": "Position",
+      "contacts": "Contacts",
+      "underReview": "Under review",
+      "status": "Status"
+    },
+    "labels": {
+      "supervisor": "Supervisor",
+      "advisor": "Advisor",
+      "assistant": "Assistant",
+      "viewer": "Viewer",
+      "lenderAdvisorAdmin": "Lender advisor admin",
+      "lenderAdvisorSupport": "Lender advisor support",
+      "lenderAdvisorViewer": "Lender advisor viewer",
+      "supervisorAndAdvisor": "Supervisor and advisor",
+      "supervisorAssistant": "Supervisor and assistant",
+      "registered": "Registered",
+      "pending": "Pending",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "placeholders": {
+      "name": "Search by name...",
+      "id": "Search by id...",
+      "email": "Search by email..."
+    }
+  },
+  "configuration": {
+    "options": {
+      "bps": "bps",
+      "pounds": "£",
+      "loanAmount": "Loan amount",
+      "outstandingBalance": "Outstanding balance",
+      "redemption": "Redemption",
+      "initialTerm": "Initial term",
+      "initialTermUnlessRedeemed": "Initial term unless redeemed"
+    },
+    "labels": {
+      "procurationFeeConfiguration": "Procuration fee configuration",
+      "globalSettings": "Global settings",
+      "completion": "Completion",
+      "basedOn": "Based on",
+      "trail": "Trail",
+      "startingMonth": "Starting month",
+      "period": "Period (months)",
+      "ending": "Ending",
+      "newLending": "New lending",
+      "purchase": "Purchase",
+      "remortgage": "Remortgage",
+      "caseSummary": "Case summary"
+    }
+  },
+  "profile": {
+    "title": "My profile",
+    "titleAccount": "My account",
+    "titles": {
+      "myProfile": "My profile",
+      "myAccount": "My account",
+      "myAssistants": "My assistants",
+      "myLinkedAdvisors": "My linked advisors",
+      "myTradingAddress": "My trading address"
+    },
+    "subtitles": {
+      "addAssistant": "Add new assistant",
+      "unlinkAssistant": "Unlink an assistant"
+    },
+    "labels": {
+      "login": "Login details",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmedNewPassword": "Confirmed password",
+      "passwordChanged": "Password changed",
+      "passwordChangedMsg": "Your password has been updated",
+      "passwordError": "Error updating the password",
+      "passwordErrorMsg": "There was an error in your change the password request",
+      "emailNotification": "Email notifications",
+      "emailNotificationsMsg": "Once in a while, we’d like to email you quick updates about new features, personalized data visualizations or changes that we think you’ll appreciate. We don’t share or sell your contact information and you can change these settings at any time.",
+      "deactivateAccount": "Deactivate account",
+      "deactivateAccountMsg": "This will make your account permanently unusable. You will not be able to login to the broker portal. To continue, please click on the button below.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "on": "On",
+      "off": "Off",
+      "status": "Status",
+      "statusMsg": "The status of a user can change anytime, please be aware once you changed it the user will receive a notification.",
+      "cancelInvitation": "Cancel invitation",
+      "cancelInvitationMsg": "The status of this user is still pending. You can cancel the invitation anytime.",
+      "resendInvitation": "Resend invitation",
+      "cancelInvitationMsgPopup": "You are about to cancel an invitation to an intermediate. Are you sure about this action?",
+      "underReview": "Under review",
+      "name": "Name",
+      "collaboration": "Collaboration",
+      "position": "Position",
+      "contacts": "Contacts",
+      "unlinkAssistant": "Unlink assistant",
+      "unlinkAssistantMsg": "This assistant will not be able to collaborate in your cases anymore. Are you sure about this action?",
+      "myProfile": "My profile",
+      "myAccount": "My account",
+      "myAssistants": "My assistants",
+      "myLinkedAdvisors": "My linked advisors",
+      "myTradingAddress": "My trading address",
+      "password": "Password",
+      "tradingAddressInfo": "Trading address information",
+      "noTradingAddressMsg": "The firm {{ firmName }} does not have assigned any trading address yet"
+    },
+    "buttons": {
+      "update": "Update",
+      "addAssistant": "Add assistant"
+    }
+  },
+  "notFound": {
+    "labels": {
+      "404Title": "404",
+      "404SubTitle": "Page not found",
+      "404Text": "The link you check may be broken or the page may have been removed or renamed."
+    }
+  },
+  "dialog": {
+    "headerResendInvitation": "Send invite",
+    "contentResendInvitation": "You already have sent an invitation for this user. Would you like to resend it?",
+    "cancelInvitation": "Cancel invitation",
+    "cancelInvitationMsg": "You are about to cancel an invitation to an intermediate. Are you sure about this action?",
+    "inactive": "Inactive",
+    "active": "Active",
+    "changeStatusActiveMsg": "Are you sure you want to change the status of the user to active?",
+    "changeStatusInactiveMsg": "Are you sure you want to change the status of the user to inactive? Please be aware that an email will be sent to the user saying that access to the Broker portal has been changed.",
+    "deactivateAccount": "Deactivate account",
+    "deactivateAccountMsg": "Are you sure you want to deactivate your account? Be aware you will no longer be able to manage your cases.",
+    "yes": "Yes",
+    "underReview": "Under review",
+    "underReviewMsg": "Are you sure that you want to change the under review status for this user?",
+    "resetPassword": "Reset password",
+    "resetPasswordMsg": "Are you sure you want to reset your password? You will be redirected to another page to set up your new password."
+  },
+  "addressSearchComponent": {
+    "labels": {
+      "address": "Address",
+      "addressLine1": "Address 1",
+      "addressLine2": "Address 2",
+      "addressLine3": "Address 3",
+      "addressLine4": "Address 4",
+      "addressLine5": "Address 5",
+      "locality": "Locality",
+      "city": "City",
+      "country": "Country",
+      "townCity": "Town/city",
+      "postcode": "Postcode",
+      "serviceNumber": "Service number",
+      "rank": "Rank",
+      "careOfSurname": "Care of surname",
+      "unitRegiment": "Unit/regiment",
+      "operationName": "Operation name",
+      "bfpoNoPostcode": "BFPO no/postcode",
+      "enterAddressWithAutocomplete": "Enter address with autocomplete",
+      "enterAddressManually": "Enter address manually",
+      "editAddressManually": "Edit address manually",
+      "selectCountry": "Select the country"
+    }
+  },
+  "lender": {
+    "titles": {
+      "lenderDetails": "Lender details",
+      "branches": "Branches",
+      "users": "Users",
+      "addNewLender": "Invite new lender user"
+    },
+    "users": {
+      "columns": {
+        "name": "Name",
+        "branch": "Branch",
+        "position": "Position",
+        "contacts": "Contacts",
+        "underReview": "Under review",
+        "phone": "Phone",
+        "email": "Email",
+        "status": "Status"
+      }
+    },
+    "labels": {
+      "lenderName": "Lender name",
+      "lenderReference": "Lender reference",
+      "lenderTelephoneNumber": "Lender telephone number",
+      "contactEmail": "Contact email",
+      "contactPerson": "Contact person",
+      "lenderWebsite": "Lender website",
+      "complaintsWebPage": "Lender complaint website",
+      "sendCaseNotification": "Send case notification to shared inbox",
+      "firmSharedEmail": "Firm shared e-mail address",
+      "name": "Name",
+      "position": "Position",
+      "automaticAccountActivation": "Automatic account activation",
+      "automaticAccountActivationMsg": "If automatic account activation is selected, this user’s status will become active as soon as the invitation is accepted. If you prefer to make the user active manually, the status will be pending when the invitation is accepted until a supervisor activates the user.",
+      "profile": "Profile"
+    },
+    "placeholders": {
+      "name": "Search by name...",
+      "branch": "Search by branch...",
+      "email": "Search email...",
+      "phone": "Search phone..."
+    },
+    "tooltip": {
+      "firmSharedEmailMsg": "Enter a valid email address for the firm's shared inbox"
+    }
+  }
+}

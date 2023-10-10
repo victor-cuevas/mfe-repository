@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-communication-config-service/pages",
+  "sourceRoot": "libs/mfe-communication-config-service/pages/src",
+  "prefix": "mccs",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-communication-config-service/pages"],
+      "options": {
+        "jestConfig": "libs/mfe-communication-config-service/pages/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-communication-config-service/pages/src/**/*.ts",
+          "libs/mfe-communication-config-service/pages/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

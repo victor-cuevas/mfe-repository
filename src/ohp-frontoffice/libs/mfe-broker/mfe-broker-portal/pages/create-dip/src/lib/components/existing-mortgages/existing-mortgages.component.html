@@ -1,0 +1,252 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.existingMortgages' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="existingMortgagesForm">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.labels.aboutProperty' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-12">
+          <label id="exIspropertyMortgaged">{{ 'createDip.labels.isPropertyMortgaged' | translate }} *</label>
+          <div aria-labelledby="exIspropertyMortgaged">
+            <cfo-radio-button
+              [disabledExternal]="!dataService.activeJourney"
+              formControlName="isPropertyMortgaged"
+              [value]="true"
+              [label]="'general.labels.yes' | translate"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              [disabledExternal]="!dataService.activeJourney"
+              formControlName="isPropertyMortgaged"
+              [value]="false"
+              [label]="'general.labels.no' | translate"
+              ngDefaultControl
+              class="ms-3"
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('isPropertyMortgaged')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="this.currentData.applicants?.length">
+        <div class="col">
+          <label id="exOwnersOfTheProperty">{{ 'createDip.labels.ownersOfTheProperty' | translate }}</label>
+          <ng-container
+            formArrayName="ownersOfTheProperty"
+            *ngFor="let allOwnersOfTheProperty of ownersOfThePropertyFormArray.controls; let i = index"
+          >
+            <div class="mt-2">
+              <p-checkbox
+                name="ownersOfTheProperty"
+                ngDefaultControl
+                [binary]="true"
+                [formControlName]="i"
+                [cfoDisableControl]="!dataService.activeJourney"
+                ariaLabelledBy="exOwnersOfTheProperty"
+              >
+              </p-checkbox>
+              <span class="mx-2 secondary-font">{{ applicantsArray[i].fullName }}</span>
+            </div>
+          </ng-container>
+          <div class="row mt-2">
+            <div class="col">
+              <p-checkbox
+                name="anotherParty"
+                ngDefaultControl
+                [binary]="true"
+                formControlName="anotherParty"
+                [cfoDisableControl]="true"
+                ariaLabelledBy="exAnotherParty"
+              >
+              </p-checkbox>
+              <span class="mx-2 secondary-font text-disabled">{{ 'createDip.labels.anotherParty' | translate }}</span>
+            </div>
+          </div>
+          <div class="row mt-2" *ngIf="existingMortgagesForm.get('ownersOfTheProperty')?.invalid">
+            <p class="danger-text">{{ 'createDip.labels.anotherPartyErrorMsg' | translate }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="mt-4" id="exEstimatedValueOfTheProperty"> {{ 'createDip.labels.estimatedValueOfTheProperty' | translate }} </label>
+          <cfo-input-number
+            className="pb-4"
+            [form]="existingMortgagesForm"
+            controlName="estimatedValueOfTheProperty"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+            aria-labelledby="exEstimatedValueOfTheProperty"
+          ></cfo-input-number>
+        </div>
+      </div>
+      <ng-container *ngIf="existingMortgagesForm.controls.isPropertyMortgaged.value">
+        <div class="row">
+          <div class="col">
+            <label class="mt-4" id="exCurrentOutstandingBalance"> {{ 'createDip.labels.currentOutstandingBalance' | translate }} *</label>
+            <cfo-input-number
+              className="pb-4"
+              [form]="existingMortgagesForm"
+              controlName="currentOutstandingBalance"
+              [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 1 }"
+              aria-labelledby="exCurrentOutstandingBalance"
+            ></cfo-input-number>
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('currentOutstandingBalance')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <!-- TODO: out of scope for April -->
+        <!--        <div class="row">
+          <div class="col">
+            <label class="mt-4" id="exMonthlyPayment"> {{ 'createDip.labels.monthlyPayment' | translate }} *</label>
+            <cfo-input-number
+              className="pb-4"
+              [form]="existingMortgagesForm"
+              controlName="monthlyPayment"
+              [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+              aria-labelledby="exMonthlyPayment"
+            ></cfo-input-number>
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('monthlyPayment')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>-->
+        <div class="row mt-4">
+          <div class="col">
+            <label id="exExistingLender">{{ 'createDip.labels.existingLender' | translate }} *</label>
+            <p-dropdown
+              [options]="existingLenderOptions"
+              [placeholder]="'createDip.placeholders.selectExistingLender' | translate"
+              class="journey-dropdown"
+              formControlName="existingLender"
+              aria-labelledby="exExistingLender"
+              ngDefaultControl
+            >
+              <ng-template let-option pTemplate="item">
+                <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('existingLender')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                aprilMortgagesError: ('createFma.validations.aprilMortgagesError' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div class="row mt-4" *ngIf="existingMortgagesForm.get('existingLender')?.value === existingLenderEnum.OTHER">
+          <div class="col">
+            <label id="exOtherLender"> {{ 'createDip.labels.otherLender' | translate }} * </label>
+            <input
+              type="text"
+              pInputText
+              class="journey-input&--large"
+              formControlName="otherLender"
+              ngDefaultControl
+              aria-labelledby="exOtherLender"
+            />
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('otherLender')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <!-- TODO: out of scope for April -->
+        <!--        <div class="row mt-4">
+          <div class="col">
+            <label id="exMortgageAccountNumber"> {{ 'createDip.labels.mortgageAccountNumber' | translate }} *</label>
+            <input
+              name="mortgageAccountNumber"
+              type="text"
+              pInputText
+              formControlName="mortgageAccountNumber"
+              class="journey-input&#45;&#45;large"
+              aria-labelledby="exMortgageAccountNumber"
+            />
+            <cfo-validation-errors
+              [control]="existingMortgagesForm.get('mortgageAccountNumber')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>-->
+        <div class="row mt-4">
+          <div class="col">
+            <label id="exIsRepaidOnCompletionOfTheApplication"
+              >{{ 'createDip.labels.isRepaidOnCompletionOfTheApplication' | translate }} *</label
+            >
+            <div aria-labelledby="exIsRepaidOnCompletionOfTheApplication">
+              <p-radioButton
+                formControlName="isRepaidOnCompletionOfTheApplication"
+                [value]="true"
+                [label]="'general.labels.yes' | translate"
+                ngDefaultControl
+              ></p-radioButton>
+              <p-radioButton
+                formControlName="isRepaidOnCompletionOfTheApplication"
+                [value]="false"
+                [label]="'general.labels.no' | translate"
+                class="ms-3"
+                ngDefaultControl
+              ></p-radioButton>
+              <cfo-validation-errors
+                [control]="existingMortgagesForm.get('isRepaidOnCompletionOfTheApplication')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  valueIs: ('general.validations.existingMortgageMustBeRedeemed' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="existingMortgagesForm.controls.isRepaidOnCompletionOfTheApplication.value">
+          <div class="row mt-4">
+            <div class="col-md-3 col">
+              <label id="exAmountToBeRepaid"> {{ 'createDip.labels.amountToBeRepaid' | translate }}</label>
+              <cfo-input-number
+                className="pb-4"
+                [form]="existingMortgagesForm"
+                controlName="amountToBeRepaid"
+                [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                aria-labelledby="exAmountToBeRepaid"
+              ></cfo-input-number>
+            </div>
+            <div class="col-md-3 col">
+              <label id="exContinuingBalance"> {{ 'createDip.labels.continuingBalance' | translate }} </label>
+              <cfo-input-number
+                className="pb-4"
+                [form]="existingMortgagesForm"
+                controlName="continuingBalance"
+                [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                aria-labelledby="exContinuingBalance"
+              ></cfo-input-number>
+              <cfo-validation-errors
+                [control]="existingMortgagesForm.get('continuingBalance')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </form>
+</div>

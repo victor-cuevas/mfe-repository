@@ -1,0 +1,314 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.retirementIncome' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsForm)">
+    <p-tabView>
+      <p-tabPanel *ngFor="let applicant of applicantsForm.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"></i>
+          <h6>
+            {{ applicant.get('applicantInfo')?.get('firstName')?.value | titlecase }}
+            <span *ngIf="applicant.get('applicantInfo')?.get('familyPrefix')?.value">{{
+              ' ' + applicant.get('applicantInfo')?.get('familyPrefix')?.value | titlecase
+            }}</span>
+            {{ ' ' + applicant.get('applicantInfo')?.get('familyName')?.value | titlecase }}
+          </h6>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <ng-container [formGroupName]="i" *cfoRetirement="applicant.get('applicantInfo')?.get('applicantId')?.value; else noRetirement">
+            <div class="mb-4">
+              <p class="my-4">
+                {{
+                  applicant.get('applicantInfo')?.get('isRetired')?.value
+                    ? ('createDip.labels.applicantIsRetiredMessage' | translate)
+                    : ('createDip.labels.applicantWillRetireMessage' | translate)
+                }}
+              </p>
+              <button
+                *ngIf="dataService.activeJourney"
+                pButton
+                class="p-button-outlined--bold d-inline"
+                label="Add more"
+                icon="pi pi-plus"
+                (click)="addRetirementIncomeDetail(i)"
+              ></button>
+            </div>
+            <ng-container formArrayName="retirementIncomeDetails">
+              <div class="rounded shadow my-3" *ngFor="let retirementIncomeDetail of getRetirementIncomeDetails(i).controls; let j = index">
+                <ng-container [formGroup]="$any(retirementIncomeDetail)">
+                  <div class="rounded-top p-4 step-header">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="fw-bold primary-color">{{ 'createDip.labels.retirementIncomeDetails' | translate }}</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step-body bg-white p-4">
+                    <div class="row">
+                      <div class="col-12 col-md-6 mt-3">
+                        <label>{{ 'createDip.labels.incomeSource' | translate }} *</label>
+                        <p-dropdown
+                          [options]="incomeSourceOptions"
+                          ngDefaultControl
+                          formControlName="incomeSource"
+                          class="journey-dropdown journey-dropdown--full-width"
+                          [placeholder]="'createDip.placeholders.selectIncomeSource' | translate"
+                        >
+                          <ng-template let-option pTemplate="item">
+                            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                          </ng-template>
+                        </p-dropdown>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('incomeSource')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <div
+                        class="col-12 col-md-6 mt-3"
+                        *ngIf="
+                          retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_INCOME &&
+                          applicant.get('applicantInfo')?.get('isRetired')?.value
+                        "
+                      >
+                        <label for="riPensionType">{{ 'createDip.labels.pensionType' | translate }} *</label>
+                        <p-dropdown
+                          id="riPensionType"
+                          [options]="pensionTypeOptions"
+                          ngDefaultControl
+                          formControlName="pensionType"
+                          class="journey-dropdown"
+                          [placeholder]="'createDip.placeholders.selectPensionType' | translate"
+                        >
+                          <ng-template let-option pTemplate="item">
+                            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                          </ng-template>
+                        </p-dropdown>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('pensionType')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div
+                      class="row mt-3"
+                      *ngIf="
+                        applicant.get('applicantInfo')?.get('isRetired')?.value ||
+                        (!applicant.get('applicantInfo')?.get('isRetired')?.value &&
+                          retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.INVESTMENT_INCOME)
+                      "
+                    >
+                      <div class="col-12">
+                        <label class="d-inline-block" id="riStartDate">
+                          {{ ('createDip.labels.startDateRetirement' | translate) + ' *' }}
+                        </label>
+                      </div>
+                      <p-calendar
+                        #calendarStartDate
+                        id="startDate"
+                        class="journey-input"
+                        formControlName="startDate"
+                        dateFormat="dd/mm/yy"
+                        [showIcon]="true"
+                        [monthNavigator]="true"
+                        [yearNavigator]="true"
+                        [yearRange]="minYear + ':' + maxYear"
+                        [defaultDate]="defaultDate"
+                        ngDefaultControl
+                        aria-labelledby="riStartDate"
+                        (onMonthChange)="populateYearRange()"
+                        (onYearChange)="populateYearRange()"
+                        [minDate]="minDateContractStartDate"
+                        [maxDate]="currentDay"
+                      ></p-calendar>
+                      <cfo-validation-errors
+                        [control]="applicant.get('startDate')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12 mt-3">
+                        <label for="riIsTheIncomeGuaranteed">{{ 'createDip.labels.isTheIncomeGuaranteed' | translate }} *</label>
+                        <cfo-radio-button
+                          id="riIsTheIncomeGuaranteed"
+                          [disabledExternal]="!dataService.activeJourney"
+                          formControlName="isTheIncomeGuaranteed"
+                          [value]="true"
+                          [label]="'general.labels.yes' | translate"
+                          ngDefaultControl
+                        ></cfo-radio-button>
+                        <cfo-radio-button
+                          id="riIsTheIncomeGuaranteedNo"
+                          [disabledExternal]="!dataService.activeJourney"
+                          formControlName="isTheIncomeGuaranteed"
+                          [value]="false"
+                          [label]="'general.labels.no' | translate"
+                          class="ms-3"
+                          ngDefaultControl
+                        ></cfo-radio-button>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('isTheIncomeGuaranteed')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div
+                        class="col-12 col-md-6 col-xl-3 mt-3"
+                        *ngIf="
+                          (retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_INCOME &&
+                            !retirementIncomeDetail.get('isRetired')?.value) ||
+                          (retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_INCOME &&
+                            retirementIncomeDetail.get('isRetired')?.value &&
+                            retirementIncomeDetail.get('pensionType')?.value === pensionType.DRAW_DOWN)
+                        "
+                      >
+                        <label>{{ 'createDip.labels.currentValue' | translate }} *</label>
+                        <p-inputNumber
+                          styleClass="journey-input-fixed-width"
+                          currency="GBP"
+                          mode="currency"
+                          [maxFractionDigits]="0"
+                          ngDefaultControl
+                          formControlName="currentValue"
+                        ></p-inputNumber>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('currentValue')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <div
+                        class="col-12 col-md-6 col-xl-3 mt-3"
+                        *ngIf="
+                          retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_INCOME &&
+                          !retirementIncomeDetail.get('isRetired')?.value
+                        "
+                      >
+                        <label for="riProjectedValue">{{ 'createDip.labels.projectedValue' | translate }} *</label>
+                        <p-inputNumber
+                          id="riProjectedValue"
+                          styleClass="journey-input-fixed-width"
+                          currency="GBP"
+                          mode="currency"
+                          [maxFractionDigits]="0"
+                          ngDefaultControl
+                          formControlName="projectedValue"
+                        ></p-inputNumber>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('projectedValue')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-3 mt-3">
+                        <label for="riAnticipatedAnnualIncome"
+                          >{{
+                            (applicantIsRetiredById(applicant.get('applicantInfo')?.get('applicantId')?.value) | async)
+                              ? ('createDip.labels.annualIncome' | translate)
+                              : ('createDip.labels.anticipatedAnnualIncome' | translate)
+                          }}
+                          *</label
+                        >
+                        <p-inputNumber
+                          id="riAnticipatedAnnualIncome"
+                          styleClass="journey-input-fixed-width"
+                          currency="GBP"
+                          mode="currency"
+                          [maxFractionDigits]="0"
+                          ngDefaultControl
+                          formControlName="anticipatedAnnualIncome"
+                        ></p-inputNumber>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('anticipatedAnnualIncome')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 mt-3">
+                        <label for="riCanTheIncomeBeVerified"
+                          >{{ 'createDip.labels.canIncomeBeVerified' | translate }} *<span
+                            *ngIf="retirementIncomeDetail.get('canTheIncomeBeVerified')?.value"
+                            class="ps-2 primary-color"
+                            [pTooltip]="'createDip.tooltips.canIncomeBeVerified' | translate"
+                            [hideDelay]="300"
+                            ><i class="pi pi-info-circle"></i></span
+                        ></label>
+                        <cfo-radio-button
+                          id="riCanTheIncomeBeVerified"
+                          [disabledExternal]="!dataService.activeJourney"
+                          formControlName="canTheIncomeBeVerified"
+                          [value]="true"
+                          [label]="'general.labels.yes' | translate"
+                          ngDefaultControl
+                        ></cfo-radio-button>
+                        <cfo-radio-button
+                          id="riCanTheIncomeBeVerifiedNo"
+                          [disabledExternal]="!dataService.activeJourney"
+                          formControlName="canTheIncomeBeVerified"
+                          [value]="false"
+                          [label]="'general.labels.no' | translate"
+                          class="ms-3"
+                          ngDefaultControl
+                        ></cfo-radio-button>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('canTheIncomeBeVerified')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div
+                        class="col-12 mt-3"
+                        *ngIf="
+                          !(retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_INCOME) &&
+                          !(retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_STATE) &&
+                          !(retirementIncomeDetail.get('incomeSource')?.value === retirementIncomeType.PENSION_WAR_PENSION_SCHEME)
+                        "
+                      >
+                        <label for="riDescription">{{ 'createDip.labels.details' | translate }} *</label>
+                        <textarea
+                          id="riDescription"
+                          rows="4"
+                          ngDefaultControl
+                          formControlName="description"
+                          class="journey-input-fixed-width w-100"
+                          pInputTextarea
+                          [autoResize]="true"
+                        ></textarea>
+                        <cfo-validation-errors
+                          [control]="retirementIncomeDetail.get('description')"
+                          [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                        ></cfo-validation-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="dataService.activeJourney" class="rounded-bottom p-3 bg-light step-body">
+                    <button
+                      class="hidden-btn d-flex align-items-center"
+                      (click)="removeRetirementIncomeDetail(i, j)"
+                      *ngIf="getRetirementIncomeDetails(i).length > 1"
+                    >
+                      <i class="pi pi-minus-circle me-1 fs-6"></i>
+                      <h6>{{ 'createDip.button.removeRetirementIncomeDetail' | translate }}</h6>
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template #noRetirement>
+            <div class="py-4" *ngIf="section === 'dip'">
+              {{ 'createDip.labels.applicantIsNotRetired' | translate }}
+            </div>
+            <div class="py-4" *ngIf="section === 'fma'">
+              {{ 'createDip.labels.applicantIsNotRetired' | translate }}
+            </div>
+          </ng-template>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

@@ -1,0 +1,361 @@
+{
+  "product": {
+    "general": {
+      "Delete": "Verwijderen"
+    },
+    "SearchProduct": {
+      "commercialowner": "Commercieel eigenaar",
+      "economicalowner": "Econom. eigenaar",
+      "judicialowner": "Juridische eigenaar",
+      "producttype": "Producttype",
+      "productfamily": "Product familie",
+      "startdate": "Startdatum",
+      "productname": "Soort product",
+      "commnercialname": "Handelsnaam",
+      "product": "Product",
+      "gridProduct": "Product",
+      "GridHeader": "Resultaten",
+      "Commercial_card_header": "Selecteer een commercieel eigenaar",
+      "Search_card_header": "Zoekcriteria",
+      "End": "Einde",
+      "Begin": "Begin"
+    },
+    "newProduct": {
+      "fields": {
+        "Country": "'Land'",
+        "Start": "'Begin datum'",
+        "Product Family": "'Product familie'",
+        "Retail leading type": "'Krediettype'",
+        "Retail leading sub type": "'NL - Retail lending subType'",
+        "Product name": "'Product naam'",
+        "Servicing Customer": "'Commercieel eigenaar'",
+        "Commercial name": "'Commerciele naam product'",
+        "Product nbr": "'Product'",
+        "Credit Insurer": "'kredietverzekeraar'",
+
+        "PaymentAllocation": "'Toewijzing'",
+        "PayCreditStatus": "'Krediet status'",
+        "Value Reduction": "'Waardevermindering'",
+        "ValCredit Status": "'Krediet status'",
+        "Prepayment calculation": "'Berekening vooruitbetaling'",
+        "PrepaymentMethod": "'Boeteber. methode'",
+        "PrepaymentPercentage": "'NL - Prepayment Penalty Percentage'",
+        "PrepaymentExemption": "'Boetevrij %'",
+        "PenaltyBefore": "'NL - Penalty Free Period Before Revision'",
+        "PenaltyAfter": "'NL - Penalty Free Period After Revision'",
+
+        "WriteMethod": "'NL - Write Off Penalty Method'",
+        "revisionPeriodSelectionMethodForPenalty": "'NL - Revision Period Selection Method'",
+        "Remainder Scenario": "'Rappelscenario'",
+        "RCredit Status": "'Krediet status'",
+
+        "Grace days": "'Coulance dagen'",
+        "Percentage definition": "'Percentage definitie'",
+        "Calculation base": "'Berekeningsbasis'",
+        "Calculation method": "'Berekeningsmethode'",
+
+        "Percentagedef": "'Percentage definitie'",
+        "WriteOffPer": "'NL - Write Off Percentage'",
+        "Calculation Day": "'Berekeningsdag'",
+        "Minimal duration": "'Minimum Looptijd'",
+        "Maximal duration": "'Maximum Looptijd'",
+
+
+        "Periodicity": "'Periode'",
+        "Interest": "'Renteberekening'",
+        "Max. calibration months": "'Max. Afstellingsmnd'",
+
+        "Default list": "'Standaard % Limiet'",
+        "Min list": "'Minimum % Limiet'",
+        "Max list": "'Maximum % Limiet'",
+
+        "nrOfBeforeLR": "'NL - Nr Of Months Before Limit Reduction Start'",
+        "LRAge": "'Startleeftijd limietafbouw'",
+        "LRBorrower": "'Leeftijd bepalend van'",
+
+
+        "LRPeriods": "'Looptijd limietafbouw'",
+        "LRPeriodicity": "'NL - Limit Reduction Periodicity'",
+        "startPeriod": "'Start periode'",
+        "endPeriod": "'Einde periode'",
+        "rate": "'Rentevoet'",
+        "feeType": "'NL - Fee Type'",
+        "incOutstanding": "'NL - Included in Outstanding'",
+        "FeecalcType": "'NL - Fee Calculation Type'",
+
+        "feePerc": "'NL - Fee Percentage'",
+        "feeAmount": "'NL - Fee Amount'",
+        "dueTransfer": "'NL - Due Transfer Method'",
+        "highestRevision": "'NL - Highest Revision Period Method'",
+        "NewProductNameAtRateRevision": "'NL - New Product Name At Rate Revision'",
+        "maxduration": "NL - Maximum duration must be greater than Minimum duration",
+        "minduration": "NL - Minimum duration must be smaller than Maximum duration",
+        "feeconfig": "NL - Only one Fee Configuration can be added for a Fee Type",
+        "paymentAllocation": "NL - Krediet status for Toewijzing must be unique",
+        "ValueReduction": "NL - Krediet status for Waardevermindering must be unique",
+        "reminderScenario": "NL - Krediet status for Rappelscenario must be unique",
+        "country": "NL -  Retail Lending SubType : Not defined is not allowed if country is Netherlands",
+        "amortization": "NL - Atleast one Amortization Schedule must be linked to the product",
+        "DMIMA": "NL - PayPercOfLimitMin must be <= PayPercOfLimitDefault must be <= PayPercOfLimitMax"
+
+      },
+      "tabel": {
+        "MutationType": "Mutatie Type",
+        "Applicable": "Toepasbaar",
+        "ChanceMutationCosts": "NL - Charge Mutation Costs",
+        "ChangeCostsVariable": "NL - Charge Cost for Variable Conversion",
+        "ValidationApplicable": "NL - No 4-Eye Validation Applicable",
+        "FreeType": "NL - Fee Type",
+        "FreeCalculationType": "NL - Fee Calculation Type",
+        "": "",
+        "Outstanding": "Resterend kapitaal",
+        "DueDateCalculation": "NL - Due Date Calculation",
+        "FreeDelete": "Verwijderen",
+        "CostType": "Kosten type",
+        "Incl": "Inclusief",
+        "StartPeriod": "Start periode",
+        "RevEndPeriod": "Einde periode",
+        "RevRate": "Rentevoet",
+        "RevDelete": "Verwijderen",
+        "ValLoanPurpose": "Doel lening",
+        "ValIncl": "Inclusief"
+      },
+
+      "heading": {
+        "newproduct": "NEW PRODUCT",
+        "updateproduct": "UPDATE PRODUCT"
+      },
+      "titles": {
+        "newproductgeneral": "Product info",
+        "Prepayment": "Terugbetaling",
+        "Write Off": "NL - Write Off",
+        "productNameUseAPC": "Productnamen toegestaan bij product conversie",
+        "Write Off Intrest": "NL - Write Off Interest"
+      },
+      "card": {
+        "Country": "Land",
+        "Start": "Begin datum",
+        "Product Family": "Product familie",
+        "End Date": "Einddatum",
+        "Retail leading type": "Krediettype",
+        "Economical owner": "Econom. eigenaar",
+        "Retail leading sub type": "NL - Retail lending subType",
+        "Judicial owner": "Juridische eigenaar",
+        "Product name": "Product naam",
+        "Servicing Customer": "Commercieel eigenaar",
+        "Commercial name": "Commerciele naam product",
+        "External Product Nr": "Extern productnummer",
+        "Product nbr": "Product",
+        "Credit Insurer": "kredietverzekeraar",
+        "No SEPA CT Out": "NL - No SEPA CT Out",
+        "Construction Depot Allowed": "NL - Construction Depot Allowed",
+        "Rewithdrawable": "NL - Rewithdrawable",
+        "Commission Calculation Method": "NL - Commission Calculation Method",
+        "Deposit Allocation method": "NL - Depot Allocation method",
+        "Capitalize Int": "NL - Capitalize Interest Allowed For Interest Only",
+        "Automatic Rate Reevaluation": "NL - Automatic Rate Reevaluation",
+        "Rate Rev": "NL - Rate Revision Reevaluation Method",
+        "Is Mortgage For Tax Certificate": "Is hypotheek voor VIA",
+        "PaymentAllocation": "Toewijzing",
+        "PayCreditStatus": "Krediet status",
+        "Value Reduction": "Waardevermindering",
+        "ValCredit Status": "Krediet status",
+        "Prepayment calculation": "Berekening vooruitbetaling",
+        "PrepaymentMethod": "Boeteber. methode",
+        "PrepaymentPercentage": "NL - Prepayment Penalty Percentage",
+        "PrepaymentExemption": "Boetevrij %",
+        "PenaltyBefore": "NL - Penalty Free Period Before Revision",
+        "PenaltyAfter": "NL - Penalty Free Period After Revision",
+        "Block STP": "NL - Block STP Prepayment",
+        "revisionPeriodSelectionMethodForPenalty": "NL - Revision Period Selection Method",
+        "WriteMethod": "NL - Write Off Penalty Method",
+        "Remainder Scenario": "Rappelscenario",
+        "RCredit Status": "Krediet status",
+        "Intereston": "Achterstandsintresten van toep.",
+        "Grace days": "Coulance dagen",
+        "Percentage definition": "Percentage definitie",
+        "Calculation base": "Berekeningsbasis",
+        "Calculation method": "Berekeningsmethode",
+        "WriteApplication": "NL - Write Off Interest Applicable",
+        "Percentagedef": "Percentage definitie",
+        "WriteOffPer": "NL - Write Off Percentage",
+        "Calculation Day": "Berekeningsdag",
+        "Minimal duration": "Minimum Looptijd",
+        "Maximal duration": "Maximum Looptijd",
+        "Actualization Type": "NL - Actualization Type",
+        "RevisionStart": "NL - Revision Process Start Event",
+        "RevisionRestart": "NL - Revision Process Restart Event",
+        "RevisionReference": "NL - Revision Process Reference Date Offset",
+        "ExtensionStart": "NL - Extension Process Start Event",
+        "ExtensionRestart": "NL - Extension Process Restart Event",
+        "DefaultRevision": "NL - Default Revision Period For Rate Revision",
+        "ProductConversionNecessaryAtRateRevision": "NL - Product Conversion Necessary At Rate Revision",
+        "NewProductNameAtRateRevision": "NL - New Product Name At Rate Revision",
+        "dueTransfer": "NL - Due Transfer Method",
+        "highestRevision": "NL - Highest Revision Period Method"
+      },
+      "tab": {
+        "tabHead": {
+          "Principalandinterest": "Kapitaal - Rente",
+          "PaymentAllocation": "Toewijzing",
+          "ValueReduction": "Waardevermindering",
+          "Penalty": "Boete",
+          "RemainderScenario": "Rappelscenario",
+          "Interestonarrears": "Achterstandsrente",
+          "Validations": "Validatie",
+          "LimitReduction": "Limiet verlaging",
+          "ReservationCommission": "Reserveringscommissie",
+          "Costs": "Kosten",
+          "FreeConfiguration": "NL - Fee Configuration",
+          "RevisionProcess": "NL - Revision Process",
+          "MutationType": "Mutatie Type"
+        },
+        "addButtons": {
+          "addPaymentAllocation": "Voeg betalingstoewijzingsschema toe",
+          "addValueReduction": "Voeg waardevermindering toe",
+          "addScenario": "Voeg een scenario toe",
+          "addProductName": "Voeg product naam toe",
+          "addfeeConfiguration": "NL - Add Fee Configuration",
+          "addReserveationCommision": "Toevoegen reserveringscommissie",
+          "copy": "Kopie"
+        },
+        "Periodicity": "Periode",
+        "Interest": "Renteberekening",
+        "Max. calibration months": "Max. Afstellingsmnd",
+        "Amortiization Recalculation Type": "Aflossingsherberekeningstype",
+        "Due Date Calc.": "NL - Due Date Calc.",
+        "Default list": "Standaard % Limiet",
+        "Min list": "Minimum % Limiet",
+        "Max list": "Maximum % Limiet",
+        "AmortizationSchedule": "Aflossingstabel",
+        "ResetGracePeriod": " NL - Reset Grace Period after change of new due date",
+        "MinimumAmount": "NL - Minimum Amount",
+        "nrOfBeforeLR": "NL - Nr Of Months Before Limit Reduction Start",
+        "LRAge": "Startleeftijd limietafbouw",
+        "LRBorrower": "Leeftijd bepalend van",
+        "nlLRApplicable": "NL - Is Limit Reduction Applicable",
+        "blockOutgoing": "Blokkeer uitgaande betalingen",
+        "LRPeriods": "Looptijd limietafbouw",
+        "LRPeriodicity": "NL - Limit Reduction Periodicity",
+        "startPeriod": "Start periode",
+        "endPeriod": "Einde periode",
+        "rate": "Rentevoet",
+        "feeType": "NL - Fee Type",
+        "incOutstanding": "NL - Included in Outstanding",
+        "FeecalcType": "NL - Fee Calculation Type",
+        "incDueDate": "NL - Included in Due Date Calculation",
+        "feePerc": "NL - Fee Percentage",
+        "feeAmount": "NL - Fee Amount",
+        "months": "Maanden"
+
+      },
+      "RequiredMsg": {
+        "mandatory": " is verplicht."
+      }
+    },
+    "depotProduct": {
+      "heading": {
+        "DepotProduct": "Manage Depot Product"
+      },
+      "label": {
+        "DepotType": "Depot Type",
+        "ExtensionPeriod": "Verlengingsper. in maand",
+        "MaxDuration": "Max. duurt. depot",
+        "MaxInterest": "NL - Maximum Interest Period",
+        "minimumProvisionAmount": "Minimum provisie bedr.",
+        "MinInitialAmount": "Minimum bedrag depot",
+        "DepotIntMargin": "NL - Depot Interest Pct Margin",
+        "Interest%": "Interestpercentage afgeleid van krediet",
+        "DefaultInterest": "Standaard interestpercentage",
+        "OnlyUsed": "Alleen gebruik voor krediet rente",
+        "UsedOut": "Gebruik van uitstaand saldo voor vervroegde aflossing toegestaan",
+        "manualInt": "toestaan van handmatige rentewijziging",
+        "ExternalReference": "Externe referentie",
+        "add": "Voeg Toe"
+      },
+      "validation": {
+        "depotType": "'Depot Type' is verplicht."
+      }
+    },
+    "RelatedProduct": {
+      "heading": {
+        "RelatedProduct": "Manage Related Product"
+      },
+      "label": {
+        "DefaultPolicy": "NL - Default Policy Percentage",
+        "RelatedProType": "Gerelateerd product type",
+        "AddNew": "Voeg toe"
+      },
+      "ValidationError": {
+        "required": " is verplicht ",
+        "DefaultPolicy": "'NL - Default Policy Percentage'",
+        "RelatedProType": "'Gerelateerd product type'"
+      }
+    },
+    "ManageMutation": {
+      "heading": {
+        "ManageMutation": "Manage Credit Mutation",
+        "RateAdaptationCriteria": "NL - Rate Adaptation Criterion",
+        "MissingDocumentHeader": "NL - Configuratie Ontbrekende Documenten",
+        "RequiredActionHeader": "NL - Configuratie Verplichte Acties"
+      },
+      "tabel": {
+        "MutationType": "Mutatie type",
+        "RateSelectionDate": "Tariefselectiedatumtype",
+        "AutomaticRateRevaluation": "NL - Automatic Rate Reevaluation Check Needed",
+        "MutationRes": "NL - Mutatie Reden",
+        "MissingDocName": "NL -Naam Ontbrekend Document",
+        "BlockingType": "NL - Blokkerings Type",
+        "RequiredAction": "NL - Verplichte acties",
+        "AddNew": "Voeg toe"
+      },
+      "tab": {
+        "tabDefinition": "NL - Mutation Definition",
+        "tabReason": "NL - Mutatie Reden"
+      },
+      "validationError": {
+        "required": " is verplicht ",
+        "MutationType": "'Mutatie type'",
+        "RateSelectionDate": "'Tariefselectiedatumtype'",
+        "MutationRes": "'NL - Mutation Reason'",
+        "MissingDocName": "'NL -Naam Ontbrekend Document'",
+        "BlockingType": "'NL - Blokkerings Type'",
+        "RequiredAction": "'NL - Verplichte acties'"
+      }
+    },
+    "DepotPurposeProduct": {
+      "heading": {
+        "DepotPurpose": "Manage Depot Purpose"
+      },
+      "label": {
+        "ConstructionDepot": "NL - Construction Depot Purpose Type ",
+        "BlockedTypeDepot": "NL - Blocked For Use In Other Purposes"
+      }
+    },
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "search": "Zoeken",
+      "clear": "Wissen",
+      "update": "Update",
+      "read": "Lezen"
+    },
+
+    "Validation": {
+      "Header": "Er zijn {0} foutboodschap(pen). Klik hier om de omschirijving te bekijken.",
+      "SearchValidation": "There is no Records match for your search criteria",
+      "SearchCriteria": "Minimum One Search Criteria must be given to search",
+      "DepotProductValidation": "Depot Product already exist for the selected servicing customer and depot type",
+      "DepotType": "'Depot Type' is Mandatory."
+    },
+    "dialog": {
+      "Yes": "Ja",
+      "No": "Nee",
+      "Cancel": "Annuleer",
+      "Header": "Onopgeslagen wijzigingen",
+      "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "WarningHeader": "Waarschuwing",
+      "WarningContent": "Bent u zeker dat u dit product wil verwijderen?"
+    }
+  }
+  }

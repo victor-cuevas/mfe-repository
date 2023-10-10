@@ -1,0 +1,27 @@
+<form [formGroup]="rootFormGroup.control" *ngIf="this.formControl" [id]="'form-' + controlName">
+  <div [ngClass]="'phone-input--' + size">
+    <ngx-intl-tel-input
+      #phoneInput
+      [ngClass]="formControl?.dirty && !formControl?.valid && formControl.enabled ? 'phone-input phone-input--invalid' : 'phone-input'"
+      [formControlName]="controlName"
+      [selectedCountryISO]="selectedCountryIso"
+      [preferredCountries]="preferredCountries"
+      [enableAutoCountrySelect]="enableAutoCountrySelect"
+      [enablePlaceholder]="enablePlaceholder"
+      [searchCountryFlag]="true"
+      [searchCountryField]="searchCountryField"
+      [numberFormat]="numberFormat"
+      [maxLength]="maxLength"
+      ngDefaultControl
+      [inputId]="controlName"
+      [selectFirstCountry]="selectFirstCounty"
+    ></ngx-intl-tel-input>
+    <cfo-validation-errors
+      [control]="formControl"
+      [errorMessages]="{
+        required: ('general.validations.requiredMsg' | translate),
+        validatePhoneNumber: ('general.validations.phone' | translate)
+      }"
+    ></cfo-validation-errors>
+  </div>
+</form>

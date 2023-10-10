@@ -1,0 +1,103 @@
+<p-accordion styleClass="form-accordion">
+  <p-accordionTab [header]="'firms.labels.tradingAddress' | translate" [selected]="true" #tradingAddressAccRef>
+    <form [formGroup]="$any(tradingAddressFormArray)">
+      <cfo-repeater
+        [addButtonLabel]="'general.buttons.addMore' | translate"
+        (onAdd)="addTradingAddress(null)"
+        [readOnlyMode]="isReadOnlyMode || tradingAddressIsClosed"
+      >
+        <ng-container *ngFor="let tradingAddress of tradingAddressFormArray.controls; let i = index">
+          <cfo-repeater-item
+            *ngIf="tradingAddress.get('isActive')?.value"
+            removeButtonLabel="Remove trading address"
+            [isRemovable]="!tradingAddress.get('id')?.value"
+            (onRemove)="deleteTradingAddress(i)"
+            [readOnlyMode]="tradingAddressIsClosed"
+          >
+            <ng-container [formGroup]="$any(tradingAddress)">
+              <div>
+                <div class="row mt-2">
+                  <div class="col-md-6 col-xs-12">
+                    <label for="tradingName">{{ 'firms.labels.tradingName' | translate }} *</label>
+                    <input
+                      type="text"
+                      pInputText
+                      id="tradingName"
+                      class="w-80"
+                      formControlName="tradingName"
+                      ngDefaultControl
+                      [tabindex]="tradingAddressIsClosed ? '-1' : '0'"
+                    />
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <label for="businessDevelopmentManager">{{ 'firms.labels.businessDevelopmentManager' | translate }} *</label>
+                    <input
+                      type="text"
+                      pInputText
+                      id="businessDevelopmentManager"
+                      class="w-80"
+                      formControlName="businessDevelopmentManager"
+                      ngDefaultControl
+                      [tabindex]="tradingAddressIsClosed ? '-1' : '0'"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div [ngClass]="tradingAddress.get('id')?.value ? 'col-12 col-md-6 trading-address-search' : ''">
+                    <cfo-address-search
+                      #addressSearch
+                      [form]="$any(tradingAddress)"
+                      (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+                      [suggestedAddresses]="suggestedAddresses"
+                      (selectedAddressEvent)="onSelectedAddress($event, i)"
+                      [selectedAddress]="selectedAddress[i]"
+                      [hasButtonVisible]="tradingAddress.get('tradingName')?.status !== 'DISABLED'"
+                    >
+                    </cfo-address-search>
+                  </div>
+                  <div class="col-12 col-md-6" *ngIf="tradingAddress.get('id')?.value">
+                    <div>
+                      <button
+                        pButton
+                        (click)="deactivateTradingAddress(i)"
+                        class="p-button-danger my-3 mx-1"
+                        label="Deactivate address"
+                        [disabled]="tradingAddress.get('intermediaryIds')?.value?.length"
+                      ></button>
+                      <div class="primary-font fs-small d-flex w-80">
+                        <i class="pi pi-exclamation-circle m-1 d-inline fs-small"></i>
+                        <span
+                          >{{
+                            tradingAddress.get('intermediaryIds')?.value?.length
+                              ? ('firms.labels.addressHasIntermediaries' | translate)
+                              : ('firms.labels.deactivateTradingAddress' | translate)
+                          }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <cfo-dialog [showDialog]="showDeactivateWarning" [data]="deactivateWarningData">
+              <ng-template #footerTemplate>
+                <div class="text-center">
+                  <p-button
+                    styleClass="p-button-outlined--bold btn-min-width mb-2 my-lg-0 me-lg-2"
+                    label="{{ 'general.buttons.cancel' | translate }}"
+                    (click)="onCancel()"
+                  ></p-button>
+                  <p-button
+                    styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+                    label="{{ 'general.buttons.confirm' | translate }}"
+                    (click)="onConfirm()"
+                  ></p-button>
+                </div>
+              </ng-template>
+            </cfo-dialog>
+          </cfo-repeater-item>
+        </ng-container>
+      </cfo-repeater>
+    </form>
+  </p-accordionTab>
+</p-accordion>

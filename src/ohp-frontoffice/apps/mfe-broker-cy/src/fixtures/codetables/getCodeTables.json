@@ -1,0 +1,1411 @@
+{
+  "codeTables": [
+    {
+      "name": "cdtb-additionalborrowingreason",
+      "codeTableEntry": [
+        {
+          "value": "HOME_IMPROVEMENTS",
+          "label": "Home improvements"
+        },
+        {
+          "value": "STRUCTURAL_HOME_IMPROVEMENT",
+          "label": "Structural home improvement"
+        },
+        {
+          "value": "BUY_OUT_NON_BORROWER",
+          "label": "Buy out non-borrower"
+        },
+        {
+          "value": "BUY_ADDITIONAL_SHARE_IN_A_SHARED_OWNERSHIP",
+          "label": "Buy additional share in a shared ownership"
+        },
+        {
+          "value": "BUY_FINAL_SHARE_IN_A_SHARED_OWNERSHIP",
+          "label": "Buy final share in a shared ownership"
+        },
+        {
+          "value": "BUY_A_SHARE_IN_FREEHOLD",
+          "label": "Buy a share in freehold"
+        },
+        {
+          "value": "BUY_FREEHOLD_TITLE_OR_NEW_EXTENDED_LEASE",
+          "label": "Buy freehold title or new extended lease"
+        },
+        {
+          "value": "BUY_LAND_TO_EXTEND_SECURITY",
+          "label": "Buy land to extend security"
+        },
+        {
+          "value": "BUSINESS_PURPOSES",
+          "label": "Business purposes"
+        },
+        {
+          "value": "BUY_PROPERTY_FOR_MAIN_RESIDENCE_&_LET_CURRENT_PROPERTY",
+          "label": "Buy property for main residence & let current property"
+        },
+        {
+          "value": "BUY_LAND_OR_PROPERTY_SEPARATE_FROM_THE_SECURITY",
+          "label": "Buy land or property separate from the security"
+        },
+        {
+          "value": "PAY_OFF_SECOND_CHARGE",
+          "label": "Pay off second charge"
+        },
+        {
+          "value": "LEGAL_FEES",
+          "label": "Legal fees"
+        },
+        {
+          "value": "BUY_OUT_JOINT_BORROWER",
+          "label": "Buy out joint borrower"
+        },
+        {
+          "value": "INVESTMENT_PURPOSES",
+          "label": "Investment Purposes"
+        },
+        {
+          "value": "DEPOSIT_FOR_PROPERTY",
+          "label": "Deposit for property"
+        },
+        {
+          "value": "GIFT_TO_RELATIVE",
+          "label": "Gift to relative"
+        },
+        {
+          "value": "ESSENTIAL_REPAIRS",
+          "label": "Essential repairs"
+        },
+        {
+          "value": "OTHER_PERSONAL_CONSUMPTION",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-civilstate",
+      "codeTableEntry": [
+        {
+          "value": "MARRIED",
+          "label": "Married"
+        },
+        {
+          "value": "SINGLE",
+          "label": "Single"
+        },
+        {
+          "value": "DIVORCED",
+          "label": "Divorced"
+        },
+        {
+          "value": "CIVIL_PARTNERSHIP",
+          "label": "Civil partnership"
+        },
+        {
+          "value": "SEPARATED",
+          "label": "Separated"
+        },
+        {
+          "value": "WIDOWED",
+          "label": "Widowed"
+        },
+        {
+          "value": "LIVING_WITH_PARTNER",
+          "label": "Living with partner"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-employmentstatus",
+      "codeTableEntry": [
+        {
+          "value": "EMPLOYED",
+          "label": "Employed"
+        },
+        {
+          "value": "SELF_EMPLOYED_PARTNERSHIP",
+          "label": "Self Employed - Partnership"
+        },
+        {
+          "value": "SELF_EMPLOYED",
+          "label": "Self Employed - Sole trader"
+        },
+        {
+          "value": "DIRECTOR_25_PLUS",
+          "label": "Director >= 25% or with dividends"
+        },
+        {
+          "value": "DIRECTOR_LESS_25",
+          "label": "Director < 25% with no dividends"
+        },
+        {
+          "value": "HOME_MAKER",
+          "label": "Home maker"
+        },
+        {
+          "value": "STUDENT",
+          "label": "Student"
+        },
+        {
+          "value": "NOT_EMPLOYED",
+          "label": "Not employed"
+        },
+        {
+          "value": "RETIRED",
+          "label": "Retired"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-ownedcompanytype",
+      "codeTableEntry": [
+        {
+          "value": "PRIVATE_LIMITED_COMPANY",
+          "label": "Private limited company (LTD)"
+        },
+        {
+          "value": "PUBLIC_LIMITED_COMPANY",
+          "label": "Public limited company (PLC)"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-partnershiptype",
+      "codeTableEntry": [
+        {
+          "value": "GENERAL_PARTNERSHIP",
+          "label": "General partnership"
+        },
+        {
+          "value": "LIMITED_PARTNERSHIP",
+          "label": "Limited partnership (LLP)"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-realestateagreementtype",
+      "codeTableEntry": [
+        {
+          "value": "STANDARD",
+          "label": "Standard"
+        },
+        {
+          "value": "CONCESSIONARY_DISCOUNTED_PURCHASE",
+          "label": "Concessionary / discounted purchase"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-retirementincomesource",
+      "codeTableEntry": [
+        {
+          "value": "PENSION_INCOME",
+          "label": "Pension income"
+        },
+        {
+          "value": "PENSION_STATE",
+          "label": "Pension state"
+        },
+        {
+          "value": "PENSION_WAR_SCHEME",
+          "label": "Pension - war pension scheme"
+        },
+        {
+          "value": "INVESTMENT_INCOME",
+          "label": "Investment income"
+        },
+        {
+          "value": "OTHER_INCOME",
+          "label": "Other income"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-ads-valuationtype",
+      "codeTableEntry": [
+        {
+          "value": "FREE_VALUATION",
+          "label": "Free valuation"
+        },
+        {
+          "value": "BASIC_VALUATION",
+          "label": "Basic valuation"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-amortizationmethod",
+      "codeTableEntry": [
+        {
+          "value": "ANNUITY",
+          "label": "Repayment"
+        },
+        {
+          "value": "REDEMPTION_FREE",
+          "label": "Interest only"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-addresstype",
+      "codeTableEntry": [
+        {
+          "value": "UK",
+          "label": "UK"
+        },
+        {
+          "value": "BFPO",
+          "label": "BFPO"
+        },
+        {
+          "value": "OVERSEAS",
+          "label": "Overseas"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-advicegiven",
+      "codeTableEntry": [
+        {
+          "value": "ADVISED",
+          "label": "Advised"
+        },
+        {
+          "value": "EXECUTION",
+          "label": "Execution only"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-applicanttypes",
+      "codeTableEntry": [
+        {
+          "value": "FIRST_TIME_BUYER",
+          "label": "First time buyer"
+        },
+        {
+          "value": "EXISTING_CUSTOMER",
+          "label": "Existing April customer"
+        },
+        {
+          "value": "BORROWER_WITH_OTHER_LENDER",
+          "label": "Existing borrower with another lender"
+        },
+        {
+          "value": "OWNER_WITH_NO_MORTGAGE",
+          "label": "The applicant owns the property without a mortgage"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-applicationtypes",
+      "codeTableEntry": [
+        {
+          "value": "PURCHASE",
+          "label": "Purchase"
+        },
+        {
+          "value": "REMORTGAGE",
+          "label": "Remortgage"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-contactmethods",
+      "codeTableEntry": [
+        {
+          "value": "PREFER_NO_CONTACT",
+          "label": "Prefer no contact"
+        },
+        {
+          "value": "EMAIL",
+          "label": "Email"
+        },
+        {
+          "value": "MOBILE_PHONE",
+          "label": "Mobile phone"
+        },
+        {
+          "value": "WORK_PHONE",
+          "label": "Work phone"
+        },
+        {
+          "value": "HOME_PHONE",
+          "label": "Home phone"
+        },
+        {
+          "value": "POSTAL_MAIL",
+          "label": "Postal mail"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-incomedescription",
+      "codeTableEntry": [
+        {
+          "value": "SALARY",
+          "label": "Salary"
+        },
+        {
+          "value": "DAILY_RATE",
+          "label": "Daily rate"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-incomesource",
+      "codeTableEntry": [
+        {
+          "value": "INVESTMENT_INCOME",
+          "label": "Investment income"
+        },
+        {
+          "value": "MAINTENANCE_INCOME",
+          "label": "Maintenance income (mandatory)"
+        },
+        {
+          "value": "RENTAL_INCOME",
+          "label": "Rental income"
+        },
+        {
+          "value": "PERSONAL_INDEPENDENCE_PAYMENT",
+          "label": "Personal Independence Payment (PIP)"
+        },
+        {
+          "value": "CHILD_BENEFIT",
+          "label": "Child benefit"
+        },
+        {
+          "value": "UNIVERSAL_CREDIT",
+          "label": "Universal credit / Tax credit"
+        },
+        {
+          "value": "DIVIDEND_INCOME",
+          "label": "Dividend income"
+        },
+        {
+          "value": "ANNUITY_INCOME",
+          "label": "Annuity income"
+        },
+        {
+          "value": "NURSING_INCOME",
+          "label": "Nursing income"
+        },
+        {
+          "value": "ATTENDANCE_ALLOWANCE",
+          "label": "Attendance allowance"
+        },
+        {
+          "value": "CHILD_TAX_CREDIT",
+          "label": "Child tax credit"
+        },
+        {
+          "value": "FOSTER_CARE_ALLOWANCE",
+          "label": "Foster care allowance"
+        },
+        {
+          "value": "DISABILITY_BENEFIT",
+          "label": "Disability benefit"
+        },
+        {
+          "value": "CARERS_ALLOWANCE",
+          "label": "Carers allowance"
+        },
+        {
+          "value": "BURSARY",
+          "label": "Bursary"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-incometype",
+      "codeTableEntry": [
+        {
+          "value": "EMPLOYMENT",
+          "label": "Employment"
+        },
+        {
+          "value": "OTHER_INCOME",
+          "label": "Other income"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-lenderfeetype",
+      "codeTableEntry": [
+        {
+          "value": "APPLICATION_FEE",
+          "label": "Application fee"
+        },
+        {
+          "value": "PRODUCT_FEE",
+          "label": "Product fee"
+        },
+        {
+          "value": "COMPLETION_FEE",
+          "label": "Completion fee"
+        },
+        {
+          "value": "VALUATION_FEE",
+          "label": "Basic valuation"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-loanparttype",
+      "codeTableEntry": [
+        {
+          "value": "PURCHASE",
+          "label": "Purchase"
+        },
+        {
+          "value": "REMORTGAGE",
+          "label": "Remortgage"
+        },
+        {
+          "value": "ADDITIONAL_BORROWING",
+          "label": "Additional borrowing"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-months",
+      "codeTableEntry": [
+        {
+          "value": "1",
+          "label": "Jan"
+        },
+        {
+          "value": "2",
+          "label": "Feb"
+        },
+        {
+          "value": "3",
+          "label": "Mar"
+        },
+        {
+          "value": "4",
+          "label": "Apr"
+        },
+        {
+          "value": "5",
+          "label": "May"
+        },
+        {
+          "value": "6",
+          "label": "Jun"
+        },
+        {
+          "value": "7",
+          "label": "Jul"
+        },
+        {
+          "value": "8",
+          "label": "Aug"
+        },
+        {
+          "value": "9",
+          "label": "Sep"
+        },
+        {
+          "value": "10",
+          "label": "Oct"
+        },
+        {
+          "value": "11",
+          "label": "Nov"
+        },
+        {
+          "value": "DECEMBER",
+          "label": "Dec"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-propertypurpose",
+      "codeTableEntry": [
+        {
+          "value": "OWNER_OCCUPATION",
+          "label": "Owner occupation"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-propertystyle",
+      "codeTableEntry": [
+        {
+          "value": "SEMI_DETACHED",
+          "label": "Semi-detached"
+        },
+        {
+          "value": "DETACHED",
+          "label": "Detached"
+        },
+        {
+          "value": "END_TERRACE",
+          "label": "End terrace"
+        },
+        {
+          "value": "MID_TERRACE",
+          "label": "Mid terrace"
+        },
+        {
+          "value": "PURPOSE_BUILT_APARTMENT",
+          "label": "Purpose built"
+        },
+        {
+          "value": "CONVERTED_APARTMENT",
+          "label": "Converted"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-temporarycontracttype",
+      "codeTableEntry": [
+        {
+          "value": "OPEN_ENDED",
+          "label": "Open ended"
+        },
+        {
+          "value": "FIXED_TERM",
+          "label": "Fixed term"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-timescale",
+      "codeTableEntry": [
+        {
+          "value": "SIX_MONTHS",
+          "label": "Within 6 months"
+        },
+        {
+          "value": "ONE_YEAR",
+          "label": "Within 1 year"
+        },
+        {
+          "value": "TWO_YEAR",
+          "label": "Within 2 year"
+        },
+        {
+          "value": "THREE_YEAR",
+          "label": "Within 3 year"
+        },
+        {
+          "value": "FIVE_YEAR",
+          "label": "Within 5 year"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-broker-whenpayable",
+      "codeTableEntry": [
+        {
+          "value": "ON_COMPLETION",
+          "label": "On completion"
+        },
+        {
+          "value": "ON_APPLICATION",
+          "label": "On application"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-builderguaranteeschemetype",
+      "codeTableEntry": [
+        {
+          "value": "NHBC",
+          "label": "NHBC"
+        },
+        {
+          "value": "PREMIER_GUARANTEE",
+          "label": "Premier Guarantee"
+        },
+        {
+          "value": "BUILD_ZONE",
+          "label": "Build-Zone"
+        },
+        {
+          "value": "LABC_HALL_MARK",
+          "label": "LABC Hall Mark"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-buildingtype",
+      "codeTableEntry": [
+        {
+          "value": "SINGLE_FAMILY_HOME",
+          "label": "House"
+        },
+        {
+          "value": "BUNGALOW",
+          "label": "Bungalow"
+        },
+        {
+          "value": "FLAT_APARTMENT",
+          "label": "Flat/maisonette"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-constructiontype",
+      "codeTableEntry": [
+        {
+          "value": "BRICK_STONE",
+          "label": "Brick/Stone"
+        },
+        {
+          "value": "CONCRETE",
+          "label": "Concrete"
+        },
+        {
+          "value": "MODERN_TIMBER_FRAMED",
+          "label": "Modern timber framed"
+        },
+        {
+          "value": "STEEL_FRAMED",
+          "label": "Steel framed"
+        },
+        {
+          "value": "MODERN_METHOD_OF_CONSTRUCTION_MMC_SYSTEM_BUILT",
+          "label": "Modern method of construction (MMC/system built)"
+        },
+        {
+          "value": "LARGE_PANEL_SYSTEM",
+          "label": "Large panel system"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-costpaymentmethod",
+      "codeTableEntry": [
+        {
+          "value": "ADD_TO_PRINCIPAL",
+          "label": "Add to loan"
+        },
+        {
+          "value": "DIRECT",
+          "label": "Credit/debit card"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-deposittype",
+      "codeTableEntry": [
+        {
+          "value": "SAVINGS",
+          "label": "Savings"
+        },
+        {
+          "value": "EQUITY_RELEASE",
+          "label": "Equity"
+        },
+        {
+          "value": "GIFT",
+          "label": "Gift"
+        },
+        {
+          "value": "FORCES_HELP_TO_BUY_SCHEME",
+          "label": "Forces Help To Buy"
+        },
+        {
+          "value": "HELP_TO_BUY_ISA_SCHEME",
+          "label": "Help to buy ISA"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-employmentcontracttype",
+      "codeTableEntry": [
+        {
+          "value": "INDEFINITELY",
+          "label": "Permanent "
+        },
+        {
+          "value": "CERTAIN_DURATION_WITHOUT_INTENT",
+          "label": "Temporary"
+        },
+        {
+          "value": "FLEXIBLE_WITH_PERSPECTIVE_STATEMENT",
+          "label": "Zero Hours Contract"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-existinglender",
+      "codeTableEntry": [
+        {
+          "value": "APRIL_MORTGAGES",
+          "label": "April Mortgages"
+        },
+        {
+          "value": "BARCLAYS",
+          "label": "Barclays"
+        },
+        {
+          "value": "CLYDESDALE_BANK",
+          "label": "Clydesdale Bank"
+        },
+        {
+          "value": "COVENTRY",
+          "label": "Coventry"
+        },
+        {
+          "value": "HSBC",
+          "label": "HSBC"
+        },
+        {
+          "value": "NATIONWIDE",
+          "label": "Nationwide"
+        },
+        {
+          "value": "NAT_WEST",
+          "label": "NatWest"
+        },
+        {
+          "value": "ROYAL_BANK_OF_SCOTLAND",
+          "label": "Royal Bank of Scotland"
+        },
+        {
+          "value": "SANTANDER",
+          "label": "Santander"
+        },
+        {
+          "value": "VIRGIN_MONEY",
+          "label": "Virgin Money"
+        },
+        {
+          "value": "LEEDS_BUILDING_SOCIETY",
+          "label": "Leeds Building Society"
+        },
+        {
+          "value": "TSB_BANK",
+          "label": "TSB Bank"
+        },
+        {
+          "value": "YORKSHIRE_BUILDING_SOCIETY",
+          "label": "Yorkshire Building Society"
+        },
+        {
+          "value": "ALDERMORE_BANK",
+          "label": "Aldermore Bank"
+        },
+        {
+          "value": "BANK_OF_IRELAND",
+          "label": "Bank of Ireland"
+        },
+        {
+          "value": "H_BO_S",
+          "label": "HBoS"
+        },
+        {
+          "value": "CUMBERLAND",
+          "label": "Cumberland"
+        },
+        {
+          "value": "DARLINGTON_BUILDING_SOCIETY",
+          "label": "Darlington Building Society"
+        },
+        {
+          "value": "KENSINGTON_MORTGAGES",
+          "label": "Kensington Mortgages"
+        },
+        {
+          "value": "LLOYDS_BANK",
+          "label": "Lloyds Bank"
+        },
+        {
+          "value": "METRO_BANK",
+          "label": "Metro Bank"
+        },
+        {
+          "value": "PEPPER_UK",
+          "label": "Pepper UK"
+        },
+        {
+          "value": "PRINCIPALITY",
+          "label": "Principality"
+        },
+        {
+          "value": "SKIPTON_BUILDING_SOCIETY",
+          "label": "Skipton Building Society"
+        },
+        {
+          "value": "THE_CO_OPERATIVE_BANK",
+          "label": "The Co-operative Bank"
+        },
+        {
+          "value": "YORKSHIRE_BANK",
+          "label": "Yorkshire Bank"
+        },
+        {
+          "value": "WEST_BROMWICH_BUILDING_SOCIETY",
+          "label": "West Bromwich Building Society"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-expensetype",
+      "codeTableEntry": [
+        {
+          "value": "BUY_NOW_PAY_LATER",
+          "label": "Buy now pay later"
+        },
+        {
+          "value": "CREDIT_SALE",
+          "label": "Credit sale"
+        },
+        {
+          "value": "CONDITIONAL_SALE",
+          "label": "Conditional sale"
+        },
+        {
+          "value": "FHTB_LOAN",
+          "label": "FHTB loan"
+        },
+        {
+          "value": "FINANCE_LEASE",
+          "label": "Finance lease"
+        },
+        {
+          "value": "OPERATING_LEASE",
+          "label": "Operating lease / Rental agreement"
+        },
+        {
+          "value": "CHARGE_CARD",
+          "label": "Charge Card"
+        },
+        {
+          "value": "CREDIT_CARD",
+          "label": "Credit Card / Store Card"
+        },
+        {
+          "value": "RENTAL_PURCHASE",
+          "label": "Hire purchase"
+        },
+        {
+          "value": "INTEREST_FREE_LOAN",
+          "label": "Interest free loan"
+        },
+        {
+          "value": "MAIL_ORDER_CREDIT",
+          "label": "Mail order credit"
+        },
+        {
+          "value": "BANK_ACCOUNT_WITH_CREDIT",
+          "label": "Overdraft"
+        },
+        {
+          "value": "PERSONAL_LOAN",
+          "label": "Personal loan"
+        },
+        {
+          "value": "EXISTING_MORTGAGE",
+          "label": "Secured loan (excluding BTL)"
+        },
+        {
+          "value": "MORTGAGE_INVESTMENT",
+          "label": "Secured loan (BTL)"
+        },
+        {
+          "value": "INFORMAL_LOAN",
+          "label": "Informal loan"
+        },
+        {
+          "value": "PAYDAY_LOAN",
+          "label": "Payday loan"
+        },
+        {
+          "value": "DOORSTEP_LOAN",
+          "label": "Home credit"
+        },
+        {
+          "value": "STUDENT_LOAN",
+          "label": "Student loan"
+        },
+        {
+          "value": "NON_REVOLVING_CREDIT",
+          "label": "Unsecured loan"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-futurefinancialchangecategory",
+      "codeTableEntry": [
+        {
+          "value": "INCOME",
+          "label": "Income"
+        },
+        {
+          "value": "EXPENDITURE",
+          "label": "Expenditure"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-futurefinancialchangereason",
+      "codeTableEntry": [
+        {
+          "value": "PARENTHOOD",
+          "label": "Maternity/Paternity"
+        },
+        {
+          "value": "SABBATICAL",
+          "label": "Sabbatical"
+        },
+        {
+          "value": "CAREER_BREAK",
+          "label": "Career break"
+        },
+        {
+          "value": "EMPLOYMENT_COMPENSATION_CHANGE",
+          "label": "Employment compensation change"
+        },
+        {
+          "value": "FUND_MATURITY",
+          "label": "Fund maturity"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-heritagestatustype",
+      "codeTableEntry": [
+        {
+          "value": "NO",
+          "label": "No"
+        },
+        {
+          "value": "GRADE_I",
+          "label": "Grade I"
+        },
+        {
+          "value": "GRADE_II*",
+          "label": "Grade II*"
+        },
+        {
+          "value": "GRADE_II",
+          "label": "Grade II"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-jurisdiction",
+      "codeTableEntry": [
+        {
+          "value": "ENGLAND",
+          "label": "England"
+        },
+        {
+          "value": "WALES",
+          "label": "Wales"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-residencesituationtype",
+      "codeTableEntry": [
+        {
+          "value": "OWNER_OCCUPIER",
+          "label": "Owner occupier"
+        },
+        {
+          "value": "TENANT_PRIVATE",
+          "label": "Tenant (private)"
+        },
+        {
+          "value": "TENANT_COUNCIL",
+          "label": "Tenant (council)"
+        },
+        {
+          "value": "HOUSING_ASSOCIATION_RENTAL",
+          "label": "Housing association rental"
+        },
+        {
+          "value": "LIVING_WITH_FAMILY_OR_FRIENDS",
+          "label": "Living with family or friends"
+        },
+        {
+          "value": "EMPLOYMENT_HOUSING",
+          "label": "Employment housing"
+        },
+        {
+          "value": "ROOMS",
+          "label": "Rooms"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-parkingspacetype",
+      "codeTableEntry": [
+        {
+          "value": "DEDICATED",
+          "label": "Dedicated"
+        },
+        {
+          "value": "GARAGE",
+          "label": "Garage"
+        },
+        {
+          "value": "NONE",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-partyfinancialamountsign",
+      "codeTableEntry": [
+        {
+          "value": "POSITIVE",
+          "label": "Increase"
+        },
+        {
+          "value": "NEGATIVE",
+          "label": "Decrease"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-persontitle",
+      "codeTableEntry": [
+        {
+          "value": "MR",
+          "label": "Mr"
+        },
+        {
+          "value": "MRS",
+          "label": "Mrs"
+        },
+        {
+          "value": "MS",
+          "label": "Ms"
+        },
+        {
+          "value": "MX",
+          "label": "Mx"
+        },
+        {
+          "value": "DR",
+          "label": "Dr"
+        },
+        {
+          "value": "PROFESSOR",
+          "label": "Professor"
+        },
+        {
+          "value": "CLLR",
+          "label": "Cllr"
+        },
+        {
+          "value": "LADY",
+          "label": "Lady"
+        },
+        {
+          "value": "LORD",
+          "label": "Lord"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-preferredcontactmethod",
+      "codeTableEntry": [
+        {
+          "value": "PREFER_NO_CONTACT",
+          "label": "Prefer no contact"
+        },
+        {
+          "value": "EMAIL",
+          "label": "Email"
+        },
+        {
+          "value": "MOBILE_PHONE",
+          "label": "Mobile phone"
+        },
+        {
+          "value": "WORK_PHONE",
+          "label": "Work phone"
+        },
+        {
+          "value": "HOME_PHONE",
+          "label": "Home phone"
+        },
+        {
+          "value": "POSTAL_MAIL",
+          "label": "Postal mail"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-preferredcontacttime",
+      "codeTableEntry": [
+        {
+          "value": "ANY_TIME",
+          "label": "Any time"
+        },
+        {
+          "value": "WEEKDAYS_08:00_20:00",
+          "label": "Weekdays 8:00 - 20:00"
+        },
+        {
+          "value": "WEEKDAYS_09:00_17:00",
+          "label": "Weekdays 9:00 - 17:00"
+        },
+        {
+          "value": "WEEKEND_08:00_20:00",
+          "label": "Weekend 8:00 - 20:00"
+        },
+        {
+          "value": "EVENING_18:00_20:00",
+          "label": "Evening 18:00 - 20:00"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-preferredprintformat",
+      "codeTableEntry": [
+        {
+          "value": "STANDARD_SIZE",
+          "label": "Standard size"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-realestatescenario",
+      "codeTableEntry": [
+        {
+          "value": "EXISTING_BUILDING",
+          "label": "Existing building"
+        },
+        {
+          "value": "NEW_CONSTRUCTION",
+          "label": "New build"
+        },
+        {
+          "value": "RENEWAL",
+          "label": "Extensive recent renovation/ conversion"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-rooftype",
+      "codeTableEntry": [
+        {
+          "value": "TILE_SLATE",
+          "label": "Tile/slate"
+        },
+        {
+          "value": "THATCHED",
+          "label": "Thatched"
+        },
+        {
+          "value": "FLAT",
+          "label": "Flat"
+        },
+        {
+          "value": "METAL",
+          "label": "Metal"
+        },
+        {
+          "value": "OTHER",
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-salaryfrequency",
+      "codeTableEntry": [
+        {
+          "value": "MONTH",
+          "label": "Monthly"
+        },
+        {
+          "value": "YEAR",
+          "label": "Annually"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-tenuretype",
+      "codeTableEntry": [
+        {
+          "value": "LEASEHOLD",
+          "label": "Leasehold"
+        },
+        {
+          "value": "FREEHOLD",
+          "label": "Freehold"
+        },
+        {
+          "value": "COMMONHOLD",
+          "label": "Commonhold"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-valuationcontact",
+      "codeTableEntry": [
+        {
+          "value": "APPLICANT_1",
+          "label": "Applicant 1"
+        },
+        {
+          "value": "APPLICANT_2",
+          "label": "Applicant 2"
+        },
+        {
+          "value": "ESTATE_AGENT",
+          "label": "Estate agent"
+        },
+        {
+          "value": "SELLER",
+          "label": "Seller"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-vulnerabilitytype",
+      "codeTableEntry": [
+        {
+          "value": "PHYSICAL_DISABILITY",
+          "label": "Health - Physical disability"
+        },
+        {
+          "value": "SEVERE_OR_LONG_TERM_ILLNESS",
+          "label": "Health - Severe or long term illness"
+        },
+        {
+          "value": "HEARING_OR_VISUAL_IMPAIRMENT",
+          "label": "Health - Hearing or visual impairment"
+        },
+        {
+          "value": "MENTAL_HEALTH_CONDITION_OR_DISABILITY",
+          "label": "Health - Mental health condition or disability"
+        },
+        {
+          "value": "ADDICTION",
+          "label": "Health - Addiction"
+        },
+        {
+          "value": "LOW_MENTAL_CAPACITY_OR_COGNITIVE_DISABILITY",
+          "label": "Health - Low mental capacity or cognitive disability"
+        },
+        {
+          "value": "RETIREMENT",
+          "label": "Life events - Retirement"
+        },
+        {
+          "value": "BEREAVEMENT",
+          "label": "Life events - Bereavement"
+        },
+        {
+          "value": "INCOME_SHOCK",
+          "label": "Life events - Income shock"
+        },
+        {
+          "value": "RELATIONSHIP_BREAKDOWN",
+          "label": "Life events - Relationship breakdown"
+        },
+        {
+          "value": "DOMESTIC_ABUSE",
+          "label": "Life events - Domestic abuse (including economic control)"
+        },
+        {
+          "value": "CARING_RESPONSIBILITIES",
+          "label": "Life events - Caring responsibilities"
+        },
+        {
+          "value": "OTHER_CIRCUMSTANCES_AFFECTING_FINANCIAL_SERVICE_EXPERIENCE",
+          "label": "Life events - Other circumstances affecting financial service experience"
+        },
+        {
+          "value": "INADEQUATE_OR_ERRATIC_INCOME",
+          "label": "Resilience - Inadequate or erratic income"
+        },
+        {
+          "value": "OVER_INDEBTENESS",
+          "label": "Resilience - Over-indebtedness"
+        },
+        {
+          "value": "LOW_SAVINGS",
+          "label": "Resilience - Low savings"
+        },
+        {
+          "value": "LOW_EMOTIONAL_RESILLIENCE",
+          "label": "Resilience - Low emotional resistance"
+        },
+        {
+          "value": "LOW_KNOWLEDGE_OR_CONFIDENCE_IN_MANAGING_FINANCES",
+          "label": "Capability - Low knowledge or confidence in managing finances"
+        },
+        {
+          "value": "POOR_LITERACY_OR_NUMERACY_SKILLS",
+          "label": "Capability - Poor literacy or numeracy skills"
+        },
+        {
+          "value": "POOR_LANGUAGE_SKILLS",
+          "label": "Capability - Poor English language skills"
+        },
+        {
+          "value": "POOR_OR_NON_EXISTENT_DIGITAL_SKILLS",
+          "label": "Capability - Poor or non -existent digital skills"
+        },
+        {
+          "value": "LEARNING_DIFFICULTIES",
+          "label": "Capability - Learning difficulties"
+        },
+        {
+          "value": "NO_OR_LOW_ACCESS_TO_HELP_OR_SUPPORT",
+          "label": "Capability - No or low access to help or support"
+        },
+        {
+          "value": "MULTIPLE_VULNERABILITIES_OTHER",
+          "label": "Multiple vulnerabilities / other"
+        }
+      ]
+    },
+    {
+      "name": "cdtb-withdrawmethod",
+      "codeTableEntry": [
+        {
+          "value": "ANNUITY",
+          "label": "Annuity"
+        },
+        {
+          "value": "DRAWDOWN",
+          "label": "Drawdown"
+        }
+      ]
+    }
+  ]
+}

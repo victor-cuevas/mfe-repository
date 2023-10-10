@@ -1,0 +1,9 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ title }}</h2>
+</div>
+<div class="pb-2" *ngIf="intermediaryName">
+  <h3>{{ intermediaryName }}</h3>
+</div>
+<div class="mb-2">
+  <cfo-trading-address [isOpen]="true" [firmName]="firmName" [readOnly]="readOnly"></cfo-trading-address>
+</div>

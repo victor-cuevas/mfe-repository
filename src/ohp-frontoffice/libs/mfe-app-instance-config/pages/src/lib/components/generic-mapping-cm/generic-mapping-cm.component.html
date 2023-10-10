@@ -1,0 +1,236 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #cmgenericMappingform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': cmgenericMappingform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'app-instance.cmGeneric.heading.Generic' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-primary close-save" (click)=onSave(cmgenericMappingList)
+                            caption="{{'app-instance.button.save' | translate}}" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" (click)="onClose()"
+                            caption="{{'app-instance.button.close' | translate}}" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'app-instance.cmGeneric.card.Add' | translate}}" (click)="addNewRow()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="cmgenericMappingList"
+                          [gridDataHeader]="genericHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onRowDelete($event)" (rowClickedEvent)="onRowselect($event)" [selectedDetail]="highlightGenericData">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="hideCard">
+        <div class="closefo-form-group">
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'app-instance.cmGeneric.card.ExternalValue' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox #externalValue="ngModel"
+                                     Type="text"
+                                     [ControlConfig]="RequiredExternalValue"
+                                     [ngModel]="cmgenericMappingdata?.externalValue"
+                                     (ngModelChange)="onExternalTypeChange($event)"
+                                     name="externalValue"
+                                     [isAllowSpace]="false"
+                                     [form]="cmgenericMappingform"
+                                     [maxlength]="250"
+                                     [cfcFluidValidation]="{
+                      errors: externalValue.errors ? RequiredExternalValue.Errors : '',
+                      formSubmitted: cmgenericMappingform.submitted || RequiredExternalValue.externalError
+                    }">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'app-instance.cmGeneric.card.InternalValue' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox #internalValue="ngModel"
+                                     Type="numbers"
+                                     [ControlConfig]="RequiredInternalValue"
+                                     [ngModel]="cmgenericMappingdata?.internalValue"
+                                     (OnchangedNumber)="oninternalValueTypeChange($event)"
+                                     name="internalValue"
+                                     [isAllowSpace]="false"
+                                     [form]="cmgenericMappingform"
+                                     [maxlength]="10"
+                                     [maximumValue]="intMaxValue"
+                                     [cfcFluidValidation]="{
+                    errors: internalValue.errors ? (internalValue.errors?.maxValueError) ? numberErrorDto : RequiredInternalValue.Errors : '',
+                    formSubmitted: cmgenericMappingform.submitted || RequiredInternalValue.externalError
+                  }">
+                  </cfc-fluid-textbox>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'app-instance.cmGeneric.card.InternalType' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox #internalType="ngModel"
+                                     Type="text"
+                                     [ControlConfig]="RequiredInternalType"
+                                     [ngModel]="cmgenericMappingdata?.internalType"
+                                     (ngModelChange)="onintinternalTypeTypeChange($event)"
+                                     name="internalType"
+                                     [isAllowSpace]="false"
+                                     [maxlength]="250"
+                                     [form]="cmgenericMappingform"
+                                     [cfcFluidValidation]="{
+                    errors: internalType.errors ? RequiredInternalType.Errors : '',
+                    formSubmitted: cmgenericMappingform.submitted || RequiredInternalType.externalError
+                  }">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'app-instance.cmGeneric.card.MappingContext' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="cmgenericMappingdata?.mappingContext"
+                                      [form]="cmgenericMappingform"
+                                      Type="single"
+                                      name="mappingContext"
+                                      [placeholder]="placeholder"
+                                      [options]="mappingContextlist"
+                                      [ControlConfig]="RequiredContextDropdown"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="onMappingContextChange($event)"
+                                      #mappingContextdropdown="ngModel"
+                                      [title]="cmgenericMappingdata?.mappingContext?.caption === null ? '' : cmgenericMappingdata?.mappingContext?.caption"
+                                      [showClearIcon]="cmgenericMappingdata?.mappingContext ? true : false"
+                                      [cfcFluidValidation]="{
+                    errors: mappingContextdropdown.errors ? RequiredContextDropdown.Errors : '',
+                    formSubmitted: cmgenericMappingform.submitted || RequiredContextDropdown.externalError
+                  }">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'app-instance.cmGeneric.card.MappingDirection' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="cmgenericMappingdata?.mappingDirection"
+                                      [form]="cmgenericMappingform"
+                                      Type="single"
+                                      name="mappingDirection"
+                                      [placeholder]="placeholder"
+                                      [options]="mappingDirectionlist"
+                                      [ControlConfig]="MappingDirectionDropdown"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="onmappingDirectionChange($event)"
+                                      #mappingDirectiondropdown="ngModel"
+                                      [title]="cmgenericMappingdata?.mappingDirection?.caption === null ? '' : cmgenericMappingdata?.mappingDirection?.caption"
+                                      [showClearIcon]="cmgenericMappingdata?.mappingDirection ? true : false"
+                                      [cfcFluidValidation]="{
+                    errors: mappingDirectiondropdown.errors ? MappingDirectionDropdown.Errors : '',
+                    formSubmitted: cmgenericMappingform.submitted || MappingDirectionDropdown.externalError
+                  }">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'app-instance.close.header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'app-instance.close.body' | translate }}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button"
+                              class="ms-auto"
+                              ButtonStyle="closefo-btn-primary"
+                              caption="{{ 'app-instance.close.yes' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onDialogYes(cmgenericMappingList)"></cfc-fluid-button>
+            <cfc-fluid-button Type="button"
+                              ButtonStyle="closefo-btn-secondary"
+                              caption="{{ 'app-instance.close.no' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onDialogNo()"></cfc-fluid-button>
+            <cfc-fluid-button Type="button"
+                              ButtonStyle="closefo-btn-secondary"
+                              caption="{{ 'app-instance.close.cancel' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onDialogCancel()"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="{{ 'app-instance.manage-legislation.AddButtons.continue' | translate }}"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

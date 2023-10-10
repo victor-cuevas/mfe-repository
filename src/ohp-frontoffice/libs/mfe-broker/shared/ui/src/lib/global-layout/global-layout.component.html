@@ -1,0 +1,5 @@
+<cfo-toast></cfo-toast>
+<router-outlet></router-outlet>
+<div class="loader" *ngIf="spinnerService.getIsLoading()">
+  <span class="loader-text" *ngIf="spinnerService.getText()">{{ spinnerService.getText() }}</span>
+</div>

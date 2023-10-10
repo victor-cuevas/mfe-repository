@@ -1,0 +1,11 @@
+<cfo-account title="{{ 'profile.titles.myAccount' | translate }}" (deactivateAccountEvent)="confirmDeactivateAccount()"></cfo-account>
+<div class="row mt-4">
+  <div class="my-4 btn-section">
+    <p-button
+      [disabled]="!accountComponent?.accountInfo?.accountInfoForm?.valid"
+      styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2"
+      label="{{ 'general.buttons.save' | translate }}"
+      (click)="updateProfile()"
+    ></p-button>
+  </div>
+</div>

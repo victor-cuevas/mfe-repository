@@ -1,0 +1,99 @@
+.cfo-circular-percentage {
+  width: 100%;
+  max-width: 300px;
+  font-size: 16px;
+  margin: 0 auto;
+  animation: donutfade 1s;
+  .cfo-cp-donut-ring {
+    stroke: $neutral-light;
+  }
+
+  .cfo-cp-donut-segment {
+    transform-origin: center;
+    stroke: $success;
+    animation: donut 3s;
+  }
+
+  .cfo-cp-donut-percent {
+    animation: donutfadelong 1s;
+  }
+  .cfo-cp-donut-text {
+    font-family: Arial, Helvetica, sans-serif;
+    fill: $neutral-dark;
+  }
+
+  .cfo-cp-donut-label {
+    font-size: 0.28em;
+    font-weight: 700;
+    line-height: 1;
+    fill: $neutral-dark;
+    transform: translateY(0.25em);
+  }
+
+  .cfo-cp-donut-percent {
+    font-size: 0.5em;
+    line-height: 1;
+    transform: translateY(0.5em);
+    font-weight: bold;
+  }
+
+  .cfo-cp-donut-data {
+    font-size: 0.3rem;
+    line-height: 1;
+    text-align: center;
+    text-anchor: middle;
+    color: $neutral-dark;
+  }
+
+  .cfo-cp-legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    .cfo-cp-legend-item {
+      font-weight: bold;
+      color: $neutral-dark;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 20px;
+      .cfo-cp-legend-item-dot {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      &.cfo-cp-legend-item-done .cfo-cp-legend-item-dot {
+        background-color: $success;
+      }
+      &.cfo-cp-legend-item-missing .cfo-cp-legend-item-dot {
+        background-color: $neutral-light;
+      }
+    }
+  }
+}
+
+@keyframes donutfade {
+  /* this applies to the whole svg item wrapper */
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes donutfadelong {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes donut {
+  0% {
+    stroke-dasharray: 0, 100;
+  }
+}

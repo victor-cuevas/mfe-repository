@@ -1,0 +1,540 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.personalDetails' | translate }}</h2>
+</div>
+
+<div class="container my-2">
+  <form [formGroup]="$any(applicantsFormArray)">
+    <p-tabView>
+      <p-tabPanel *ngFor="let applicant of applicantsFormArray.controls; let i = index" [selected]="i === 0">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user me-2 fs-4"></i>
+          <h6>{{ applicant.get('applicantFullName')?.value | titlecase }}</h6>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="step-header rounded px-3 py-4 my-5 bg-white shadow">
+            <ng-container [formGroup]="$any(applicant)">
+              <div class="row">
+                <div class="col-md-3 col-sm-12">
+                  <label id="pdTitle">{{ 'createDip.labels.title' | translate }} *</label>
+                  <p-dropdown
+                    [options]="titleOptions"
+                    formControlName="title"
+                    ngDefaultControl
+                    class="journey-dropdown"
+                    [placeholder]="'general.placeholders.generic' | translate: { type: 'createDip.labels.title' | translate | lowercase }"
+                    aria-labelledby="pdTitle"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                  </p-dropdown>
+                  <cfo-validation-errors
+                    [control]="applicant.get('title')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdFirstName">{{ 'createDip.labels.firstName' | translate }} *</label>
+                  <input
+                    name="firstName"
+                    type="text"
+                    pInputText
+                    formControlName="firstName"
+                    [cfoOnlyCharacters]="true"
+                    class="journey-input text-capitalize"
+                    aria-labelledby="pdFirstName"
+                    [value]="applicant.get('firstName')?.value | titlecase"
+                  />
+                  <cfo-validation-errors
+                    [control]="applicant.get('firstName')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdSecondName">{{ 'createDip.labels.middleNames' | translate }}</label>
+                  <input
+                    name="secondName"
+                    type="text"
+                    pInputText
+                    formControlName="secondName"
+                    [cfoOnlyCharacters]="true"
+                    class="journey-input text-capitalize"
+                    aria-labelledby="pdSecondName"
+                    [value]="applicant.get('secondName')?.value | titlecase"
+                  />
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdFamilyName">{{ 'createDip.labels.lastName' | translate }} *</label>
+                  <input
+                    name="familyName"
+                    type="text"
+                    pInputText
+                    [cfoOnlyCharacters]="true"
+                    formControlName="familyName"
+                    class="journey-input text-capitalize"
+                    aria-labelledby="pdFamilyName"
+                    [value]="applicant.get('familyName')?.value | titlecase"
+                  />
+                  <cfo-validation-errors
+                    [control]="applicant.get('familyName')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <label id="pdPreviousNameApplicable">{{ 'createDip.labels.hasDifferentName' | translate }} *</label>
+                  <div aria-labelledby="pdPreviousNameApplicable">
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="previousNameApplicable"
+                      [value]="true"
+                      [label]="'general.labels.yes' | translate"
+                      ngDefaultControl
+                      name="previousNameApplicable"
+                    ></cfo-radio-button>
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="previousNameApplicable"
+                      [value]="false"
+                      [label]="'general.labels.no' | translate"
+                      class="ms-3"
+                      ngDefaultControl
+                      name="previousNameApplicable"
+                    ></cfo-radio-button>
+                    <cfo-validation-errors
+                      [control]="applicant.get('previousNameApplicable')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="applicant.value.previousNameApplicable">
+                <div class="row mt-4">
+                  <div class="col-md-3 col-sm-12">
+                    <label id="pdPreviousTitle">{{ 'createDip.labels.previousTitle' | translate }} *</label>
+                    <p-dropdown
+                      [options]="titleOptions"
+                      formControlName="previousTitle"
+                      [placeholder]="'general.placeholders.generic' | translate: { type: 'createDip.labels.title' | translate | lowercase }"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="pdPreviousTitle"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="applicant.get('previousTitle')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-md-4 col-sm-12">
+                    <label id="pdPreviousFirstName">{{ 'createDip.labels.previousFirstName' | translate }} *</label>
+                    <input
+                      name="previousFirstName"
+                      type="text"
+                      [cfoOnlyCharacters]="true"
+                      pInputText
+                      formControlName="previousFirstName"
+                      class="journey-input"
+                      style="margin-top: 4.5px"
+                      aria-labelledby="pdPreviousFirstName"
+                      [value]="applicant.get('previousFirstName')?.value | titlecase"
+                    />
+                    <cfo-validation-errors
+                      [control]="applicant.get('previousFirstName')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                  <div class="col-md-4 col-sm-12">
+                    <label id="pdPreviousSecondName">{{ 'createDip.labels.previousMiddleNames' | translate }}</label>
+                    <input
+                      name="previousSecondName"
+                      type="text"
+                      pInputText
+                      formControlName="previousSecondName"
+                      [cfoOnlyCharacters]="true"
+                      class="journey-input"
+                      style="margin-top: 4.5px"
+                      aria-labelledby="pdPreviousSecondName"
+                      [value]="applicant.get('previousSecondName')?.value | titlecase"
+                    />
+                  </div>
+                  <div class="col-md-4 col-sm-12">
+                    <label id="pdPreviousFamilyName">{{ 'createDip.labels.previousSurname' | translate }} *</label>
+                    <input
+                      name="previousFamilyName"
+                      type="text"
+                      pInputText
+                      [cfoOnlyCharacters]="true"
+                      formControlName="previousFamilyName"
+                      class="journey-input"
+                      style="margin-top: 4.5px"
+                      aria-labelledby="pdPreviousFamilyName"
+                      [value]="applicant.get('previousFamilyName')?.value | titlecase"
+                    />
+                    <cfo-validation-errors
+                      [control]="applicant.get('previousFamilyName')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="row mt-4">
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdBirthDate">{{ 'createDip.labels.dob' | translate }} *</label>
+                  <p-calendar
+                    #calendar
+                    class="journey-input"
+                    formControlName="birthDate"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="maxYear + ':' + minYear"
+                    ngDefaultControl
+                    aria-labelledby="pdBirthDate"
+                    (onMonthChange)="populateYearRange()"
+                    (onYearChange)="populateYearRange()"
+                    [minDate]="minDate"
+                    [maxDate]="maxDate"
+                  ></p-calendar>
+                  <cfo-validation-errors
+                    [control]="applicant.get('birthDate')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdMaritalStateType">{{ 'createDip.labels.maritalStatus' | translate }} *</label>
+                  <p-dropdown
+                    [options]="maritalStatusOption"
+                    formControlName="maritalStateType"
+                    ngDefaultControl
+                    class="journey-dropdown"
+                    [placeholder]="
+                      'general.placeholders.generic' | translate: { type: 'createDip.labels.maritalStatus' | translate | lowercase }
+                    "
+                    aria-labelledby="pdMaritalStateType"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                  </p-dropdown>
+                  <cfo-validation-errors
+                    [control]="applicant.get('maritalStateType')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <label id="pdIsApplicantRetired">{{ 'createDip.labels.isRetired' | translate }} *</label>
+                  <div aria-labelledby="pdIsApplicantRetired">
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="isApplicantRetired"
+                      [value]="true"
+                      [label]="'general.labels.yes' | translate"
+                      ngDefaultControl
+                      name="isApplicantRetired"
+                    ></cfo-radio-button>
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="isApplicantRetired"
+                      [value]="false"
+                      [label]="'general.labels.no' | translate"
+                      class="ms-3"
+                      name="isApplicantRetired"
+                    ></cfo-radio-button>
+                    <cfo-validation-errors
+                      [control]="applicant.get('isApplicantRetired')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4" *ngIf="!applicant.value.isApplicantRetired">
+                <div class="col-md-4 col-sm-12">
+                  <ng-container>
+                    <label id="pdExpectedRetirementAge"
+                      >{{ 'createDip.labels.retirementAge' | translate }} *<span
+                        *ngIf="applicant.get('expectedRetirementAge')?.value > 70"
+                        class="ps-2 primary-color"
+                        [pTooltip]="
+                          'createDip.labels.expectedRetirementAgeTooltip' | translate: { maxRetirementAge: this.maxRetirementAge }
+                        "
+                        [hideDelay]="300"
+                        ><i class="pi pi-info-circle"></i></span
+                    ></label>
+                    <p-inputNumber
+                      formControlName="expectedRetirementAge"
+                      ngDefaultControl
+                      aria-labelledby="pdExpectedRetirementAge"
+                    ></p-inputNumber>
+                    <cfo-validation-errors
+                      [control]="applicant.get('expectedRetirementAge')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate),
+                        max: ('general.validations.maxExpectedRetirementAge' | translate: { max: maxRetirementAge })
+                      }"
+                    ></cfo-validation-errors>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-6 col-sm-12">
+                  <label id="pdNationality">{{ 'createDip.labels.countryOfNationality' | translate }} *</label>
+                  <p-dropdown
+                    [options]="nationalityOptions"
+                    formControlName="nationality"
+                    ngDefaultControl
+                    class="journey-dropdown"
+                    [placeholder]="
+                      'general.placeholders.generic' | translate: { type: 'createDip.labels.nationality' | translate | lowercase }
+                    "
+                    aria-labelledby="pdNationality"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                  </p-dropdown>
+                  <cfo-validation-errors
+                    [control]="applicant.get('nationality')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-4 col-sm-12">
+                  <label id="pdDualNationalityApplicable">{{ 'createDip.labels.dualNationality' | translate }} *</label>
+                  <div aria-labelledby="pdDualNationalityApplicable">
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="dualNationalityApplicable"
+                      [value]="true"
+                      [label]="'general.labels.yes' | translate"
+                      ngDefaultControl
+                      name="dualNationalityApplicable"
+                    ></cfo-radio-button>
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="dualNationalityApplicable"
+                      [value]="false"
+                      [label]="'general.labels.no' | translate"
+                      class="ms-3"
+                      ngDefaultControl
+                      name="dualNationalityApplicable"
+                    ></cfo-radio-button>
+                    <cfo-validation-errors
+                      [control]="applicant.get('dualNationalityApplicable')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="applicant.value.dualNationalityApplicable">
+                <div class="row mt-4">
+                  <div class="col-md-6 col-sm-12">
+                    <label id="pdSecondNationality">{{ 'createDip.labels.countryOfSecondNationality' | translate }} *</label>
+                    <p-dropdown
+                      [options]="nationalityOptions"
+                      formControlName="secondNationality"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      [placeholder]="
+                        'general.placeholders.generic' | translate: { type: 'createDip.labels.nationality' | translate | lowercase }
+                      "
+                      aria-labelledby="pdSecondNationality"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="applicant.get('secondNationality')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- TODO restore this field when needed
+              <div class="row mt-4">
+                <div class="col-md-6 col-sm-12">
+                  <label id="pdIsApplicantPermanentResident">{{ 'createDip.labels.isPermanentUkResident' | translate }} *</label>
+                  <div aria-labelledby="pdIsApplicantPermanentResident">
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="isApplicantPermanentResident"
+                      [value]="true"
+                      [label]="'general.labels.yes' | translate"
+                      ngDefaultControl
+                      name="isApplicantPermanentResident"
+                    ></cfo-radio-button>
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="isApplicantPermanentResident"
+                      [value]="false"
+                      [label]="'general.labels.no' | translate"
+                      class="ms-3"
+                      ngDefaultControl
+                      name="isApplicantPermanentResident"
+                    ></cfo-radio-button>
+                    <cfo-validation-errors
+                      [control]="applicant.get('isApplicantPermanentResident')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div> -->
+              <ng-container *ngIf="applicant.value.nationality && applicant.value.nationality !== 'GB'">
+                <div class="row mt-4">
+                  <div class="col-md-6 col-sm-12">
+                    <label id="pdHasPermanentRightToResideInTheUK"
+                      >{{ 'createDip.labels.permanentRightToResideInUk' | translate }} *
+                      <span class="ps-2 primary-color" [pTooltip]="'createDip.tooltips.permanentRightToResideInUk' | translate" [hideDelay]="300"
+                        ><i class="pi pi-info-circle"></i></span
+                    ></label>
+                    <div aria-labelledby="pdHasPermanentRightToResideInTheUK">
+                      <cfo-radio-button
+                        [disabledExternal]="!dataService.activeJourney"
+                        formControlName="hasPermanentRightToResideInTheUK"
+                        [value]="true"
+                        [label]="'general.labels.yes' | translate"
+                        ngDefaultControl
+                        name="hasPermanentRightToResideInTheUK"
+                      ></cfo-radio-button>
+                      <cfo-radio-button
+                        [disabledExternal]="!dataService.activeJourney"
+                        formControlName="hasPermanentRightToResideInTheUK"
+                        [value]="false"
+                        [label]="'general.labels.no' | translate"
+                        class="ms-3"
+                        ngDefaultControl
+                        name="hasPermanentRightToResideInTheUK"
+                      ></cfo-radio-button>
+                      <cfo-validation-errors
+                        [control]="applicant.get('hasPermanentRightToResideInTheUK')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="row mt-4">
+                <div class="col-md-6 col-sm-12">
+                  <label id="pdVulnerableCustomerApplicable">{{ 'createDip.labels.isVulnerableCustomer' | translate }} *</label>
+                  <div aria-labelledby="pdVulnerableCustomerApplicable">
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="vulnerableCustomerApplicable"
+                      [value]="true"
+                      [label]="'general.labels.yes' | translate"
+                      ngDefaultControl
+                      name="vulnerableCustomerApplicable"
+                    ></cfo-radio-button>
+                    <cfo-radio-button
+                      [disabledExternal]="!dataService.activeJourney"
+                      formControlName="vulnerableCustomerApplicable"
+                      [value]="false"
+                      [label]="'general.labels.no' | translate"
+                      ngDefaultControl
+                      class="ms-3"
+                      name="vulnerableCustomerApplicable"
+                    ></cfo-radio-button>
+                    <cfo-validation-errors
+                      [control]="applicant.get('vulnerableCustomerApplicable')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="applicant.value.vulnerableCustomerApplicable">
+                <div class="row mt-4">
+                  <div class="col-12">
+                    <label id="pdNatureOfVulnerability">{{ 'createDip.labels.vulnerability' | translate }} * </label>
+                    <p-dropdown
+                      [options]="vulnerabilityOptions"
+                      formControlName="natureOfVulnerability"
+                      suffix=" years"
+                      ngDefaultControl
+                      class="journey-dropdown--small"
+                      [placeholder]="
+                        'general.placeholders.generic' | translate: { type: 'createDip.labels.vulnerability' | translate | lowercase }
+                      "
+                      aria-labelledby="pdNatureOfVulnerability"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="applicant.get('natureOfVulnerability')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-12">
+                    <label id="pdDetails">{{ 'createDip.labels.details' | translate }}</label>
+                    <textarea
+                      cols="50"
+                      ngDefaultControl
+                      formControlName="details"
+                      class="journey-input-fixed-width"
+                      pInputTextarea
+                      [autoResize]="true"
+                      [placeholder]="'general.placeholders.pleaseWriteHere' | translate"
+                      aria-labelledby="pdDetails"
+                    ></textarea>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </form>
+</div>

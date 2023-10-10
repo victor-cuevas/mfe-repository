@@ -1,0 +1,27 @@
+.not-found-container {
+  min-height: calc(100vh - 78px);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 90% 90%;
+  font-family: 'Gilroy', Arial, sans-serif;
+
+  .big-404-title {
+    font-size: 110px;
+    line-height: 110px;
+    color: $primary;
+  }
+  .big-404-subtitle {
+    font-size: 38px;
+    line-height: 110px;
+    color: $primary;
+  }
+  .big-404-text {
+    font-size: 24px;
+    color: $neutral-dark;
+    margin: 0 30%;
+    text-align: center;
+  }
+  .button-setter {
+    margin-top: 40px;
+  }
+}

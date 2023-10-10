@@ -1,0 +1,122 @@
+<div class="container pb-4">
+  <h2 class="mb-2">{{ 'createFma.titles.lenderPolicyCheck' | translate }}</h2>
+  <p>
+    {{ 'createFma.subTitles.lenderPolicyCheck' | translate }}
+  </p>
+</div>
+<div class="container">
+  <div class="rounder shadow mb-5">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold primary-color">{{ 'createFma.labels.preAssessmentChecks' | translate }}</h4>
+    </div>
+    <div class="step-body bg-white rounded-bottom px-4 py-3">
+      <div class="row">
+        <div class="col-12 my-4">
+          <p>
+            {{ 'createFma.labels.preAssessmentCheckP1' | translate }}
+            <br />
+            <br />
+            {{ 'createFma.labels.preAssessmentCheckP2' | translate }}
+            <br />
+            <br />
+            {{ 'createFma.labels.preAssessmentCheckP3' | translate }}
+            <br />
+            <br />
+            {{ 'createFma.labels.preAssessmentCheckP4' | translate }}
+          </p>
+        </div>
+      </div>
+      <close-front-office-fma-lender-policy-check-status
+        [status]="loanStatus"
+        [rejectionReasons]="rejectionReasons"
+      ></close-front-office-fma-lender-policy-check-status>
+    </div>
+  </div>
+  <div class="rounded shadow mb-5">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold primary-color">{{ 'createFma.labels.declaration' | translate }}</h4>
+    </div>
+    <div class="step-body bg-white rounded-bottom px-4 py-3">
+      <div class="row">
+        <div class="col-12 mt-3 mb-5">
+          <p *ngIf="!loadingDocuments && lenderPolicyCheckForm.get('documentsReady')?.value; else noDocs">
+            {{ 'createFma.labels.applicationDeclarationDescription' | translate }}
+          </p>
+          <ng-template #noDocs>
+            <p>{{ 'createFma.labels.noLendingPolicyDocs' | translate }}</p>
+          </ng-template>
+        </div>
+        <div class="row">
+          <div class="col-12 d-flex flex-column flex-wrap align-items-center align-items-md-start mb-5">
+            <!-- TODO: (19/08/22): replace with actual description once BFF is ready -->
+            <div class="d-flex align-items-center">
+              <button
+                (click)="downloadDocument('Application_Declaration')"
+                [disabled]="!lenderPolicyCheckForm.get('documentsReady')?.value || loadingDocuments"
+                pButton
+                class="p-button-outlined--bold text-nowrap w-290-px mb-2"
+                label="View application declaration"
+              ></button>
+              <i *ngIf="loadingDocuments" class="pi pi-spin pi-spinner ms-3 fs-5 fw-medium primary-color" style="margin-top: -4px"></i>
+            </div>
+            <div class="d-flex align-items-center">
+              <button
+                pButton
+                [disabled]="!lenderPolicyCheckForm.get('documentsReady')?.value || loadingDocuments"
+                (click)="downloadDocument('ESIS')"
+                class="p-button-outlined--bold w-290-px mb-2"
+                label="View illustration"
+              ></button>
+              <i *ngIf="loadingDocuments" class="pi pi-spin pi-spinner ms-3 fs-5 fw-medium primary-color" style="margin-top: -4px"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <form [formGroup]="lenderPolicyCheckForm">
+            <div class="col-12 mb-2 d-flex align-center">
+              <p-checkbox
+                [binary]="true"
+                [formControl]="$any(lenderPolicyCheckForm.controls['requiredDocumentsCheck'])"
+                ngDefaultControl
+                [label]="'createFma.labels.confirmationAcceptance' | translate"
+              ></p-checkbox>
+            </div>
+            <div *ngIf="!loadingDocuments && this.lenderPolicyCheckForm.get('documentsReady')?.value">
+              <p class="mt-3 px-4 mb-2">{{ 'createFma.labels.consentToProceedMsg1' | translate }}</p>
+              <p class="px-4 mb-4">
+                {{ 'createFma.labels.consentToProceedMsg2' | translate
+                }}<a href="https://aprilmortgages.co.uk/fairprocessing.htm" target="_blank">{{
+                  'createDip.labels.affordabilityLenderWebsiteLink' | translate
+                }}</a
+                >{{ 'createFma.labels.consentToProceedMsg3' | translate }}
+              </p>
+            </div>
+            <div class="col-12 mb-2">
+              <p-checkbox
+                [binary]="true"
+                id="consentCheckbox"
+                [formControl]="$any(lenderPolicyCheckForm.controls['consentCheck'])"
+                ngDefaultControl
+                [label]="'createFma.labels.consentToProceed' | translate"
+              ></p-checkbox>
+            </div>
+            <div class="col-12 mb-2">
+              <p-checkbox
+                [binary]="true"
+                id="idConfirmedCheck"
+                [formControl]="$any(lenderPolicyCheckForm.controls['idConfirmedCheck'])"
+                ngDefaultControl
+                [label]="'createFma.labels.documentsCheck' | translate"
+              ></p-checkbox>
+            </div>
+          </form>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-4">
+            <p>{{ 'createFma.labels.applicationSubmitDescription' | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,196 @@
+<form [formGroup]="addressForm">
+  <ng-container *ngIf="hasAutoSuggestVisible">
+    <label id="findAddress" for="findAddress">{{ ('addressSearchComponent.labels.address' | translate) + ' *' }}</label>
+    <div class="firm-search-holder">
+      <p-autoComplete
+        class="search-address-input"
+        formControlName="selectedAddressControl"
+        [suggestions]="suggestedAddresses"
+        (completeMethod)="searchAddresses($event)"
+        [minLength]="0"
+        placeholder="Search address..."
+        field="text"
+        [showEmptyMessage]="true"
+        emptyMessage="No results found"
+        (onSelect)="selectAddress($event)"
+        ngDefaultControl
+        aria-labelledby="findAddress"
+        [cfoDisableControl]="readOnlyMode"
+      >
+      </p-autoComplete>
+      <i class="pi pi-map-marker"></i>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="selectedAddress">
+    <div class="address-box mt-4" [ngClass]="{ 'address-box--disabled': readOnlyMode }">
+      <p>
+        {{ selectedAddress.lineOne }} {{ selectedAddress.lineTwo }} {{ selectedAddress.lineThree }}
+        {{ selectedAddress.lineThree ? ',' : '' }}
+      </p>
+      <p class="mt-2">
+        {{ selectedAddress.lineFour }}
+        {{ selectedAddress.lineFive ? selectedAddress.lineFive + ',' : '' }}
+      </p>
+      <p class="mt-2">
+        {{ selectedAddress.city | titlecase }} {{ selectedAddress.postcode }}
+        {{ selectedAddress.country !== 'GB' ? (selectedAddress.country | titlecase) : '' }}
+      </p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="hasButtonVisible">
+    <p-button (click)="toggleAddressEntry()" styleClass="p-button-link button-link-small d-flex">
+      {{
+        selectedAddress
+          ? ('addressSearchComponent.labels.editAddressManually' | translate)
+          : ('addressSearchComponent.labels.enterAddressManually' | translate)
+      }}</p-button
+    >
+  </ng-container>
+  <ng-container
+    *ngIf="
+      form?.controls?.addressType?.value !== addressTypeEnum.UK ||
+      (form?.controls?.addressType?.value === addressTypeEnum.UK && wasEnterManuallyAddressClicked)
+    "
+  >
+    <div class="row">
+      <!-- TODO: Fix group validations to remove hardcoded 'required' properties from FormItem -->
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.BFPO
+            ? ('addressSearchComponent.labels.serviceNumber' | translate)
+            : ('addressSearchComponent.labels.addressLine1' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="lineOne"
+        [required]="true"
+        [errorMessages]="{
+          required: ('general.validations.requiredMsg' | translate)
+        }"
+      ></cfo-form-item>
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.BFPO
+            ? ('addressSearchComponent.labels.rank' | translate)
+            : ('addressSearchComponent.labels.addressLine2' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="lineTwo"
+      ></cfo-form-item>
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.BFPO
+            ? ('addressSearchComponent.labels.careOfSurname' | translate)
+            : ('addressSearchComponent.labels.addressLine3' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="lineThree"
+      ></cfo-form-item>
+    </div>
+    <div class="row mt-4">
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.BFPO
+            ? ('addressSearchComponent.labels.operationName' | translate)
+            : ('addressSearchComponent.labels.addressLine4' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="lineFour"
+      ></cfo-form-item>
+      <cfo-form-item
+        *ngIf="form.controls.addressType.value !== addressTypeEnum.BFPO"
+        [label]="'addressSearchComponent.labels.addressLine5' | translate"
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="lineFive"
+      ></cfo-form-item>
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.BFPO
+            ? ('addressSearchComponent.labels.bfpoNoPostcode' | translate)
+            : ('addressSearchComponent.labels.postcode' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="postcode"
+        [required]="true"
+        [errorMessages]="{
+          required: ('general.validations.requiredMsg' | translate),
+          pattern: ('general.validations.postcode' | translate)
+        }"
+      ></cfo-form-item>
+    </div>
+    <div class="row mt-4">
+      <cfo-form-item
+        [label]="
+          form.controls.addressType.value === addressTypeEnum.OVERSEAS
+            ? ('addressSearchComponent.labels.city' | translate)
+            : ('addressSearchComponent.labels.locality' | translate)
+        "
+        class="col-md-4 col-12"
+        inputClass="journey-input--large"
+        formControlName="city"
+        [required]="form.controls.addressType.value === addressTypeEnum.OVERSEAS"
+        [errorMessages]="{
+          required: ('general.validations.requiredMsg' | translate)
+        }"
+      ></cfo-form-item>
+      <ng-container
+        *ngIf="
+          form?.controls?.addressType?.value === addressTypeEnum.BFPO || form?.controls?.addressType?.value === addressTypeEnum.UK;
+          else countryDropdown
+        "
+      >
+        <cfo-form-item
+          [label]="
+            form.controls.addressType.value === addressTypeEnum.BFPO
+              ? ('addressSearchComponent.labels.unitRegiment' | translate)
+              : ('addressSearchComponent.labels.country' | translate)
+          "
+          class="col-md-4 col-12"
+          inputClass="journey-input--large"
+          formControlName="country"
+          [required]="true"
+          [isDisabled]="form.controls.addressType.value === addressTypeEnum.UK"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-form-item>
+      </ng-container>
+      <ng-template #countryDropdown>
+        <div class="col-md-4 col-12">
+          <label id="asCountry">{{ ('addressSearchComponent.labels.country' | translate) + ' *' }}</label>
+          <p-dropdown
+            aria-labelledby="asCountry"
+            [options]="listOfCountries"
+            ngDefaultControl
+            formControlName="country"
+            [placeholder]="'addressSearchComponent.labels.selectCountry' | translate"
+            class="journey-dropdown--large"
+            [cfoDisableControl]="form.controls.addressType.value === addressTypeEnum.UK"
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="addressForm.get('country')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </ng-template>
+    </div>
+    <p-button
+      *ngIf="form.controls.addressType.value === addressTypeEnum.UK"
+      (click)="toggleAddressEntry()"
+      styleClass="p-button-link button-link-small d-flex"
+    >
+      {{ 'addressSearchComponent.labels.enterAddressWithAutocomplete' | translate }}
+    </p-button>
+  </ng-container>
+</form>

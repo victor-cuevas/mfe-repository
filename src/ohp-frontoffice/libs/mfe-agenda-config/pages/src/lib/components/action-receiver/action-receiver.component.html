@@ -1,0 +1,292 @@
+<div class="whitelabel-config">
+  <div class="close-agenda-config container">
+    <form #ActionReceiver="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':ActionReceiver.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'agenda.actionReceiver.ScreenHeader'|translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'agenda.buttons.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(Response.actionReceivers)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" (click)="onclose()" caption="{{'agenda.buttons.close' | translate}}"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col"><div class="closefo-heading-3 closefo-text-primary">{{'agenda.actionReceiver.departmentTasksOverview' | translate}}</div></div>
+          <div class="col-2 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'agenda.buttons.new' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+
+            <cfc-fluid-grid Type="bo-table" dataKey="codeId" [gridData]="Response.actionReceivers" [selectedDetail]="selectedDetails"
+                            [gridDataHeader]="selectUserHeader" [paginationStatus]="false" paginationReportStatus="false" dataSelectionMode="single"
+                            [(dataSelection)]="dataSelected" (deleteRowEvent)="onRowDelete($event,Response.actionReceivers)" (rowClickedEvent)="click($event)">
+            </cfc-fluid-grid>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="Nothide">
+        <div class="col-md-12">
+          <div class="closefo-panel-spacing">
+            <div class="closefo-heading-3 closefo-text-primary">{{'agenda.actionReceiver.detailsDepartmentalTask' | translate}}</div>
+
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">{{'agenda.actionReceiver.section' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="section?.actionReceiverType"
+                                            [form]="ActionReceiver"
+                                            Type="single"
+                                            name="Dropdown"
+                                            [options]="Response.actionReceiversCodeTablesList?.actionReceiverTypeList"
+                                            [ControlConfig]="SectionDropdownConfig"
+                                            [cfcFluidValidation]="{errors:sectiondropdown.errors? SectionDropdownConfig.Errors :'', formSubmitted: ActionReceiver.submitted || (this.SectionDropdownConfig.externalError)}"
+                                            [placeholder]="placeholder"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [showClearIcon]="clearIcon"
+                                            (OnSelectionChanged)="changeSectionGridData($event)"
+                                            #sectiondropdown="ngModel"
+                                            [title]="section?.actionReceiverType?.caption=== null?'':section?.actionReceiverType?.caption"
+                                            >
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label class="closefo-form-label required">
+                          {{'agenda.actionReceiver.generalAgenda' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-8">
+                        <cfc-fluid-dropdown [ngModel]="section?.agendaMaster"
+                                            [form]="ActionReceiver"
+                                            Type="single"
+                                            name="Dropdown1"
+                                            [options]="Response.actionReceiversCodeTablesList?.agendaMasterList"
+                                            [ControlConfig]="AgendaDropdownConfig"
+                                            [cfcFluidValidation]="{errors:agendadropdown.errors? AgendaDropdownConfig.Errors :'', formSubmitted: ActionReceiver.submitted || (this.AgendaDropdownConfig.externalError)}"
+                                            optionLabel="name"
+                                            [placeholder]="placeholder"
+                                            dataKey="name"
+                                            [showClearIcon]="clearIcon"
+                                            (OnSelectionChanged)="changeAgendaGridData($event)"
+                                            #agendadropdown="ngModel"
+                                            [title]="section?.agendaMaster?.name === null?'':section?.agendaMaster?.name"
+                                            >
+                        </cfc-fluid-dropdown>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col"><div class="closefo-heading-3 closefo-text-primary">{{'agenda.actionReceiver.users' | translate}}</div></div>
+          <div class="col-2 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'agenda.buttons.new' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addRowForActionreceiver2User()"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+
+            <cfc-fluid-grid Type="bo-table" dataKey="codeId" [gridData]="selectedDetails.actionReceiver2user" [selectedDetail]="selectedactionReceiver2User"
+                            [gridDataHeader]="selectActionReciever" [paginationStatus]="false" paginationReportStatus="false" dataSelectionMode="single"
+                            [(dataSelection)]="dataSelected" (deleteRowEvent)="onRowDeleteactionRecieverUser($event,selectedDetails.actionReceiver2user)" (rowClickedEvent)="clickselect($event)">
+            </cfc-fluid-grid>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="row" *ngIf="actionReceiverUserDetailsNotHide">
+        <div class="col-md-12">
+          <div class="closefo-panel-spacing">
+            <div class="closefo-heading-3 closefo-text-primary">{{'agenda.actionReceiver.actionReceiverUserdetail' | translate}}</div>
+
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label ">{{'agenda.actionReceiver.user' |  translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="selectedactionReceiver2User"
+                                            [form]="ActionReceiver"
+                                            Type="single"
+                                            name="Dropdown3"
+                                            [options]="username"
+                                            [ControlConfig]="ActionRecieverDropdownConfig"
+                                            [cfcFluidValidation]="{errors:actionRecieverdropdown.errors? ActionRecieverDropdownConfig.Errors :'', formSubmitted: ActionReceiver.submitted || (this.ActionRecieverDropdownConfig.externalError)}"
+                                            optionLabel="userName"
+                                            [placeholder]="placeholder"
+                                            dataKey="userName"
+                                            [showClearIcon]="clearIcon"
+                                            (OnSelectionChanged)="changeActionReciever2UserGridData($event)"
+                                            #actionRecieverdropdown="ngModel"
+                                            [title]="selectedactionReceiver2User?.userName === null?'':selectedactionReceiver2User?.userName"
+                                            >
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label class="closefo-form-label">
+                          {{'agenda.actionReceiver.isonlyfortaskcreation' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-8">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="ActionReceiver"
+                                            [ngModel]="selectedactionReceiver2User?.isOnlyForTaskCreation"
+                                            name="CheckBox"
+                                            (ngModelChange)="changeisOnlyForTaskCreation($event)">
+                        </cfc-fluid-checkbox>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--<div class="row" *ngIf="Nothide">
+    <div class="col-md-12">
+      <div class="closefo-panel-spacing">
+        <div class="closefo-heading-3 closefo-text-primary"> {{'agenda.actionReceiver.addusers' | translate}}</div>
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+
+          <label class="closefo-form-label">
+            {{'agenda.actionReceiver.users' | translate}}
+          </label>
+          <div class="closefo-form-group">
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="row align-items-center">
+
+                  <div class="col-12">
+                    <cfc-fluid-picklist [source]="source"
+                                        [target]="target"
+                                        filterBy="name"
+                                        sourceValue="userName"
+                                        (click)="changeTarget(target)"
+                                        (dblclick)="changeTarget(target)"
+                                        [ControlConfig]="PickListConfig">
+                    </cfc-fluid-picklist>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>-->
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'agenda.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'agenda.dialog.Content' | translate}}
+
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'agenda.dialog.Yes' | translate}}"
+                              (click)="onYes(Response.actionReceivers)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'agenda.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'agenda.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            {{'agenda.dialog.exception' | translate}}
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+
+                Technical Exception has occured in a component in our application.<br />
+                If you click Continue, the application will ignore this error
+                and attempt to continue.
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+
+              </div>
+            </div>
+
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption=" {{'agenda.dialog.continue' | translate}}"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>
+

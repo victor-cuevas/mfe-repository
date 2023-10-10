@@ -1,0 +1,58 @@
+<ng-container *ngIf="steps$ | async as steps">
+  <mbp-layout [breadcrumbItems]="breadcrumb" [stepsItems]="steps">
+    <ng-template
+      [cfoPermissions]="'fma'"
+      [cfoPermissionsFeatures]="['assignee']"
+      [cfoPermissionsNeededPermission]="portalPermissionType.FullMortgageApplication"
+    >
+      <div
+        *ngIf="(activeJourney$ | async) === false && (caseStatus$ | async) !== caseStatusEnum.Cancelled"
+        class="container d-flex justify-content-end position-relative"
+      >
+        <div class="position-absolute">
+          <p-button
+            [label]="'general.buttons.editFma' | translate"
+            styleClass="p-button p-button-primary p-button-outlined"
+            (click)="editFma($event)"
+          ></p-button>
+        </div>
+      </div>
+    </ng-template>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+    <div class="container my-4" *ngIf="currentStep !== stepSetupService.confirmFma.automationId">
+      <a class="link-outlined" [routerLink]="[stepSetupService.navigateBack()]">{{
+        currentStep === 'contactDetails' ? ('general.buttons.cancel' | translate) : ('general.buttons.previous' | translate)
+      }}</a>
+      <button
+        *ngIf="currentStep !== 'lenderPolicyCheck' || (formStatus$ | async)?.lenderPolicyCheck === 'VALID'"
+        [disabled]="!stepSetupService.isNextButtonEnabled()"
+        class="link-button-primary mx-4"
+        [routerLink]="[stepSetupService.navigateForward()]"
+      >
+        {{ 'general.buttons.next' | translate }}
+      </button>
+    </div>
+  </mbp-layout>
+</ng-container>
+<cfo-dialog [showDialog]="showEditFma" [data]="editFmaDataPopup" width="md">
+  <ng-template #contentTemplate>
+    <p class="mb-4">
+      {{ 'dialog.editFmaMsg1a' | translate }}
+    </p>
+    <p class="mb-4">{{ 'dialog.editFmaMsg2' | translate }}</p>
+  </ng-template>
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelEditFma()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.yes' | translate }}"
+        (click)="confirmEditFma()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>

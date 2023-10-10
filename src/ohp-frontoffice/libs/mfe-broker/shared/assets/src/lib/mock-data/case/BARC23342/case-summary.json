@@ -1,0 +1,27 @@
+[
+  {
+    "id": 0,
+    "caseIdentifier": "BARC341234",
+    "caseReference": "BARC341234000000000000",
+    "stage": "Illustration",
+    "remortgage": true,
+    "applicant": [
+      {
+        "name": "John Dung"
+      },
+      {
+        "name": "Jason Trail"
+      }
+    ],
+    "status": "Active",
+    "applicationType": "New lending",
+    "propertyPurpose": "Owner Occupation",
+    "assignedTo": [
+      {
+        "name": "Glen WIlliams",
+        "img": "avatar1.png"
+      }
+    ],
+    "progress": 35
+  }
+]

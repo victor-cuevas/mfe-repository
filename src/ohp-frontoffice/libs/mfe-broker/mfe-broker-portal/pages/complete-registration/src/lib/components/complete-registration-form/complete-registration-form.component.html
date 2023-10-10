@@ -1,0 +1,71 @@
+<div class="row mt-4 py-3">
+  <div class="col-md-9 col-sm-12 pb-4">
+    <h2 class="mb-1">{{ 'CompleteRegistration.labels.title' | translate }}</h2>
+    <p>{{ 'CompleteRegistration.labels.subTitle' | translate }}</p>
+  </div>
+</div>
+<form [formGroup]="completeRegistrationForm">
+  <div class="row mt-2">
+    <label for="userRole">{{ ('intermediary.labels.userRole' | translate) + ' *' }}</label>
+    <div class="d-flex mbpanel-type-container flex-wrap">
+      <div class="mbpanel-type-label mt-3 shadow">
+        <label>
+          <input type="radio" id="userRole" class="mbpanel-type-radio" formControlName="userRole" ngDefaultControl />
+          <div class="type-hover-card color-primary d-flex flex-column justify-content-evenly align-items-center">
+            <i class="pi pi-user"></i>
+            <p>{{ completeRegistrationForm.controls.userRole.value | userRole }}</p>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4 py-3" *ngIf="loggedInUser.userType === userType.Intermediary">
+    <div class="col-12 col-md-5">
+      <label for="firmName">{{ ('intermediary.labels.firmName' | translate) + ' *' }} </label>
+      <input type="text" id="firmName" pInputText class="journey-input--large" formControlName="firmName" ngDefaultControl />
+    </div>
+    <div
+      class="col-12 col-md-3"
+      *ngIf="
+        completeRegistrationForm.controls.userRole.value === 'Advisor' ||
+        completeRegistrationForm.controls.userRole.value === 'SupervisorAndAdvisor'
+      "
+    >
+      <label for="advisorUniqueId">{{ ('intermediary.labels.advisorUniqueId' | translate) + ' *' }}</label>
+      <input type="text" id="advisorUniqueId" pInputText formControlName="advisorUniqueId" />
+    </div>
+  </div>
+  <cfo-personal-details></cfo-personal-details>
+  <cfo-account-info></cfo-account-info>
+  <cfo-login-details></cfo-login-details>
+  <cfo-trading-address *ngIf="loggedInUser.userType === userType.Intermediary" [firmName]="loggedInUser.firmName"> </cfo-trading-address>
+  <div class="row mt-2 pt-2" *ngIf="!isLender">
+    <div class="col-12 col-md-5">
+      <div class="mb-3">
+        <p-checkbox
+          name="confirmationCheck"
+          [binary]="true"
+          ngDefaultControl
+          [formControl]="$any(completeRegistrationForm.controls['agreeToTermsAndConditions'])"
+          [label]="('CompleteRegistration.labels.agreeTermsOfCondition' | translate) + ' *'"
+        ></p-checkbox>
+      </div>
+      <p-checkbox
+        name="confirmationCheck"
+        [binary]="true"
+        ngDefaultControl
+        [formControl]="$any(completeRegistrationForm.controls['agreeToNotifications'])"
+        [label]="'CompleteRegistration.labels.agreeToNotifications' | translate"
+      ></p-checkbox>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="my-4 btn-section">
+      <p-button
+        styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'general.buttons.save' | translate }}"
+        (click)="updateProfile()"
+      ></p-button>
+    </div>
+  </div>
+</form>

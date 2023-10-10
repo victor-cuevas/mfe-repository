@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-auth-config/core",
+  "sourceRoot": "libs/mfe-auth-config/core/src",
+  "prefix": "mauth",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-auth-config/core"],
+      "options": {
+        "jestConfig": "libs/mfe-auth-config/core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-auth-config/core/src/**/*.ts", "libs/mfe-auth-config/core/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

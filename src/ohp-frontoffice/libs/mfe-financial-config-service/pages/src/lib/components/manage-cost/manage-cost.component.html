@@ -1,0 +1,435 @@
+<div class="whitelabel-config">
+  <div class="close-financial-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'financial.ManageCost.heading.Manage-Cost' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'financial.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(getAllCostsResponse)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'financial.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="tab-top closefo-form-group">
+        <div class="closefo-form-group closefo-card closefo-card-rounded closefo-bg-grey ">
+          <p-tabView (onChange)="handleChange($event)" [(activeIndex)]="SelectedTabIndex">
+
+            <p-tabPanel header="{{'financial.ManageCost.tabheader.Remainder' | translate}}" [selected]="true" >
+              <div class="row">
+
+                <div class="col-12 closefo-btn-wrapper text-right mb-2">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addReminderRow()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 close-header-block ">
+                  <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="getAllCostsResponse?.reminderCostList" [selectedDetail]="remainderCostCard"
+                                  [gridDataHeader]="RCostHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                  (deleteRowEvent)="onReminderRowDelete($event,getAllCostsResponse.reminderCostList)" (rowClickedEvent)="clickReminderGrid($event)">
+                  </cfc-fluid-grid>
+                </div>
+              </div>
+
+              <div *ngIf="NothideReminder">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'financial.ManageCost.heading.ReminderCostDetail' | translate}}</div>
+                  </div>
+                </div>
+
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                  <div class="closefo-form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.validFrom' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-datepicker [ControlConfig]="ReminderStartDateDateconfig"
+                                                  [ngModel]="remainderCostCard?.startDate"
+                                                  name="validFrom"
+                                                  (ngModelChange)="changeReminderStartDate($event)"
+                                                  [cfcFluidValidation]="{errors:reminderstart.errors? ReminderStartDateDateconfig.Errors :'', formSubmitted: (ReminderStartDateDateconfig.externalError)}"
+                                                  #reminderstart="ngModel">
+                            </cfc-fluid-datepicker>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.Amount' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amountLimitValidation"
+                                               [ControlConfig]="ReminderAmountTextBoxconfig"
+                                               [ngModel]="remainderCostCard?.amount"
+                                               (OnchangedAmount)="changeReminderAmount($event,true)"
+                                               (ngModelChange)="changeReminderAmount($event,false)"
+                                               name="amounts"
+                                               [maxlength]="14"
+                                               [cfcFluidValidation]="{errors:reminderAmount.errors? ReminderAmountTextBoxconfig.Errors :'', formSubmitted: (ReminderAmountTextBoxconfig.externalError)}"
+                                               [isAllowSpace]="false"
+                                               #reminderAmount="ngModel">
+                            </cfc-fluid-textbox>
+                           
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.product' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderCostCard?.product"
+                                                [form]="userDetailsform"
+                                                Type="single"
+                                                name="productList"
+                                                [placeholder]="placeholder"
+                                                [options]="getAllCostsResponse?.productList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="productNrAndName"
+                                                dataKey="productNrAndName"
+                                                (OnSelectionChanged)="changeReminderProduct($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="remainderCostCard?.product?.productNrAndName">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.creditProvider' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderCostCard?.creditProvider"
+                                                [form]="userDetailsform"
+                                                Type="single"
+                                                name="creditProvider"
+                                                [placeholder]="placeholder"
+                                                [ControlConfig]="DropdownConfig"
+                                                [options]="getAllCostsResponse?.creditProviderList"
+                                                optionLabel="name.caption"
+                                                dataKey="name.caption"
+                                                (OnSelectionChanged)="changeReminderCreditProvider($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="remainderCostCard?.creditProvider?.name?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="{{'financial.ManageCost.tabheader.postageCost' | translate}}"  >
+              <div class="row">
+
+                <div class="col-12 closefo-btn-wrapper text-right mb-2">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addPostageRow()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 close-header-block ">
+                  <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="getAllCostsResponse?.postageCostList" [selectedDetail]="postageCostCard"
+                                  [gridDataHeader]="PostageHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                  (deleteRowEvent)="onPostageRowDelete($event,getAllCostsResponse.postageCostList)" (rowClickedEvent)="clickPostageGrid($event)">
+                  </cfc-fluid-grid>
+                </div>
+              </div>
+
+              <div *ngIf="NothidePostage">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'financial.ManageCost.heading.PostageerCostDetail' | translate}}</div>
+                  </div>
+                </div>
+
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                  <div class="closefo-form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.validFromP' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-datepicker [ControlConfig]="PostageStartDateDateconfig"
+                                                  [ngModel]="postageCostCard?.startDate"
+                                                  yearRange="1800:2050"
+                                                  (ngModelChange)="changePostageStartDate($event)"
+                                                  [cfcFluidValidation]="{errors:postageStart.errors? PostageStartDateDateconfig.Errors :'', formSubmitted: (PostageStartDateDateconfig.externalError)}"
+                                                  name="postageStartDate"
+                                                  #postageStart="ngModel">
+                            </cfc-fluid-datepicker>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.AmountP' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amountLimitValidation"
+                                               [ControlConfig]="PostageAmountTextBoxconfig"
+                                               [ngModel]="postageCostCard?.amount"
+                                               (OnchangedAmount)="changePostageAmount($event,true)"
+                                               (ngModelChange)="changePostageAmount($event,false)"
+                                               [cfcFluidValidation]="{errors:PostageAmount.errors? PostageAmountTextBoxconfig.Errors :'', formSubmitted: (PostageAmountTextBoxconfig.externalError)}"
+                                               name="postAmount"
+                                               [maxlength]="14"
+                                               [isAllowSpace]="false"
+                                               #PostageAmount="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.CountryP' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-autocomplete [ngModel]="postageCostCard?.country"
+                                                    name="country"
+                                                    [filteredNames]="filteredcountries"
+                                                    (filtername)="filterCountry($event)"
+                                                    (Selected)="changePostageCountry($event)"
+                                                    (ngModelChange)="postageCostCard.country=$event"
+                                                    [ControlConfig]="AutoCompleteTextBoxconfig"
+                                                    field="caption"
+                                                    #autocomplete="ngModel"
+                                                    minLength="1">
+                            </cfc-fluid-autocomplete>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.RegisteredP' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                [ngModel]="postageCostCard?.registered"
+                                                name="RegisteredP"
+                                                (ngModelChange)="changePostageRegistered($event)">
+                            </cfc-fluid-checkbox>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                </div>
+           </p-tabPanel>
+            <p-tabPanel header="{{'financial.ManageCost.tabheader.MutationCost' | translate}}" >
+              <div class="row">
+
+                <div class="col-12 closefo-btn-wrapper text-right mb-2">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addMutationRow()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 close-header-block ">
+                  <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="getAllCostsResponse?.mutationCostList" [selectedDetail]="mutationCostCard"
+                                  [gridDataHeader]="MutationHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                  (deleteRowEvent)="onMutationRowDelete($event,getAllCostsResponse.mutationCostList)" (rowClickedEvent)="clickMutationGrid($event)">
+                  </cfc-fluid-grid>
+                </div>
+              </div>
+
+              <div *ngIf="NothideMutation">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'financial.ManageCost.heading.MutationCost' | translate}}</div>
+                  </div>
+                </div>
+
+                <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                  <div class="closefo-form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.validFromM' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-datepicker [ControlConfig]="MutationStartDateDateconfig"
+                                                  [ngModel]="mutationCostCard?.startDate"
+                                                  name="validFromM"
+                                                  yearRange="1800:2050"
+                                                  [cfcFluidValidation]="{errors:mutationStart.errors? MutationStartDateDateconfig.Errors :'', formSubmitted: (MutationStartDateDateconfig.externalError)}"
+                                                  (ngModelChange)="changeMutationStartDate($event)"
+                                                  #mutationStart="ngModel">
+                            </cfc-fluid-datepicker>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'financial.ManageCost.card.AmountM' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amountLimitValidation"
+                                               [ControlConfig]="MutationAmountTextBoxconfig"
+                                               [ngModel]="mutationCostCard?.amount"
+                                               (OnchangedAmount)="changeMutationAmount($event,true)"
+                                               (ngModelChange)="changeMutationAmount($event,false)"
+                                               [cfcFluidValidation]="{errors:mutationAmount.errors? MutationAmountTextBoxconfig.Errors :'', formSubmitted: (MutationAmountTextBoxconfig.externalError)}"
+                                               name="mutationAmount"
+                                               [maxlength]="14"
+                                               [isAllowSpace]="false"
+                                               #mutationAmount="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.CredditProviderM' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="mutationCostCard?.creditProvider"
+                                                [form]="userDetailsform"
+                                                Type="single"
+                                                name="mutCredit"
+                                                [placeholder]="placeholder"
+                                                [options]="getAllCostsResponse?.creditProviderList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="name.caption"
+                                                dataKey="name.caption"
+                                                (OnSelectionChanged)="changeMutationCreditProvider($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="mutationCostCard?.creditProvider?.name?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'financial.ManageCost.card.MutationType' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="mutationCostCard?.mutationType"
+                                                [form]="userDetailsform"
+                                                Type="single"
+                                                name="MutTypeDropdown"
+                                                [placeholder]="placeholder"
+                                                [options]="getAllCostsResponse?.mutationTypeList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="caption"
+                                                (OnSelectionChanged)="changeMutationType($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="mutationCostCard?.mutationType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'financial.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'financial.dialog.Content' | translate}}
+
+          </div>
+          
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'financial.dialog.Yes' | translate}}"
+                              (click)="onYes(getAllCostsResponse)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+              </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+
+              <cfc-fluid-button class="ms-auto" Type="button" ButtonStyle="closefo-btn-secondary" caption="Continue"
+
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+    </form>
+  </div>
+</div>

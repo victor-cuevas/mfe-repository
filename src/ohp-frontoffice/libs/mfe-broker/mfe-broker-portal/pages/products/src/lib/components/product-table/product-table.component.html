@@ -1,0 +1,206 @@
+<ng-container *ngIf="products">
+  <div class="d-flex scrollable-searchbox-table">
+    <p-table
+      #productTable
+      [value]="products"
+      [paginator]="true"
+      (onLazyLoad)="loadProducts()"
+      (onRowSelect)="selectProduct($event, true)"
+      (onRowUnselect)="selectProduct($event, false)"
+      [lazy]="true"
+      [rows]="pageSize"
+      [loading]="loading"
+      [totalRecords]="totalRecords"
+      [showLoader]="false"
+      [scrollable]="true"
+      scrollHeight="flex"
+      styleClass="boxed-table"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="[
+        'id',
+        'initialRate',
+        'term',
+        'productFee',
+        'earlyRepaymentCharge',
+        'aprc',
+        'interestRateType',
+        'repaymentType',
+        'features'
+      ]"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [(selection)]="selectedProducts"
+      dataKey="id"
+    >
+      <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+          <div class="table-header-search">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Search by keyword" class="ps-2" />
+          </div>
+          <div class="d-flex">
+            <div class="d-flex align-items-center">
+              <i class="pi pi-th-large"></i>
+              <cfo-drop-down-menu [label]="'layout'">
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    Initial rate
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showInitialRate"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    Term
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showTerm"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    ProductMock Fee
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showProductFee"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    ERC
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showEarlyRepaymentCharge"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    APRC%
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showAPRC"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    Repayment Type
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showRepaymentType"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    Interest Rate Type
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showInterestRateType"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    Features
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch [(ngModel)]="showFeatures"></p-inputSwitch>
+                  </div>
+                </li>
+              </cfo-drop-down-menu>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="px-3">
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th colspan="2">
+            <h6>{{ 'products.labels.productName' | translate }}</h6>
+          </th>
+          <th *ngIf="showInitialRate">
+            <h6>{{ 'products.labels.initialRate' | translate }}</h6>
+          </th>
+          <th pSortableColumn="term" *ngIf="showTerm">
+            <div class="d-flex justify-content-between align-items-center flex-nowrap">
+              <h6>{{ 'products.labels.term' | translate }}</h6>
+              <p-sortIcon field="term"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="productFee" *ngIf="showProductFee">
+            <div class="d-flex justify-content-between align-items-center flex-nowrap">
+              <h6>{{ 'products.labels.productFee' | translate }}</h6>
+              <p-sortIcon field="productFee"></p-sortIcon>
+            </div>
+          </th>
+          <th colspan="2" *ngIf="showEarlyRepaymentCharge">
+            <h6>{{ 'products.labels.earlyRepaymentCharges' | translate }}</h6>
+          </th>
+          <th pSortableColumn="aprc" *ngIf="showAPRC">
+            <div class="d-flex justify-content-between align-items-center flex-nowrap">
+              <h6>{{ 'products.labels.aprc' | translate }}</h6>
+              <p-sortIcon field="aprc"></p-sortIcon>
+            </div>
+          </th>
+          <th>
+            <h6>{{ 'products.labels.repaymentType' | translate }}</h6>
+          </th>
+          <th>
+            <h6>{{ 'products.labels.interestRateType' | translate }}</h6>
+          </th>
+          <th *ngIf="showFeatures">
+            <h6>{{ 'products.labels.features' | translate }}</h6>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr class="px-3">
+          <td style="width: 3rem">
+            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+          </td>
+          <td colspan="2">
+            <strong>{{ product.productName }}</strong>
+          </td>
+          <td *ngIf="showInitialRate">
+            <p>{{ product.initialRate }}%</p>
+          </td>
+          <td *ngIf="showTerm">{{ product.termYear }} years</td>
+          <td *ngIf="showProductFee">
+            <p>{{ product.productFee | currency: 'GBP':'symbol':'1.0-0' }}</p>
+          </td>
+          <td colspan="2">
+            <div *ngIf="product.earlyRepaymentCharges; else elseBlock">
+              <p *ngFor="let earlyRepaymentCharge of product.earlyRepaymentCharges">
+                {{ earlyRepaymentCharge.charge | earlyRepaymentCharge }}
+              </p>
+            </div>
+            <ng-template #elseBlock>
+              <p>No early repayment charge</p>
+            </ng-template>
+          </td>
+          <td *ngIf="showAPRC">
+            <p>{{ product.aprc / 100 | percent: '1.2' }}</p>
+          </td>
+          <td *ngIf="showRepaymentType">
+            {{ product.repaymentType | titlecase }}
+          </td>
+          <td *ngIf="showInterestRateType">
+            {{ product.interestRateType | titlecase }}
+          </td>
+          <td *ngIf="showFeatures"></td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <td class="table-loader" [attr.colspan]="12"></td>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>

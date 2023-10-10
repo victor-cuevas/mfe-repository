@@ -1,0 +1,152 @@
+{
+  "runningAccount": {
+    "type-mapping": {
+      "heading": {
+        "Runningaccount.TxEl2BalMovTypeMapping": "Manage IM Txel vs Balance Movement Type Mapping"
+      },
+      "tabel": {
+        "TxelType": "NL - TxEl Type",
+        "BalancemovementType": "NL - Balance Movement Type",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "TxelType": "NL - TxEl Type",
+        "BalancemovementType": "NL - Balance Movement Type",
+        "Add": "Voeg toe"
+      },
+      "validation": {
+        "TxElType": "'NL - TxElType' is verplicht.",
+        "BalMovType": "'NL - Balance Movement Type' is verplicht."
+      }
+    },
+    "distributiontype": {
+      "heading": {
+        "distributiontype": "Manage IM Balance Movement Type vs Distrubution Type"
+      },
+      "tabel": {
+        "BalancemovementType": "NL - Balance Movement Type",
+        "DistributionType": "NL - Distribution Type",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "BalancemovementType": "NL - Balance Movement Type",
+        "DistributionType": "NL - Distribution Type",
+        "Add": "Voeg toe"
+      },
+      "validation": {
+        "BalMovType": "'NL - Balance Movement Type' is verplicht.",
+        "DisType": "'NL - Distribution Type' is verplicht."
+      }
+    },
+    "Owner2ParticipantMapping": {
+      "heading": {
+        "balancemovementtype2distributiontype": "Manage IM Owner vs Participant Mapping"
+      },
+      "tabel": {
+        "OwnerReference": "NL - Owner Reference",
+        "BookingOwnerReference": "NL - Booking Owner Reference",
+        "ParticipantReferenceFrom": "NL - Participant Reference From",
+        "ParticipantReferenceTo": "NL - Participant Reference To",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "OwnerReference": "NL - Owner Reference",
+        "BookingOwnerReference": "NL - Booking Owner Reference",
+        "ParticipantReferenceFrom": "NL - Participant Reference From",
+        "ParticipantReferenceTo": "NL - Participant Reference To"
+      },
+      "mandatory": {
+        "OwnerReference": "'NL - Owner Reference'",
+        "BookingOwnerReference": "'NL - Booking Owner Reference'",
+        "ParticipantReferenceFrom": "'NL - Participant Reference From'",
+        "ParticipantReferenceTo": "'NL - Participant Reference To'",
+        "required": " is verplicht.",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "RunnAccBookingPlan": {
+      "heading": {
+        "RunnAccBookingPlan": "Manage IM Accounting"
+      },
+      "tabel": {
+        "Name": "NL - Name",
+        "Owner": "NL - Owner",
+        "StartDate": "NL - Start Date",
+        "EndDate": "NL - End Date",
+        "Seqnt": "NL - Seq nr",
+        "RunningAccountStatus": "NL - Running Account Status",
+        "RunningAccountAmortizationSchedule": "NL - Running Account Amortization Schedule",
+        "ConsumerProductType": "NL - Consumer Product Type",
+        "RunningAcountOwnerType": "NL - Running Acount Owner Type",
+        "RunningAcountType": "NL - Running Acount Type",
+        "MinDuration": "NL - Min Duration",
+        "Country": "NL - Country",
+        "Productnbr": "NL - Product Nbr",
+        "delete": "NL - Delete",
+        "BalanceMovementType": "NL - Balance Movement Type",
+        "aggregate": "NL - Aggregate",
+        "Journalnr": "NL - Journal Nr",
+        "delete1": "NL - Delete",
+        "Accountnr": "NL - Account Nr",
+        "PostingKey": "NL - Posting Key",
+        "Currency": "NL - Currency",
+        "delete2": "Verwijderen",
+        "Add": "Voeg toe",
+        "isExcludedFromGL": "NL - Is Excluded From GL"
+      },
+      "card": {
+        "Name": "NL - Name",
+        "Owner": "NL - Owner",
+        "StartDate": "NL - Start Date",
+        "EndDate": "NL - End Date",
+        "Seqnt": "NL - Seq Nr",
+        "RunningAccountStatus": "NL - Running Account Status",
+        "RunningAccountAmortizationSchedule": "NL - Running Account Amortization Schedule",
+        "ConsumerProductType": "NL - Consumer Product Type",
+        "RunningAcountOwnerType": "NL - Running Account Owner Type",
+        "RunningAcountType": "NL - Running Account Type",
+        "MinDuration": "NL - Min Duration",
+        "Country": "NL - Country",
+        "Productnbr": "NL - Product Nbr",
+        "BalanceMovementType": "NL - Balance Movement Type",
+        "aggregate": "NL - Aggregate",
+        "Journalnr": "NL - Journal Nr",
+        "Accountnr": "NL - Account Nr",
+        "PostingKey": "NL - Posting Key",
+        "Currency": "NL - Currency",
+        "isExcludedFromGL": "NL - Is Excluded From GL"
+      },
+      "validation": {
+        "name": "'NL - Name' is Mandatory.",
+        "balMov": "'NL - Balance Movement Type' is Mandatory.",
+        "startDate": "'NL - Start Date' is Mandatory.",
+        "seqNt": "'NL - Seq Nr' is Mandatory.",
+        "ownerType": "'NL - Running Account Owner Type' is Mandatory.",
+        "productNbr": "'NL - Product Nbr' is Mandatory.",
+        "journalNr": "'NL - Journal Nr' is Mandatory.",
+        "accountNr": "'NL - Account Nr' is Mandatory.",
+        "currency": "'NL - Currency' is Mandatory.",
+        "postalKey": "'NL - Posting Key' is Mandatory.",
+        "owner": "'NL - Owner' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "isExcludedFromGL":"When the booking needs to be included in GL, exactly one debit and one credit GL record should be created for each booking."
+      }
+    },
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "add": "Voeg toe"
+    },
+    "validation": {
+      "validationHeader": "Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken.",
+    },
+    "close": {
+      "header": "Onopgeslagen wijzigingen",
+      "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "yes": "Ja",
+      "no": "Nee",
+      "cancel": "Annuleer"
+    }
+  }
+}

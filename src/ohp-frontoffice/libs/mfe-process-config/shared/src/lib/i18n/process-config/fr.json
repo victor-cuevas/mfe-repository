@@ -1,0 +1,379 @@
+{
+  "process": {
+    "managefllowup": {
+      "heading": {
+        "manageFollow": "Manage Followup Configuration"
+      },
+      "card": {
+        "Filter": "Filter",
+        "FlowDet": "Détails du flux",
+        "Flowname": "Nom du flux",
+        "Clear": "Clear",
+        "startevent": "Evènement de départ",
+        "Stopevent": "Evènement de fin",
+        "AddStopevent": "FR - Add Stop Event"
+      },
+      "table": {
+        "Flowname": "Nom du flux",
+        "": "",
+        "Addevent": "FR - Add Event Based Flow",
+        "stepSeq": "Numéro d'étape",
+        "stepName": "Etape",
+        "ElapsePeriod": "Période Ecoulée",
+        "IntervalType": "Interval Type",
+        "AddStep": "FR - Add Step"
+      },
+      "tab": {
+        "name": "Fr - Name",
+        "triggerevent": "Evènvement déclencheur",
+        "elapsedType": "FR - Elapsed Period Type",
+        "elapsedPeriod": "Période Ecoulée",
+        "statusChange": "Changement de statut",
+        "TargetStatus": "Statut cible",
+        "HandlingDate": "Datum Afhandeling",
+        "IntervalType": "Interval Type",
+        "AddActions": "Ajout d'action",
+        "actionName": "Action",
+        "actionType": "Type d'action",
+        "actionReceiver": "FR - Action Receiver",
+        "TempName": "Ajout de modèle",
+        "tempName": "TypeLettre",
+        "communicat": "Voie de communication",
+        "roleType": "FR - Role Type",
+        "adminRole": "FR - Admin Role Type",
+        "collectionRole": "FR - Collections Role Type",
+        "constructionType": "FR - Construction Depot Role Type",
+        "R": "FR - Registered",
+        "servicesName": "FR - Add Services",
+        "serActionName": "Nom de l'action",
+        "ServiceName": "Service naam",
+        "IsBlocking": "FR - Is Blocking",
+        "EventsAdd": "FR - Add Events",
+        "FollowUpEvent": "Evénement de succession"
+      },
+      "tabHeading": {
+        "FlowStepGeneral": "FR - Flow Step General",
+        "Actions": "Actions",
+        "Communication": "FR - Communication",
+        "Services": "Services",
+        "Events": "FR - Events"
+      },
+      "validationErrors": {
+        "followUpName": "'Nom du flux' est obligatoire.",
+        "startEvent": "'Start Event' est obligatoire.",
+        "name": "'Name' est obligatoire.",
+        "triggerEvent": "'Trigger Event' est obligatoire.",
+        "elapsedPeriodType": "'FR - Elapsed Period Type' est obligatoire.",
+        "handlingDate": "'Datum Afhandeling' est obligatoire.",
+        "actionName": "'Action' est obligatoire.",
+        "templateName": "'TypeLettre' est obligatoire.",
+        "communicationMedium": "'Voie de communication' est obligatoire.",
+        "serviceActionName": "'Action Name' est obligatoire.",
+        "event": "'Event' est obligatoire.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "businessErrors": {
+        "actionNameUnique": "FR - An Action can only be added once for a follow up step",
+        "oneRoleType": "FR - Please select atleast 1 Role type",
+        "onlyOneRoleType": "FR - A Communication should be configured for role type, admin role type, collections role type or construction depot role type. It is not possible to combine these role types."
+      }
+    },
+    "manageNotify": {
+      "heading": {
+        "manageNotify": "Manage Notification Configuration",
+        "NotificationDef": "FR - Notification Definition",
+        "ProductLink": "FR - Products Linked",
+        "servicingCustomer": "FR -  Servicing Customers Linked"
+      },
+      "tabel": {
+        "mamageNot": "FR - Manage Notification Configuration",
+        "addNew": "Ajoute",
+        "nrofIntervals": "FR - Nr of Intervals",
+        "interval": "FR - Interval",
+        "timing": "FR - Timing",
+        "referenceDate": "FR - Reference Date",
+        "eventContext": "FR - Event Context",
+        "delete": "Supprimer",
+        "addproduct": "Ajout d'un produit",
+        "addservicing": "FR - Add Servicing Customer"
+      },
+      "card": {
+        "intervalcard": "FR - Interval",
+        "dataype": "FR - Date Type",
+        "eventName": "FR - Event Name",
+        "eventContext": "FR - Event Context",
+        "product": "Produit",
+        "sevicingCustomer": "Client Servicing"
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "timing": "'FR - Timing'",
+        "dataype": "'FR - Date Type'",
+        "eventName": "'FR - Event Name'",
+        "eventContext": "'FR - Event Context'",
+        "product": "'Produit Nom'",
+        "servicingCustomer": "'FR - Credit Provider Name'"
+
+      }
+    },
+    "event-config": {
+      "heading": {
+        "Event-Configuration": "Manage BO event configuration"
+      },
+      "tabel": {
+        "followEvent": "FR - Followup Event",
+        "ServiceActionName": "FR - Service Action Name",
+        "IntergrationQueueConfigurationName": "FR - Intergration Queue Configuration Name",
+        "EventHandler": "FR - Event Handler",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "followEvent": "FR - Followup Event",
+        "ServiceActionName": "FR - Service Action Name",
+        "IntergrationQueueConfigurationName": "FR - Intergration Queue Configuration Name",
+        "EventHandler": "FR - Event Handler",
+        "Add":"Ajoute"
+      },
+      "mandatory": {
+        "ServiceAction": "'FR - Service Action Name'",
+        "EventName": "'FR - Followup Event'",
+        "EventHandler": "'FR - Event Handler'",
+        "Errormsg": "'FR - Service Action Name' for 'FR - Followup Event Name' must be Unique",
+        "uniqueRecord": "The given record is already in the list. Please make sure that the record is unique",
+        "required": "est verplicht ."
+      }
+    },
+    "followup-event": {
+      "heading": {
+        "followevent": "Manage BO process event configuration"
+      },
+      "card": {
+        "FollowupEventCon": "FR - Followup Event",
+        "EventCreation": "FR - Event Creation Date Type",
+        "EventHandling": "FR - Event Handling Date Type",
+        "CanbeTriggeredManually": "FR - Can be Triggered Manually",
+        "Add":"Ajoute"
+      },
+      "tabel": {
+        "FollowupEventCon": "FR - Followup Event Configuration",
+        "EventCreation": "FR - Event Creation Date Type",
+        "EventHandling": "FR - Event Handling Date Type",
+        "CanbeTriggeredManually": "FR - Can be Triggered Manually",
+        "delete": "Supprimer"
+      },
+      "mandatory": {
+        "EventCreation": "'FR - Event Creation Date Type'",
+        "EventHandling": "'FR - Event Handling Date Type'",
+        "EventName": "'FR - Followup Event Configuration'",
+        "error": "FR - The given record is already in the list. Please make sure that the record is unique. ",
+        "required": "est verplicht ."
+      }
+    },
+    "manage-remainder": {
+      "heading": {
+        "scenario-overview": "scenario overview",
+        "step-overview": "step overview",
+        "scenarios-overview": "Aperçu de scénario",
+        "scenarioDetails": "Détail du scénario",
+        "productLinks": "FR - Products Linked",
+        "ScenarioType": "Type de scénario",
+        "applicable": "Transaction applicable",
+        "stepsOverview": "Aperçu des étapes",
+        "stepDetail": "Détails de l'étape",
+        "ActionOverview": "Aperçu d'actions",
+        "TemplateOverview": "Aperçu du modèle"
+      },
+      "tabel": {
+        "scenarioname": "Scénario",
+        "startdate": "Date Début",
+        "enddate": "Dernière Echéance",
+        "commercialName": "Nom Commercial Produit",
+        "": "",
+        "creditStatus": "Statut",
+        "stepseq": "Numéro séquentiel des étapes",
+        "stepName": "Etape",
+        "OfDueDate": "Nombre d'échéances",
+        "ActionName": "Nom de l'action",
+        "ActionReceiver": "Destinataire de l'action",
+        "ActionType": "Type d'action",
+        "TemplateName": "TypeLettre",
+        "ContactMedium": "MoyenContacte",
+        "FollowupEventName": "FR - Followup Event Name",
+        "ElapsedPeriod": "Période exigible"
+      },
+      "card": {
+        "scenarioName": "Nom du scénario",
+        "startDate": "Date de début",
+        "endDate": "Date Fin",
+        "numberOfDue": "Nombre de jours dus",
+        "elapseds": "Période de base passée",
+        "setCredit": "Fr - Set Credit Status Back To Normal",
+        "unblock": "FR - Unblock Outgoing Payments",
+        "resume": "FR - Resume Commission Payments",
+        "minPeriod": "Période min. entre les étapes",
+        "txel": "types d'eléments de transaction",
+        "period": "Période de base",
+        "reminder": "Jours de rappel après échéance",
+        "action":"Détail de l'action",
+        "template":"Détail Du Modèle"
+      },
+      "tab": {
+        "Name": "Entreprise/Nom",
+        "numberOf": "Nombre de jours dus",
+        "MunDue": "Montant minimal exigible",
+        "credit": "FR - Credit Bureau",
+        "creditAction": "FR - Credit Bureau Action Code",
+        "IsReminder": "Rappel",
+        "ChangeIOA": "Imputer intérêts de retard",
+        "IsFormal": "Lettre recommandée",
+        "StopCommission": "Arrêt commission",
+        "CreditChange": "Modification du statut du crédit",
+        "TargetStatus": "But du statut du crédit",
+        "NotifyCredit": "Fr - Notify Credit Insurer",
+        "suspend": "FR - Suspend Direct Debit Mandate",
+        "blockOutgoing": "FR - Block Outgoing Payments",
+        "SetSerice": "FR - Set Servicing Notice Upon Debtor Date",
+        "Actions": "Action",
+        "Templates": "Modèle",
+        "ContactMedium": "Contact intermédiaire",
+        "RoleType": "FR - Role Type",
+        "AdminRole": "FR - Admin Role Type",
+        "CollectionsRole": "FR - Collections Role Type",
+        "RegisteredSending": "Envoi Recommandé",
+        "BlockSending": "FR - Block sending when letter of same Template was sent within",
+        "Days": "FR - days",
+        "Notes": "Communication libre",
+        "ElapsedPeriod": "Période Ecoulée"
+      },
+      "tabheader": {
+        "RenainderInfo": "Info de l'étape de rappel",
+        "Actions": "Actions",
+        "Customer": "Communication consommateur",
+        "Events": "FR - Events",
+        "Notes": "Communication libre"
+      },
+      "button": {
+        "back": "Retour",
+        "save": "Sauvegarder et suivant",
+        "newScenario": "Nouveau scénario",
+        "Saves": "Sauvegarder",
+        "Cancel": "Annuler"
+      },
+      "Add":{
+        "Scenario":"Ajoute",
+        "Txel":"Ajout type de transaction",
+        "Step":"FR - Add Step",
+        "Action":"Ajout d'action",
+        "Template":"Ajout de modèle",
+       "Event":"FR - Add Event"
+       },
+      "ValidationError": {
+        "required": " est obligatoire. ",
+        "startDate": "La date doit être supérieure à 1900",
+        "minPeriod": "'Période min. entre les étapes'",
+        "scenarioName": "'Scénario'",
+        "txel": "'types d'eléments de transaction'",
+        "period": "'ReminderScenarioPeriodBase'",
+        "reminder": "'Jours de rappel après échéance'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique",
+        "Name": "'Entreprise/Nom'",
+        "ElapsedPeriod": "'Période Ecoulée'",
+        "numberOf": "'Nombre de jours dus'",
+        "Actions": "'Action'",
+        "actionBusinessError": "FR - Action already exists in the list",
+        "Templates": "'Modèle'",
+        "ContactMedium": "'Voie de communication'",
+        "TargetStatus": "'But du statut du crédit'",
+        "TxelbusinessError": "FR - Due amount type already exists in the list",
+        "InputIncorrect": "FR - Input is not in correct format.",
+        "numberInt32Check": "FR - Value was either too large or too small for an Int32.",
+        "ElapsedMaxValdation": "FR - 'Elapsed Period' exceeded the maximum value ",
+        "DueAmountMaxValdation": "FR - 'NumberofDueDates' exceeded the maximum value "
+      }
+    },
+    "cm-followup-event": {
+      "heading": {
+        "followevent": "Manage cm process event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "FR - Followup Event",
+        "EventCreationDateType": "FR - Event Creation Date Type",
+        "EventHandlingDateType": "FR - Event Handling Date Type",
+        "Delete": ""
+      },
+      "card": {
+        "FollowupEvent": "FR - Followup Event",
+        "EventCreationDateType": "FR - Event Creation Date Type",
+        "EventHandlingDateType": "FR - Event Handling Date Type",
+        "Add": "Ajoute"
+      },
+      "ValidationError":{
+        "required":" est obligatoire.",
+        "FollowupEvent": "'FR - Followup Event'",
+        "EventCreationDateType": "'FR - Event Creation Date Type'",
+        "EventHandlingDateType": "'FR - Event Handling Date Type'",
+        "businessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-event-config": {
+      "heading": {
+        "eventconfig": "Manage cm event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "FR - Followup Event",
+        "ServiceActionName": "FR - Service Action Name",
+        "EventHandler": "FR - Event Handler",
+        "delete": ""
+      },
+      "card": {
+        "FollowupEventName": "FR - Followup Event Name",
+        "ServiceActionName": "FR - Service Action Name",
+        "EventHandler": "FR - Event Handler"
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "FollowupEventName": "'FR - Followup Event Name'",
+        "ServiceActionName": "'FR - Service Action Name'",
+        "EventHandler": "'FR - Event Handler'",
+        "businessError": "'FR - Service Action Name' for 'FR - Followup Event Name' must be Unique",
+        "uniqueRecord": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-dossier": {
+      "heading": {
+        "dossier": "Manage FUP casestatus vs dossierstatus"
+      },
+      "card": {
+        "Add": "Ajoute",
+        "FollowupCaseStatus": "FR - Followup Case Status",
+        "DossierStatus": "FR - Dossier Status"
+      },
+      "tabel": {
+        "FollowupCaseStatus": "FR - Followup Case Status",
+        "DossierStatus": "FR - Dossier Status",
+        "Delete": ""
+      },
+      "ValidationError":{
+        "FollowupCaseStatus": "'FR - Followup Case Status'",
+        "DossierStatus": "'FR - Dossier Status'",
+        "required":" est obligatoire.",
+        "businessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "Validation": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer"
+    },
+    "dialog": {
+      "Yes": "Oui",
+      "No": "Non",
+      "Cancel": "Annuler",
+      "Header": "Changements non sauvegardé",
+      "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?"
+    }
+  }
+  }

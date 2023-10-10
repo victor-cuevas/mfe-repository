@@ -1,0 +1,190 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.adviceAndFees' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="adviceFeesForm">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createIllustration.labels.advice' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-md-4 col-sm-12 mb-2 mb-md-0">
+          <label class="pb-3" id="adviceGiven"> {{ 'createIllustration.labels.adviceGiven' | translate }} * </label>
+          <p-dropdown
+            aria-labelledby="adviceGiven"
+            [cfoDisableControl]="true"
+            [options]="adviceGivenOptions"
+            class="journey-dropdown"
+            formControlName="adviceGiven"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="adviceFeesForm.get('adviceGiven')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div *ngIf="adviceFeesForm.controls.adviceGiven.value.value === adviceGiven.ADVISED" class="col-md-4 col-sm-12 mb-2 mb-md-0">
+          <label class="pb-3"> {{ 'createIllustration.labels.adviceAccepted' | translate }} * </label>
+          <cfo-radio-button
+            [disabledExternal]="true"
+            [label]="'general.labels.yes' | translate"
+            [value]="true"
+            formControlName="adviceAccepted"
+            ngDefaultControl
+          ></cfo-radio-button>
+          <cfo-radio-button
+            [disabledExternal]="true"
+            [label]="'general.labels.no' | translate"
+            [value]="false"
+            class="ms-3"
+            formControlName="adviceAccepted"
+            ngDefaultControl
+          ></cfo-radio-button>
+        </div>
+      </div>
+    </div>
+    <div class="step-header rounded-top px-4 py-3 shadow d-flex">
+      <h4 class="mb-0 fw-bold">{{ 'createIllustration.labels.intermediaryFees' | translate }}</h4>
+      <span [hideDelay]="300" [pTooltip]="'createIllustration.tooltips.feeAmount' | translate" class="ps-2 primary-color">
+        <i class="pi pi-info-circle lender-fee-tooltip-fix"></i>
+      </span>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <ng-container formArrayName="intermediaryFees">
+        <ng-container *ngFor="let intermediaryFee of intermediaryFees.controls; let i = index">
+          <div [formGroup]="$any(intermediaryFee)" class="row">
+            <div class="col-md-4 col-sm-12 mb-2 mb-md-0">
+              <div class="pb-3">
+                <label id="feeAmount"> {{ 'createIllustration.labels.feeAmount' | translate }} * </label>
+              </div>
+              <cfo-input-number
+                [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                [form]="$any(intermediaryFee)"
+                class="journey-input--medium"
+                controlName="feeAmount"
+                aria-labelledby="feeAmount"
+              ></cfo-input-number>
+              <cfo-validation-errors
+                [control]="intermediaryFee.get('feeAmount')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-4 col-sm-12 mb-2 mb-md-0">
+              <label id="whenPayable" class="pb-3"> {{ 'createIllustration.labels.whenPayable' | translate }} * </label>
+              <p-dropdown
+                [options]="whenPayableOptions"
+                class="journey-dropdown"
+                formControlName="whenPayable"
+                ngDefaultControl
+                placeholder="{{ 'createIllustration.placeholders.SelectWhenPayable' | translate }}"
+                aria-labelledby="whenPayable"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+              <cfo-validation-errors
+                [control]="intermediaryFee.get('whenPayable')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-4 col-sm-12 mb-2 mb-md-0">
+              <label id="payableTo" class="pb-3"> {{ 'createIllustration.labels.payableTo' | translate }} * </label>
+              <input
+                class="journey-input"
+                formControlName="payableTo"
+                name="payableTo"
+                pInputText
+                type="text"
+                aria-labelledby="payableTo"
+              />
+              <cfo-validation-errors
+                [control]="intermediaryFee.get('payableTo')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <ng-container *ngIf="lenderFees.controls.length">
+      <div class="step-header rounded-top px-4 py-3 shadow d-flex">
+        <h4 class="mb-0 fw-bold">{{ 'createIllustration.labels.lenderFees' | translate }}</h4>
+        <span [hideDelay]="300" [pTooltip]="'createIllustration.tooltips.lenderFeeAmount' | translate" class="ps-2 primary-color">
+          <i class="pi pi-info-circle lender-fee-tooltip-fix"></i>
+        </span>
+      </div>
+      <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+        <ng-container formArrayName="lenderFees">
+          <ng-container *ngFor="let lenderFee of lenderFees.controls; let i = index">
+            <div [formGroup]="$any(lenderFee)" class="row mt-4">
+              <div class="col-md-4 col-sm-12 mb-2 mb-md-0">
+                <label for="feFeeType" class="pb-3">
+                  {{
+                    lenderFee.get('feeType')?.value !== feeTypeEnum.VALUATION_FEE
+                      ? ('createIllustration.labels.feeType' | translate)
+                      : ('createIllustration.labels.valuationType' | translate)
+                  }}
+                </label>
+                <input id="feFeeType" class="journey-input" formControlName="feFeeType" ngDefaultControl pInputText />
+              </div>
+              <div *ngIf="lenderFee.get('feeAmount')?.value" class="col-md-4 col-sm-12 mb-2 mb-md-0">
+                <label for="lenderFeeAmount" class="pb-3">
+                  {{ 'createIllustration.labels.feeAmount' | translate }}
+                </label>
+                <p-inputNumber
+                  id="lenderFeeAmount"
+                  [maxFractionDigits]="0"
+                  currency="GBP"
+                  formControlName="feeAmount"
+                  mode="currency"
+                  ngDefaultControl
+                  styleClass="journey-input--medium"
+                ></p-inputNumber>
+              </div>
+              <div *ngIf="lenderFee.get('feeAmount')?.value" class="col-md-4 col-sm-12 mb-2 mb-md-0">
+                <label class="pb-3" id="paymentMethodOptions"> {{ 'createIllustration.labels.paymentMethod' | translate }} * </label>
+                <p-dropdown
+                  [options]="paymentMethodOptions"
+                  class="journey-dropdown"
+                  formControlName="paymentMethod"
+                  ngDefaultControl
+                  aria-labelledby="paymentMethodOptions"
+                  placeholder="{{ 'createIllustration.placeholders.selectPaymentMethod' | translate }}"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+                <cfo-validation-errors
+                  [control]="lenderFee.get('paymentMethod')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="row pt-5">
+          <div class="col-12">
+            Total lender fees to be paid in advance:
+            <strong>{{ totalAdvanceLenderFees | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</div>

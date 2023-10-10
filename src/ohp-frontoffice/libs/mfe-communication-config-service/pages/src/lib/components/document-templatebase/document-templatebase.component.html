@@ -1,0 +1,234 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #documentTemplatebaseform="ngForm" class="closefo-form" [ngClass]="{'closefo-form-submitted':documentTemplatebaseform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'communication.document-templatebase.heading.DocumentTemplateBase' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'communication.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(Response)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'communication.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'communication.button.Add' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="name" [gridData]="Response" [selectedDetail]="card"
+                          [gridDataHeader]="documentTemplateHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onRowDelete($event,Response)" (rowClickedEvent)="clickGrid($event)">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="Nothide">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.document-templatebase.card.Name' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox  #name="ngModel"
+                                     Type="text"
+                                     [ControlConfig]="NameTextBoxconfig"
+                                     [ngModel]="card?.name"
+                                     (ngModelChange)="onNameChange($event)"
+                                     name="Name"
+                                     [isAllowSpace]="false"
+                                     [form]="documentTemplatebaseform"
+                                     [cfcFluidValidation]="{
+                          errors: name.errors ? NameTextBoxconfig.Errors : '',
+                          formSubmitted: documentTemplatebaseform.submitted || NameTextBoxconfig.externalError
+                        }"
+                                     [isReadOnly]="editable">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.document-templatebase.card.DocumentTemplateType' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [form]="documentTemplatebaseform"
+                                      [ngModel]="card?.documentTemplateType"
+                                      Type="single"
+                                      name="DocumentTemplateTypeDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="documentTemplateTypeResponse"
+                                      [ControlConfig]="DocumentTemplateTypeDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      #carddropdown="ngModel"
+                                      (OnSelectionChanged)="onDocumentTemplateTypeChange($event)"
+                                      [cfcFluidValidation]="{errors:carddropdown.errors? DocumentTemplateTypeDropdownConfig.Errors :'', formSubmitted: documentTemplatebaseform.submitted || DocumentTemplateTypeDropdownConfig.externalError}"
+                                      [title]="card?.documentTemplateType?.caption=== null?'':card?.documentTemplateType?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label">{{'communication.document-templatebase.card.Adhoc' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox [ControlConfig]="AdHocCheckboxConfig"
+                                      [ngModel]="card?.adHoc"
+                                      name="adHoc"
+                                      [form]="documentTemplatebaseform"
+                                      (ngModelChange)="onAdHocChange($event)">
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.document-templatebase.card.DocGenType' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [form]="documentTemplatebaseform"
+                                      [ngModel]="card?.docGenType"
+                                      Type="single"
+                                      name="DocGenTypeDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="docGenTypeResponse"
+                                      [ControlConfig]="DocGenTypeDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="onDocGenTypeChange($event)"
+                                      #carddocGenTypedropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:carddocGenTypedropdown.errors? DocGenTypeDropdownConfig.Errors :'', formSubmitted: documentTemplatebaseform.submitted || DocGenTypeDropdownConfig.externalError}"
+                                      [title]="card?.docGenType?.caption=== null?'':card?.docGenType?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'communication.document-templatebase.card.ValidFrom' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-datepicker [ControlConfig]="ValidFromDateconfig"
+                                        [ngModel]="card?.validFrom"
+                                        name="validFrom"
+                                        (ngModelChange)="onValidFromChange($event)"
+                                        #validFrom="ngModel"
+                                        [form]="documentTemplatebaseform"
+                                        [maxDate]="card?.validUntil"
+                                        [cfcFluidValidation]="{
+                          errors: validFrom.errors ? ValidFromDateconfig.Errors : '',
+                          formSubmitted: documentTemplatebaseform.submitted || ValidFromDateconfig.externalError
+                        }">
+                  </cfc-fluid-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'communication.document-templatebase.card.ValidUntil' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-datepicker [ControlConfig]="ValidUntilDateconfig"
+                                        [ngModel]="card?.validUntil"
+                                        name="validUntil"
+                                        [form]="documentTemplatebaseform"
+                                        [minDate]="card?.validFrom"
+                                        (ngModelChange)="onValidUntilChange($event)"
+                                        #validUntil="ngModel">
+                  </cfc-fluid-datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.document-templatebase.card.OutputFormat' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="card?.outputFormat"
+                                      Type="single"
+                                      name="OutputFormatDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="outputFormatResponse"
+                                      [ControlConfig]="OutputFormatDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      [form]="documentTemplatebaseform"
+                                      (OnSelectionChanged)="onOutputFormatChange($event)"
+                                      #cardoutputFormatdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:cardoutputFormatdropdown.errors? OutputFormatDropdownConfig.Errors :'', formSubmitted: documentTemplatebaseform.submitted ||  OutputFormatDropdownConfig.externalError}"                                      
+                                      [title]="card?.outputFormat?.caption=== null?'':card?.outputFormat?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{'communication.document-templatebase.card.DocGenDtoName' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown Type="single"
+                                      [ngModel]="card?.docGenDtoName"
+                                      name="docGenDtoNameDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="docGenDtoNameResponse"
+                                      [ControlConfig]="DocGenDtoNameDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      [form]="documentTemplatebaseform"
+                                      (OnSelectionChanged)="onDocGenDtoNameChange($event)"
+                                      #carddocGenDtoNamedropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:carddocGenDtoNamedropdown.errors? DocGenDtoNameDropdownConfig.Errors :'', formSubmitted: documentTemplatebaseform.submitted || DocGenDtoNameDropdownConfig.externalError}"  
+                                      [title]="card?.docGenDtoName?.caption=== null?'':card?.docGenDtoName?.caption">                  
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'communication.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'communication.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'communication.close.yes' | translate}}"
+                              (click)="onYes(Response)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'communication.close.no' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'communication.close.cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>

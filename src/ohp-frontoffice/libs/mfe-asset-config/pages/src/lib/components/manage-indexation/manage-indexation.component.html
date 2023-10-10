@@ -1,0 +1,732 @@
+<div class="whitelabel-config">
+  <div class="close-asset-config container">
+    <form #indexationform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':indexationform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'asset.indexation.titles.manageIndexation' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'asset.button.save' | translate}}" (OnClick)="onSave(indexationList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'asset.button.close' | translate}}" (OnClick)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-9">
+          <div class="closefo-heading-3  add-margin closefo-text-primary">{{'asset.indexation.titles.manageIndexation' | translate}}</div>
+        </div>
+        <div class="col-3 closefo-btn-wrapper text-right add-margin">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'asset.indexation.buttons.add' | translate}}" (OnClick)="addIndexation()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <cfc-fluid-grid Type="bo-table" [paginationStatus]="false" paginationReportStatus="false" dataSelectionMode="single"
+                          [gridDataHeader]="manageIndexationHeader" [gridData]="indexationList?.manageIndexationConfigList" [dataSelection]="dataSelected"
+                          dataKey="indexationList?.manageIndexationConfigList" (rowClickedEvent)=dataSelection($event)
+                          (deleteRowEvent)="onRowDelete($event,indexationList.manageIndexationConfigList)" [selectedDetail]="indexationDetails">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <ng-container *ngIf="onSelectIndexation">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey table-top">
+              <div class="closefo-form-group">
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">{{'asset.indexation.labels.validFrom' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="validFromDateConfig"
+                                              [ngModel]="indexationDetails?.validFrom"
+                                              (ngModelChange)="onChangeValidFrom($event)"
+                                              name="validFrom"
+                                              #validFromDate="ngModel"
+                                              [maxDate]="indexationDetails.validTo"
+                                              [cfcFluidValidation]="{errors:validFromDate.errors? validFromDateConfig.Errors :'', formSubmitted: (this.validFromDateConfig.externalError)}">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'asset.indexation.labels.validTo' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="validToDateConfig"
+                                              [ngModel]="indexationDetails?.validTo"
+                                              (ngModelChange)="onChangeValidTo($event)"
+                                              name="validTo"
+                                              [minDate]="indexationDetails.validFrom"
+                                              #validToDate="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'asset.indexation.labels.reference' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="indexationDetails?.reference"
+                                           (change)="onChangeReference($event)" name="reference" [isAllowSpace]="false"
+                                           [maxlength]="255"
+                                           [form]="indexationform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'asset.indexation.labels.correctionFactor' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="amount"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="indexationDetails?.correctionFactor"
+                                           name="correctionFactor"
+                                           (OnchangedAmount)="onChangeCorrectionFactor($event,true)"
+                                           (ngModelChange)="onChangeCorrectionFactor($event,false)"
+                                           [maxlength]="14"
+                                           [form]="indexationform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">
+                          {{'asset.indexation.labels.roundingScale' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="indexationDetails?.roundingScale"
+                                            [form]="indexationform"
+                                            Type="single"
+                                            name="roundingScale"
+                                            [placeholder]="placeholder"
+                                            [options]="indexationList.manageIndexationConfigInitialData.roundingScaleList"
+                                            [ControlConfig]="DropdownConfig"
+                                            [title]="indexationDetails?.roundingScale?.caption"
+                                            optionLabel="caption"
+                                            dataKey="codeId"
+                                            (ngModelChange)="onChangeRoundingScale($event)"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="closefo-panel-spacing">
+          <div class="row" *ngIf="indexationDetails">
+            <div class="col-md-12">
+              <div class="closefo-heading-3 closefo-text-primary mb-2 ">{{'asset.indexation.titles.indexesPerProvince' | translate}}</div>
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'asset.indexation.labels.a-Groningen' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails?.indexFactorA"
+                                               name="indexFactorA"
+                                               (OnchangedAmount)="onChangeIndexFactorA($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorA($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.b-Friesland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails?.indexFactorB"
+                                               name="indexFactorB"
+                                               (OnchangedAmount)="onChangeIndexFactorB($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorB($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.d-Drenthe' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails?.indexFactorD"
+                                               name="indexFactorD"
+                                               (OnchangedAmount)="onChangeIndexFactorD($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorD($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.e-Overrijsel' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorE"
+                                               name="indexFactorE"
+                                               (OnchangedAmount)="onChangeIndexFactorE($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorE($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.x-Flevoland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorX"
+                                               name="indexFactorX"
+                                               (OnchangedAmount)="onChangeIndexFactorX($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorX($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.g-Gelderland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorG"
+                                               name="indexFactorG"
+                                               (OnchangedAmount)="onChangeIndexFactorG($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorG($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label"> {{'asset.indexation.labels.m-Utrecht' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails?.indexFactorM"
+                                               name="indexFactorM"
+                                               (OnchangedAmount)="onChangeIndexFactorM($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorM($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'asset.indexation.labels.l-Noord-Holland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails?.indexFactorL"
+                                               name="indexFactorL"
+                                               (OnchangedAmount)="onChangeIndexFactorL($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorL($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.h-Zuid-Holland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorH"
+                                               name="indexFactorH"
+                                               (OnchangedAmount)="onChangeIndexFactorH($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorH($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.s-Zeeland' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorS"
+                                               name="indexFactorS"
+                                               (OnchangedAmount)="onChangeIndexFactorS($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorS($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label ">{{'asset.indexation.labels.p-Noord-Brabant' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorP"
+                                               name="indexFactorP"
+                                               (OnchangedAmount)="onChangeIndexFactorP($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorP($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'asset.indexation.labels.k-Limburg' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="indexationDetails.indexFactorK"
+                                               name="indexFactorK"
+                                               (OnchangedAmount)="onChangeIndexFactorK($event,true)"
+                                               (ngModelChange)="onChangeIndexFactorK($event,false)"
+                                               [maxlength]="12"
+                                               [form]="indexationform">
+                            </cfc-fluid-textbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="closefo-panel-spacing">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">{{'asset.indexation.titles.realEstateValueTypeConfiguration' | translate}}</div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-12 closefo-btn-wrapper text-right">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'asset.indexation.buttons.addRealEstateValueType' | translate}}" (OnClick)="addRealEstateValue()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+              <div class="col-12" *ngIf="indexationList">
+                <p-table class="real-table" [value]="indexationList.manageRealEstateValueTypeConfigList" [columns]="realEstateValue" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                        <span>{{col.header}}</span>
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                    <tr (click)=realEstateDataSelect(rowData) [ngClass]="{'highlight' : realEstateDetails === rowData }">
+                      <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                        <span *ngSwitchCase="'realEstateValueType'">
+                          <ng-container *ngIf="!rowData.isReadOnly; else elseblock ">
+
+                            <span>{{rowData.realEstateValueType.caption}}</span>
+                          </ng-container>
+                          <ng-template #elseblock>
+
+                            <cfc-fluid-dropdown [ngModel]="rowData.realEstateValueType"
+                                                Type="single"
+                                                name="realEstateValueType_{{rowData?.realEstateValueType?.caption}}_{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="rowData.realEstateValueTypeList"
+                                                [ControlConfig]="realEstateValueTypeDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                [isReadOnly]="rowData.isRealEstateValueReadOnly"
+                                                (OnSelectionChanged)="onChangeRealEstateValueType($event)"
+                                                #realestateValueDropdown="ngModel"
+                                                [cfcFluidValidation]="{errors:realestateValueDropdown.errors? realEstateValueTypeDropdownConfig.Errors :'', formSubmitted:  (this.realEstateValueTypeDropdownConfig.externalError)}">
+                            </cfc-fluid-dropdown>
+                          </ng-template>
+                        </span>
+                        <span *ngSwitchCase="'isIndexationApplicable'">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [form]="indexationform"
+                                              [ngModel]="rowData.isIndexationApplicable"
+                                              name="isIndexationApplicable_{{rowData?.isIndexationApplicable}}_{{index}}"
+                                              [isReadOnly]="rowData.isCheckBoxReadOnly"
+                                              (ngModelChange)="onChangeisIndexationApplicable($event)">
+                          </cfc-fluid-checkbox>
+                        </span>
+                        <span *ngSwitchCase="'isPossibleReferenceValue'">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [form]="indexationform"
+                                              [ngModel]="rowData.isPossibleReferenceValue"
+                                              name="isPossibleReferenceValue_{{rowData?.isPossibleReferenceValue}}_{{index}}"
+                                              [isReadOnly]="rowData.isCheckBoxReadOnly"
+                                              (ngModelChange)=" onChangeisPossibleReferenceValue($event)">
+                          </cfc-fluid-checkbox>
+                        </span>
+                        <span *ngSwitchCase="'isOverrulingReferenceValueAllowed'">
+                          <div class="closefo-checkbox">
+                            <div class="closefo-input">
+                              <p-triStateCheckbox [ngModel]="rowData.isOverrulingReferenceValueAllowed"
+                                                  name="isOverrulingReferenceValueAllowed_{{rowData?.isOverrulingReferenceValueAllowed}}_{{index}}"
+                                                  [disabled]="!rowData.isPossibleReferenceValue"
+                                                  (ngModelChange)=" onChangeisOverrulingReferenceValueAllowed($event,rowData)">
+                              </p-triStateCheckbox>
+                            </div>
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">{{'asset.indexation.titles.productExcluded' | translate}}</div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey select-hidden">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-12 closefo-btn-wrapper text-right">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'asset.indexation.buttons.addExcludedProduct' | translate}}" (OnClick)="addProduct()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+              <div class="col-12">
+                <p-table [value]="realEstateDetails.realEstateValueTypeConfig2ProductList" [columns]="product" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                        <span>{{col.header}}</span>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                    <tr *ngIf="!rowData.isDeleted">
+                      <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                        <span *ngSwitchCase="'productName'">
+                          <ng-container *ngIf="!rowData.isReadOnly; else elseblock ">
+
+                            <span>{{rowData.productName.caption}}</span>
+
+                          </ng-container>
+                          <ng-template #elseblock>
+
+                            <cfc-fluid-dropdown [ngModel]="rowData.productName"
+                                                Type="single"
+                                                [isReadOnly]="rowData.isProductReadOnly"
+                                                name="productName_{{realEstateDetails.selectedIndex}}_{{index}}"
+                                                [placeholder]="placeholder"
+                                                [options]="rowData.productNameList"
+                                                [ControlConfig]="productNameDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeProduct($event,index)"
+                                                #productNameDropdown="ngModel"
+                                                [cfcFluidValidation]="{errors:productNameDropdown.errors? productNameDropdownConfig.Errors :'', formSubmitted: (this.productNameDropdownConfig.externalError)}">
+                            </cfc-fluid-dropdown>
+                          </ng-template>
+                        </span>
+                        <span *ngSwitchCase="'Delete'">
+                          <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onProductDelete(rowData,realEstateDetails.realEstateValueTypeConfig2ProductList)"></i>  </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">{{'asset.indexation.titles.loanPurposeExcluded' | translate}}</div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey select-hidden">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-12 closefo-btn-wrapper text-right">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'asset.indexation.buttons.addExcludedLoanPurpose' | translate}}" (OnClick)="addLoan()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+              <div class="col-12">
+                <p-table [value]="realEstateDetails.realEstateValueTypeConfig2LoanPurposeList" [columns]="loan" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                        <span>{{col.header}}</span>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                    <tr *ngIf="!rowData.isDeleted">
+                      <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                        <span *ngSwitchCase="'loanPurpose'">
+                          <ng-container *ngIf="!rowData.isReadOnly; else elseblock ">
+
+                            <span>{{rowData.loanPurpose.caption}}</span>
+
+                          </ng-container>
+                          <ng-template #elseblock>
+
+                            <cfc-fluid-dropdown [ngModel]="rowData.loanPurpose"
+                                                Type="single"
+                                                name="loanPurpose{{index}}"
+                                                [placeholder]="placeholder"
+                                                [isReadOnly]="rowData.isLoanReadOnly"
+                                                [options]="rowData.loanPurposeList"
+                                                [ControlConfig]="loanPurposeDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeLoan($event,index)"
+                                                #loanPurposeDropdown="ngModel"
+                                                [cfcFluidValidation]="{errors:loanPurposeDropdown.errors? loanPurposeDropdownConfig.Errors :'', formSubmitted:(this.loanPurposeDropdownConfig.externalError)}">
+                            </cfc-fluid-dropdown>
+
+                          </ng-template>
+                        </span>
+                        <span *ngSwitchCase="'Delete'">
+                          <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onLoanDelete(rowData,realEstateDetails.realEstateValueTypeConfig2LoanPurposeList)"></i> </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">{{'asset.indexation.titles.realEstatePurposeTypeExcluded' | translate}}</div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey select-hidden">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-12 closefo-btn-wrapper text-right">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'asset.indexation.buttons.addExcludedRealEstatePurpose' | translate}}" (OnClick)="addRealEstate()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+              <div class="col-12">
+                <p-table [value]="realEstateDetails.realEstateValueTypeConfig2RealEstatePurposeTypeList" [columns]="realEstate" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                        <span>{{col.header}}</span>
+
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                    <tr *ngIf="!rowData.isDeleted">
+                      <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                        <span *ngSwitchCase="'realEstatePurposeType'">
+                          <ng-container *ngIf="!rowData.isReadOnly; else elseblock ">
+
+                            <span>{{rowData.realEstatePurposeType.caption}}</span>
+
+                          </ng-container>
+                          <ng-template #elseblock>
+
+                            <cfc-fluid-dropdown [ngModel]="rowData.realEstatePurposeType"
+                                                Type="single"
+                                                name="realEstatePurposeType{{index}}"
+                                                [placeholder]="placeholder"
+                                                [disabled]="rowData.isRealEstateReadOnly"
+                                                [options]="rowData.realEstatePurposeTypeList"
+                                                [ControlConfig]="realEstatePurposeDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeRealEstate($event,index)"
+                                                #realEstatePurposeDropdown="ngModel"
+                                                [cfcFluidValidation]="{errors:realEstatePurposeDropdown.errors? realEstatePurposeDropdownConfig.Errors :'', formSubmitted: (this.realEstatePurposeDropdownConfig.externalError)}">
+                            </cfc-fluid-dropdown>
+
+                          </ng-template>
+                        </span>
+                        <span *ngSwitchCase="'Delete'">
+                          <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRealEstateDelete(rowData,realEstateDetails.realEstateValueTypeConfig2RealEstatePurposeTypeList)"></i> </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showConfirmationDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'asset.indexation.confirmation.attention' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{confirmationMessage}}
+          </div>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'asset.close.yes' | translate}}" (OnClick)="onClickYes(indexationList)"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'asset.close.no' | translate}}" (OnClick)="onClickNo(indexationList)"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              
+            </div>
+          </ng-template>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'asset.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'asset.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'asset.close.yes' | translate}}" (OnClick)="onYes(indexationList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'asset.close.no' | translate}}" (OnClick)="onNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'asset.close.cancel' | translate}}" (OnClick)="onCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>
+
+

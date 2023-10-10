@@ -1,0 +1,41 @@
+<div class="row mt-4">
+  <form [formGroup]="accountInfoForm">
+    <p-accordion styleClass="form-accordion">
+      <p-accordionTab [selected]="isOpen">
+        <ng-template pTemplate="header">{{ 'intermediary.titles.accountInfo' | translate }}</ng-template>
+        <ng-template pTemplate="content">
+          <div class="row mt-4">
+            <div class="col-md-3 col-12">
+              <label id="aiMobile">{{ ('intermediary.labels.mobile' | translate) + ' *' }}</label>
+              <cfo-phone-input controlName="mobile" size="large" aria-labelledby="aiMobile"></cfo-phone-input>
+            </div>
+            <div class="col-md-3 col-12">
+              <label id="mobile">{{ 'intermediary.labels.tel' | translate }} {{ addNewLender ? '*' : '' }}</label>
+              <cfo-phone-input controlName="tel" size="large" aria-labelledby="mobile"></cfo-phone-input>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-3 col-12">
+              <label id="aiEmail">{{ ('intermediary.labels.email' | translate) + ' *' }}</label>
+              <input
+                type="text"
+                pInputText
+                class="journey-input--large"
+                formControlName="email"
+                aria-labelledby="aiEmail"
+                ngDefaultControl
+              />
+              <cfo-validation-errors
+                [control]="accountInfoForm.get('email')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  email: ('general.validations.email' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</div>

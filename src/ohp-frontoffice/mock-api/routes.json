@@ -1,0 +1,16 @@
+{
+  "/api/cases/:caseId/dipsummary": "/api/dip",
+  "/api/dip/:id/propertyandloandetails/:otherId": "/api/propertyandloansdetails",
+  "/api/dip/:id/productselection/:otherId": "/api/productselection",
+  "/api/dip/:id/securityproperty/": "/api/securityproperty",
+  "/api/dip/:id/applicants/personaldetails/": "/api/personaldetails",
+  "/api/dip/:id/applicants/currentincome": "/api/currentincome",
+  "/api/Illustration/:id/loandetails/:otherId": "/api/propertyandloansdetails",
+  "/api/FMA/:id/contactdetails": "/api/contactdetails",
+  "/api/FMA/:id/applicants/currentincome": "/api/currentincome",
+  "/api/FMA/:id/applicants/retirementincomedetails": "/api/retirementincomedetails",
+  "/api/FMA/:id/productselection/:otherId": "/api/productselection",
+  "/api/FMA/:id/adviceandfees/:otherId": "/api/adviceandfees",
+  "/api/FMA/:id/valuationdetails": "/api/valuationdetails",
+  "/api/*": "/$1"
+}

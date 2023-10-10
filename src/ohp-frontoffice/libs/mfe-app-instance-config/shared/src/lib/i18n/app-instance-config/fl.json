@@ -1,0 +1,624 @@
+{
+  "app-instance": {
+    "manage-integration": {
+      "heading": {
+        "manage-integration": "Manage Integration Data fields configuration",
+        "integrationField": "NL - Integration Data Fields Overview",
+        "integrationFieldDetail": "NL - Integration Data Field Detail",
+        "List": "NL - List Items"
+      },
+      "tabel": {
+        "FieldDescription": "NL - Field Description",
+        "FieldType": "NL - Field Type",
+        "ServicingOrganization": "NL - Servicing Organization",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "FieldDescription": "NL - Field Description",
+        "ServicingOrg": "NL - Servicing Organization",
+        "FieldType": "NL - Field Type",
+        "Length": "NL - Length",
+        "FieldCaption": "NL - Field Caption",
+        "Sequence": "NL - Sequence",
+        "TagName": "NL - Tag Name",
+        "Add": "Voeg Toe"
+      },
+      "validationErrors": {
+        "FieldName": "'NL - Field Description' is verplicht.",
+        "FieldType": "'NL - Field Type' is verplicht.",
+        "FieldCaption": "'NL - Field Caption' is verplicht.",
+        "TagName": "'NL - Tag Name' is verplicht.",
+        "ServicingOrganization": "'NL - Servicing Organization' is verplicht.",
+        "Length": "'NL - Length' is verplicht.",
+        "fieldNameBusinessError": "NL - For Field Description, '",
+        "fieldCaptionBusinessError": "NL - For Field Caption, '",
+        "tagNameBusinessError": "NL - For Tag Name, '",
+        "duplicateMessage": "' already exists in the list",
+        "oneListItems": "NL - Please select atleast 1 list item",
+        "LengthLimit": "De waarde van 'NL - Length' moet gelegen zijn tussen 1 en 80."
+      }
+    },
+    "credit-provider": {
+      "heading": {
+        "credit-provider": "Manage Credit Provider Config",
+        "selectcredit": "Kies Kredietgever",
+        "viewDetails": "Bekijk details",
+        "creditDossier": "NL - Credit Dossier Structure",
+        "paymentsetting": "Instellingen voor binnenkomende betalingen",
+        "paymentOut": "Uitbetalings instellingen",
+        "AgenaTask": "Agenda Taken voor Bonussen",
+        "refundSetting": "Instellingen voor terugbetalingen",
+        "PrePaymeny": "Instellingen voor vervroegde terugbetalingen",
+        "CreditRegular": "Instellingen kredietregularisatie",
+        "InterestSettings": "Interest instellingen",
+        "LTV": "Leenquotiteit berekeningsinstellingen",
+        "Amortization": "Aflossingstabel",
+        "MutationSettings": "Mutatie-instellingen",
+        "AssetSettings": "NL - Asset Settings",
+        "ResendCollection": "NL - Resend Collection When Reason Code Is:",
+        "EnforcableTitle": "Uitvoerbare titel",
+        "Reminder": "NL - Reminder",
+        "WriteOff": "NL - WriteOff",
+        "Arrears": "Achterstallen",
+        "CommissionTitle": "Commissienota",
+        "MaximumAmounts": "NL - Maximum Amounts For Automatic Validation",
+        "PaymentValidator": "Details betalings validatie groep",
+        "PaymentValidatorDetail": "detail betaling door Validator",
+        "TrustedAccount": "NL - Trusted Account Detail",
+        "BannedAccountDetails": "Details geblokkeerde rekeningen",
+        "TrustedIBANAccount": "detail vertrouwde IBAN rekening",
+        "Address": "Adres",
+        "percentageofLimitDetail": "Nl - Percentage Of Limit Detail",
+        "Outstanding": "Saldo",
+        "Remaining": "NL - Remaining Theoretical Duration",
+        "DirectDebitEvent": "NL - Direct Debit Events"
+      },
+      "tabheader": {
+        "general": "Algemeen",
+        "DirectDebit": "Domiciliëringen",
+        "Collections": "Opzegging",
+        "Commission": "Commissie",
+        "ValidatePayments": "Valideer Betaling",
+        "TrustedAccount": "Vertrouwde  rekeningen",
+        "BannedAccounts": "Geblokkeerde rekeningen",
+        "MutationCost": "NL - Mutation Cost",
+        "Actualization": "NL - Actualization"
+      },
+      "card": {
+        "creditProvider": "Kredietgever",
+        "creditDossiers": "NL - Credit Dossier Structure",
+        "IsCredit": "Nl - Is Credit Reference Formatting Required",
+        "CollectionAccount": "NL - Collections Account",
+        "CollectionAccountNumber": "NL - Collections Account Number",
+        "CollectionsSortCode": "NL - Collections Sort Code",
+        "Financial": "Prefix finan. Instelling",
+        "IdentificationNum": "Identificatie nummer",
+        "DisbursementAccount": "NL - Disbursement Account",
+        "DisbursemenBIC": "NL - Disbursement BIC",
+        "DisNumber": "NL - Disbursement Account Number",
+        "Dissort": "NL - Disbursement Sort Code",
+        "MinDue": "minimum aantal dagen voor taak",
+        "MinUrgent": "minimum aantal dagen voor dringende taak",
+        "MinAmount": "NL - Min Amount for Task for Revolving",
+        "MinThresHold": "Minimum drempelwaarde voor bonusbetaling",
+        "MinDueT": "Min. verschuldigd bedrag voor teruggave ",
+        "MinElasPsed": "NL - Min. Elapsed Period for Remise",
+        "MaxDueT": "Max. verschuldigd bedrag voor teruggave ",
+        "MaxElasPsed": "Max. verstreken periode voor teruggave ",
+        "RefundBonus": "Terugbetaling van bonus naar",
+        "MaxDueAfter": "Max. Due After Prep. Charge For Consumer Loans",
+        "MaxAfter": "NL - Max. Due After Prep. Charge for Mortgage Loans",
+        "NrOf": "Aantal dagen vooraankondiging",
+        "Autom": "NL - Autom. partial prepayment upon payment",
+        "NrDays": "Aantal dagen voor kredietregularisatie",
+        "Calc1": "Ber. 1e interest van uitbetalingsdatum",
+        "NrOfDay": "Aantal dagen afwijking voor eerste renteberekening",
+        "ChargeFirst": "reken rente aan op eerste kalendervervaldag",
+        "ApplyInterest": "gebruik rente kapitalisatie bij doorlopende kredieten",
+        "ApplyMin": "Pas Min/Max Netto Tarief Toe",
+        "RemoveRun": "Verwijder tariefherzieningsvoorstellen onder min tarief",
+        "ExtendRevision": "NL - Extend Revision Periods Within Limit",
+        "NumberOfMonths": "NL - Number Of Months To Extend Revision Period",
+        "NumDays": "NL - Number Of Days To Extend Variable Revision Period",
+        "ThirdParty": "Garantiepercentage van derden",
+        "UseDossier": "Gebruik dossier LTV",
+        "DueDate": "kalendar dag tenlastelegging",
+        "Theoretical": "NL - Theoretical End Date Determination Type",
+        "No4Eye": "Geen 4-ogen validatie voor muteren onderpand",
+        "No4EyeRole": "Geen 4-ogen validatie voor muteren rol",
+        "Transfer": "NL - Transfer Remaining Grace Period",
+        "No4EyeReal": "NL - No 4-Eye Validation For Real Estate Value",
+        "CreditorScheme": "Incassant ID",
+        "ClaimData": "Incassodatum afwijking van vervaldatum",
+        "DaysBefore": "Dagen Vóór Vervaldag",
+        "UseBusiness": "Gebruik werkdagen bij incassodatumsberekening",
+        "DaysOn": "NL - Days On Resend",
+        "LimitDaysOn": "NL - Limit Days On Resend",
+        "DueIn": "NL - Due In Installment Calculation Method",
+        "maximumAmount": "NL - Maximum Amount",
+        "BonusDueIn": "NL - Bonus In Installment Calculation Method",
+        "maximumAmounts": "NL - Maximum Amount",
+        "CalculateFull": "Bereken Volledige verwijlintresten",
+        "AggrigateDirect": "NL - Aggregate Direct Debit Collection",
+        "IsAssumed": "NL - Is Assumed Paid",
+        "SendEvent": "NL - Send Event",
+        "ResendEvent": "NL - Resend Event",
+        "StopAllocation": "Stop allocatie terugdraaien bij storno met voldoende restitutie",
+        "sendDirect": "NL - Send Direct Debit Instruction",
+        "DaysToProcess": "NL - Days To Process Direct Debit Instruction",
+        "NrOfDays": "aantal dagen te notifieren vóór vervallen",
+        "PaymentPromis": "NL - Payment Promise Grace Days",
+        "CheckOn": "NL - Check On Servicing Notice Upon Debtor Date",
+        "Servicing": "NL - Servicing Notice Upon Debtor Number Of Days",
+        "Intermediate": "NL - Intermediate Write Off Allowed",
+        "Extended": "NL - Expected Margin Calculation Method",
+        "Commissionnote": "NL - Commission note periodicity",
+        "Commissionnotecalender": "NL - Commission note calender day",
+        "EnableCommissionPayment": "Betaling Commissie",
+        "ConstructionDepot": "NL - Construction Depot Payment Amount",
+        "SubsidyPayment": "NL - Subsidy Payment Amount",
+        "BonusRefund": "NL - Bonus Refund Amount",
+        "CostPayment": "NL - Cost Payment Amount",
+        "PaymentOut": "NL - Payment Out Amount",
+        "IntermediaryPayment": "NL - Intermediary Payment Amount",
+        "MortgageDossier": "NL - Mortgage Dossier Payment Amount",
+        "RunningAccount": "NL - Running Account Payment Amount",
+        "PaymentValidator": "Betalings validatie groep",
+        "IsOf": "NL - Is for construction depot payment",
+        "Issub": "NL - Is for subsidy payment",
+        "Isbonus": "NL - Is for bonus refund",
+        "Iscost": "NL - Is for cost payment",
+        "IsPaymentOut": "NL - Is for payment out",
+        "IsForInter": "NL - Is for intermediary payment",
+        "IsforMortgage": "NL - Is for mortgage dossier payment",
+        "IsForRunning": "NL - Is for running account payment",
+        "Validator": "Validator",
+        "Email": "E-mail",
+        "Name": "Naam",
+        "AccountNumber": "NL - Account Number",
+        "Sortcode": "NL - Sort Code",
+        "Name1": "Naam",
+        "PayeeReference": "NL - Payee Reference",
+        "AccountNumber1": "NL - Account Number",
+        "SortCode": "NL - Sort Code",
+        "Nameb": "Bedrijf/naam",
+        "IBAN": "IBAN",
+        "NameBA": "Name",
+        "IBANAccount": "IBAN",
+        "BICCode": "BIC",
+        "Land": "Land",
+        "Street": "Straat",
+        "HouseNr": "Huisnr.",
+        "HouseNrSuffix": "NL - House Nr Suffix",
+        "Box": "Bus",
+        "PostalCode": "Postcode",
+        "City": "Plaats",
+        "Defaulting": "NL - Defaulting Mutation Costs",
+        "ChargeMutation": "NL - Charge Mutation Cost Once per Mutation Type",
+        "MaxTotal": "NL - Max Total Mutation Cost per Credit",
+        "Maxtotal": "NL - Max Total Mutation Cost for Dssier Mutation",
+        "ActualizationT": "NL - Actualization Threshold For Outstanding",
+        "ActualizationF": "NL - Actualization Frequency In Months For Outstanding",
+        "ActualizationD": "NL - Actualization Threshold For Remaining Duration",
+        "ActualizationR": "NL - Actualization Frequency In Months For Remaining Duration",
+        "Precomputed": "NL - PreComputed Credits",
+        "Revolving": "NL - Revolving Credits",
+        "InstallmentAmount": "Vervaldag Bedrag",
+        "Amount": "Bedrag",
+        "Percentage": "Percentage",
+        "SplitStrategy": "NL - Split Strategy",
+        "Inequalamounts": "NL - In equal amounts",
+        "Oninstallmentamount": "NL - On installment amount",
+        "Onmaximumamount": "NL - On maximum amount",
+        "SuspendDirectDebit": "NL - Suspend Direct Debit By Default",
+        "SuspendReminders": "NL - Suspend Reminders By Default"
+      },
+      "tabel": {
+        "": "",
+        "paymentValidator": "Betalings validatie groep",
+        "Validator": "Validator",
+        "Email": "E-mail",
+        "Name": "Naam",
+        "PayeeReference": "Payee Reference",
+        "bankAccount": "Bankrekening",
+        "Names": "Naam",
+        "IBANAccount": "IBAN",
+        "BICCode": "BIC",
+        "MinDuration": "NL - Min Duration In Months",
+        "MaxDuration": "NL - Max Duration In Months",
+        "PercentageOfLimit": "NL - Percentage Of Limit Threshold",
+        "CreditStatus": "Krediet status",
+        "add": "Voeg Toe"
+      },
+      "validations": {
+        "MinDueDateForTask": "'minimum aantal dagen voor taak' is verplicht.",
+        "MinDueDateForUrgentTask": "'minimum aantal dagen voor dringende taak' is verplicht.",
+        "MinAmountForTaskRevolvong": "'NL - Min Amount for Task for Revolving' is verplicht.",
+        "MinBonusThreshold": "'Minimum drempelwaarde voor restitutie' is verplicht.",
+        "MinDueThreshold": "'Min. verschuldigd bedrag voor teruggave ' is verplicht",
+        "MinelapsedPeriod": "'NL - Min. Elapsed Period for Remise' is verplicht.",
+        "RefundBonus": "'Terugbetaling van bonus naar' is verplicht.",
+        "MaxDueAfterPrep": "'MinRemainingValueAfterPrepayment' is verplicht.",
+        "NrOfDaysAdvanced": "'Aantal dagen vooraankondiging' is verplicht.",
+        "NrOfDaysForCredit": "'Aantal dagen voor kredietregularisatie' is verplicht.",
+        "ExtendRevision": "'NL - Extend Revision Periods Within Limit' is verplicht.",
+        "Periodicity": "'NL - Commission note periodicity' is verplicht.",
+        "CalendarDay": "'NL - Commission note calendar day' is verplicht.",
+        "ExpectedMargin": "'NL - Expected Margin Calculation Method' is verplicht.",
+        "ServicingNotice": "'NL - Servicing Notice Upon Debtor Number Of Days' is verplicht.",
+        "GraceDays": "'NL - Payment Promise Grace Days' is verplicht.",
+        "NotifyBeforeExpiration": "'NrOfDaysBeforeEnfTitleExpiration' is verplicht.",
+        "ChargeMutationCost": "'NL - Charge Mutation Cost Once per Mutation Type' is verplicht.",
+        "MinDurationInMonths": "'NL - Min Duration In Months' is verplicht.",
+        "MaxDurationInMonths": "'NL - Max Duration In Months' is verplicht.",
+        "PercentageOfLimit": "'NL - Percentage Of Limit Threshold' is verplicht.",
+        "Email": "'E-mail' is verplicht.",
+        "Name": "'Naam' is verplicht.",
+        "BankAccount": "'IBAN rekeningnummer' is verplicht.",
+        "AccountNumber": "'NL - Account Number' is verplicht.",
+        "SortCode": "'NL - Sort Code' is verplicht.",
+        "AggregateDirectdebit": "'NL - Aggregate Direct Debit Collection' is verplicht.",
+        "BonusInInstallment": "'NL - Bonus In Installment Calculation Method' is verplicht.",
+        "DueInInstallemnt": "'NL - Due In Installment Calculation Method' is verplicht.",
+        "LimitDaysOnResend": "'NL - Limit days on Resend' is verplicht.",
+        "DaysonResend": "'NL - Days on Resend' is verplicht.",
+        "ClaimDateCalculation": "'Gebruik werkdagen bij incassodatumsberekening' is verplicht.",
+        "DaysBeforeDueDate": "'Dagen Vóór Vervaldag' is verplicht.",
+        "CreditorSchemeID": "'Incassant ID' is verplicht.",
+        "SendEvent": "'NL -Send Event' is verplicht.",
+        "IBANAccountNumber": "'IBAN rekeningnummer' is verplicht.",
+        "BICCode": "'BICCode' is verplicht.",
+        "Land": "'Land' is verplicht.",
+        "Postcode": "'Postcode' is verplicht.",
+        "City": "'Plaats' is verplicht.",
+        "Street": "'Straat' is verplicht.",
+        "HouseNumber": "'HouseNumber' is verplicht.",
+        "CreditStatus": "'Krediet status' is verplicht.",
+        "actualizationFrequencyForOutstanding": "'NL - Actualization Frequency In Months For Outstanding' is verplicht.",
+        "actualizationFrequencyForRemainingDuration": "'NL - Actualization Frequency In Months For Remaining Duration' is verplicht.",
+        "actualizationThresholdForOutstanding": "'NL - Actualization Threshold For Outstanding' is verplicht.",
+        "actualizationThresholdForRemainingDuration": "'NL - Actualization Threshold For Remaining Duration' is verplicht.",
+        "numberOfDaysToExtendVariableRevision": "'NL - Number Of Days To Extend Variable Revision Period' is verplicht.",
+        "numberOfMonthsToExtendRevisionPeriod": "'NL - Number Of Months To Extend Revision Period' is verplicht.",
+        "MinDurationBusinessError": "NL - The minimum duration cannot be higher than the maximum duration.",
+        "NoOverlapForActualization": "NL - It is not allowed to have any overlap with the minimum and maximum duration in months of an existing actualization threshold.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "GenericMapping": {
+      "heading": {
+        "GenericMapping": "Manage BO Generic Mapping"
+      },
+      "tabel": {
+        "ExternalValue": "NL - External Value",
+        "InternalValue": "NL - Internal Value",
+        "InternalType": "NL - Internal Type",
+        "MappingContext": "NL - Mapping Context",
+        "MappingDirection": "NL - Mapping Direction",
+        "CreditProvider": "NL - Credit Provider",
+        "delete": ""
+      },
+      "card": {
+        "ExternalValue": "NL - External Value",
+        "InternalValue": "NL - Internal Value",
+        "InternalType": "NL - Internal Type",
+        "MappingContext": "NL - Mapping Context",
+        "MappingDirection": "NL - Mapping Direction",
+        "CreditProvider": "NL - Credit Provider",
+        "Add": "Voeg Toe"
+      },
+      "validationError": {
+        "required": " is verplicht.",
+        "ExternalValue": "'NL - External Value'",
+        "InternalValue": "'NL - Internal Value'",
+        "InternalType": "'NL - Internal Type'",
+        "MappingContext": "'NL - Mapping Context'",
+        "MappingDirection": "'NL - Mapping Direction'",
+        "CreditProvider": "'NL - Credit Provider'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "general": {
+      "heading": {
+        "manage-credit": "Beheer krediet",
+        "CreditSetting": "Krediet instellingen",
+        "General": "Manage Rate Revision"
+      },
+      "card": {
+        "RateRevision": "Herzieningssysteem",
+        "HighestRevision": "NL - Highest Revision Period Method"
+      },
+      "mandatory": {
+        "HighestRevision": "'NL - Highest Revision Period Method'",
+        "required": " is verplicht."
+      }
+    },
+
+    "revision-period": {
+      "heading": {
+        "manage-credit": "Beheer krediet",
+        "RevisionPeriod": "Manage Revision periods",
+        "": ""
+      },
+      "tabel": {
+        "RevisionPeriod": "NL - Revision Period Type",
+        "RevisionP": "Herzieningssysteem",
+        "PeriodInYears": "Periode in jaren",
+        "PeriodInMonths": "Periode in maanden",
+        "delete": "Verwijderen",
+        "quarter": "NL - Starts On Next Quarter"
+
+      },
+      "card": {
+        "RevisionPT": "NL - Revision Period Type",
+        "RevisionPeriod": "Herzieningssysteem",
+        "PeriodInYears": "Periode in jaren",
+        "PeriodInMonths": "Periode in maanden",
+        "isAllowed": "NL - Is Allowed For Rate Revision",
+        "Add": "Voeg Toe"
+      },
+      "mandatory": {
+        "RevisionPT": "'NL - Revision Period Type'",
+        "RevisionPeriod": "'Herzieningssysteem'",
+        "PeriodInYears": "'Periode in jaren'",
+        "required": " is verplicht."
+      }
+    },
+
+    "prepayment-reason": {
+      "heading": {
+        "prepayment": "Manage prepayment reason penalty"
+      },
+      "tabel": {
+        "prepaymentName": "Reden terugbetaling",
+        "calculatePenality": "Boete berekenen",
+        "MaxPenality": "NL - Maximum Penalty Percentage"
+      }
+    },
+    "manage-legislation": {
+      "heading": {
+        "managelegislation": "manage legislation",
+        "search": "Zoekcriteria",
+        "ResultSet": "Resultaten",
+        "Detail": "Detail",
+        "Validation": "NL - Validation Criteria",
+        "threadholderdetail": "NL - Threshold For Credit Bureau Registration"
+      },
+      "tabel": {
+        "country": "Land",
+        "start": "Begin",
+        "end": "Einde",
+        "": "",
+        "minam": "Minimum",
+        "maxam": "Maximum",
+        "mindur": "NL - Min dur.",
+        "maxdur": "Maximum Duurtijd",
+        "aprpre": "verwijlintresten LOA",
+        "minams": "Minimum",
+        "maxams": "Maximum",
+        "aprrve": "verwijlintresten KO",
+        "minrepay": "Min terugbet. ",
+        "minrepays": "Min terugbet. %",
+        "fullrepay": "Volledige Terugbetaling Max Duur",
+        "minamo": "Minimum",
+        "maxamo": "Maximum",
+        "aprrveo": "verwijlintresten KO",
+        "fullrepayo": "Volledige Terugbetaling Max Duur",
+        "retail": "NL- Retail Leading SubType",
+        "ThtesAmount": "NL - Threshold Amount"
+      },
+      "card": {
+        "country": "Land",
+        "activeDate": "Startdatum",
+        "countrys": "Land",
+        "StartDate": "Begindatum",
+        "EndDate": "NL - End Date"
+      },
+      "tabheader": {
+        "precomputed": "Lening op Afbetaling ",
+        "Revolving": "Kredietopening met terugbetaling kapitaal",
+        "Revolvingwo": "kredietopening zonder terugbetaling kapitaal"
+      },
+      "ValidationError": {
+        "required": " is verplicht .",
+        "countrys": "'Country'",
+        "StartDate": "'Start Date'",
+        "FinanceMin": "'FinanceAmountMin'",
+        "FinanceMax": "'FinanceAmountMax'",
+        "MinDuration": "'CreditDurationMinInMonths'",
+        "MaxDuration": "'CreditDurationMaxInMonths'",
+        "aprMax": "'APRMax'",
+        "RevPrincipalMin": "'RevPrincipalRepayAbsMin'",
+        "RevPrincipalRelMin": "'RevPrincipalRepayRelMin'",
+        "RevMaxDuration": "'MaxCalibrationDuration'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "retailLending": "'NL - Retail Lending SubType'",
+        "MinError": "NL - Min finance amount should not exceed Max finance amount",
+        "MaxError": "NL - Max finance amount should not be lesser Min finance amount"
+      },
+      "BusinessError": {
+        "EndDate": "NL - The EndDate should be left empty for the last Legislation for country ",
+        "PeriodExist": "NL - Atleast one detail must exist for the period for country ",
+        "ThresholdBusiness": "NL - Only one threshold can be defined for a Retail lending subtype",
+        "MultipleLegislation": "NL - It is not Possible to have multiple Legislation where EndDate is not defined for country ",
+        "Overlapping": "NL - No gaps or overlapping Legislation periods are allowed for country ",
+        "NoRecord": "NL - There is no record match for your search criteria. ",
+        "LegislationObject": "There is already a legislation object valid for this period."
+      },
+      "AddButtons": {
+        "AddLegislation": "Voeg Toe",
+        "AddDetail": "Voeg detail toe",
+        "AddThreshold": "NL - Add Threshold",
+        "continue": "NL - Continue"
+      }
+    },
+
+    "cmGeneric": {
+      "heading": {
+        "Generic": "Manage cm generic mapping"
+      },
+      "tabel": {
+        "ExternalValue": "NL - External Value",
+        "InternalValue": "NL - Internal Value",
+        "InternalType": "NL - Internal Type",
+        "MappingContext": "NL - Mapping Context",
+        "MappingDirection": "NL - Mapping Direction",
+        "CreditProvider": "NL - Credit Provider",
+        "delete": ""
+      },
+      "card": {
+        "ExternalValue": "NL - External Value",
+        "InternalValue": "NL - Internal Value",
+        "InternalType": "NL - Internal Type",
+        "MappingContext": "NL - Mapping Context",
+        "MappingDirection": "NL - Mapping Direction",
+        "CreditProvider": "NL - Credit Provider",
+        "Add": "Voeg Toe"
+      },
+      "validationError": {
+        "required": " is verplicht.",
+        "ExternalValue": "'NL - External Value'",
+        "InternalValue": "'NL - Internal Value'",
+        "InternalType": "'NL - Internal Type'",
+        "MappingContext": "'NL - Mapping Context'",
+        "MappingDirection": "'NL - Mapping Direction'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "codetable": {
+      "heading": {
+        "codetable": "Manage codetables"
+      },
+      "tabel": {
+        "CodetableName": "NL - Codetable Name",
+        "ParameterName": "NL - Parameter Name",
+        "isSingleValue": "NL - IsSingleValue",
+        "Delete": ""
+      },
+      "card": {
+        "CodetableName": "NL - Codetable Name",
+        "ParameterName": "NL - Parameter Name",
+        "isSingleValue": "NL - IsSingleValue"
+      },
+      "picker": {
+        "CodeTableValue": "NL - Code Table Value",
+        "SelectedCodeTableValue": "NL - Selected Code Table Value"
+      },
+      "ValidationError":{
+        "required": " is verplicht .",
+        "CodetableName": "'NL - Codetable Name'",
+        "ParameterName": "'NL - Parameter Name'",
+        "BusinessError":"NL - The given record is already in the list. Please make sure that the record is unique.",
+        "SingleParamBusinesssError":"NL - Invalid data for CodetableParameter "
+      }
+    },
+
+
+    "freefield": {
+      "heading": {
+        "freefield": "Manage Freefields"
+      },
+      "card": {
+        "FieldName": "NL - Field Name",
+        "TagName": "NL - Tag Name",
+        "ContextType": "NL - Context Type",
+        "ContextSubType": "NL - Context Sub Type",
+        "FreeField": "NL - Free Field",
+        "FreeFieldType": "NL - Free Field Type",
+        "FreeFieldLength": "NL - Free Field Length",
+        "Sequence": "NL - Sequence",
+        "LegalEntity": "NL - Legal Entity"
+      },
+      "tabel": {
+        "FieldName": "NL - Field Name",
+        "TagName": "NL - Tag Name",
+        "ContextType": "NL - Context Type",
+        "ContextSubType": "NL - Context Sub Type",
+        "FreeField": "NL - Free Field",
+        "FreeFieldType": "NL - Free Field Type",
+        "FreeFieldLength": "NL - Free Field Length",
+        "Sequence": "NL - Sequence",
+        "LegalEntity": "NL - Legal Entity",
+        "Delete": "Verwijderen",
+        "Add": "Voeg Toe"
+      },
+      "picker": {
+        "DossierType": "NL - Context Sub Type",
+        "SelectedDossierType": "NL - Selected Context Sub Type",
+        "ListValue": "NL - List Value",
+        "SelectedListValue": "NL - Selected List Value"
+      },
+      "validation": {
+        "FieldName": "'NL - Field Name' is verplicht.",
+        "FieldType": "'NL - Free Field Type' is verplicht.",
+        "FreeField": "'NL - Free Field' is verplicht.",
+        "ContextType": "'NL - Context Type' is verplicht.",
+        "LegalEntity": "'NL - Legal Entity' is verplicht.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "arrearsConfig":{
+      "heading": {
+        "ArrearConfig": "Manage Arrears TxEl Type"
+      },
+      "tabel": {
+        "Name": "Bedrijf/Naam",
+        "Delete": ""
+      },
+      "Card": {
+        "Name": "Bedrijf/Naam",
+        "TxelType": "NL - TxEl Type",
+        "Selectedtxel": "NL - Selected TxEl Type"
+      },
+      "ValidationError": {
+        "Required": "is verplicht.",
+        "Name": "'Bedrijf/Naam'",
+        "Txel": "'NL - Selected TxEl Type' is verplicht.",
+        "DupBusinessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    }, 
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "search": "Zoeken",
+      "Add": "Voeg Toe"
+    },
+    "roleType": {
+      "heading": {
+        "roleType": "Manage roletype vs partyquality"
+      },
+      "tabel": {
+        "PartyQualityName": "NL - Party Quality Name",
+        "Delete": "Verwijderen"
+      },
+      "card": {
+        "PartyQualityName": "NL - Party Quality Name"
+      },
+      "picker": {
+        "RoleType": "NL - Role Type",
+        "SelectedRoleType": "NL - Selected Role Type"
+      },
+      "mandatory": {
+        "PartyQualityName": "'NL - Party Quality Name'",
+        "required": " is verplicht.",
+        "DupBusinessError": "NL - The given record is already in the list. Please make sure that the record is unique",
+        "PicklistError": "'NL - Role Type'"
+      }
+    },
+    "validation": {
+      "validationHeader": " Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+    },
+    "close": {
+      "header": "Onopgeslagen Wijzigingen",
+      "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "yes": "Ja",
+      "no": "Nee",
+      "cancel": "Annuleer"
+    }
+  }
+}

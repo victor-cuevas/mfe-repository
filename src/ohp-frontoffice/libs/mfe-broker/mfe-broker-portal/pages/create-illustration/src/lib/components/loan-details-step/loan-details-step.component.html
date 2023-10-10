@@ -1,0 +1,98 @@
+<!-- Title -->
+<div class="container pb-4">
+  <h2 class="mb-1">{{ 'createIllustration.titles.loanDetails' | translate }}</h2>
+</div>
+<!-- Content -->
+<div class="container my-2">
+  <form [formGroup]="loanDetailsForm">
+    <div class="rounded shadow">
+      <div class="step-header rounded-top px-4 py-3">
+        <h4 class="mb-0 fw-bold">{{ 'createDip.subtitles.propertyDetails' | translate }}</h4>
+      </div>
+      <div class="step-body rounded-bottom bg-white px-4 py-5 mb-5">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <label id="purchasePrice" class="text-truncate">
+              {{ 'createIllustration.labels.purchasePrice' | translate }}
+              <span class="alertcontainer">
+                {{ 'general.validations.required' | translate }}
+              </span>
+            </label>
+            <cfo-input-number
+              [form]="loanDetailsForm"
+              controlName="purchasePrice"
+              aria-labelledby="purchasePrice"
+              [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+            >
+            </cfo-input-number>
+            <cfo-validation-errors
+              [control]="loanDetailsForm.get('purchasePrice')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                min: ('general.validations.minPurchasePrice' | translate: { min: CONFIGURATION.MIN_PURCHASE_PRICE }),
+                max: ('general.validations.maxPurchasePrice' | translate: { max: CONFIGURATION.MAX_PURCHASE_PRICE })
+              }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col-12 col-md-3">
+            <label id="propertyLocation" class="text-truncate">{{ 'createDip.labels.propertyLocation' | translate }} * </label>
+            <p-dropdown
+              [options]="locations"
+              [placeholder]="'createDip.placeholders.selectLocation' | translate"
+              formControlName="propertyLocationRegion"
+              ngDefaultControl
+              aria-labelledby="propertyLocation"
+              class="journey-dropdown"
+            >
+              <ng-template let-option pTemplate="item">
+                <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="loanDetailsForm.get('propertyLocationRegion')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded shadow">
+      <div class="step-header rounded-top px-4 py-3">
+        <h4 class="mb-0 fw-bold">{{ 'createDip.subtitles.loanDetails' | translate }}</h4>
+      </div>
+      <div class="step-body rounded-bottom py-5 px-4 mb-5 bg-white">
+        <div class="row">
+          <div class="col-md-4 col-sm-12 pb-3">
+            <label id="totalLoanAmount">
+              {{ 'createIllustration.labels.totalLoanAmount' | translate }}
+              <span> * </span>
+            </label>
+            <cfo-input-number
+              [form]="loanDetailsForm"
+              controlName="totalLoanAmount"
+              [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+              aria-labelledby="totalLoanAmount"
+            >
+            </cfo-input-number>
+            <cfo-validation-errors
+              [control]="loanDetailsForm.get('totalLoanAmount')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                min: getMinErrorMessage(),
+                max: getMaxErrorMessage(),
+                maxLoanAmount: ('general.validations.maxLoanAmount' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">{{ 'createDip.labels.calculatedLTV' | translate }} {{ calculatedLTV | percent: '1.0-1' }}</div>
+          <div class="error">{{ LTVerror }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

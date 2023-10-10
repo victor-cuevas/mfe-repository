@@ -1,0 +1,18 @@
+.document-title {
+  i {
+    font-weight: normal;
+  }
+
+  &--upload-success {
+    color: $success;
+  }
+  &--upload-pending {
+    color: $pendingColor;
+  }
+  &--upload-required {
+    color: $primary;
+  }
+  &--upload-rejected {
+    color: $declinedColor;
+  }
+}

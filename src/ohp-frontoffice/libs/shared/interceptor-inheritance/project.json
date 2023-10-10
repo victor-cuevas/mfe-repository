@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/interceptor-inheritance",
+  "sourceRoot": "libs/shared/interceptor-inheritance/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/interceptor-inheritance"],
+      "options": {
+        "jestConfig": "libs/shared/interceptor-inheritance/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/interceptor-inheritance/src/**/*.ts", "libs/shared/interceptor-inheritance/src/**/*.html"]
+      }
+    }
+  }
+}

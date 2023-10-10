@@ -1,0 +1,365 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="firm-form">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+    <h2 class="my-3 mb-lg-0">{{ firmId ? ('firms.labels.editFirm' | translate) : ('firms.labels.addNewFirm' | translate) }}</h2>
+  </div>
+  <div class="container p-2 pb-4">
+    <form [formGroup]="firmForm" id="firmForm" [ngClass]="{ 'type-hover-cards--disabled': isReadOnlyMode }">
+      <div class="row mt-4">
+        <label for="type" class="mb-3">{{ 'firms.labels.type' | translate }} *</label>
+        <div class="d-flex mbpanel-type-container">
+          <div *ngFor="let firmType of firmTypes" class="mbpanel-type-label mt-3 shadow">
+            <label>
+              <input type="radio" [value]="firmType.value" class="mbpanel-type-radio" formControlName="firmType" ngDefaultControl />
+              <div class="type-hover-card d-flex flex-column justify-content-evenly">
+                <i [class]="firmType.icon"></i>
+                <p>{{ firmType.type }}</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row my-4">
+        <p-accordion styleClass="form-accordion">
+          <p-accordionTab header="Firm details" #firmDetailsAccRef [selected]="true">
+            <div class="row mt-4">
+              <div class="col-md-6 col-xs-12">
+                <label for="fcaReference">{{ 'firms.labels.firmFCANumber' | translate }} *</label>
+                <p-inputNumber
+                  formControlName="fcaReference"
+                  ngDefaultControl
+                  [useGrouping]="false"
+                  (onInput)="onInputChange()"
+                  [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                ></p-inputNumber>
+                <span *ngIf="!isReadOnlyMode">
+                  <span class="ms-4" *ngIf="isFCANumberSelected" (click)="unlockDefaultStructure()" role="button">
+                    <i [ngClass]="isFCADetails ? 'pi pi-lock' : 'pi pi-lock-open'"></i>
+                    {{ isFCADetails ? ('firms.labels.unlockDefaultStructure' | translate) : '' }}
+                  </span>
+                </span>
+                <cfo-validation-errors
+                  [control]="firmForm.get('fcaReference')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    isValidFCANumber: ('general.validations.fcaNumberValid' | translate),
+                    min: ('general.validations.minValueMsg' | translate),
+                    max: ('general.validations.maxValueMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+                <div *ngIf="isPopulateDataButtonVisible" class="mt-2 address-entry-button" (click)="populateData()">
+                  {{ 'general.buttons.populateDate' | translate }}
+                </div>
+              </div>
+              <div class="col-md-3 col-xs-12" *ngIf="isAR">
+                <label for="principalFcaReference">{{ 'firms.labels.principalFCANumber' | translate }} *</label>
+                <p-inputNumber
+                  [required]="true"
+                  formControlName="principalFcaReference"
+                  ngDefaultControl
+                  [useGrouping]="false"
+                  [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                ></p-inputNumber>
+                <cfo-validation-errors
+                  [control]="firmForm.get('principalFcaReference')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    min: ('general.validations.fcaNumber' | translate),
+                    max: ('general.validations.fcaNumber' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+            <ng-container *ngIf="showFirmDetails">
+              <div class="row mt-4">
+                <div class="col-md-6 col-xs-12">
+                  <label for="firmName">{{ 'firms.labels.firmName' | translate }} *</label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--large"
+                    formControlName="firmName"
+                    ngDefaultControl
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                  <cfo-validation-errors
+                    [control]="firmForm.get('firmName')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <label for="reference">{{ 'firms.labels.firmReference' | translate }} </label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--small"
+                    formControlName="reference"
+                    ngDefaultControl
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                </div>
+              </div>
+              <div class="mt-4">
+                <p-checkbox
+                  name="isActive"
+                  ngDefaultControl
+                  [binary]="true"
+                  formControlName="isActive"
+                  [tabindex]="firmDetailsIsClosed ? -1 : 0"
+                ></p-checkbox>
+                <span class="checkbox">{{ 'firms.labels.firmActive' | translate }}</span>
+                <p-checkbox
+                  name="isInReview"
+                  ngDefaultControl
+                  [binary]="true"
+                  formControlName="isInReview"
+                  class="checkbox-box"
+                  [tabindex]="firmDetailsIsClosed ? -1 : 0"
+                ></p-checkbox>
+                <span class="checkbox">{{ 'firms.labels.isInReview' | translate }}</span>
+              </div>
+              <div class="row mt-4 custom-padding">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                  <label for="website">{{ 'firms.labels.firmWebsite' | translate }} </label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--medium"
+                    formControlName="website"
+                    ngDefaultControl
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                  <label for="complaintsWebpage">{{ 'firms.labels.complaintsWebpage' | translate }} *</label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--medium"
+                    formControlName="complaintsWebpage"
+                    ngDefaultControl
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                  <cfo-validation-errors
+                    [control]="firmForm.get('complaintsWebpage')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate),
+                      pattern: ('general.validations.url' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                  <label for="telephone">{{ 'firms.labels.telephoneNumber' | translate }} </label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--medium"
+                    formControlName="telephone"
+                    ngDefaultControl
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                  <label for="email">{{ 'firms.labels.emailAddress' | translate }} *</label>
+                  <input
+                    type="text"
+                    pInputText
+                    class="journey-input--medium"
+                    formControlName="email"
+                    ngDefaultControl
+                    style="width: 100%"
+                    [cfoDisableControl]="isFCADetails"
+                    [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                  />
+                  <cfo-validation-errors
+                    [control]="firmForm.get('email')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate),
+                      email: ('general.validations.email' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <cfo-address-search
+                  [form]="firmForm"
+                  (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+                  [suggestedAddresses]="suggestedAddresses"
+                  (selectedAddressEvent)="onSelectedAddress($event)"
+                  [selectedAddress]="selectedAddress"
+                  [hasButtonVisible]="hasButtonVisible"
+                  [hasAutoSuggestVisible]="hasAutoSuggestVisible"
+                  [hasNoValidation]="hasNoValidation"
+                >
+                </cfo-address-search>
+              </div>
+              <ng-container *ngIf="!tradingAddressData.length">
+                <div class="mt-4">
+                  <p-checkbox
+                    name="isTradingAddress"
+                    ngDefaultControl
+                    [binary]="true"
+                    formControlName="isTradingAddress"
+                    [tabindex]="firmDetailsIsClosed ? -1 : 0"
+                  ></p-checkbox>
+                  <span style="margin-left: 8px">{{ 'firms.labels.isTradingAddress' | translate }}</span>
+                </div>
+                <div class="row mt-4 custom-padding" *ngIf="firmForm.get('isTradingAddress')?.value">
+                  <div class="col-md-6 col-xs-12">
+                    <label for="tradingName">{{ ('firms.labels.tradingName' | translate) + ' *' }} </label>
+                    <input
+                      type="text"
+                      pInputText
+                      class="journey-input--large"
+                      formControlName="tradingName"
+                      ngDefaultControl
+                      [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                    />
+                    <cfo-validation-errors
+                      [control]="firmForm.get('tradingName')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                  <div class="col-md-6 col-xs-12" *ngIf="firmForm.get('isTradingAddress')?.value">
+                    <label for="businessDevelopmentManager">{{ ('firms.labels.businessDevelopmentManager' | translate) + ' *' }}</label>
+                    <input
+                      type="text"
+                      id="businessDevelopmentManager"
+                      pInputText
+                      class="journey-input--large"
+                      formControlName="businessDevelopmentManager"
+                      ngDefaultControl
+                      [tabindex]="firmDetailsIsClosed ? '-1' : '0'"
+                    />
+                    <cfo-validation-errors
+                      [control]="firmForm.get('businessDevelopmentManager')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+      <div class="my-4">
+        <mbpanel-trading-address *ngIf="tradingAddressDataIsReady" [tradingAddressData]="tradingAddressData"></mbpanel-trading-address>
+      </div>
+      <div class="mt-4" style="margin-bottom: 8rem">
+        <form [formGroup]="associationForm">
+          <p-accordion styleClass="form-accordion my-4">
+            <p-accordionTab header="Mortgage clubs" #mortgageClubsAccRef [selected]="true">
+              <div class="row my-4">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                  <p-multiSelect
+                    formControlName="clubs"
+                    [options]="clubsOptions"
+                    [showHeader]="true"
+                    [defaultLabel]="'general.placeholders.select' | translate"
+                    optionLabel="label"
+                    optionDisabled="disabled"
+                    display="chip"
+                    class="p-multiselect-multiline journey-input--large"
+                  >
+                    <ng-template let-items pTemplate="selectedItems">
+                      <ng-container *ngIf="items.length; else placeholder">
+                        <ng-container *ngFor="let item of items">
+                          <div class="p-multiselect-token" [ngClass]="{ 'p-multiselect-token--disabled': item.disabled }">
+                            <span class="p-multiselect-token-label">{{ item.label }}</span>
+                            <span class="p-multiselect-token-icon pi pi-times-circle" (click)="onRemoveClub(item.value)"></span>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-template #placeholder>{{ 'general.placeholders.select' | translate }}</ng-template>
+                    </ng-template>
+                  </p-multiSelect>
+                  <cfo-validation-errors
+                    [control]="associationForm.get('clubs')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate),
+                      associationIsActive: ('general.validations.inactiveClub' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+          <p-accordion styleClass="form-accordion my-4">
+            <p-accordionTab header="{{ 'submissionRoute.labels.submissionRoutes' | translate }}" #networkAccRef [selected]="true">
+              <div class="row my-4">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                  <p-dropdown
+                    formControlName="submissionRoute"
+                    [options]="submissionRoutesFilteredOptions"
+                    [group]="true"
+                    [showClear]="true"
+                    defaultLabel="Select..."
+                    [placeholder]="'general.placeholders.select' | translate"
+                    [autoDisplayFirst]="false"
+                    class="journey-dropdown journey-dropdown--full-width"
+                  >
+                    <ng-template pTemplate="header">
+                      <div class="dropdown-header" (click)="onDropdownClick($event)">
+                        <ng-container *ngFor="let submissionRoutesGroup of submissionRoutesGroups">
+                          <span
+                            class="dropdown-header-item"
+                            [ngClass]="{ selected: submissionRoutesGroup === submissionRoutesSelectedGroup }"
+                            (click)="onSelectSubmissionRouteGroup($event, submissionRoutesGroup)"
+                            >{{ 'firms.labels.submissionRoutesGroup.' + submissionRoutesGroup | translate }}</span
+                          >
+                        </ng-container>
+                      </div>
+                    </ng-template>
+                    <ng-template let-group pTemplate="group">
+                      <span *ngIf="submissionRoutesSelectedGroup === 'All' && group.items.length" (click)="onDropdownClick($event)">{{
+                        group.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-option pTemplate="item">
+                      <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                    </ng-template>
+                    <ng-template pTemplate="empty">
+                      <span (click)="onDropdownClick($event)">No results found</span>
+                    </ng-template>
+                  </p-dropdown>
+                  <cfo-validation-errors
+                    [control]="associationForm.get('submissionRoute')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate),
+                      associationIsActive: ('general.validations.inactiveSubmissionRoute' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </form>
+      </div>
+
+      <div class="my-4 btn-section">
+        <p-button
+          styleClass="p-button-outlined--bold btn-min-width mb-2 my-lg-0 me-lg-2"
+          label="{{ 'general.buttons.cancel' | translate }}"
+          [routerLink]="firmId ? routePaths.LIST_INTERMEDIARIES.replace(':id', firmId) : routePaths.LIST_FIRMS"
+          [tabIndex]="-1"
+        ></p-button>
+        <p-button
+          [disabled]="isReadOnlyMode"
+          styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+          (click)="!isReadOnlyMode ? updateFirm() : null"
+          label="{{ 'general.buttons.save' | translate }}"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</mbpanel-layout>

@@ -1,0 +1,364 @@
+{
+  "plan": {
+    "treatment": {
+      "heading": {
+        "treatment": "Manage treatmentplan configuration",
+        "General": "Données générales",
+        "reminders": "Reminders",
+        "notify": "Notifications",
+        "plan": "Payment plan events"
+      },
+      "tab": {
+        "Generalsetting": "Paramètres généraux",
+        "payPlan": "Paramètres des plans de paiement",
+        "PaymentPlan": "Plan de paiement événements",
+        "Derivation": "Derivation Criteria"
+      },
+      "card": {
+        "name": "Name",
+        "manual": "Suivi manuel",
+        "manualPayment": "Allouer manuellement les paiements",
+        "manualoutgoing": "Paiements sortants manuels",
+        "caption": "FR - Payment Plan Terminate Days After Last Reminder",
+        "MaxWarning": "Nombre maximum d’avertissements",
+        "Grace": "Montant de grâce",
+        "MinInatall": "Montant échéance min.",
+        "DaysFrom": "Nombre de jours à partir du chargement",
+        "enforce": "Impose montant de la dette min.",
+        "enforcePro": "Impose montant de la promesse min.",
+        "automatic": "FR - Automatic Dossier Closure At Payment Plan Finalization",
+        "dossier": "FR - Dossier Closure Allowed With Preventive Payment Plan",
+        "nomatch": "Aucun montant de paiement équivalent",
+        "excessive": "Montant résiduel des promesses excessives",
+        "terminate": "Terminer le plan de paiement",
+        "finalize": "Finaliser le plan de paiement",
+        "activate": "Activer le plan de paiement",
+        "deactivate": "Désactiver le plan de paiement",
+        "ValidFor": "Inscript. A partir de",
+        "ValidTo": "Valide jusqu’au",
+        "Customer": "Client",
+        "Initiator": "Aanlegger",
+        "Legal": "Entité légale",
+        "CustomerIn": "Indépendant du client",
+        "InitiatorIn": "Indépendant de l’initiateur",
+        "LegalIn": "Indépendant d'entité légale",
+        "priority": "Priorité",
+        "dossiertype": "Type de dossier",
+        "debtor": "Type de débiteur",
+        "minamount": "Montant minimum",
+        "maxamount": "Montant maximum",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minavg": "Age moyen minimum",
+        "maxavg": "Age moyen maximum",
+        "promiseMetEvent": "FR - Promise Is Met Event",
+        "promiseMetAfter": "FR - Promise Is Met After Reset Event",
+        "promiseReset": "FR - Promise Is Reset Event"
+      },
+      "tabel": {
+        "TreatmentPlan": "Plan de traitement",
+        "ValidFor": "Inscript. A partir de",
+        "ValidTo": "Valide jusqu’au",
+        "Customer": "Client",
+        "Initiator": "Aanlegger",
+        "HostedOrg": "Maison mère",
+        "NoOfDays": "FR - Number of days after promise",
+        "before": "FR - Number of days before promise",
+        "FollowUp": "Evénement de succession",
+        "LastPromise": "Dernière promesse événement",
+        "Payment": "FR - Payment method",
+        "": ""
+      },
+      "mandatory": {
+        "name": "'FR - Name'",
+        "ValidFor": "'Inscript. A partir de'",
+        "terminate": "'Terminer le plan de paiement'",
+        "caption": "'FR - Payment Plan Terminate Days After Last Reminder'",
+        "finalize": "'Finaliser le plan de paiement'",
+        "activate": "'Activer le plan de paiement'",
+        "deactivate": "'Désactiver le plan de paiement'",
+        "maxamt": "FR - InvoiceMaxAmount cannot be lesser than InvoiceMinAmount",
+        "minamt": "FR - InvoiceMinAmount cannot be greater than InvoiceMaxAmount",
+        "maxavg": "FR - InvoiceMaxAvAge cannot be lesser than InvoiceMinAvAge",
+        "minavg": "FR - InvoiceMinAvAge cannot be greater than InvoiceMaxAvAge",
+        "Legal": "'Entité légale'",
+        "priority": "'Priorité'",
+        "NoOfDays": "'FR - Number of days after promise'",
+        "before": "'FR - Number of days before promise'",
+        "required": "  est obligatoire."
+      }
+    },
+    "flow": {
+      "heading": {
+        "manageFlow": "Manage reminder flow configuration",
+        "filter": "Filtrer",
+        "sampel": "Sample"
+      },
+      "card": {
+        "flowname": "Nom du flux",
+        "flowtype": "Type de flux",
+        "flowname1": "Nom",
+        "flowtype1": "Type",
+        "startevent": "Evènement de départ",
+        "stopevent": "Evènement de fin",
+        "name": "Nom",
+        "triggerevent": "Evènvement déclencheur",
+        "elapsedperiod": "Période Ecoulée",
+        "elapsedperiod1": "Période Ecoulée",
+        "statuschange": "Changement de statut",
+        "targetChange": "Statut cible",
+        "handling": "Type de date d’achèvement",
+        "intervalmeasure": "Type d’intervalle",
+        "actionname": "Nom de l’action",
+        "actiontype": "Type d’action",
+        "default": "Temps de traitement par défaut",
+        "defaultmargin": "Marge de traitement par défaut",
+        "actionreceiver": "Destinataire de l’action",
+        "actinPriority": "Action Priority",
+        "minDueAmount": "Montant minmum",
+        "d": "D",
+        "h": "H",
+        "m": "M",
+        "role": "Qualité"
+      },
+      "tabel": {
+        "flowname": "Nom du flux",
+        "flowtype": "Type de flux",
+        "": "",
+        "stepseq": "Numéro d’étape",
+        "stepname": "Etape",
+        "elapserperiod": "Période Ecoulée",
+        "actionname": "Nom de l’action",
+        "actiontype": "Type d’action",
+        "actionreceive": "Destinataire de l’action",
+        "referencetype": "Type de Référence",
+        "communicationmedium": "Voie de communication",
+        "templatename": "TypeLettre",
+        "fallBackMech": "Moyens alternatifs",
+        "communicationreceiver": "Destinataire",
+        "receivertype": "Type de destinataire",
+        "registered": "Registered",
+        "addresstype": "Adresse type",
+        "name": "Nom",
+        "servicename": "Nom du service",
+        "isblocking": "Bloquant",
+        "eventname": "Nom de l’événement",
+        "ruleName": "FR - Rule Model Name",
+        "role": "Qualité",
+        "ruleOutput": "FR - Rule Engine Output",
+        "goToStep": "FR - Go to Step",
+        "stopProcess": "FR - Stop Process",
+        "docTemplate": "Document Template Type",
+        "docGen": "DocGen Type",
+        "attachmentType": "Attachment Type",
+        "add": "Ajoute"
+      },
+      "button": {
+        "clear": "Clear",
+        "filter": "Filter"
+      },
+      "tab": {
+        "flowstep": "Flow Step General",
+        "actions": "Actions",
+        "communication": "Communication",
+        "services": "Services",
+        "events": "Événements",
+        "ruleengine": "FR - Rule Engine",
+        "role": "Roles",
+        "document": "Document"
+      },
+      "validation": {
+        "name": "'Nom' est obligatoire.",
+        "scenarioName": "'Scénario' est obligatoire.",
+        "triggerEvent": "'Evènvement déclencheur' est obligatoire.",
+        "elapsedPeriod": "'Période Ecoulée' est obligatoire.",
+        "elapsedPeriodType": "'Elapsed Period Type' est obligatoire.",
+        "actionName": "'Nom de l’action' est obligatoire.",
+        "actionReceiverType": "'ActionReceiverTypeName' est obligatoire.",
+        "actionType": "'FR - Action Type' est obligatoire.",
+        "priority": "'Action Priority' est obligatoire.",
+        "docTemplate": "'DocumentTemplate' est obligatoire.",
+        "communicationMedium": "'Voie de communication' est obligatoire.",
+        "communicationReceiver": "'Destinataire' est obligatoire.",
+        "serviceAction": "'ServiceAction' est obligatoire.",
+        "event": "'Événement' est obligatoire.",
+        "eventName": "'Nom de l’événement' est obligatoire.",
+        "ruleName": "'FR - Rule Model Name' est obligatoire.",
+        "ruleOutput": "'Output' est obligatoire.",
+        "roleType": "'Type de rôle' est obligatoire.",
+        "docTemplateType": "'Document Template Type' est obligatoire.",
+        "docGen": "'DocGen Type' est obligatoire.",
+        "attachmentType": "'Type de pièce jointe' est obligatoire.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "businessError": {
+        "oneRuleAction": "It's not allowed to configure more than 1 Rule engine action to a step",
+        "oneRuleOutput": "At least one output has to be configured for a Rule engine action",
+        "fillStepNr": "For a Rule engine output it's mandatory to fill in the step nr, if the process isn't to be stopped",
+        "noFillStepNr": "For a Rule engine output it's not allowed to fill in the step nr, if the process is to be stopped",
+        "StepBeforeNotAllowed": "For a Rule engine output it's not allowed to go to a step before the one the Rule engine action is created for",
+        "matchingFollowUpStep": "For each configured Rule engine output there should be a matching follow up step with elapsed period type 'Elapsed period from rule engine'"
+      }
+    },
+    "reminder": {
+      "heading": {
+        "reminderplan": "manage reminder plan configuration",
+        "generaldata": "General Data"
+      },
+      "tabel": {
+        "reminderplan": "Reminder Plan",
+        "validfrom": "Inscript. A partir de",
+        "validto": "Valide jusqu’au",
+        "customer": "Client",
+        "Initiator": "Aanlegger",
+        "hostedorg": "Hosted org",
+        "dossierstatus": "Statut du dossier",
+        "Remindersenario": "Reminder Scenario",
+        "": ""
+      },
+      "card": {
+        "legelentity": "Entité légale",
+        "Legelindi": "Indépendant d'entité légale",
+        "customer": "Client",
+        "customerindi": "Indépendant du client",
+        "intrrior": "Aanlegger",
+        "initiator": "Indépendant de l’initiateur",
+        "validfrom": "Inscript. A partir de",
+        "validto": "Valide jusqu’au",
+        "priority": "Priorité",
+        "debtortype": "Type de débiteur",
+        "dossiertype": "Type de dossier",
+        "minamount": "Montant minimum",
+        "maxamount": "Montant maximum",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minav": "Age moyen minimum",
+        "maxav": "Age moyen maximum",
+        "name1": "Name"
+      },
+      "tab": {
+        "Generalsetting": "General Settings",
+        "derivation": "Derivation Criteria"
+      },
+      "mandatory": {
+        "name": "'FR - Name'",
+        "Legal": "'Entité légale'",
+        "priority": "'Priorité'",
+        "ValidFor": "'Inscript. A partir de'",
+        "required": "  est obligatoire.",
+        "dossierstatus": "'Statut du dossier'",
+        "businessErr": "FR - Multiple flows cannot belong to the same status",
+        "Remindersenario": "'ReminderScenarioRef'"
+      }
+    },
+    "ruleEngine": {
+      "heading": {
+        "ruleEngine": "Manage Rule Engine Plan Derivation"
+      },
+      "tabel": {
+        "RuleModelName": "FR - Rule Model Name",
+        "Delete": "Supprimer",
+        "Output": "FR - Output",
+        "TreatmentPlan": "FR - Treatment Plan",
+        "ReminderPlan": "FR - Reminder Plan",
+        "CostPlan": "FR - Cost Plan",
+        "PaymentAllocationPlan": "FR - Payment Allocation Plan",
+        "Delete1": "Supprimer"
+      },
+      "card": {
+        "RuleModelName": "FR - Rule Model Name",
+        "Output": "FR - Output",
+        "TreatmentPlan": "FR - Treatment Plan",
+        "ReminderPlan": "FR - Reminder Plan",
+        "CostPlan": "FR - Cost Plan",
+        "PaymentAllocationPlan": "FR - Payment Allocation Plan"
+      },
+
+      "button": {
+        "addRuleName": "FR - Add Rule Model Name",
+        "addRule": "FR - Add Rule"
+      },
+
+      "mandatory": {
+        "RuleModelName": "'FR - Rule Model Name'",
+        "Output": "'FR - Output'",
+        "TreatmentPlan": "'FR - Treatment Plan'",
+        "ReminderPlan": "'FR - Reminder Plan'",
+        "CostPlan": "'FR - Cost Plan'",
+        "PaymentAllocationPlan": "'FR - Payment Allocation Plan'",
+        "required": " est obligatoire.",
+
+        "REError": "FR - The given record is already in the list. Please make sure that the record is unique",
+        "RECError": "FR - The given record is already in the list. Please make sure that the record is unique"
+
+      }
+    },
+    "arrearsTrigger": {
+      "heading": {
+        "ArrearsTrigge": "Manage Arrearstrigger Plan"
+      },
+      "tabel": {
+        "CalculationType": "FR - Calculation Type",
+        "Context": "FR - Context",
+        "Delete": "",
+        "ExternalProductReference": "FR - External Product Reference",
+        "Delete1": "",
+        "Number": "FR - Number Of Days Due",
+        "duedates": "FR - Number Of Due Dates",
+        "StartEvent": "FR - Start Event",
+        "Delete2": ""
+      },
+      "card": {
+        "CalculationType": "FR - Calculation Type",
+        "Context": "FR - Context",
+        "ExternalProductReference": "FR - External Product Reference",
+        "Number": "FR - Number Of Days Due",
+        "duedates": "FR - Number Of Due Dates",
+        "StartEvent": "FR - Start Event"
+      },
+      "picker": {
+        "DebtSourceStatus": "FR - Debt Source Status",
+        "SelectedDebtSourceStatus": "FR - Selected Debt Source Status"
+
+      },
+      "ValidationError": {
+        "required": "  est obligatoire.",
+        "CalculationType": "'FR - Calculation Type'",
+        "Context": "'FR - Context'",
+        "ExternalProduct": "'FR - External Product Reference'",
+        "DaysDue": "'FR - Number Of Days Due'",
+        "DueDates": "'FR - Number Of Due Dates'",
+        "StartEvent": "'FR - Start Event'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateError": "FR - The given record is already in the list. Please make sure that the record is unique.",
+        "EmptyStepConfigError": "FR - At least 1 ArrearsTriggerStepConfig record should be there for each ArrearsTriggerPlan.",
+        "EmptyDebtSourceError": "FR - At least 1 debt source status should be added to an ArrearsTriggerPlan.",
+        "EmptyProductError": "FR - At least 1 linked product reference should be added to an ArrearsTriggerPlan."
+      }
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "add": "Ajoute",
+      "copy": "Copie",
+      "create": "Créer"
+    },
+    "dialog": {
+      "Yes": "Oui",
+      "No": "Non",
+      "Cancel": "Annuler",
+      "Header": "Changements non sauvegardé",
+      "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?"
+    },
+    "Validation": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    }
+
+  }
+}

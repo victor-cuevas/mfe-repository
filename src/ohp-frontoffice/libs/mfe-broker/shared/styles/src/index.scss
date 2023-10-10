@@ -1,0 +1,61 @@
+// Bootstrap import
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~intl-tel-input/build/css/intlTelInput.css';
+
+// PrimeNG styling imports
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/primeng.min.css';
+
+// var import ~ !IMPORTANT THAT THIS GETS IMPORTED BEFORE ANY OTHER CUSTOM STYLING!
+@import '~primeng/resources/themes/saga-blue/theme.css';
+@import './variables/variables';
+
+// base imports
+@import './animations/animations';
+@import './base/reset';
+@import './base/portal-engine-overrides';
+
+// shared imports
+@import './shared/accordions';
+@import './shared/backgrounds';
+@import './shared/breadcrumbs';
+@import './shared/buttons';
+@import './shared/containers';
+@import './shared/inputs';
+@import './shared/links';
+@import './shared/menus';
+@import './shared/modals.scss';
+@import './shared/spacing';
+@import './shared/tables';
+@import './shared/timelines';
+@import './shared/tooltip';
+@import './shared/toast';
+@import './shared/typography';
+@import './shared/validation-errors';
+@import './shared/404';
+@import './shared/dialog';
+@import './shared/scrollbar';
+@import './shared/icons';
+@import './shared/datepicker';
+@import './shared/radio-button';
+@import './shared/repeater';
+@import './shared/cfo';
+@import './shared/sizing';
+@import './shared/alert';
+@import './shared/circular-percentage';
+
+// broker panel imports
+@import './broker-panel/firm-details';
+@import './broker-panel/firm-form';
+@import './broker-panel/header';
+// @import './broker-panel/configuration-menu';
+@import './broker-panel/sidebar-menu';
+
+// broker portal imports
+@import './broker-portal/case-summary';
+@import './broker-portal/deposit-details';
+@import './broker-portal/personal-details';
+@import './broker-portal/product-selection';
+@import './broker-portal/security-property';
+@import './broker-portal/fma-stipulations';
+@import './broker-portal/document-table';

@@ -1,0 +1,11 @@
+<div class="side-menu-page-container">
+  <cfo-profile-menu></cfo-profile-menu>
+  <div class="side-menu-content-container">
+    <div class="scroll-container page-with-subtitle">
+      <div class="container">
+        <cfo-breadcrumb *ngIf="breadcrumbItems" [items]="breadcrumbItems"></cfo-breadcrumb>
+        <router-outlet> </router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

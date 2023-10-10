@@ -1,0 +1,39 @@
+<ng-container [formGroup]="form">
+  <ng-container>
+    <p-inputNumber
+      *ngIf="config && config.mode === MODE.CURRENCY"
+      [formControlName]="controlName"
+      [class]="className"
+      [mode]="MODE.CURRENCY"
+      [currency]="$any(config.currency)"
+      [maxFractionDigits]="$any(config.maxFractionDigits)"
+      ngDefaultControl
+      (onInput)="onInput($event)"
+      [min]="$any(config.min)"
+    ></p-inputNumber>
+    <p-inputNumber
+      *ngIf="config && config.mode === MODE.DECIMAL"
+      [formControlName]="controlName"
+      [class]="className"
+      [mode]="MODE.DECIMAL"
+      ngDefaultControl
+      (onInput)="onInput($event)"
+      [useGrouping]="$any(config.useGrouping)"
+      [min]="$any(config.min)"
+      [max]="$any(config.max)"
+      [maxFractionDigits]="$any(config.maxFractionDigits)"
+      [minFractionDigits]="$any(config.minFractionDigits)"
+    ></p-inputNumber>
+    <input
+      *ngIf="config && config.mode === MODE.ZEROS"
+      type="text"
+      pInputText
+      [formControlName]="controlName"
+      [class]="className"
+      ngDefaultControl
+      [min]="$any(config.min)"
+      (blur)="onBlur()"
+      (input)="changeInput()"
+    />
+  </ng-container>
+</ng-container>

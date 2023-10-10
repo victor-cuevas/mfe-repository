@@ -1,0 +1,77 @@
+.btn-section {
+  a:hover {
+    cursor: pointer;
+  }
+}
+
+.box {
+  height: 140px;
+  border: 1px solid #797a7c;
+  border-radius: 3px;
+  padding: 8px 10px;
+  overflow: auto;
+  scroll-behavior: smooth;
+  .pi-check:before {
+    margin-left: -8px;
+  }
+  .p-checkbox-label,
+  .p-radiobutton-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol';
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 0 0 0.5rem;
+  }
+
+  .p-radiobutton .p-radiobutton-box.p-highlight .p-radiobutton-icon {
+    margin-left: 0px;
+  }
+
+  span {
+    margin-left: 8px;
+  }
+}
+
+.clubs {
+  button:disabled {
+    opacity: 0.6;
+  }
+
+  .btn-box {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+  }
+}
+
+.firm-form {
+  .custom-padding {
+    padding-right: 50px;
+  }
+
+  .address-text {
+    font-weight: 700;
+    font-size: 16px;
+    color: $neutral-dark;
+  }
+
+  .address-entry-button {
+    color: $primary;
+    cursor: pointer;
+    width: fit-content;
+    &--disabled {
+      opacity: 0.6;
+      cursor: initial;
+    }
+  }
+
+  p-inputnumber.ng-dirty.ng-invalid .p-inputtext,
+  p-inputnumber.ng-touched.ng-invalid .p-inputtext {
+    border: 1px solid $alert !important;
+  }
+
+  .p-inputtext.ng-dirty.ng-invalid,
+  .p-inputtext.ng-touched.ng-invalid {
+    border: 1px solid $alert !important;
+  }
+}

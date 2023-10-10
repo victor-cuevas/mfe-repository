@@ -1,0 +1,52 @@
+{
+    "collectionMeasure": {
+      "heading": {
+        "collectionMeasure": "Manage collection measure",
+        "collectionMeasureType": "Collection Measure Type"
+      },
+      "card": {
+        "collectionMeasureType": "FR - Collection Measure Type",
+        "startEvent": "FR - Start Event Name",
+        "stopEvent": "FR - Stop Event Name",
+        "creationEvent": "FR - Creation Event Name",
+        "isRole": "FR - Is Role Linking Applicable",
+        "showSimulation": "FR - Show Simulation",
+        "dossierStatus": "FR - Dossier Status",
+        "selectedDossier": "FR - Selected Dossier Status",
+        "closeMeasureIntervalType": "FR - Close Measure Interval Type",
+        "elapsedPeriodToCloseMeasure":"FR - Elapsed Period To Close Measure",
+        "isParty":"FR - Is Party Measure"
+      },
+      "ValidationError":{
+        "required":" est obligatoire.",
+        "collectionMeasureType": "'FR - Collection Measure Type'",
+        "DossierBusinessError":"Atleast one Record Should Exist in 'FR - Selected Dossier Status'.",
+        "BusinessValidation":"FR - The given record is already in the list. Please make sure that the record is unique.",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "tabel": {
+        "type": "FR - Type",
+        "delete": "",
+        "add": "Ajoute"
+      },
+      "button": {
+        "save": "Sauvegarder",
+        "close": "Fermer",
+        "add": "Ajoute",
+        "clear": "FR - Clear"
+      },
+      "validations": {
+        "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+      },
+      "dialog": {
+        "Yes": "Oui",
+        "No": "Non",
+        "Cancel": "Annuler",
+        "Header": "Changements non sauvegardé",
+        "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+        "ok": "Ok",
+        "Continue":"Continue"
+      }
+    }
+  }

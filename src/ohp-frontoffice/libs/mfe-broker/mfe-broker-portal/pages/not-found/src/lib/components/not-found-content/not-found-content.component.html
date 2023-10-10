@@ -1,0 +1,19 @@
+<div
+  class="not-found-container"
+  [ngStyle]="{
+    'background-image': 'url(' + ('/assets/images/background-404.svg' | prependEnvPath) + ')'
+  }"
+>
+  <div class="d-flex flex-column not-found-container justify-content-center align-items-center">
+    <div class="big-404-title">{{ 'notFound.labels.404Title' | translate }}</div>
+    <div class="big-404-subtitle">{{ 'notFound.labels.404SubTitle' | translate }}</div>
+    <div class="big-404-text">{{ 'notFound.labels.404Text' | translate }}</div>
+    <p-button
+      label="{{ 'general.buttons.home' | translate }}"
+      styleClass="p-button-outlined-large  button-setter shadow"
+      routerLink="/"
+      icon="pi pi-arrow-left"
+      iconPos="left"
+    ></p-button>
+  </div>
+</div>

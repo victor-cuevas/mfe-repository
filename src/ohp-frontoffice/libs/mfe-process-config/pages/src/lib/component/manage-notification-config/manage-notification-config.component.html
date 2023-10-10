@@ -1,0 +1,416 @@
+<div class="whitelabel-config">
+  <div class="close-process-config container">
+    <form #notificationform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': notificationform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'process.manageNotify.heading.manageNotify' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'process.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(notificationList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'process.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-3">{{ 'process.manageNotify.tabel.mamageNot' | translate }}</div>
+        </div>
+        <div class="col-3 closefo-btn-wrapper text-right">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{ 'process.manageNotify.tabel.addNew' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="addNotificationConfig()"
+          ></cfc-fluid-button>
+        </div>
+        <div class="col-md-12">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="notificationList"
+            [gridDataHeader]="NotificationHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDelete($event, notificationList)"
+            (rowClickedEvent)="onRowselect($event)"
+            [selectedDetail]="highlightNotification"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div *ngIf="hideCard">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">
+          {{ 'process.manageNotify.heading.NotificationDef' | translate }}
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <label class="closefo-form-label">{{ 'process.manageNotify.card.intervalcard' | translate }}</label>
+                  </div>
+                  <div class="col-3">
+                    <cfc-fluid-textbox
+                      Type="numbersMaxLength"
+                      [ControlConfig]="TextBoxconfig"
+                      [ngModel]="notificationData.nrOfIntervals"
+                      (focusout)="onIntervalChange($event)"
+                      name="nrInterval"
+                      [isAllowSpace]="false"
+                      [form]="notificationform"
+                      [isReadOnly]="disableText"
+                      [maxlength]="9"
+                    >
+                    </cfc-fluid-textbox>
+                  </div>
+                  <div class="col-3">
+                    <cfc-fluid-dropdown
+                      [ngModel]="notificationData.intervalMeasure"
+                      [form]="notificationform"
+                      Type="single"
+                      name="intervalMeasure"
+                      [placeholder]="placeholder"
+                      [options]="IntervalMeasureList"
+                      [ControlConfig]="DropdownConfig"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="onintervalMeasureChange($event)"
+                      #intervalMeasuredropdown="ngModel"
+                      [title]="notificationData.intervalMeasure?.caption === null ? '' : notificationData.intervalMeasure?.caption"
+                      [isReadOnly]="disableIntervalMeasure"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                  <div class="col-3">
+                    <cfc-fluid-dropdown
+                      [ngModel]="notificationData.timing"
+                      [form]="notificationform"
+                      Type="single"
+                      name="timing"
+                      [placeholder]="placeholder"
+                      [options]="TimingList"
+                      [ControlConfig]="TimingDropdownConfig"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="onTimingChange($event)"
+                      #timingdropdown="ngModel"
+                      [title]="notificationData.timing?.caption === null ? '' : notificationData.timing?.caption"
+                      [cfcFluidValidation]="{
+                        errors: timingdropdown.errors ? TimingDropdownConfig.Errors : '',
+                        formSubmitted: notificationform.submitted || TimingDropdownConfig.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row align-items-center">
+                  <div class="col-4">
+                    <label class="closefo-form-label required">{{ 'process.manageNotify.card.dataype' | translate }}</label>
+                  </div>
+                  <div class="col-8">
+                    <cfc-fluid-dropdown
+                      [ngModel]="notificationData.referenceDateType"
+                      [form]="notificationform"
+                      Type="single"
+                      name="referenceDateType"
+                      [placeholder]="placeholder"
+                      [options]="ReferenceDateTypeList"
+                      [ControlConfig]="ReferenceDropdownConfig"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="onreferenceDateTypeChange($event)"
+                      #referenceDateTypedropdown="ngModel"
+                      [title]="notificationData.referenceDateType?.caption === null ? '' : notificationData.referenceDateType?.caption"
+                      [cfcFluidValidation]="{
+                        errors: referenceDateTypedropdown.errors ? ReferenceDropdownConfig.Errors : '',
+                        formSubmitted: notificationform.submitted || ReferenceDropdownConfig.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-4">
+                    <label class="closefo-form-label required">{{ 'process.manageNotify.card.eventName' | translate }}</label>
+                  </div>
+                  <div class="col-8">
+                    <cfc-fluid-dropdown
+                      [ngModel]="notificationData.followUpEventName"
+                      [form]="notificationform"
+                      Type="single"
+                      name="followUpEventName"
+                      [placeholder]="placeholder"
+                      [options]="FollowUpEventNameList"
+                      [ControlConfig]="FollowUpEventDropdownConfig"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="onfollowUpEventNameChange($event)"
+                      #followUpEventNamedropdown="ngModel"
+                      [title]="notificationData.followUpEventName?.caption === null ? '' : notificationData.followUpEventName?.caption"
+                      [cfcFluidValidation]="{
+                        errors: followUpEventNamedropdown.errors ? FollowUpEventDropdownConfig.Errors : '',
+                        formSubmitted: notificationform.submitted || FollowUpEventDropdownConfig.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-4">
+                    <label class="closefo-form-label required">{{ 'process.manageNotify.card.eventContext' | translate }}</label>
+                  </div>
+                  <div class="col-8">
+                    <cfc-fluid-dropdown
+                      [ngModel]="notificationData.eventContextType"
+                      [form]="notificationform"
+                      Type="single"
+                      name="eventContextType"
+                      [placeholder]="placeholder"
+                      [options]="EventContextTypeList"
+                      [ControlConfig]="EventContextDropdownConfig"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="oneventContextTypeChange($event)"
+                      #eventContextTypedropdown="ngModel"
+                      [title]="notificationData.eventContextType?.caption === null ? '' : notificationData.eventContextType?.caption"
+                      [cfcFluidValidation]="{
+                        errors: eventContextTypedropdown.errors ? EventContextDropdownConfig.Errors : '',
+                        formSubmitted: notificationform.submitted || EventContextDropdownConfig.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="showProductGrid">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="closefo-heading-3 closefo-text-primary mb-3">{{ 'process.manageNotify.heading.ProductLink' | translate }}</div>
+            </div>
+            <div class="col-3 closefo-btn-wrapper text-right">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-add-btn-small"
+                caption="{{ 'process.manageNotify.tabel.addproduct' | translate }}"
+                [ControlConfig]="ButtonConfig"
+                (click)="onaddProduct()"
+              ></cfc-fluid-button>
+            </div>
+          </div>
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div
+              class="closefo-form-group"
+              *ngIf="notificationData.notificationConfig2ProductList && notificationData.notificationConfig2ProductList.length > 0"
+            >
+              <div class="row">
+                <ng-container *ngFor="let productdata of notificationData.notificationConfig2ProductList; let i = index">
+                  <div class="col-md-6" *ngIf="!productdata.isDeleted">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{ 'process.manageNotify.card.product' | translate }}</label>
+                      </div>
+                      <div class="col-5">
+                        <cfc-fluid-dropdown
+                          [ngModel]="productdata.productName"
+                          Type="single"
+                          name="ProductName{{ i }}"
+                          [placeholder]="placeholder"
+                          [options]="productdata.productNameList"
+                          [ControlConfig]="ProductLinkDropdownConfig"
+                          optionLabel="caption"
+                          dataKey="caption"
+                          (OnSelectionChanged)="onProductLinkChange($event, i)"
+                          #productNamedropdown="ngModel"
+                          [title]="productdata.productName?.caption === null ? '' : productdata.productName?.caption"
+                          [isReadOnly]="productdata.isReadOnly"
+                          [cfcFluidValidation]="{
+                            errors: productNamedropdown.errors ? ProductLinkDropdownConfig.Errors : '',
+                            formSubmitted: ProductLinkDropdownConfig.externalError
+                          }"
+                        >
+                        </cfc-fluid-dropdown>
+                      </div>
+
+                      <div class="col-2">
+                        <span class="closefo-delete-btn"
+                          ><i class="pi pi-times-circle" (click)="ondropdownDelete(productdata, i)"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-9">
+            <div class="closefo-heading-3 closefo-text-primary mb-3">
+              {{ 'process.manageNotify.heading.servicingCustomer' | translate }}
+            </div>
+          </div>
+          <div class="col-3 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{ 'process.manageNotify.tabel.addservicing' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="addServicecustomer()"
+            ></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div
+            class="closefo-form-group"
+            *ngIf="
+              notificationData.notificationConfig2ServicingCustomerList &&
+              notificationData.notificationConfig2ServicingCustomerList.length > 0
+            "
+          >
+            <div class="row">
+              <ng-container *ngFor="let servicingcustomerData of notificationData.notificationConfig2ServicingCustomerList; let i = index">
+                <div class="col-md-6" *ngIf="!servicingcustomerData.isDeleted">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'process.manageNotify.card.sevicingCustomer' | translate }}</label>
+                    </div>
+                    <div class="col-5">
+                      <cfc-fluid-dropdown
+                        [ngModel]="servicingcustomerData.creditProviderName"
+                        Type="single"
+                        name="creditProviderName{{ i }}"
+                        [placeholder]="placeholder"
+                        [options]="servicingcustomerData.creditProviderNameList"
+                        [ControlConfig]="ServicingCustomerDropdownConfig"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="oncreditProviderNameChange($event, i)"
+                        #servicingCustomerdropdown="ngModel"
+                        [title]="
+                          servicingcustomerData.creditProviderName?.caption === null
+                            ? ''
+                            : servicingcustomerData.creditProviderName?.caption
+                        "
+                        [isReadOnly]="servicingcustomerData.isReadOnly"
+                        [cfcFluidValidation]="{
+                          errors: servicingCustomerdropdown.errors ? ServicingCustomerDropdownConfig.Errors : '',
+                          formSubmitted: ServicingCustomerDropdownConfig.externalError
+                        }"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                    <div class="col-2">
+                      <span class="closefo-delete-btn"
+                        ><i class="pi pi-times-circle" (click)="onservicingDelete(servicingcustomerData, i)"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'process.dialog.Header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'process.dialog.Content' | translate }}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="submit"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'process.dialog.Yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogYes(notificationList)"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.No' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'process.dialog.Cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate> Technical Exception </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-secondary"
+              caption="Continue"
+              (click)="onException()"
+              [ControlConfig]="ButtonConfig"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>

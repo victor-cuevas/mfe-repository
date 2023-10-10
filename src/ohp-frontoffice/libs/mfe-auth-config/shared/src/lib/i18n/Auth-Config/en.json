@@ -1,0 +1,161 @@
+{
+  "user": {
+    "labels": {
+      "userName": "User name",
+      "lastName": "Last Name",
+      "firstName": "First Name",
+      "password": "Password",
+      "employeeNo": "EmployeeNo",
+      "language": "Language",
+      "email": "Email",
+      "faxNumber": "Fax no",
+      "telephone": "Telephone no",
+      "privateNumber": "Personal Telephone Nr",
+      "accessToSettings": "Access to config",
+      "isIntegrationUser": "Is IntegrationUser",
+      "initials": "Initials",
+      "creditProvider": "Credit Provider",
+      "userProfile": "User Profile",
+      "productFamilyModuleCombination": "Product Family Module Combination"
+    },
+    "titles": {
+      "manageUsers": "Manage Users",
+      "searchUser": "Specify Search Criteria",
+      "selectTheUser": "Select The User",
+      "userDetails": "User Details",
+      "userProfiles": "User Profiles"
+    },
+    "buttons": {
+      "search": "Search",
+      "clear": "Clear",
+      "addUser": "Add",
+      "addUserProfile":"Add"
+    },
+    "validationError": {
+      "searchCriteria": "Minimum one search criteria must be given to search.",
+      "validSearch": "There is no record match for your search criteria.",
+      "userName": "'UserName' is Mandatory.",
+      "lastName": "'Name' is Mandatory.",
+      "firstName": "'First Name' is Mandatory.",
+      "language": "'Language' is Mandatory.",
+      "initial": "'Initials' is Mandatory.",
+      "creditProvider": "'Credit Provider' is Mandatory.",
+      "userProfile": "'User Profile' is Mandatory.",
+      "productFamily": "'Product Family Module Combination' is Mandatory."
+    }
+  },
+  "userProfile": {
+    "labels": {
+      "name": "Name",
+      "isReadonly": "Is Read Only User Profile",
+      "functionalities": "Functionality",
+      "access": "Access"
+    },
+    "titles": {
+      "manageUserProfile": "Manage User Profile",
+      "overviewUserProfiles": "User Profiles Overview",
+      "detailUserProfile": "User Profiles Detail"
+    },
+    "buttons": {
+      "addUserProfile": "Add"
+    },
+    "validationError": {
+      "name": "'Name' is Mandatory.",
+      "uniqueName": "User Profile Name exist in the list already."
+    }
+  },
+  "manage-recovery-user": {
+    "title": {
+      "manage-recovery": "Manage Recovery Users"
+    },
+    "tabel": {
+      "Username": "Username",
+      "LastName": "Last name",
+      "FirstName": "First name",
+      "EmailId": "E-mail",
+      "Links": "Linked user profiles",
+      "Priority": "Priority",
+      "Limitation": "Limited entity",
+      "User": "User",
+      "ActionReceiver": "Action Receiver",
+      "addUser": "Add User",
+      "taskcreation": "Only for task creation",
+      "": ""
+    },
+    "card": {
+      "userDetails": "User Details",
+      "userProfiles": "User Profiles",
+      "Limitations": "Limitations",
+      "ActionReceiver": "Action Receiver",
+      "Username": "Username",
+      "Password": "Password",
+      "LastName": "Last name",
+      "FirstName": "First name",
+      "Email": "E-mail",
+      "PhoneNo": "Phone nr",
+      "Language": "Language",
+      "FaxNr": "Fax nr",
+      "UserType": "User Type",
+      "EmployeeNr": "Employee nr",
+      "Access": "Access to configuration session",
+      "UserProfile": "UserProfile",
+      "LimitedEntity": "Limited Entity"
+    },
+    "validation": {
+      "userName": "'Username' is Mandatory.",
+      "userType": "Input is not in a correct format.",
+      "errorMsg": "Input string was not in a correct format.",
+      "priority": "'Priority' is Mandatory.",
+      "userProfileNotNull": "UserProfile is not correctly defined",
+      "limitationNotNull": "Limitation is not correctly defined",
+      "limitationDuplicate": "Limitations duplicates"
+    }
+  },
+  "manage-recovery-user-profile": {
+    "title": {
+      "manageRecoveryUserProfile": "Manage Recovery User Profiles"
+    },
+    "sub-headings": {
+      "overView": "User profiles overview",
+      "detail": "User profile detail"
+    },
+    "table": {
+      "userprofile": "User profile",
+      "add": "Add",
+      "access": "Access",
+      "linkedWebMenu": "Linked Web Menu Items",
+      "landingPage": "Landing page",
+      "sequence": "Sequence",
+      "linkedWebFunctionalities": "Linked web functionalities",
+      "linkedFunctionalities": "Linked functionalities",
+      "linkedAppItems": "Linked application related items",
+      "linkedPortalItems": "Linked portal menu items",
+      "linkedPortalFunc": "Linked portal functionalities"
+    },
+    "card": {
+      "userProfile": "User Profile",
+      "isReadOnly": "Is read-only user profile",
+      "defaultProfile": "Default debtor profile for portal"
+    },
+    "validation": {
+      "oneDefaultUserProfile": "There should be only one default userProfile for Portal",
+      "name": "'Name' is Mandatory.",
+      "sequence": "'Sequence' is Mandatory.",
+      "uniqueName": "User Profile Name exist in the list already."
+    }
+  },
+  "validation": {
+    "validationHeader": " You have {0} error(s). Click here to see the description."
+  },
+  "close": {
+    "header": "Unsaved Changes",
+    "body": "You have unsaved data. Do you want to save?",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel"
+  },
+  "button": {
+    "save": "Save",
+    "close": "Close"
+  }
+}

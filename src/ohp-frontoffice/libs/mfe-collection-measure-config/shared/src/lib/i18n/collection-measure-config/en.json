@@ -1,0 +1,52 @@
+{
+  "collectionMeasure": {
+    "heading": {
+      "collectionMeasure": "Manage collection measure",
+      "collectionMeasureType": "Collection Measure Type"
+    },
+    "card": {
+      "collectionMeasureType": "Collection Measure Type",
+      "startEvent": "Start Event Name",
+      "stopEvent": "Stop Event Name",
+      "creationEvent": "Creation Event Name",
+      "isRole": "Is Role Linking Applicable",
+      "showSimulation": "Show Simulation",
+      "dossierStatus": "Dossier Status",
+      "selectedDossier": "Selected Dossier Status",
+      "closeMeasureIntervalType": "Close Measure Interval Type",
+      "elapsedPeriodToCloseMeasure":"Elapsed Period To Close Measure",
+      "isParty":"Is Party Measure"
+    },
+    "tabel": {
+      "type": "Type",
+      "delete": "",
+      "add": "Add"
+    },
+    "ValidationError":{
+      "required":" is Mandatory.",
+      "collectionMeasureType": "'Collection Measure Type'",
+      "DossierBusinessError":"Atleast one Record Should Exist in 'Selected Dossier Status'.",
+      "BusinessValidation":"The given record is already in the list. Please make sure that the record is unique.",
+      "InputIncorrect": "Input is not in correct format.",
+      "numberInt32Check": "Value was either too large or too small for an Int32."
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close",
+      "add": "Add",
+      "clear": "Clear"
+    },
+    "validations": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    },
+    "dialog": {
+      "Yes": "Yes",
+      "No": "No",
+      "Cancel": "Cancel",
+      "Header": "Unsaved Changes",
+      "Content": "You have unsaved data. Do you want to save?",
+      "ok": "Ok",
+      "Continue":"Continue"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<div class="closefo-input">
+  <p-pickList [source]="source"
+              [target]="target"
+              [responsive]="responsive"
+              [dragdrop]="dragdrop"
+              [showSourceControls]="showSourceControls"
+              [showTargetControls]="showTargetControls"
+              [showTargetFilter]="showTargetFilter"
+              [filterBy]="filterBy"
+              filterMatchMode="startsWith"
+              (onChange)="onSelectionchange($event)"
+              [required]="ControlConfig.required">
+    <ng-template let-users pTemplate="item">
+      {{users[sourceValue]}}
+    </ng-template>
+  </p-pickList>
+</div>

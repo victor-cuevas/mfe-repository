@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'UniversLtStd';
+  src: url('UniversLtStd/Univers-LT-Std.eot');
+  src: url('UniversLtStd/Univers-LT-Std.eot?#iefix') format('embedded-opentype'), url('UniversLtStd/Univers-LT-Std.ttf') format('truetype'), url('UniversLtStd/Univers-LT-Std.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'VisueltPro-Light';
+  src: url('VisueltPro/VisueltPro-Light.eot');
+  src: url('VisueltPro/VisueltPro-Light.eot?#iefix') format('embedded-opentype'), url('VisueltPro/VisueltPro-Light.ttf') format('truetype'), url('VisueltPro/VisueltPro-Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'VisueltPro';
+  src: url('VisueltPro/VisueltPro-Regular.eot');
+  src: url('VisueltPro/VisueltPro-Regular.eot?#iefix') format('embedded-opentype'), url('VisueltPro/VisueltPro-Regular.ttf') format('truetype'), url('VisueltPro/VisueltPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

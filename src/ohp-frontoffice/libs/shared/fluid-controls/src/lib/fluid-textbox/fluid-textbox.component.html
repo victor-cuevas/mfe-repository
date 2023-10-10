@@ -1,0 +1,1468 @@
+<ng-container [ngSwitch]="Type">
+    <ng-container
+      *ngSwitchCase="ControlType.TEXT"
+      [ngTemplateOutlet]="text"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.EMAILTEXTLOWERCASE"
+      [ngTemplateOutlet]="EmailLowerCasetext"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.ALPHABETPATTERN"
+      [ngTemplateOutlet]="textWithAlphabets"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.PASSWORD"
+      [ngTemplateOutlet]="password"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.PASSWORDPATTERN"
+      [ngTemplateOutlet]="passwordWithPattern"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.NUMBERS"
+      [ngTemplateOutlet]="numbers"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.NUMBERSMAXLENGTH"
+      [ngTemplateOutlet]="numbersMaxLength"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.TELEPHONE"
+      [ngTemplateOutlet]="telephone"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.MOBILEPATTERN"
+      [ngTemplateOutlet]="mobilePattern"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.EMAIL"
+      [ngTemplateOutlet]="email"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.EMAILUM"
+      [ngTemplateOutlet]="emailUM"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.PERCENTAGE"
+      [ngTemplateOutlet]="percentage"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.AMOUNT"
+      [ngTemplateOutlet]="amount"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.NONDECIMALAMOUNT"
+      [ngTemplateOutlet]="nonDecimalAmount"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.POSTCODE"
+      [ngTemplateOutlet]="postCode"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.IBAN"
+      [ngTemplateOutlet]="iban"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.AMOUNTWITHLIMITVALIDATION"
+      [ngTemplateOutlet]="amountLimitValidation"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.DURATION"
+      [ngTemplateOutlet]="duration"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.NUMBERSTYPE"
+      [ngTemplateOutlet]="numbersType"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="ControlType.ALPHABETPATTERNNITIALS"
+      [ngTemplateOutlet]="textWithAlphabetsInitials"
+    ></ng-container>
+  </ng-container>
+  
+  <ng-template #text>
+    <div class="closefo-input">
+      <input
+        type="text"
+        [(ngModel)]="value"
+        pInputText
+        [placeholder]="placeholder"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [name]="name"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        [ngClass]="{ 'close-externalerror': inputModel.errors && (form?.submitted || ControlConfig.externalError) }"
+        [tabindex]="tabInputIndex"
+        [autocomplete]="autocompleteStatus ? autocompleteStatus : 'on'"
+        (change)="OnchangeText(inputModel.value)"
+        [maxLength]="maxlength"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #EmailLowerCasetext>
+    <div class="closefo-input">
+      <input
+        class="text-lowercase"
+        type="text"
+        [(ngModel)]="value"
+        pInputText
+        [placeholder]="placeholder"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [name]="name"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+        [autocomplete]="autocompleteStatus ? autocompleteStatus : 'on'"
+        (change)="OnchangeText(inputModel.value)"
+        [maxlength]="maxlength"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #textWithAlphabets>
+    <div class="closefo-input">
+      <input
+        type="text"
+        [(ngModel)]="value"
+        pInputText
+        [placeholder]="placeholder"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [name]="name"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        (keypress)="validate($event)"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+        [maxlength]="maxlength"
+      />
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted )
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation'] 
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #textWithAlphabetsInitials>
+    <div class="closefo-input">
+      <input
+        type="text"
+        [ngModel]="value"
+        pInputText
+        [placeholder]="placeholder"
+        cfcFluidInitialFormatter
+        [readonly]="isReadOnly"
+        [initialMask]="value"
+        [required]="IsRequired()"
+        [name]="name"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        (keypress)="validate($event)"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+        (ngModelchange)="value = $event"
+      />
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #password>
+    
+    <div class="closefo-input closefo-input-password">
+      <input
+        type="password"
+        [(ngModel)]="value"
+        [name]="name"
+        pInputText
+        [placeholder]="placeholder"
+        (change)="OnchangePassword(inputModel.value)"
+        #inputModel="ngModel"
+        #inputModelCtrl
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+        autocomplete="current-password"
+      />
+      <!--<span
+        class="closefo-icon-eye"
+        (click)="ToggleVisibility(inputModelCtrl)"
+      ></span>-->
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #passwordWithPattern>
+    <div class="closefo-input closefo-input-password">
+      <input
+        type="password"
+        [(ngModel)]="value"
+        (change)="OnchangePassword(inputModel.value)"
+        [name]="name"
+        [cfcFluidPatternValidator]="{Required: true,Regex: PasswordPattern}"
+        pInputText
+        [placeholder]="placeholder"
+        #inputModel="ngModel"
+        #inputModelCtrl
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+      />
+  
+      <span
+        class="closefo-icon-eye"
+        (click)="ToggleVisibility(inputModelCtrl)"
+      ></span>
+  
+      <div class="closefo-account-widget custom-validation-wrapper">
+        <div class="closefo-account-wrapper">
+          <div class="closefo-account-container">
+            <div class="validation-check closefo-validation-header">
+              {{ ControlConfig.validationHeader }}
+            </div>
+            <div
+              class="validation-check d-flex align-items-center"
+              [ngClass]="
+                inputModel.value?.length > 8 || inputModel.value?.length === 8
+                  ? 'closefo-inputValid'
+                  : 'closefo-inputInvalid'
+              "
+            >
+              {{ ControlConfig.minLengthValidation }}
+            </div>
+            <div
+              class="validation-check d-flex align-items-center"
+              [ngClass]="
+                HasUppercase.test(inputModel.value)
+                  ? 'closefo-inputValid'
+                  : 'closefo-inputInvalid'
+              "
+            >
+              {{ ControlConfig.uppercaseValidation }}
+            </div>
+            <div
+              class="validation-check d-flex align-items-center"
+              [ngClass]="
+                Haslowercase.test(inputModel.value)
+                  ? 'closefo-inputValid'
+                  : 'closefo-inputInvalid'
+              "
+            >
+              {{ ControlConfig.lowercaseValidation }}
+            </div>
+            <div
+              class="validation-check d-flex align-items-center"
+              [ngClass]="
+                HasNumber.test(inputModel.value)
+                  ? 'closefo-inputValid'
+                  : 'closefo-inputInvalid'
+              "
+            >
+              {{ ControlConfig.numberValidation }}
+            </div>
+            <div
+              class="validation-check d-flex align-items-center"
+              [ngClass]="
+                HasSpecialCharacter.test(inputModel.value)
+                  ? 'closefo-inputValid'
+                  : 'closefo-inputInvalid'
+              "
+            >
+              {{ ControlConfig.specialCharacterValidation }}
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #numbers>
+    <div class="closefo-input">
+      <input
+      cfcFluidDigitsOnly
+        type="text"
+        cfcFluidMinMaxValueValidator
+        [maxValue]="maximumValue"
+        [minValue]="minimumValue"
+        [isDefaultValidation]="true"
+        [minlength]="minlength"
+        [maxlength]="maxlength"
+        [isNumberLimit]="true"
+        [(ngModel)]="value"
+        [name]="name"
+        [placeholder]="placeholder"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        (change)="OnchangeNumber(inputModel.value)"
+        [tabindex]="tabInputIndex"
+         [ngClass]="{ 'close-externalerror': inputModel.errors && (ControlConfig.externalError) }"
+      />
+  
+      <div *ngIf="
+        inputModel.errors?.invalidDefaultError && (isFocus || form?.submitted);
+        else minMaxError
+      "
+           class="closefo-validation-error">
+        <small class="form-error">
+          {{
+        ControlConfig.invalidDefaultValidation
+          }}
+        </small>
+      </div>
+
+
+      <ng-template #minMaxError>
+
+        <div *ngIf="
+          inputModel.errors?.minValueError && (ControlConfig.externalError || form?.submitted);
+          else maxValueError
+        "
+             class="closefo-validation-error">
+          <small class="form-error">{{ ControlConfig.minValueValidation }}</small>
+        </div>
+
+        <ng-template #maxValueError>
+          <div *ngIf="
+            inputModel.errors?.maxValueError && (ControlConfig.externalError || form?.submitted);
+            else formError
+          "
+               class="closefo-validation-error">
+            <small class="form-error">{{ ControlConfig.maxValueValidation }}</small>
+          </div>
+
+          <ng-template #formError>
+            <div *ngIf="ControlConfig.externalError">
+              <div class="closefo-validation-error"
+                   *ngFor="let error of ControlConfig.Errors">
+                <div *ngIf="error.specificIndex; else indexContent">
+                  <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+                    <small class="form-error"
+                           *ngIf="!error.isModelError && error.isShowValidation">{{ error["validationMessage"] }}</small>
+                  </div>
+                </div>
+                <ng-template #indexContent>
+                  <div>
+                    <small class="form-error"
+                           *ngIf="!error.isModelError && error.isShowValidation">{{ error["validationMessage"] }}</small>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+            <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+             <div class="closefo-validation-error"
+                   *ngFor="let error of ControlConfig.Errors">
+                <small *ngIf="
+                  error.isModelError &&
+                  inputModel.errors[error['validation']] &&
+                  error['validation']
+                ">{{  error["validationMessage"] }}</small>
+              </div>
+            </div>
+          </ng-template>
+        </ng-template>
+      </ng-template>
+    </div>
+  </ng-template>
+  
+  <ng-template #numbersMaxLength>
+    <div class="closefo-input">
+      <input
+      cfcFluidDigitsOnly
+        type="text"
+        [(ngModel)]="value"
+        [name]="name"
+        [placeholder]="placeholder"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        [tabindex]="tabInputIndex"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        [minlength]="minlength"
+        [maxlength]="maxlength"
+        [ngClass]="{ 'close-externalerror': inputModel.errors && (form?.submitted || ControlConfig.externalError) }"
+      />
+      <div
+        *ngIf="
+          value?.length < minlength && (isFocus || form?.submitted);
+          else formError
+        "
+        class="closefo-validation-error"
+      >
+        <small>{{ ControlConfig.minLengthValidation }}</small>
+      </div>
+  
+      <ng-template #formError>
+        <div
+          *ngIf="
+            inputModel.errors && (form?.submitted || ControlConfig.externalError)
+          "
+        >
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <small
+              *ngIf="
+                error.isModelError &&
+                inputModel.errors[error['validation']] &&
+                error['validation']
+              "
+              >{{ error["validationMessage"] }}</small
+            >
+          </div>
+        </div>
+        <div *ngIf="form?.submitted || ControlConfig.externalError">
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <small *ngIf="!error.isModelError && error.isShowValidation">{{
+              error["validationMessage"]
+            }}</small>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+  
+  <ng-template #telephone>
+    
+    <div class="closefo-input">
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="value"
+        [placeholder]="placeholder"
+        [name]="name"
+        [cfcFluidPatternValidator]="{Required: true,Regex: PhoneNumberPattern}"
+        #inputModel="ngModel"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #mobilePattern>
+   
+    <div class="closefo-input">
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="value"
+        [placeholder]="placeholder"
+        [name]="name"
+        [cfcFluidPatternValidator]="{
+          Required: true,
+          Regex: MobileNumberPattern
+        }"
+        #inputModel="ngModel"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small *ngIf="!error.isModelError && error.isShowValidation">{{
+            error["validationMessage"]
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #email>
+    <div class="closefo-input">
+      <input
+        class="text-lowercase"
+        type="email"
+        [placeholder]="placeholder"
+        pInputText
+        [(ngModel)]="value"
+        [name]="name"
+        [cfcFluidPatternValidator]="{ Required: true, Regex: EmailPattern }"
+        #inputModel="ngModel"
+        [readonly]="isReadOnly"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [required]="IsRequired()"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+        [maxlength]="maxlength"
+      />
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            class="form-error"
+            *ngIf="!error.isModelError && error.isShowValidation"
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #emailUM>
+    <div class="closefo-input">
+      <input type="email"
+             [placeholder]="placeholder"
+             pInputText
+             [(ngModel)]="value"
+             [name]="name"
+             [cfcFluidPatternValidator]="{ Required: true, Regex: EmailPatternUM }"
+             #inputModel="ngModel"
+             [readonly]="isReadOnly"
+             [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+             [required]="IsRequired()"
+             autocomplete="off"
+             [tabindex]="tabInputIndex" />
+      <div *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        ">
+        <div class="closefo-validation-error"
+             *ngFor="let error of ControlConfig.Errors">
+          <small *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            ">{{ error["validationMessage"] }}</small>
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div class="closefo-validation-error"
+             *ngFor="let error of ControlConfig.Errors">
+          <small class="form-error"
+                 *ngIf="!error.isModelError && error.isShowValidation">{{ error["validationMessage"] }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+  <ng-template #percentage>
+    <div class="closefo-input closefo-percentage-input">
+      <input
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        [placeholder]="placeholder"
+        pInputText
+        type="text"
+        cfcFluidPercentageMask
+        [locale]="localeValue"
+        [ngModel]="value"
+        #inputModel="ngModel"
+        [name]="name"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+        [percentageFormat]="percentageFormat"
+        (ngModelchange)="value = $event"
+      />
+      <span class="percent-icon">%</span>
+    </div>
+    <div
+      *ngIf="
+        inputModel.errors && (form?.submitted || ControlConfig.externalError)
+      "
+    >
+      <div
+        class="closefo-validation-error"
+        *ngFor="let error of ControlConfig.Errors"
+      >
+        <small
+          *ngIf="
+            error.isModelError &&
+            inputModel.errors[error['validation']] &&
+            error['validation']
+          "
+          >{{ error["validationMessage"] }}</small
+        >
+      </div>
+    </div>
+    <div *ngIf="form?.submitted || ControlConfig.externalError">
+      <div
+        class="closefo-validation-error"
+        *ngFor="let error of ControlConfig.Errors"
+      >
+        <small *ngIf="!error.isModelError && error.isShowValidation">{{
+          error["validationMessage"]
+        }}</small>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #nonDecimalAmount>
+    <div class="closefo-input closefo-amount-input">
+      <!--<span class="euro-icon">&euro;</span>-->
+      <input
+        class="form-input"
+        cfcFluidMinMaxValueValidator
+        [formControlValue]="inputModel.value"
+        [isDefaultValidation]="true"
+        [maxValue]="maximumValue"
+        [minValue]="minimumValue"
+        [isAmountLimit]="true"
+        [cfcFluidCurrencyMask]="value"
+        [ngClass]="{ error: inputModel.errors && form?.submitted }"
+        [placeholder]="placeholder"
+        [ngModel]="value"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        [name]="name"
+        [options]="NonDecimalCurrencyMaskConfig"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+        (paste)="onPasteAmount(value)"
+        (blur)="onBlur()"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        (change)="OnchangeAmount(inputModel.control.value)"
+        (ngModelchange)="value = $event"
+      />
+    </div>
+  
+    <div
+      *ngIf="
+        inputModel.errors?.invalidDefaultError && (isFocus || form?.submitted);
+        else defaultError
+      "
+      class="closefo-validation-error"
+    >
+      <small class="form-error">{{
+        ControlConfig.invalidDefaultValidation
+      }}</small>
+    </div>
+  
+    <ng-template #defaultError>
+      <div
+        *ngIf="
+          inputModel.errors?.minValueError && (isFocus || form?.submitted);
+          else maxValueError
+        "
+        class="closefo-validation-error"
+      >
+        <small class="form-error">{{ ControlConfig.minValueValidation }}</small>
+      </div>
+  
+      <ng-template #maxValueError>
+        <div
+          *ngIf="
+            inputModel.errors?.maxValueError && (isFocus || form?.submitted);
+            else formError
+          "
+          class="closefo-validation-error"
+        >
+          <small class="form-error">{{ ControlConfig.maxValueValidation }}</small>
+        </div>
+  
+        <ng-template #formError>
+          <div *ngIf="ControlConfig.externalError">
+            <div
+              class="closefo-validation-error"
+              *ngFor="let error of ControlConfig.Errors"
+            >
+              <div *ngIf="error.specificIndex; else indexContent">
+                <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+                  <small
+                    class="form-error"
+                    *ngIf="!error.isModelError && error.isShowValidation"
+                    >{{ error["validationMessage"] }}</small
+                  >
+                </div>
+              </div>
+              <ng-template #indexContent>
+                <div>
+                  <small
+                    class="form-error"
+                    *ngIf="!error.isModelError && error.isShowValidation"
+                    >{{ error["validationMessage"] }}</small
+                  >
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div *ngIf="inputModel.errors && form?.submitted">
+            <div
+              class="closefo-validation-error"
+              *ngFor="let error of ControlConfig.Errors"
+            >
+              <small
+                *ngIf="
+                  error.isModelError &&
+                  inputModel.errors[error['validation']] &&
+                  error['validation']
+                "
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </div>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+  </ng-template>
+  
+  <ng-template #amount>
+    <div class="closefo-input closefo-amount-input">
+      <!--<span class="euro-icon">&euro;</span>-->
+      <input
+        class="form-input"
+        [cfcFluidCurrencyMask]="value"
+        cfcFluidMinMaxValueValidator
+        [formControlValue]="inputModel.value"
+        [isDefaultValidation]="true"
+        [ngClass]="{ error: inputModel.errors && (ControlConfig.externalError)}"
+        [placeholder]="placeholder"
+        [ngModel]="value"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        [name]="name"
+        [options]="CurrencyMaskConfig"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+        (paste)="onPasteAmount(value)"
+        (blur)="onBlur()"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        (change)="OnchangeAmount(inputModel.control.value)"
+        [minlength]="minlength"
+        [maxlength]="maxlength"
+        (ngModelchange)="value = $event"
+      />
+    </div>  
+    <div
+      *ngIf="
+        inputModel.errors?.invalidDefaultError && (isFocus || form?.submitted || ControlConfig.externalError);
+        else defaultError
+      "
+      class="closefo-validation-error"
+    >
+      <small class="form-error">{{
+        ControlConfig.invalidDefaultValidation
+      }}</small>
+    </div>
+  
+    <ng-template #defaultError>
+      <div *ngIf="ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <div *ngIf="error.specificIndex; else indexContent">
+            <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </div>
+          <ng-template #indexContent>
+            <div>
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </ng-template>
+        </div>
+      </div>
+  
+      <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError )">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+  
+  <ng-template #amountLimitValidation>
+    <div class="closefo-input closefo-amount-input">
+      <!--<span class="euro-icon">&euro;</span>-->
+      <input
+        class="form-input"
+        cfcFluidMinMaxValueValidator
+        [cfcFluidCurrencyMask]="value"
+        [maxValue]="maximumValue"
+        [minValue]="minimumValue"
+        [minlength]="minlength"
+        [maxlength]="maxlength"
+        [formControlValue]="inputModel.value"
+        [isDefaultValidation]="defaultValidationForAmount"
+        [isAmountLimit]="true"
+        [ngClass]="{ error: inputModel.errors && (form?.submitted || ControlConfig.externalError) }"
+        [placeholder]="placeholder"
+        [ngModel]="value"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        [name]="name"
+        [options]="CurrencyMaskConfig"
+        autocomplete="off"
+        [tabindex]="tabInputIndex"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        (change)="OnchangeAmount(inputModel.control.value)"
+        (paste)="onPasteAmount(value)"
+        (ngModelchange)="value = $event"
+      />
+    </div>
+  
+    <div
+      *ngIf="
+        inputModel.errors?.invalidDefaultError && (isFocus || form?.submitted);
+        else defaultError
+      "
+      class="closefo-validation-error"
+    >
+      <small class="form-error">{{
+        ControlConfig.invalidDefaultValidation
+      }}</small>
+    </div>
+  
+    <ng-template #defaultError>
+      <div
+        *ngIf="
+          inputModel.errors?.minValueError && (ControlConfig.externalError || form?.submitted);
+          else maxValueError
+        "
+        class="closefo-validation-error"
+      >
+        <small class="form-error">{{ ControlConfig.minValueValidation }}</small>
+      </div>
+  
+      <ng-template #maxValueError>
+        <div
+          *ngIf="
+            inputModel.errors?.maxValueError && (ControlConfig.externalError || form?.submitted);
+            else formError
+          "
+          class="closefo-validation-error"
+        >
+          <small class="form-error">{{ ControlConfig.maxValueValidation }}</small>
+        </div>
+  
+        <ng-template #formError>
+          <div *ngIf="ControlConfig.externalError">
+            <div
+              class="closefo-validation-error"
+              *ngFor="let error of ControlConfig.Errors"
+            >
+              <div *ngIf="error.specificIndex; else indexContent">
+                <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+                  <small
+                    class="form-error"
+                    *ngIf="!error.isModelError && error.isShowValidation"
+                    >{{ error["validationMessage"] }}</small
+                  >
+                </div>
+              </div>
+              <ng-template #indexContent>
+                <div>
+                  <small
+                    class="form-error"
+                    *ngIf="!error.isModelError && error.isShowValidation"
+                    >{{ error["validationMessage"] }}</small
+                  >
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+            <div
+              class="closefo-validation-error"
+              *ngFor="let error of ControlConfig.Errors"
+            >
+              <small
+                *ngIf="
+                  error.isModelError &&
+                  inputModel.errors[error['validation']] &&
+                  error['validation']
+                "
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </div>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+  </ng-template>
+  
+  <ng-template #duration>
+    <div class="closefo-input closefo-amount-input">
+      <input
+        type="text"
+        cfcFluidMinMaxValueValidator
+        [(ngModel)]="value"
+        [name]="name"
+        [placeholder]="placeholder"
+        [formControlValue]="inputModel.value"
+        [isDefaultValidation]="false"
+        [isNumberLimit]="true"
+        [minlength]="minlength"
+        [maxlength]="maxlength"
+        [maxValue]="maximumValue"
+        [minValue]="minimumValue"
+        pInputText
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        #inputModel="ngModel"
+        (blur)="onBlur()"
+        (change)="OnchangeNumber(inputModel.value)"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        [tabindex]="tabInputIndex"
+        [ngClass]="{ 'close-externalerror': inputModel.errors && (ControlConfig.externalError) }"
+
+      />
+    </div>
+  
+    <div class="closefo-validation-error ng-star-inserted"
+      *ngIf="
+        inputModel.errors?.minValueError && (isFocus || form?.submitted);
+        else maxValueError
+      "
+    >
+      <small class="form-error">{{ ControlConfig.minValueValidation }}</small>
+    </div>
+  
+    <ng-template #maxValueError>
+      <div class="closefo-validation-error ng-star-inserted"
+        *ngIf="
+          inputModel.errors?.maxValueError && (isFocus || form?.submitted);
+          else formError
+        "
+      >
+        <small class="form-error">{{ ControlConfig.maxValueValidation }}</small>
+      </div>
+  
+      <ng-template #formError>
+        <div *ngIf="ControlConfig.externalError">
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <div *ngIf="error.specificIndex; else indexContent">
+              <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+                <small
+                  class="form-error"
+                  *ngIf="!error.isModelError && error.isShowValidation"
+                  >{{ error["validationMessage"] }}</small
+                >
+              </div>
+            </div>
+            <ng-template #indexContent>
+              <div>
+                <small
+                  class="form-error"
+                  *ngIf="!error.isModelError && error.isShowValidation"
+                  >{{ error["validationMessage"] }}</small
+                >
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <small
+              *ngIf="
+                error.isModelError &&
+                inputModel.errors[error['validation']] &&
+                error['validation']
+              "
+              >{{ error["validationMessage"] }}</small
+            >
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #postCode>
+    <div class="closefo-input">
+      <input
+        type="text"
+        cfcFluidPostalCodeFormatter
+        [closeFluidPostCodeMask]="value"
+        [placeholder]="placeholder"
+        pInputText
+        [ngModel]="value"
+        [name]="name"
+        #inputModel="ngModel"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        (focus)="setFocusStatus(false)"
+        (focusout)="setFocusStatus(true)"
+        [autocomplete]="autocompleteStatus ? autocompleteStatus : 'off'"
+        (change)="validatePostCode(inputModel.value)"
+        #inputModelCtrl
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+        (ngModelchange)="value = $event"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors?.invalidPostalCode && (isFocus || form?.submitted);
+          else formError
+        "
+        class="closefo-validation-error"
+      >
+        <small class="form-error">{{
+          ControlConfig.invalidPostalCodeValidation
+        }}</small>
+      </div>
+  
+      <ng-template #formError>
+        <div
+          *ngIf="
+            inputModel.errors && (form?.submitted || ControlConfig.externalError)
+          "
+        >
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <small
+              *ngIf="
+                error.isModelError &&
+                inputModel.errors[error['validation']] &&
+                error['validation']
+              "
+              >{{ error["validationMessage"] }}</small
+            >
+          </div>
+        </div>
+        <div *ngIf="form?.submitted || ControlConfig.externalError">
+          <div
+            class="closefo-validation-error"
+            *ngFor="let error of ControlConfig.Errors"
+          >
+            <div *ngIf="error.specificIndex; else nonIndex">
+              <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+                <small
+                  class="form-error"
+                  *ngIf="!error.isModelError && error.isShowValidation"
+                  >{{ error["validationMessage"] }}</small
+                >
+              </div>
+            </div>
+            <ng-template #nonIndex>
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </ng-template>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+  
+  <ng-template #numbersType>
+    <div class="closefo-input">
+      <input
+        type="number"
+        [placeholder]="placeholder"
+        pInputText
+        [(ngModel)]="value"
+        [name]="name"
+        #inputModel="ngModel"
+        [readonly]="isReadOnly"
+        [required]="IsRequired()"
+        (change)="OnchangeNumber(inputModel.value)"
+        [autocomplete]="autocompleteStatus ? autocompleteStatus : 'off'"
+        #inputModelCtrl
+        id="inputModelCtrl"
+        [ngClass]="{ error: ValidateCustomError() && form?.submitted }"
+        [tabindex]="tabInputIndex"
+      />
+  
+      <div
+        *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        "
+      >
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <div *ngIf="error.specificIndex; else nonIndex">
+            <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+              <small
+                class="form-error"
+                *ngIf="!error.isModelError && error.isShowValidation"
+                >{{ error["validationMessage"] }}</small
+              >
+            </div>
+          </div>
+          <ng-template #nonIndex>
+            <small
+              class="form-error"
+              *ngIf="!error.isModelError && error.isShowValidation"
+              >{{ error["validationMessage"] }}</small
+            >
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #iban>
+    <div class="closefo-input">
+      <input cfcFluidIbanFormatter
+             type="text"
+             [(ngModel)]="value"
+             [name]="name"
+             [placeholder]="placeholder"
+             [cfcFluidIban]="{Required: IsRequired() || validateIBAN}"
+             pInputText
+             [readonly]="isReadOnly"
+             [required]="IsRequired()"
+             #inputModel="ngModel"
+             (blur)="onIbanBlur(form)"
+             [tabindex]="tabInputIndex"
+             [player]="value"
+             />
+
+      <div *ngIf="
+      inputModel.errors?.InvalidIBAN || (isFocus || form?.submitted);
+      else formError
+    "
+       class="closefo-validation-error">
+    <small class="form-error">
+      {{
+      ControlConfig.invalidIBANValidation
+      }}
+    </small>
+  </div>
+  <ng-template #formError>
+      <div *ngIf="
+          inputModel.errors && (form?.submitted || ControlConfig.externalError)
+        ">
+        <div class="closefo-validation-error"
+             *ngFor="let error of ControlConfig.Errors">
+          <small *ngIf="
+              error.isModelError &&
+              inputModel.errors[error['validation']] &&
+              error['validation']
+            ">{{ error["validationMessage"] }}</small>
+        </div>
+      </div>
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div class="closefo-validation-error"
+             *ngFor="let error of ControlConfig.Errors">
+          <small *ngIf="!error.isModelError && error.isShowValidation">
+            {{
+            error["validationMessage"]
+            }}
+          </small>
+        </div>
+      </div>
+
+      <div *ngIf="form?.submitted || ControlConfig.externalError">
+        <div class="closefo-validation-error"
+             *ngFor="let error of ControlConfig.Errors">
+          <div *ngIf="name.charAt(name.length - 1) === error.specificIndex">
+            <small class="form-error"
+                   *ngIf="!error.isModelError && error.isShowValidation">{{ error["validationMessage"] }}</small>
+          </div>
+        </div>
+      </div>
+      </ng-template>
+    </div>
+  </ng-template>

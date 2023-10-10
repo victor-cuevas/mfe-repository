@@ -1,0 +1,37 @@
+<div class="container my-2">
+  <div class="rounded shadow mb-4 bg-light px-4 py-3">
+    <div class="d-flex align-items-center">
+      <div class="ms-3 my-2 status-container--circle d-flex align-items-center justify-content-center bg-accepted">
+        <i class="pi pi-check color-white"></i>
+      </div>
+      <ng-container [ngSwitch]="true">
+        <ng-container *ngSwitchCase="activeIllustrationJourney?.status === 'Completed' && hasPermissionIllustration">
+          <div>
+            <h3 class="my-3 px-4 color-accepted">{{ 'createIllustration.titles.illustrationJourneySubmitted' | translate }}</h3>
+            <p class="px-4">{{ 'createIllustration.subTitles.illustrationCompletedDocument' | translate }}</p>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="activeIllustrationJourney?.status === 'Completed' && !hasPermissionIllustration">
+          <div>
+            <h3 class="my-3 px-4 color-accepted">{{ 'createIllustration.titles.illustrationJourneyCompleted' | translate }}</h3>
+            <p class="px-4">{{ 'createIllustration.subTitles.illustrationCompletedDocument' | translate }}</p>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <div>
+            <h3 class="my-3 px-4 color-accepted">{{ 'createIllustration.titles.readyToBeSubmitted' | translate }}</h3>
+            <p class="px-4">{{ 'createIllustration.subTitles.illustrationDocumentAvailable' | translate }}</p>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <hr />
+  <p class="mt-2">
+    {{
+      dataService.activeJourney
+        ? ('createIllustration.subTitles.continueToCaseSummary' | translate)
+        : ('createIllustration.subTitles.continueToCaseSummaryIllustrationCompleted' | translate)
+    }}
+  </p>
+</div>

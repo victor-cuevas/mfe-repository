@@ -1,0 +1,80 @@
+// Deep Blue - April
+$primary: #002d72;
+$primary-4: #334c87;
+$primary-3: #5c6a9d;
+$primary-2: #868fb9;
+$primary-1: #b9bed8;
+
+// Dutch Orange - April
+$secondary: #f4633a;
+$secondary-4: #f5875b;
+$secondary-3: #f8a37c;
+$secondary-2: #fbbfa1;
+$secondary-1: #fdddcb;
+
+// Mid Blue - April
+$auxiliary-a: #3a5dae;
+$auxiliary-a-4: #2e81bd;
+$auxiliary-a-3: #6a98ca;
+$auxiliary-a-2: #97b4d9;
+$auxiliary-a-1: #c7d4ea;
+
+// Light Blue - April
+$auxiliary-b: #b9d9eb;
+$auxiliary-b-4: #c7e8fb;
+$auxiliary-b-3: #d4edfb;
+$auxiliary-b-2: #e1f3fc;
+$auxiliary-b-1: #eef8fd;
+
+// Warning Red - April
+$auxiliary-c: #ff4a49;
+$auxiliary-c-4: #ff6c6b;
+$auxiliary-c-3: #ff9f9e;
+$auxiliary-c-2: #ffd2d1;
+$auxiliary-c-1: #ffebeb;
+
+// Dark Neutral
+$neutral-dark: #484848;
+$neutral-dark-4: #797a7c;
+$neutral-dark-3: #97999c;
+$neutral-dark-2: #b9babd;
+$neutral-dark-1: #dadbdd;
+
+// Light Neutral
+$neutral-light: #e2e3e5;
+$neutral-light-4: #e8e9eb;
+$neutral-light-3: #edeef0;
+$neutral-light-2: #f2f3f5;
+$neutral-light-1: #f7f8fa;
+
+// colors
+$activeColor: #219653;
+$pendingColor: #ff6a00;
+$inactiveColor: #333;
+$declinedColor: #f40000;
+$activeBackground: #e0f4e8;
+$pendingBackground: #ffe1cc;
+$inactiveBackground: #d3d3d3;
+$declinedBackground: #ffcccc;
+$inProgress: #ba7d00;
+$inProgressBackground: #fff5cb;
+
+// message colors
+$success: #219653;
+$alert: #f44336;
+$toast-success: #caf1dbd9;
+
+//general colors
+$white: #ffffff;
+
+// utilities
+$mainTransition: 0.3s ease all;
+$mainBorderRadius: 8px;
+$mainShadow: 0px 2px 8px rgba($primary, 0.18);
+$focusShadow: 0 0 4px $primary;
+
+// typography
+$primary-font: 'Gilroy', sans-serif;
+$secondary-font: 'Arial', sans-serif;
+
+$placeholder: #97999c;

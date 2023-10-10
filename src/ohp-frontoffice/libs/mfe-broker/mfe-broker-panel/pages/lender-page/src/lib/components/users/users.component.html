@@ -1,0 +1,328 @@
+<div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+  <h2 class="my-3 mb-lg-0">{{ 'lender.titles.users' | translate }}</h2>
+  <div class="d-flex flex-column flex-lg-row">
+    <button
+      pButton
+      icon="pi pi-times"
+      label="{{ 'general.buttons.clearFilters' | translate }}"
+      class="p-button-outlined--bold mb-2 mb-lg-0 me-lg-3"
+      (click)="clearAllFilters()"
+    ></button>
+    <p-button
+      label="{{ 'general.buttons.addLenderUser' | translate }}"
+      styleClass=" p-button-primary  mb-2 my-lg-0 me-lg-2 shadow"
+      [routerLink]="routePaths.CREATE_LENDER_USER"
+    ></p-button>
+  </div>
+</div>
+
+<div class="d-flex scrollable-table">
+  <p-table
+    #lenderUsersTable
+    [value]="firmMembers"
+    [loading]="loading"
+    [showLoader]="false"
+    dataKey="id"
+    [totalRecords]="totalRecords"
+    [showCurrentPageReport]="!!firmMembers.length"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [paginator]="firmMembers.length > 10"
+    [rows]="pageSize"
+    [scrollable]="true"
+    scrollHeight="flex"
+    styleClass="boxed-table"
+  >
+    <!-- table header -->
+    <ng-template pTemplate="header">
+      <tr class="px-3">
+        <th pSortableColumn="fullName">
+          <div class="d-flex {{ nameFilterActive ? 'filter-active' : '' }}">
+            <p-sortIcon field="fullName" class="d-flex pe-2"></p-sortIcon>
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'lender.users.columns.name' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #nameFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputNameFilter
+                      type="text"
+                      [(ngModel)]="inputName"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'lender.placeholders.name' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="filter('', filterValueEnum.NAME, 'contains', 'nameFilterActive', 'nameFilter', 'inputName')"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="filter(inputName, filterValueEnum.NAME, 'contains', 'nameFilterActive', 'nameFilter', 'inputName')"
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="role">
+          <div class="d-flex {{ positionFilterActive ? 'filter-active' : '' }}">
+            <p-sortIcon field="role" class="d-flex pe-2"></p-sortIcon>
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'lender.users.columns.position' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #positionFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <div *ngFor="let position of positionOptions">
+                      <p-checkbox
+                        name="stages"
+                        [value]="position.value"
+                        [(ngModel)]="selectedPositions"
+                        [label]="position.label"
+                      ></p-checkbox>
+                    </div>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="
+                          filter(
+                            '',
+                            filterValueEnum.ROLE,
+                            'multiSelectFilter',
+                            'positionFilterActive',
+                            'positionFilter',
+                            'selectedPositionControl'
+                          )
+                        "
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          filter(
+                            selectedPositions,
+                            filterValueEnum.ROLE,
+                            'multiSelectFilter',
+                            'positionFilterActive',
+                            'positionFilter',
+                            'selectedPositionControl'
+                          )
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="email">
+          <div class="d-flex {{ emailFilterActive ? 'filter-active' : '' }}">
+            <p-sortIcon field="email" class="d-flex pe-2"></p-sortIcon>
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'lender.users.columns.email' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #emailFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputEmailFilter
+                      type="text"
+                      [(ngModel)]="inputEmail"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'lender.placeholders.name' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="filter('', filterValueEnum.EMAIL, 'contains', 'emailFilterActive', 'emailFilter', 'inputEmail')"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="filter(inputEmail, filterValueEnum.EMAIL, 'contains', 'emailFilterActive', 'emailFilter', 'inputEmail')"
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="telephone.mobile">
+          <div class="d-flex {{ phoneFilterActive ? 'filter-active' : '' }}">
+            <p-sortIcon field="telephone.mobile" class="d-flex pe-2"></p-sortIcon>
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'lender.users.columns.phone' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #phoneFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputPhoneFilter
+                      type="text"
+                      [(ngModel)]="inputPhone"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'lender.placeholders.name' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="filter('', filterValueEnum.PHONE, 'contains', 'phoneFilterActive', 'phoneFilter', 'inputPhone')"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="filter(inputPhone, filterValueEnum.PHONE, 'contains', 'phoneFilterActive', 'phoneFilter', 'inputPhone')"
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="status">
+          <div class="d-flex {{ statusFilterActive ? 'filter-active' : '' }}">
+            <p-sortIcon field="status" class="d-flex pe-2"></p-sortIcon>
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'lender.users.columns.status' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #statusFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <div *ngFor="let status of statusOptions">
+                      <p-checkbox name="stages" [value]="status.value" [(ngModel)]="selectedStatus" [label]="status.label"></p-checkbox>
+                    </div>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="
+                          filter(
+                            '',
+                            filterValueEnum.STATUS,
+                            'multiSelectFilter',
+                            'statusFilterActive',
+                            'statusFilter',
+                            'selectedStatusControl'
+                          )
+                        "
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          filter(
+                            selectedStatus,
+                            filterValueEnum.STATUS,
+                            'multiSelectFilter',
+                            'statusFilterActive',
+                            'statusFilter',
+                            'selectedStatusControl'
+                          )
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <!--  empty table body  -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="colspan" class="text-center">No records found</td>
+      </tr>
+    </ng-template>
+    <!-- main body-->
+    <ng-template pTemplate="body" let-firmMember let-i="rowIndex">
+      <tr class="px-3">
+        <td [ngClass]="{ 'link-td': canViewIntermediaries }">
+          <div
+            class="d-flex align-items-center"
+            [routerLink]="canViewIntermediaries ? routePaths.EDIT_LENDER_USER.replace(':userId', firmMember.userId) : undefined"
+          >
+            <!-- TODO Add permissions -->
+            <p-avatar
+              [label]="firmMember.person | initials"
+              [styleClass]="'me-2 bg-' + firmMember.roleMappings[firmMember.userId]?.userRole?.toLowerCase()"
+              shape="circle"
+            ></p-avatar>
+            <h6 class="mt-1">{{ firmMember.fullName | titlecase }}</h6>
+          </div>
+        </td>
+        <td class="text-contain">
+          {{ firmMember.role | userRole }}
+        </td>
+        <td class="text-contain">
+          {{ firmMember.email }}
+        </td>
+        <td>
+          {{ firmMember.telephone?.mobile }}
+        </td>
+        <td>
+          <div [class]="'p-tag-rectangle p-tag-' + firmMember.status.toLowerCase()">{{ firmMember.status | uppercase }}</div>
+        </td>
+      </tr>
+    </ng-template>
+    <!-- end of main table body (rows) -->
+    <ng-template pTemplate="loadingbody">
+      <td class="table-loader" [attr.colspan]="colspan"></td>
+    </ng-template>
+  </p-table>
+</div>

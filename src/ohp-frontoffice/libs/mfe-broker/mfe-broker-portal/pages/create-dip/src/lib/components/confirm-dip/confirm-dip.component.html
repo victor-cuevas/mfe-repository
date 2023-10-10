@@ -1,0 +1,59 @@
+<div class="container pb-4">
+  <h2 class="mb-0">
+    {{ 'createDip.titles.dip2' | translate }} -
+    {{ isAffordable ? ('createDip.titles.consent' | translate) : ('createDip.titles.affordabilityCheck' | translate) }}
+  </h2>
+</div>
+<div class="container my-2">
+  <ng-container *ngIf="isAffordable; else affordability">
+    <form [formGroup]="dipForm" style="font-size: 16px">
+      <p class="mb-4">{{ 'createDip.labels.affordabilityTextP1' | translate }}</p>
+      <p class="mb-4">{{ 'createDip.labels.affordabilityTextP2' | translate }}</p>
+      <p class="mb-4">{{ 'createDip.labels.affordabilityTextP3' | translate }}</p>
+      <p class="mb-4">
+        {{ 'createDip.labels.affordabilityTextP4A' | translate
+        }}<a href="https://lenderwebsite.co.uk/fairprocessing.htm" target="_blank">{{
+          'createDip.labels.affordabilityLenderWebsite' | translate
+        }}</a
+        >{{ 'createDip.labels.affordabilityTextP4B' | translate }}
+      </p>
+      <p-checkbox
+        name="confirmationCheck"
+        [binary]="true"
+        ngDefaultControl
+        formControlName="dataConsent"
+        [label]="'createDip.conditions.customerConsent' | translate"
+      ></p-checkbox>
+
+      <span class="alertcontainer">
+        {{ 'general.validations.required' | translate }}
+      </span>
+    </form>
+  </ng-container>
+  <ng-template #affordability>
+    <mbp-affordability-check
+      [affordabilityData]="currentData"
+      [isAffordable]="isAffordable"
+      [isInDipJourney]="true"
+    ></mbp-affordability-check>
+    <div class="row mt-4">
+      <p>{{ 'createDip.labels.affordabilityNotPossibleToComplete' | translate }}</p>
+    </div>
+  </ng-template>
+  <div class="my-4">
+    <a class="link-outlined" [routerLink]="['.' + stepSetupService.navigateBack()]">{{ 'general.buttons.previous' | translate }}</a>
+    <button
+      *ngIf="dataService.activeJourney; else goToSummary"
+      pButton
+      type="button"
+      icon="none"
+      label="Submit for assessment"
+      [disabled]="!(isAffordable && dipForm.valid)"
+      class="p-button-primary mx-3"
+      (click)="submitDip()"
+    ></button>
+    <ng-template #goToSummary>
+      <a class="link-button-primary mx-4" [routerLink]="['../../']">{{ 'general.buttons.goToSummary' | translate }}</a>
+    </ng-template>
+  </div>
+</div>

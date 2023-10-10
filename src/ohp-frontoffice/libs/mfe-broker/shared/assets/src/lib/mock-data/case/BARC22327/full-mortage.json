@@ -1,0 +1,19 @@
+[
+  {
+    "id": 0,
+    "caseRef": "ABCDE000000000000",
+    "securityAddress": "46 Main Street, Larbert, FK5 3LF, Scotland",
+    "stage": "edit",
+    "applicants": [
+      {
+        "applicant": "John Dung",
+        "employment": "UX-designer",
+        "valuation": "Free valuation",
+        "feeAmount": 100,
+        "lenderAmount": 10000,
+        "payment": "paid",
+        "uploaddocs": "see documents"
+      }
+    ]
+  }
+]

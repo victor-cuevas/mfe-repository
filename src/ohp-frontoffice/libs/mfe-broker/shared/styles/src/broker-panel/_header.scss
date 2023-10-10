@@ -1,0 +1,151 @@
+.search-container {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  display: inline-block;
+
+  .search-input {
+    width: 100%;
+    padding: 0 20px 0 40px;
+    height: 54px;
+    font-size: 16px;
+
+    &:focus {
+      transition: 0.3s ease;
+
+      &::-webkit-input-placeholder {
+        transition: opacity 0.45s ease;
+        opacity: 0;
+      }
+
+      &::-moz-placeholder {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      &:-ms-placeholder {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+    }
+  }
+
+  .pi {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+    left: 12px;
+  }
+
+  a {
+    position: relative;
+    left: 0px;
+  }
+}
+
+.firm-search-holder {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  display: inline-block;
+
+  .overlaySearch {
+    height: 0px;
+  }
+
+  .pi-search,
+  .pi-map-marker {
+    font-size: 18px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+    left: 12px;
+  }
+
+  .search-firm-input {
+    input {
+      width: 100%;
+      padding: 0 20px 0 40px;
+      height: 36px;
+      font-size: 14px;
+
+      &:focus {
+        transition: 0.3s ease;
+
+        &::-webkit-input-placeholder {
+          transition: opacity 0.45s ease;
+          opacity: 0;
+        }
+
+        &::-moz-placeholder {
+          transition: opacity 0.3s ease;
+          opacity: 0;
+        }
+
+        &:-ms-placeholder {
+          transition: opacity 0.3s ease;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .search-address-input {
+    span {
+      width: 40%;
+    }
+
+    input {
+      width: 100%;
+      padding: 0 20px 0 40px;
+      height: 42px;
+      font-size: 14px;
+
+      &:focus {
+        transition: 0.3s ease;
+
+        &::-webkit-input-placeholder {
+          transition: opacity 0.45s ease;
+          opacity: 0;
+        }
+
+        &::-moz-placeholder {
+          transition: opacity 0.3s ease;
+          opacity: 0;
+        }
+
+        &:-ms-placeholder {
+          transition: opacity 0.3s ease;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-header-title {
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 32px;
+  margin-bottom: 0px;
+}
+
+.dashboard-header-subtitle {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 32px;
+  margin-bottom: 0px;
+}
+
+.module-menu {
+  cursor: pointer;
+  display: inline-block;
+  transition: $mainTransition;
+  fill: $primary-1;
+  &:hover {
+    fill: $primary-3;
+  }
+}

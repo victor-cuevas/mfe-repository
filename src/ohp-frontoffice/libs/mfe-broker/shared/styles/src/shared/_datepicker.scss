@@ -1,0 +1,30 @@
+.p-datepicker {
+  padding: 0;
+  &:not(.p-datepicker-inline) .p-datepicker-header {
+    background: $neutral-light-1;
+  }
+  &:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover {
+    background: $primary;
+    color: $white;
+  }
+  table td {
+    padding: 2px;
+    & > span.p-highlight {
+      color: $white;
+      background: $primary;
+    }
+    &.p-datepicker-today > span {
+      background: none;
+      border-color: $primary;
+    }
+  }
+  .p-datepicker-header .p-datepicker-title {
+    border: none;
+    background: $neutral-light-1;
+    select,
+    .p-datepicker-month {
+      border: none;
+      background: $neutral-light-1;
+    }
+  }
+}

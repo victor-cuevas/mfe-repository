@@ -1,0 +1,339 @@
+.p-button-primary {
+  background: $primary;
+  border: 1px solid $primary;
+  line-height: 20px;
+  font-weight: 500;
+  min-width: 180px;
+
+  &--bold {
+    @extend .p-button-primary;
+    font-weight: 500;
+
+    span {
+      font-weight: 500;
+    }
+
+    &:enabled:hover {
+      background: $primary-4;
+      border: 1px solid $primary-4;
+    }
+
+    &:enabled:active {
+      background: $primary;
+      border: 1px solid $primary;
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.p-button.p-button-outlined {
+  color: $primary;
+  line-height: 20px;
+  background: transparent;
+  border-width: 1px;
+  min-width: 180px;
+
+  &:focus,
+  &:enabled:hover {
+    color: $primary-4;
+    background: transparent;
+    box-shadow: $focusShadow;
+  }
+
+  &:enabled:active {
+    color: $primary;
+    background: transparent;
+  }
+
+  &--bold {
+    @extend .p-button-outlined;
+    font-weight: 500;
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  &--custom-height {
+    @extend .p-button-outlined;
+    height: 38px;
+    min-width: min-content;
+  }
+
+  &--neutral {
+    border: 1px solid $neutral-dark-4;
+    color: $neutral-dark-4;
+  }
+}
+
+.p-button.p-button-sm {
+  min-width: 130px;
+}
+
+.p-button.p-button-danger {
+  min-width: 180px;
+  line-height: 20px;
+
+  &:hover,
+  &:enabled:hover {
+    box-shadow: 0 0 4px #c02929;
+  }
+
+  &:focus {
+    background: #c02929;
+    border: 1px solid #d32f2f;
+  }
+}
+
+.filter-btn {
+  appearance: none;
+  border: none;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  i {
+    font-size: 12px;
+    color: $white;
+  }
+
+  &__active {
+    background: $secondary;
+  }
+
+  &__inactive {
+    background: $primary;
+  }
+}
+
+.p-button.p-button-outlined-large {
+  color: $primary-2;
+  line-height: 54px;
+  background: transparent;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 20px;
+  border-color: $primary-2;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-radius: 4px;
+
+  &:enabled:hover {
+    color: $primary-4;
+    background: transparent;
+  }
+
+  &:enabled:active {
+    color: $primary;
+    background: transparent;
+  }
+
+  &--bold {
+    @extend .p-button-outlined;
+    font-weight: 500;
+
+    span {
+      font-weight: 500;
+    }
+  }
+}
+
+.icon-only-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  transform: translateY(2px);
+
+  i {
+    line-height: 0;
+    margin: 0;
+  }
+
+  &--dark-selected {
+    padding: 6px 6px 1px 6px;
+    border-radius: 4px;
+    transition: $mainTransition;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: #fff;
+      background: $primary;
+      padding: 6px 6px 1px 6px;
+      border-radius: 3px;
+    }
+  }
+}
+
+button.p-button.p-button-icon-only.p-button-rounded.p-button-plain:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.hidden-btn {
+  background: transparent;
+  color: $primary;
+  appearance: none;
+  border: none;
+
+  &:disabled {
+    color: $primary-2;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-min-width {
+  min-width: 180px;
+}
+
+.p-button {
+  background: $primary;
+  border: 1px solid $primary;
+
+  &.p-button-link {
+    font-weight: 700;
+  }
+
+  &:focus,
+  &:enabled:hover {
+    color: #fff;
+    background: $primary-4;
+    border: 1px solid $primary-4;
+    box-shadow: $focusShadow;
+  }
+}
+
+.menu-btn {
+  background: none;
+  color: inherit;
+  border: none;
+  font-weight: 500;
+
+  i {
+    margin-top: 3px;
+  }
+
+  &:hover {
+    filter: drop-shadow(0 0 0.2px $primary);
+  }
+}
+
+// disabling clicks for btns
+.cursor-disabled {
+  cursor: not-allowed;
+  pointer-events: unset !important;
+}
+
+.p-selectbutton .p-button {
+  border: none;
+}
+
+.p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover {
+  background-color: transparent;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background-color: transparent;
+}
+
+.p-selectbutton .p-button.p-highlight:hover {
+  background-color: transparent;
+}
+
+.p-selectbutton .p-button.p-highlight > .submission-type {
+  background-color: $primary;
+
+  .submission-type-text {
+    color: $white;
+  }
+
+  .pi-directions {
+    color: $white;
+  }
+}
+
+.filter-text-btn {
+  display: block;
+  width: 100%;
+  border-radius: 3px;
+  padding: 4px 16px;
+  appearance: none;
+
+  &__clear {
+    border: 1px solid $primary;
+    color: $primary;
+    background: transparent;
+
+    &:disabled {
+      border: 1px solid $primary-2;
+      color: $primary-2;
+    }
+  }
+
+  &__apply {
+    border: 1px solid $primary;
+    color: $white;
+    background: $primary;
+
+    &:disabled {
+      border: 1px solid $primary-2;
+      background: $primary-2;
+    }
+  }
+}
+
+.add-assistants {
+  background-color: $auxiliary-b-1;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  box-shadow: 0px 3px 9px rgba(0, 45, 114, 0.3);
+  position: relative;
+}
+
+.add-assistants-small {
+  background-color: $primary;
+  color: $white;
+  padding: 0 8px;
+  border: none;
+  border-radius: 2px;
+  visibility: hidden;
+  margin-left: 8px;
+}
+
+.p-autocomplete-item {
+  &:hover {
+    button {
+      visibility: visible;
+    }
+  }
+}
+
+.title-button .p-button {
+  height: 36px;
+}
+
+.file-upload-button {
+  color: $primary;
+  border-color: $primary;
+  font-weight: 500;
+  font-size: 14px;
+  background: transparent;
+  transition: 0.3s ease all;
+
+  &:hover {
+    color: white;
+    background: $primary !important;
+    border-color: $primary !important;
+  }
+}

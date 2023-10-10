@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-process-config/core",
+  "sourceRoot": "libs/mfe-process-config/core/src",
+  "prefix": "mprsc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-process-config/core"],
+      "options": {
+        "jestConfig": "libs/mfe-process-config/core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-process-config/core/src/**/*.ts", "libs/mfe-process-config/core/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

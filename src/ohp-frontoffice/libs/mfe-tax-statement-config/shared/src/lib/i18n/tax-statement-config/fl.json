@@ -1,0 +1,92 @@
+{
+    "tax-statement": {
+      "taxcertificate": {
+        "heading": {
+          "tax-certificate": "Manage Tax Certificate Mapping",
+          "TaxCertificateSystem": "Manage Tax Certificate System Parameters",
+          "TaxCertificateConfig": "Manage Tax Certificate Transactions"
+        },
+        "tabel": {
+          "TaxCertificate": "NL - Tax Certificate Config Type",
+          "TaxcertificateCategory": "NL - Tax Certificate Category",
+          "TaxCertificateReference": "NL - Tax Certificate Reference",
+          "Direction": "NL - Direction",
+          "delete": "",
+          "TaxCertificateConfig": "NL - Tax Certificate Config Type",
+          "TxelType": "NL - TxElType",
+          "ConvertedtxType": "NL - ConvertedTx Type",
+          "Decrease": "NL - Decrease",
+          "TaxcertificateType": "NL - Tax Certificate Type",
+          "TaxcertificateCategorys": "NL - Tax Certificate Category",
+          "BalancemovementType": "NL - Balance Movement Type"
+        },
+        "card": {
+          "TaxCertificateConfigType": "NL - Tax Certificate Config Type",
+          "TaxCeritificateCategory": "NL - Tax Certificate Category",
+          "TaxCertificateReference": "NL - Tax Certificate Reference",
+          "Direction": "NL - Direction",
+          "Cutoffdays": "NL - Cut Off Days",
+          "CutoffdaysPreviousYear": "NL - Cut Off Days Previous Year",
+          "UseFirst": "NL - Use First Day Of Year For Tax Certificate",
+          "ReporterName": "NL - Reporter Name",
+          "ReporterCompanyNumber": "NL - Reporter Company Number",
+          "RelationNumber": "NL - Relation Number",
+          "NameLabel": "NL - Name Label For Running Account",
+          "Maxnumber": "NL - Max Number Of Root Objects For Annual Overview Batch",
+          "Communication": "NL - Communication Medium For Annual Overview",
+          "TaxCertificateConfigTypes": "NL - Tax Certificate Config Type",
+          "TxelType": "NL - TxEl Type",
+          "ConvertedtxType": "NL - ConvertedTx Type",
+          "Decrease": "NL - Decrease",
+          "TaxCeritificateType": "NL - Tax Certificate Type",
+          "TaxCeritificateCategorys": "NL - Tax Certificate Category",
+          "BalancemovementType": "NL - Balance Movement Type"
+        },
+        "picklist": {
+          "heading": {
+            "CreditProvider": "Credit Provider"
+          },
+          "ValidationError":{
+            "CreditProvider":"NL - Atleast one Record Should Exist in 'Credit Provider'"
+          }
+        },
+        "ValidationError":{
+          "required":" is verplicht .",
+          "TaxCertificateConfigType": "'NL - Tax Certificate Config Type'",
+          "TaxCeritificateCategory": "'NL - Tax Certificate Category'",
+          "TaxCertificateReference": "'NL - Tax Certificate Reference'",
+          "BusinessValidation":"The given record is already in the list. Please make sure that the record is unique.",
+          "Cutoffdays": "'NL - Cut Off Days'",
+          "CutoffdaysPreviousYear": "'NL - Cut Off Days Previous Year'",
+          "UseFirst": "'NL - Use First Day Of Year for Tax Certificate'",
+          "ReporterName": "'NL - Reporter Name'",
+          "ReporterCompanyNumber": "'NL - Reporter Company Number'",
+          "RelationNumber": "'NL - Relation Number'",
+          "InputIncorrect": "Input is not in correct format.",
+          "Maxnumber": "'NL - Max Number Of Root Objects For Annual Overview Batch'",
+          "numberInt32Check": "Value was either too large or too small for an Int32.",
+          "TaxCertificateConfigTypes": "'NL - Tax Certificate Config Type'",
+          "TaxCeritificateType": "'NL - Tax Ceritificate Type'",
+          "TaxCeritificateCategorys": "'NL - Tax Ceritificate Category'",
+          "Communication": "'NL - Communication Medium For Annual Overview'",
+          "CreditBusinessValidation":"NL - Only one field should be filled in 'TxEl Type','ConvertedTx Type','Balance Movement Type'."
+        }
+      },
+      "button": {
+        "save": "Opslaan",
+        "clear": "Sluiten",
+        "Add" :"Voeg toe",
+        "continue": "NL - Continue"
+      },
+      "Validation": {
+        "Header": " Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+      },
+      "close": {
+        "header": "Onopgeslagen Wijzigingen",
+        "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+        "yes": "Ja",
+        "no": "Nee",
+        "cancel": "Annuleer"
+      }
+    }
+  }

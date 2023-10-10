@@ -1,0 +1,742 @@
+<div class="whitelabel-config">
+  <div class="close-financial-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'financial.manageFee.heading.ManageFeeConfig' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'financial.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(getFeeConfig.feeConfigList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'financial.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+
+      <div class="col-12 closefo-btn-wrapper text-right mb-2">
+        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                          [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <p-table [value]="getFeeConfig.feeConfigList" [columns]="feeTypeHeader" styleClass="closefo-datatable closefo-bo-table">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width">
+                  <span>{{col.header}}</span>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+              <tr *ngIf="!(rowData.isDelete)" (click)="clickFeeConfigList(rowData)" [ngClass]="{'highlight' : feeConfigCard === rowData }">
+                <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                  <span *ngSwitchCase="'feeConfigdropdownList'">
+
+                    <ng-container *ngIf="rowData.isRead; else elseblock ">
+                      <span>
+                        {{rowData.feeType?.caption}}
+                      </span>
+                    </ng-container>
+                    <ng-template #elseblock>
+                      <cfc-fluid-dropdown [ngModel]="rowData?.feeType"
+                                          Type="single"
+                                          [isReadOnly]="rowData.feeConfigListDropdownDisable"
+                                          name="feeConfigListDrop{{rowData.feeType?.caption}}{{index}}"
+                                          [placeholder]="placeholder"
+                                          [options]="rowData?.feeTypeList"
+                                          [ControlConfig]="feeTypeDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="caption"
+                                          [title]="rowData?.feeType?.caption"
+                                          [cfcFluidValidation]="{errors:feeConfigdropdown.errors? feeTypeDropdownConfig.Errors :'', formSubmitted: (feeTypeDropdownConfig.externalError)}"
+                                          (OnSelectionChanged)="changeFeeConfigList($event,index)"
+                                          [showClearIcon]="rowData?.feeType ? true : false"
+                                          #feeConfigdropdown="ngModel">
+                      </cfc-fluid-dropdown>
+                    </ng-template>
+                  </span>
+                  <span *ngSwitchCase="'Delete'">
+                    <div *ngIf="!rowData?.isLinkedToProduct">
+                      <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deleteFeeConfigList(rowData,getFeeConfig.feeConfigList)"></i></span>
+                    </div>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="notHide">
+        <div class="col-md-12">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'financial.manageFee.heading.Transaction' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey m-0 mb-3" *ngIf="notHide">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.charging' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.chargingOf"
+                                      Type="single"
+                                      name="chargingOfDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="chargingOfDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeChargingof($event)"
+                                      #chargingOfdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:chargingOfdropdown.errors? chargingOfDropdownConfig.Errors :'', formSubmitted: (chargingOfDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.chargingOf ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.chargingOf?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedCharging' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedChargingOf"
+                                      Type="single"
+                                      name="reversedChargingOfDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedChargingOfDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedCharging($event)"
+                                      #reversedChargingOfdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedChargingOfdropdown.errors? reversedChargingOfDropdownConfig.Errors :'', formSubmitted: (reversedChargingOfDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedChargingOf ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedChargingOf?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Allocation' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.allocationTo"
+                                      Type="single"
+                                      name="allocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="allocationToDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeAllocation($event)"
+                                      #allocationTodropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:allocationTodropdown.errors? allocationToDropdownConfig.Errors :'', formSubmitted: (allocationToDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.allocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.allocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedAllocation' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedAllocationTo"
+                                      Type="single"
+                                      name="reversedAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedAllocationToDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedAllocation($event)"
+                                      #reversedAllocationTodropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedAllocationTodropdown.errors? reversedAllocationToDropdownConfig.Errors :'', formSubmitted: (reversedAllocationToDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.BonusAllocation' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.bonusAllocationTo"
+                                      Type="single"
+                                      name="bonusAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="bonusAllocationToDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeBonusAllocation($event)"
+                                      #bonusAllocationTodropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:bonusAllocationTodropdown.errors? bonusAllocationToDropdownConfig.Errors :'', formSubmitted: (bonusAllocationToDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.bonusAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.bonusAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedBonusAllocation' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedBonusAllocationTo"
+                                      Type="single"
+                                      name="reversedBonusAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedBonusAllocationToDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedBonusAllocation($event)"
+                                      #reversedBonusAllocationTodropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedBonusAllocationTodropdown.errors? reversedBonusAllocationToDropdownConfig.Errors :'', formSubmitted: (reversedBonusAllocationToDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedBonusAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedBonusAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.construction' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.constructionDepotAllocationTo"
+                                      Type="single"
+                                      name="constructionDepotAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeConstruction($event)"
+                                      #constructionDepotAllocationTodropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.constructionDepotAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.constructionDepotAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.Reversedconstruction' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedConstructionDepotAllocationTo"
+                                      Type="single"
+                                      name="reversedConstructionDepotAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedConstruction($event)"
+                                      #reversedConstructionDepotAllocationTodropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedConstructionDepotAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedConstructionDepotAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.DueDate' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.dueDateDepotAllocationTo"
+                                      Type="single"
+                                      name="dueDateDepotAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeDueDate($event)"
+                                      #dueDateDepotAllocationTodropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.dueDateDepotAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.dueDateDepotAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.ReversedDueDate' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedDueDateDepotAllocationTo"
+                                      Type="single"
+                                      name="reversedDueDateDepotAllocationToDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedDueDate($event)"
+                                      #reversedDueDateDepotAllocationTodropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedDueDateDepotAllocationTo ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedDueDateDepotAllocationTo?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.LossOn' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.lossOn"
+                                      Type="single"
+                                      name="lossOnDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="lossOnDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeLoss($event)"
+                                      #lossOndropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:lossOndropdown.errors? lossOnDropdownConfig.Errors :'', formSubmitted: (lossOnDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.lossOn ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.lossOn?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedLossOn' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedLossOn"
+                                      Type="single"
+                                      name="reversedLossOnDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedLossOnDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedLoss($event)"
+                                      #reversedLossOndropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedLossOndropdown.errors? reversedLossOnDropdownConfig.Errors :'', formSubmitted: (reversedLossOnDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedLossOn ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedLossOn?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Collections' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.collectionsBookingOfDue"
+                                      Type="single"
+                                      name="collectionsBookingOfDueDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="collectionsBookingOfDueDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeCollections($event)"
+                                      #collectionsBookingOfDuedropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:collectionsBookingOfDuedropdown.errors? collectionsBookingOfDueDropdownConfig.Errors :'', formSubmitted: (collectionsBookingOfDueDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.collectionsBookingOfDue ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.collectionsBookingOfDue?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedCollections' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedCollectionsDue"
+                                      Type="single"
+                                      name="reversedCollectionsDueDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedCollectionsDueDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedCollections($event)"
+                                      #reversedCollectionsDuedropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedCollectionsDuedropdown.errors? reversedCollectionsDueDropdownConfig.Errors :'', formSubmitted: (reversedCollectionsDueDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedCollectionsDue ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedCollectionsDue?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Accounting' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.accountingWriteOffOn"
+                                      Type="single"
+                                      name="accountingWriteOffOnDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="accountingWriteOffOnDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeAccounting($event)"
+                                      #accountingWriteOffOndropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:accountingWriteOffOndropdown.errors? accountingWriteOffOnDropdownConfig.Errors :'', formSubmitted: (accountingWriteOffOnDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.accountingWriteOffOn ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.accountingWriteOffOn?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedAccounting' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedAccountingWriteOffOn"
+                                      Type="single"
+                                      name="reversedAccountingWriteOffOnDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedAccountingWriteOffOnDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedAccounting($event)"
+                                      #reversedAccountingWriteOffOndropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedAccountingWriteOffOndropdown.errors? reversedAccountingWriteOffOnDropdownConfig.Errors :'', formSubmitted: (reversedAccountingWriteOffOnDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedAccountingWriteOffOn ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedAccountingWriteOffOn?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Remission' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.remissionOfNonPaid"
+                                      Type="single"
+                                      name="remissionOfNonPaidDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="remissionOfNonPaidDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeRemission($event)"
+                                      #remissionOfNonPaiddropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:remissionOfNonPaiddropdown.errors? remissionOfNonPaidDropdownConfig.Errors :'', formSubmitted: (remissionOfNonPaidDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.remissionOfNonPaid ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.remissionOfNonPaid?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.ReversedRemission' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.reversedRemissionOfNonPaid"
+                                      Type="single"
+                                      name="reversedRemissionOfNonPaidDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="reversedRemissionOfNonPaidDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeReversedRemission($event)"
+                                      #reversedRemissionOfNonPaiddropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:reversedRemissionOfNonPaiddropdown.errors? reversedRemissionOfNonPaidDropdownConfig.Errors :'', formSubmitted: (reversedRemissionOfNonPaidDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.reversedRemissionOfNonPaid ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.reversedRemissionOfNonPaid?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Transfer' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.transferInOn"
+                                      Type="single"
+                                      name="transferInOnDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="transferInOnDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeTransfer($event)"
+                                      #transferInOndropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:transferInOndropdown.errors? transferInOnDropdownConfig.Errors :'', formSubmitted: (transferInOnDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.transferInOn ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.transferInOn?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Increase' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.increaseOf"
+                                      Type="single"
+                                      name="increaseOfDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="increaseOfDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeIncrease($event)"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.increaseOf ? true : false"
+                                      #increaseOfdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:increaseOfdropdown.errors? increaseOfDropdownConfig.Errors :'', formSubmitted: (increaseOfDropdownConfig.externalError)}"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.increaseOf?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Decrease' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.decreaseOf"
+                                      Type="single"
+                                      name="decreaseOfDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="decreaseOfDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeDecrease($event)"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.decreaseOf ? true : false"
+                                      #decreaseOfdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:decreaseOfdropdown.errors? decreaseOfDropdownConfig.Errors :'', formSubmitted: (decreaseOfDropdownConfig.externalError)}"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.decreaseOf?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'financial.manageFee.card.Initial' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.initialBooking"
+                                      Type="single"
+                                      name="initialBookingDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="initialBookingDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeInitialBooking($event)"
+                                      #initialBookingdropdown="ngModel"
+                                      [cfcFluidValidation]="{errors:initialBookingdropdown.errors? initialBookingDropdownConfig.Errors :'', formSubmitted: (initialBookingDropdownConfig.externalError)}"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.initialBooking ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.initialBooking?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.CloseDue' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.closeDue"
+                                      [form]="userDetailsform"
+                                      Type="single"
+                                      name="closeDueDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeCloseDue($event)"
+                                      #closeDuedropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.closeDue ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.closeDue?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'financial.manageFee.card.OpenDue' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="feeConfigCard?.txElTypeConversionConfig?.openDue"
+                                      [form]="userDetailsform"
+                                      Type="single"
+                                      name="openDueDropdown"
+                                      [placeholder]="placeholder"
+                                      [options]="getFeeConfig.manageFeeConfigInitialData.txElTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="caption"
+                                      (OnSelectionChanged)="changeOpenDue($event)"
+                                      #openDuedropdown="ngModel"
+                                      [showClearIcon]="feeConfigCard?.txElTypeConversionConfig?.openDue ? true : false"
+                                      [title]="feeConfigCard?.txElTypeConversionConfig?.openDue?.caption">
+                  </cfc-fluid-dropdown>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'financial.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'financial.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'financial.dialog.Yes' | translate}}"
+                              (click)="onYes(getFeeConfig.feeConfigList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+
+    </form>
+  </div>
+</div>

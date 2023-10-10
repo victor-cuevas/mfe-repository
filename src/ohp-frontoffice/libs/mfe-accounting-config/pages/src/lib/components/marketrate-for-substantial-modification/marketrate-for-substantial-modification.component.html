@@ -1,0 +1,186 @@
+<div class="whitelabel-config">
+  <div class="close-accounting-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'accounting.market-rate.heading.marketRate' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'accounting.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(responseMarketRate)" ></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'accounting.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right mb-2">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'accounting.button.add' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addRow()" ></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="responseMarketRate" [selectedDetail]="MarketRateCard"
+                            [gridDataHeader]="modificationHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (deleteRowEvent)="onRowDelete($event,responseMarketRate)" (rowClickedEvent)="clickGrid($event)">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="Nothide">
+        <div class="closefo-form-group">
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'accounting.market-rate.card.MarketRate' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="MarketRateTextBoxconfig"
+                                     [ngModel]="MarketRateCard?.marketRate"
+                                     (OnchangedAmount)="changeMarketRate($event,true)"
+                                     (ngModelChange)="changeMarketRate($event,false)"
+                                     name="amounts"
+                                     [cfcFluidValidation]="{errors:marketRate.errors? (marketRate.errors?.invalidDefaultError) ? numberErrorDto : MarketRateTextBoxconfig.Errors :'', formSubmitted: (MarketRateTextBoxconfig.externalError)}"
+                                     [maxlength]="11"
+                                     [isAllowSpace]="false"
+                                     #marketRate="ngModel">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'accounting.market-rate.card.Noofyrs' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="YearsTextBoxconfig"
+                                     [ngModel]="MarketRateCard?.nrOfYears"
+                                     (OnchangedNumber)="changeNoOfYrs($event)"
+                                     name="Nr"
+                                     [cfcFluidValidation]="{errors:years.errors ? YearsTextBoxconfig.Errors :'', formSubmitted: (YearsTextBoxconfig.externalError)}"
+                                     [isAllowSpace]="false"
+                                     #years="ngModel">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'accounting.market-rate.card.ValidFrom' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-datepicker [ControlConfig]="ValidFromDateconfig"
+                                        [ngModel]="MarketRateCard?.validFrom"
+                                        name="validFrom"
+                                        yearRange="1800:2100"
+                                        [maxDate]="MarketRateCard?.validTo"
+                                        [cfcFluidValidation]="{errors:validFrom.errors? ValidFromDateconfig.Errors :'', formSubmitted: (ValidFromDateconfig.externalError)}"
+                                        (ngModelChange)="changeValidFrom($event)"
+                                        #validFrom="ngModel">
+                  </cfc-fluid-datepicker>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'accounting.market-rate.card.ValidTo' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-datepicker [ControlConfig]="ValidToDateconfig"
+                                        [ngModel]="MarketRateCard?.validTo"
+                                        name="validTo"
+                                        yearRange="1800:2100"
+                                        [minDate]="MarketRateCard?.validFrom"
+                                        (ngModelChange)="changeValidTo($event)"
+                                        #validTo="ngModel">
+                  </cfc-fluid-datepicker>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'accounting.dialog.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'accounting.dialog.body' | translate}}
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'accounting.dialog.yes' | translate}}"
+                              (click)="onYes(responseMarketRate)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'accounting.dialog.no' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'accounting.dialog.cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="container">
+  <div class="pb-4">
+    <h2 class="mb-0">{{ 'createFma.titles.bankAccount' | translate }}</h2>
+    <p>{{ 'createFma.subTitles.bankAccountMsg' | translate }}</p>
+  </div>
+  <div class="mb-4">
+    <ng-container *ngIf="validatingBankAccount$ | async; else validationComplete">
+      <div class="rounded d-flex pt-3 pb-4 bg-waiting-light">
+        <div class="status-icon-wrapper">
+          <div class="ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-waiting">
+            <i class="color-white my-2 pi pi-spin pi-spinner"></i>
+          </div>
+        </div>
+        <div class="pe-4 py-1">
+          <h3 class="color-assessment">{{ 'createFma.labels.validatingBankAccount' | translate }}</h3>
+          <p class="pt-2">
+            <strong>{{ 'createFma.labels.validatingBankAccountMsg' | translate }}</strong>
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #validationComplete>
+      <div *ngIf="status === stepStatusEnum.VALID && validationWarnings.length === 0" class="rounded d-flex pt-3 pb-4 bg-accepted-light">
+        <div class="status-icon-wrapper">
+          <div class="ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-accepted">
+            <i [className]="'color-white my-2 pi pi-check'"></i>
+          </div>
+        </div>
+        <div class="pe-4 py-1">
+          <h3 [className]="'color-accepted'">{{ 'createFma.labels.accepted' | translate }}</h3>
+          <p class="pt-2">
+            <strong>{{ 'createFma.labels.bankAccountValidateMsg' | translate }}</strong>
+          </p>
+        </div>
+      </div>
+      <div *ngIf="status === stepStatusEnum.INVALID" class="rounded d-flex pt-3 pb-4 bg-rejected-light">
+        <div class="status-icon-wrapper">
+          <div class="ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-rejected">
+            <i [className]="'color-white my-2 pi pi-times'"></i>
+          </div>
+        </div>
+        <div class="pe-4 py-1">
+          <h3 [className]="'color-rejected'">{{ 'createFma.labels.notValid' | translate }}</h3>
+          <p class="pt-2">
+            <strong>{{ 'createFma.labels.notValidMsg' | translate }}</strong>
+          </p>
+          <ul *ngIf="validationErrors?.length" class="pt-2 ms-4">
+            <li *ngFor="let error of validationErrors">{{ error.responseMessage }}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="validationWarnings?.length" class="rounded d-flex pt-3 pb-4 bg-referred-light">
+        <div class="status-icon-wrapper">
+          <div class="ms-3 my-1 status-container--referred d-flex align-items-center justify-content-center">
+            <span>!</span>
+          </div>
+        </div>
+        <div class="pe-4 py-1">
+          <h3 [className]="'color-referred'">{{ 'createFma.labels.warning' | translate }}</h3>
+          <p class="pt-2">
+            <strong>{{ 'createFma.labels.warningMsg' | translate }}</strong>
+          </p>
+          <ul *ngIf="validationWarnings?.length" class="pt-2 ms-4">
+            <li *ngFor="let warning of validationWarnings">{{ warning.responseMessage }}</li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="my-2">
+    <form [formGroup]="bankAccountForm">
+      <div class="step-header rounded px-3 py-4 bg-white shadow">
+        <div class="">
+          <label for="preferredContactMethod">{{ 'createFma.labels.accountOwner' | translate }} *</label>
+          <div class="d-flex align-items-center my-2" *ngFor="let applicant of applicants.controls; let i = index">
+            <ng-container [formGroup]="$any(applicant)">
+              <p-checkbox
+                name="isOwner"
+                ngDefaultControl
+                [binary]="true"
+                formControlName="isOwner"
+                [label]="applicant.get('fullName')?.value"
+              ></p-checkbox>
+            </ng-container>
+          </div>
+          <cfo-validation-errors
+            [control]="bankAccountForm.get('applicants')"
+            [errorMessages]="{
+              atLeastOneChecked: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="row mt-4">
+          <div class="col col-md-4">
+            <label id="sortCode">{{ 'createFma.labels.sortCode' | translate }} *</label>
+            <cfo-input-number
+              [form]="bankAccountForm"
+              [config]="{ mode: MODE.ZEROS, length: 6 }"
+              class="journey-input"
+              controlName="sortCode"
+              aria-labelledby="sortCode"
+            ></cfo-input-number>
+            <cfo-validation-errors
+              [control]="bankAccountForm.get('sortCode')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                pattern: ('general.validations.invalidFormat' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col col-md-4">
+            <label id="accountNumber">{{ 'createFma.labels.accountNumber' | translate }} *</label>
+            <cfo-input-number
+              [form]="bankAccountForm"
+              [config]="{ mode: MODE.ZEROS, length: 8 }"
+              class="journey-input"
+              controlName="accountNumber"
+              aria-labelledby="accountNumber"
+            ></cfo-input-number>
+            <cfo-validation-errors
+              [control]="bankAccountForm.get('accountNumber')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                pattern: ('general.validations.invalidFormat' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col col-md-4">
+            <label id="preferredDay">{{ 'createFma.labels.preferredDay' | translate }} *</label>
+            <p-dropdown
+              [options]="preferredDayOptions"
+              formControlName="preferredDay"
+              ngDefaultControl
+              class="journey-dropdown"
+              [placeholder]="'general.placeholders.selectOne' | translate"
+              aria-labelledby="preferredDay"
+            >
+              <ng-template let-option pTemplate="item">
+                <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="bankAccountForm.get('preferredDay')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+        <div class="row mt-4 mb-2">
+          <div class="col">
+            <p-button
+              styleClass="p-button-primary"
+              label="{{ 'createFma.labels.validateAccount' | translate }}"
+              (click)="validateAccount()"
+              [disabled]="bankAccountForm.status === 'INVALID' || bankAccountForm.status === 'DISABLED'"
+            ></p-button>
+          </div>
+        </div>
+        <div *ngIf="status === stepStatusEnum.VALID && validationWarnings.length" class="row mt-4 mb-2">
+          <div class="d-flex align-items-center my-2 ng-star-inserted">
+            <p-checkbox name="confirmation" ngDefaultControl [binary]="true" formControlName="confirmation"></p-checkbox>
+            <label class="checkbox mb-0">{{ 'createFma.labels.confirmMsg' | translate }}</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="content-container">
+  <div *ngIf="stepsItems" class="timeline-container">
+    <div class="p-4 pb-1">
+      <p-steps [model]="stepsItems" [readonly]="false"></p-steps>
+    </div>
+  </div>
+  <div class="scroll-container">
+    <div class="container d-flex justify-content-between align-items-center">
+      <cfo-breadcrumb *ngIf="breadcrumbItems" [items]="breadcrumbItems"></cfo-breadcrumb>
+      <cfo-applicants></cfo-applicants>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

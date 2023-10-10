@@ -1,0 +1,50 @@
+.product-selection-table {
+  th,
+  td {
+    font-size: 12px;
+    padding: 0.2rem 0.4rem !important;
+    position: relative;
+  }
+
+  th {
+    background: #f8f9fa;
+  }
+
+  .big-cell {
+    width: 18%;
+  }
+
+  // scrollbar
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $neutral-dark-1;
+    border: 4px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $neutral-dark-1;
+    border-radius: 6px;
+    border: 3px solid $neutral-dark-1;
+  }
+
+  .p-datatable-scrollable-header-box {
+    padding-right: 10px !important;
+    background: transparent;
+  }
+}
+
+.product-selection-accordion .p-accordion-tab > .p-accordion-header > .p-accordion-header-link {
+  border: none;
+  background: transparent;
+  color: $primary;
+}
+
+.product-selection-bottom {
+  h6 {
+    font-size: 1rem;
+  }
+}

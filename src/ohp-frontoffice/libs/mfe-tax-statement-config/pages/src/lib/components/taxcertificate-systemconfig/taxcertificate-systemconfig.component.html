@@ -1,0 +1,343 @@
+<div class="whitelabel-config-styles">
+  <div class="close-tax-config container">
+    <form
+      class="closefo-form"
+      #systemConfigform="ngForm"
+      class="closefo-form"
+      [ngClass]="{ 'closefo-form-submitted': systemConfigform.submitted }"
+    >
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'tax-statement.taxcertificate.heading.TaxCertificateSystem' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'tax-statement.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(taxcertificateSystemConfig)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'tax-statement.button.clear' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey m-0 mt-3">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.Cutoffdays' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    #cutoffDays ="ngModel"
+                    Type="numbers"
+                    [ControlConfig]="RequiredCutoffDay"
+                    [ngModel]="taxcertificateSystemConfig?.cutOffDays"
+                    (OnchangedNumber)="onCutOffDayChange($event)"
+                    name="cutOffDays"
+                    [isAllowSpace]="false"
+                    [form]="systemConfigform"
+                    [maxlength]="10"
+                    [maximumValue]="intMaxValue"
+                    [cfcFluidValidation]="{
+                      errors: cutoffDays.errors ? (cutoffDays.errors?.maxValueError) ? cutoffMaxDto : RequiredCutoffDay.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredCutoffDay.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.CutoffdaysPreviousYear' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    #cutoffPreviousYear ="ngModel"
+                    Type="numbers"
+                    [ControlConfig]="RequiredCutoffPreviousYear"
+                    [ngModel]="taxcertificateSystemConfig?.cutOffDaysPreviousYear"
+                    (OnchangedNumber)="onCutoffdaysPreviousYearChange($event)"
+                    name="cutOffDaysPreviousYear"
+                    [isAllowSpace]="false"
+                    [form]="systemConfigform"
+                    [maxlength]="10"
+                    [maximumValue]="intMaxValue"
+                    [cfcFluidValidation]="{
+                      errors: cutoffPreviousYear.errors ? (cutoffPreviousYear.errors?.maxValueError) ? cutoffPreviousYearDto : RequiredCutoffPreviousYear.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredCutoffPreviousYear.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.UseFirst' | translate }}</label>
+                </div>
+                <div class="col-4">
+
+                  <cfc-fluid-checkbox
+                    #useFirstDayofYear="ngModel"
+                    [ControlConfig]="RequiredFirstDayofYearChange"
+                    [ngModel]="taxcertificateSystemConfig?.useFirstDayOfYearForTaxCertificate"
+                    name="useFirstDayOfYearForTaxCertificate"
+                    (ngModelChange)="onFirstDayofYearChange($event)"
+                    [cfcFluidValidation]="{
+                      errors: useFirstDayofYear.errors ? RequiredFirstDayofYearChange.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredFirstDayofYearChange.externalError
+                    }"
+                  >
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.ReporterName' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    #reporterName="ngModel"
+                    Type="text"
+                    [ControlConfig]="RequiredReporterName"
+                    [ngModel]="taxcertificateSystemConfig?.reporterName"
+                    (ngModelChange)="onReporterNameChange($event)"
+                    name="reporterName"
+                    [isAllowSpace]="false"
+                    [maxlength]="250"
+                    [form]="systemConfigform"
+                    [cfcFluidValidation]="{
+                      errors: reporterName.errors ? RequiredReporterName.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredReporterName.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center ">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.ReporterCompanyNumber' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    #companyNumber="ngModel"
+                    Type="text"
+                    [ControlConfig]="RequiredCompanyNumber"
+                    [ngModel]="taxcertificateSystemConfig?.reporterCompanyNumber"
+                    (ngModelChange)="onCompanyNumberChange($event)"
+                    name="reporterCompanyNumber"
+                    [isAllowSpace]="false"
+                    [form]="systemConfigform"
+                    [maxlength]="250"
+                    [cfcFluidValidation]="{
+                      errors: companyNumber.errors ? RequiredCompanyNumber.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredCompanyNumber.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.RelationNumber' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    #relationalNumber="ngModel"
+                    Type="text"
+                    [ControlConfig]="RequiredRelationNumber"
+                    [ngModel]="taxcertificateSystemConfig?.relationNumber"
+                    (ngModelChange)="onRelationNumberChange($event)"
+                    name="relationNumber"
+                    [isAllowSpace]="false"
+                    [form]="systemConfigform"
+                    [maxlength]="250"
+                    [cfcFluidValidation]="{
+                      errors: relationalNumber.errors ? RequiredRelationNumber.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredRelationNumber.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{ 'tax-statement.taxcertificate.card.NameLabel' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                    Type="text"
+                    [ControlConfig]="TextBoxconfig"
+                    [ngModel]="taxcertificateSystemConfig?.nameLabelForRunningAccount"
+                    (ngModelChange)="onNameLabelChange($event)"
+                    name="nameLabelForRunningAccount"
+                    [isAllowSpace]="false"
+                    [maxlength]="250"
+                    [form]="systemConfigform"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.Maxnumber' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-textbox
+                  #maxNumberOfRootObjects ="ngModel"
+                    Type="numbers"
+                    [ControlConfig]="RequiredMaxNumberOfRootObjects"
+                    [ngModel]="taxcertificateSystemConfig?.maxNumberOfRootObjectsForAnnualOverviewBatch"
+                    (OnchangedNumber)="onMaxNoAnnualChange($event)"
+                    name="maxNumberBatch"
+                    [isAllowSpace]="false"
+                    [form]="systemConfigform"
+                    [maxlength]="10"
+                    [maximumValue]="intMaxValue"
+                    [cfcFluidValidation]="{
+                      errors: maxNumberOfRootObjects.errors ? (maxNumberOfRootObjects.errors?.maxValueError) ? maxnoofrootObjectDto : RequiredMaxNumberOfRootObjects.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredMaxNumberOfRootObjects.externalError
+                    }"
+                  >
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'tax-statement.taxcertificate.card.Communication' | translate }}</label>
+                </div>
+                <div class="col-4">
+                  <cfc-fluid-dropdown
+                    [ngModel]="taxcertificateSystemConfig?.communicationMediumForAnnualOverview"
+                    [form]="systemConfigform"
+                    Type="single"
+                    name="communicationMedium"
+                    [placeholder]="placeholder"
+                    [options]="communicationMediumList"
+                    [ControlConfig]="RequiredAnnual"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onCommunicationChange($event)"
+                    #communicationdropdown="ngModel"
+                    [title]="
+                      taxcertificateSystemConfig?.communicationMediumForAnnualOverview?.caption === null
+                        ? ''
+                        : taxcertificateSystemConfig?.communicationMediumForAnnualOverview?.caption
+                    "
+                    [showClearIcon]="taxcertificateSystemConfig?.communicationMediumForAnnualOverview === null ? false:true"
+                    [cfcFluidValidation]="{
+                      errors: communicationdropdown.errors ? RequiredAnnual.Errors : '',
+                      formSubmitted: systemConfigform.submitted || RequiredAnnual.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'tax-statement.close.header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'tax-statement.close.body' | translate }}</div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'tax-statement.close.yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(taxcertificateSystemConfig)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.close.no' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.close.cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+    
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate> Technical Exception </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'tax-statement.button.continue' | translate }}"
+            (click)="onException()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+  </div>
+</div>

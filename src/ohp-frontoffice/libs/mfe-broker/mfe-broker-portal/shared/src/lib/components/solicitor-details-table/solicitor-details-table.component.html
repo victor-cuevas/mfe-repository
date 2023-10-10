@@ -1,0 +1,65 @@
+<div class="d-flex scrollable-modal-table">
+  <p-table
+    #table
+    [value]="solicitors"
+    [scrollable]="true"
+    [virtualScroll]="true"
+    scrollHeight="250px"
+    [loading]="loading"
+    [showLoader]="false"
+    [(selection)]="selectedSolicitor"
+    dataKey="externalReference"
+    styleClass="product-selection-table"
+  >
+    <ng-template pTemplate="header" style="padding-right: 11px">
+      <tr class="py-3">
+        <th style="width: 2rem"></th>
+        <th>
+          <div class="d-flex justify-content-between align-items-center py-2">
+            <h6>{{ 'intermediary.labels.firmName' | translate }}</h6>
+          </div>
+        </th>
+        <th>
+          <div class="d-flex justify-content-between align-items-center py-2">
+            <h6>{{ 'createDip.labels.address' | translate }}</h6>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-solicitor>
+      <tr class="px-3" [pSelectableRow]="solicitor">
+        <td style="width: 2rem">
+          <p-tableRadioButton [value]="solicitor"></p-tableRadioButton>
+        </td>
+        <td>
+          <strong>{{ solicitor.solicitorName }}</strong>
+        </td>
+        <td class="text-truncate">
+          <strong>
+            {{ solicitor.address.addressLine1 }}
+            {{ solicitor.address.addressLine2 }}
+            {{ solicitor.address.addressLine3 }}
+            {{ solicitor.address.addressLine4 }}
+            {{ solicitor.address.addressLine5 }}
+            {{ solicitor.address.city }}
+            {{ solicitor.address.country }}
+            {{ solicitor.address.region }}
+            {{ solicitor.address.state }}
+            {{ solicitor.address.zipCode }}
+          </strong>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <td class="table-empty" [attr.colspan]="7">{{ 'createFma.labels.noResultMatch' | translate }}</td>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+      <td class="table-loader table-loader--scroll-dialog" [attr.colspan]="7"></td>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="py-5 text-end">
+  <button (click)="closeDialog()" pButton class="p-button-outlined--bold btn-min-width me-lg-2" label="Cancel"></button>
+  <button (click)="closeDialog(selectedSolicitor)" pButton class="p-button-primary" label="Confirm"></button>
+</div>

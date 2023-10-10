@@ -1,0 +1,214 @@
+{
+  "accounting": {
+    "txtype": {
+      "heading": {
+        "AccountingTxt": "Manage AM Transactions"
+      },
+      "card": {
+        "TxType": "FR - TxType",
+        "isaccountingtx": "FR - Is AccountingTx"
+      },
+      "tabel": {
+        "TxType": "FR - TxType",
+        "isAccountingtx": "FR - Is AccountingTx",
+        "delete": "Supprimer"
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "card": " 'FR - TxType'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "mutation-type": {
+      "heading": {
+        "mutationType": "Manage AM Mutation Types"
+      },
+      "tabel": {
+        "MutationT": "FR - Mutation Type",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "MutationType": "FR - Mutation Type"
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "section": " 'FR - Mutation Type'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "ltvmodification": {
+      "heading": {
+        "ltvmodificationsurcharges": "Manage AM LTV Modifications"
+      },
+      "tabel": {
+        "RateAdaptionName": "FR - Rate Adaption Name",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "RateAdaptionName": "FR - Rate Adaption Name"
+      },
+      "mandatory": {
+        "required": " est obligatoire.",
+        "RateAdaptionName": " 'FR - Rate Adaption Name'"
+      }
+    },
+
+    "Periodicity": {
+      "heading": {
+        "Periodicity": "Manage AM Periodicities"
+      },
+      "tabel": {
+        "Periodicity": "FR - Periodicity",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "Periodicitys": "FR - Periodicity"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "FR - Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "section": " 'FR - Periodicity'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'FR - Financial Amortization Type' est obligatoire."
+      }
+    },
+
+    "CreditProvider": {
+      "heading": {
+        "CreditProvider": "Manage AM Credit Provider"
+      },
+      "tabel": {
+        "CreditProvider": "FR - Credit Provider Name",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "CreditProviders": "FR - Credit Provider Name"
+      },
+      "picklist": {
+        "heading": {
+          "FinancialAmortization": "FR - Financial Amortization Type"
+        }
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "section": " 'FR - Credit Provider Name'",
+        "picklist": "'FR - Financial Amortization Type'",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique",
+        "businessErrorforFinancialAmortizationType": "'FR - Financial Amortization Type' est obligatoire."
+      }
+    },
+
+    "Divergent": {
+      "heading": {
+        "DivergentEffect": "Manage AM Divergent Effective Rate Sheet"
+      },
+      "tabel": {
+        "EffectiveRate": "FR - Effective Rate",
+        "nrofyears": "FR - Nr Of Years",
+        "delete": "Supprimer"
+      },
+      "card": {
+        "EffectiveRate": "FR - Effective Rate",
+        "Numberofyears": "FR - Nr Of Years"
+      },
+
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "errorRate": " 'FR - Effective Rate'",
+        "nrofYears": "'FR - Nr Of Years'",
+        "InputIncorrect": "FR - Input is not in correct format.",
+        "numberInt32Check": "FR - Value was either too large or too small for an Int32.",
+        "buisnessError": "FR - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+
+    "interest-mediation": {
+      "heading": {
+        "interestMediation": "Manage AM Interest Mediation Surcharge"
+      },
+      "card": {
+        "RateAdaption": "FR - Rate Adaption Name"
+      },
+      "tabel": {
+        "RateAdaptionName": "FR - Rate Adaption Name",
+        "delete": "Supprimer"
+      },
+      "mandatory": {
+        "required": " est obligatoire.",
+        "RateAdaptionName": " 'FR - Rate Adaption Name'"
+      }
+    },
+
+    "market-rate": {
+      "heading": {
+        "marketRate": "Manage Marketrate for Substantial Modification"
+      },
+      "card": {
+        "Noofyrs": "FR - No Of Years",
+        "ValidFrom": "FR - Valid From",
+        "ValidTo": "FR - Valid To",
+        "MarketRate": "FR - Market Rate"
+
+      },
+      "tabel": {
+        "Noofyrs": "FR - No Of Years",
+        "ValidFrom": "FR - Valid From",
+        "ValidTo": "FR - Valid To",
+        "MarketRate": "FR - Market Rate"
+      },
+      "mandatory": {
+        "required": " est obligatoire.",
+        "Noofyrs": "'FR - No Of Years'",
+        "ValidFrom": "'FR - Valid From'",
+        "ValidTo": "'FR - Valid To'",
+        "MarketRate": "'FR - Market Rate'",
+        "businessError": "FR - Date fields cannot overlap per 'No Of Years'",
+        "zeroRate": "FR - 'Market Rate' must be greater than zero"
+
+      }
+    },
+    
+     "forbearance-measure": {
+      "heading": {
+        "forbearanceMeasure": "Manage Forbearance Measure"
+      },
+      "card": {
+        "forbearanceMeasure": "FR - Forbearance Measure",
+        "paymentHoliday": "FR - No Of Months For Payment Holiday",
+        "substantialModification": "FR - Substantial Modification Percentage",
+        "concessiontx": "FR - No Of Days For Concession Tx",
+        "isSubstantialModification": "FR - Is Substantial Modification Applicable"
+      },
+      "validation": {
+        "forbearanceMeasure": "'FR - Forbearance Measure' est obligatoire.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+
+      }
+    },
+
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "add": "Ajoute"
+    },
+    "Validation": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "dialog": {
+      "yes": "Oui",
+      "no": "Non",
+      "cancel": "Annuler",
+      "header": "Changements non sauvegardé",
+      "body": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "exception": "FR - Technical Exception",
+      "continue": "FR - Continue"
+    }
+  }
+  }

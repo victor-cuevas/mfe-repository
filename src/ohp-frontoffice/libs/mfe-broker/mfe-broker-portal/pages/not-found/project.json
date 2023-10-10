@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/not-found",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/not-found/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/not-found"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/not-found/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/not-found/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/not-found/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

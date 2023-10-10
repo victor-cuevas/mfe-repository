@@ -1,0 +1,37 @@
+{
+  "intermediaryId": "89acf98e",
+  "subordinateIntermediaryIds": [],
+  "advisorUniqueId": null,
+  "intermediaryType": "Intermediary",
+  "firmId": "09ba5963",
+  "roleMappings": {
+    "additionalProp1": {
+      "intermediaryRole": "Supervisor",
+      "permissionType": "View"
+    }
+  },
+  "person": {
+    "title": "Mr",
+    "firstName": "Jasja",
+    "lastName": "Prick",
+    "dateOfBirth": "2002-12-31T00:00:00"
+  },
+  "tradingAddressId": "4dcb22c8",
+  "email": "jasjaprick@gmail.com",
+  "telephone": {
+    "mobile": "+56 7286 738762",
+    "telephoneWork": "+76 3286 748264"
+  },
+  "fcaStatus": null,
+  "profilePicture": null,
+  "copyCaseNotificationsToAdminAssistants": true,
+  "receiveMarketingMaterials": true,
+  "agreeToTermsAndConditions": true,
+  "status": "Registered",
+  "isPreapproved": true,
+  "isInReview": false,
+  "lastUpdated": "2021-11-26T08:30:54.598465+00:00",
+  "creationDate": "2021-11-26T08:30:54.598238+00:00",
+  "firstActivationDate": null,
+  "version": 4
+}

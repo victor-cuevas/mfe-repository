@@ -1,0 +1,28 @@
+<div *ngIf="config.data?.contactsInformation as applicantInfo" class="border-top">
+  <ol class="pt-4 pb-2 px-3">
+    <li *ngFor="let applicant of applicantInfo" [class]="'p-4 applicant-list-item '">
+      <h5>{{ 'createCase.labels.applicantType' | translate }} : {{ applicant.contactType | label: 'cdtb-broker-applicanttypes' }}</h5>
+      <div class="row applicant-list-item__details mt-3">
+        <div class="col-4">
+          <strong>{{ 'createCase.labels.firstName' | translate }}:</strong> {{ applicant.firstName }}
+        </div>
+        <div class="col-4">
+          <strong>{{ 'createCase.labels.surName' | translate }}:</strong> {{ applicant.familyName }}
+        </div>
+        <div class="col-4">
+          <strong>{{ 'createCase.labels.dob' | translate }} :</strong> {{ applicant.dateOfBirth | date: 'dd/MM/yyyy' }}
+        </div>
+      </div>
+    </li>
+  </ol>
+  <div class="row">
+    <div class="col-12 text-end">
+      <button
+        (click)="closeOverlay()"
+        class="p-button-outlined--bold me-3"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        pButton
+      ></button>
+    </div>
+  </div>
+</div>

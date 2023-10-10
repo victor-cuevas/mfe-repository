@@ -1,0 +1,640 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'plan.reminder.heading.reminderplan' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'plan.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(reminderGridData.reminderPlanConfigurationList.items)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'plan.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="col-12 closefo-btn-wrapper text-right mb-2">
+        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.create' | translate}}"
+                          [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.copy' | translate}}"
+                          [ControlConfig]="ButtonConfig" (click)="copy()"></cfc-fluid-button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table"
+                          dataKey="Username"
+                          [gridData]="reminderGridData?.reminderPlanConfigurationList?.items"
+                          [gridDataHeader]="reminderHeader"
+                          [paginationStatus]="true"
+                          paginationReportStatus="true"
+                          [(dataSelection)]="dataSelected"
+                          [pageReportContent]="paginationContent"
+                          (gridPageIndex)="onPagination($event)"
+                          dataSelectionMode="single"
+                          [PageRows]="pageRow"
+                          (rowClickedEvent)="clickReminderPlanList($event)"
+                          [totalRecords]="recordsAvailable"
+                          [selectedDetail]="reminderPlanCard"
+                          [resetFirst]="resetPagination">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div class="tab-top closefo-form-group">
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <p-tabView class="reminder-flow-tab" [(activeIndex)]="SelectedTabIndex">
+            <p-tabPanel header="{{'plan.reminder.tab.Generalsetting' | translate}}" [selected]="true">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label required">{{'plan.reminder.card.name1' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="NameTextBoxconfig"
+                                         [ngModel]="reminderPlanCard?.reminderPlan?.name"
+                                         (OnchangedText)="changeName($event)"
+                                         name="Name"
+                                         [cfcFluidValidation]="{errors:name.errors ? NameTextBoxconfig.Errors :'', formSubmitted:(NameTextBoxconfig.externalError)}"
+                                         [isAllowSpace]="false"
+                                         [maxlength]="250"
+                                         #name="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 closefo-btn-wrapper text-right">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.button.add' | translate}}"
+                                    [ControlConfig]="ButtonConfig" (click)="addReminderScenarioRow()"></cfc-fluid-button>
+                </div>
+              </div>
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12 close-header-block ">
+                      <div class="row" *ngIf="this.reminderPlanCard?.reminderPlan?.reminderPlan2ReminderScenarioList">
+                        <p-table [value]="this.reminderPlanCard.reminderPlan.reminderPlan2ReminderScenarioList" [columns]="reminder1Header" styleClass="closefo-datatable closefo-bo-table" class="primengtable-dropdown">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width">
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+
+                            <tr *ngIf="!rowData.isDelete">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                                <span *ngSwitchCase="'dropdown1'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.dossierStatus"
+                                                      Type="single"
+                                                      name="dossierStatus{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.dossierStatusList"
+                                                      [cfcFluidValidation]="{errors:dossierStatusdropdown.errors ? DossierDropdownConfig.Errors :'', formSubmitted:(DossierDropdownConfig.externalError)}"
+                                                      [ControlConfig]="DossierDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      [title]="rowData?.dossierStatus?.caption"
+                                                      [showClearIcon]="rowData?.dossierStatus ? true : false"
+                                                      (OnSelectionChanged)="changeDossierStatus($event,index)"
+                                                      #dossierStatusdropdown="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'dropdown2'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData?.reminderScenarioRef"
+                                                      Type="single"
+                                                      name="reminderScenarioRef{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="getInitialData.reminderScenarioRefList"
+                                                      [ControlConfig]="ScenarioDropdownConfig"
+                                                      [cfcFluidValidation]="{errors:reminderScenarioRefdropdown.errors ? ScenarioDropdownConfig.Errors :'', formSubmitted:(ScenarioDropdownConfig.externalError)}"
+                                                      optionLabel="scenarioName"
+                                                      dataKey="scenarioName"
+                                                      [title]="rowData?.reminderScenarioRef?.scenarioName"
+                                                      [showClearIcon]="rowData?.reminderScenarioRef ? true : false"
+                                                      (OnSelectionChanged)="changeScenario($event,index)"
+                                                      #reminderScenarioRefdropdown="ngModel">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="deleteReminderScenarioList(rowData,this.reminderPlanCard.reminderPlan.reminderPlan2ReminderScenarioList)"></i></span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </p-tabPanel>
+
+            <p-tabPanel header="{{'plan.reminder.tab.derivation' | translate}}" *ngIf="!this.reminderGridData.isPlanDerivationConfigExists">
+
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.reminder.heading.generaldata' | translate }}</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">{{'plan.reminder.card.legelentity' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="reminderPlanCard?.planDerivationCriteria?.legalEntity"
+                                                name="legalEntity"
+                                                [filteredNames]="filteredLegal"
+                                                (filtername)="filterLegal($event)"
+                                                (Selected)="changeLegal($event)"
+                                                (Clear)=" clearLegal($event)"
+                                                [isReadOnly]="reminderPlanCard ? reminderPlanCard.isLegalDisable : false "
+                                                (ngModelChange)="reminderPlanCard.planDerivationCriteria.legalEntity=$event"
+                                                [ControlConfig]="LegalAutoCompleteTextBoxconfig"
+                                                field="hostedOrganizationName"
+                                                #autocomplete1="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="reminderPlanCard?.planDerivationCriteria?.isLegalEntityIndependent"
+                                            (ngModelChange)="changeLegalCheck($event)"
+                                            name="isLegalEntityIndependent">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.reminder.card.Legelindi' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.customer' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="reminderPlanCard?.planDerivationCriteria?.customer"
+                                                name="customer"
+                                                [filteredNames]="filteredCustomer"
+                                                (filtername)="filterCustomer($event)"
+                                                (Selected)="changeCustomer($event)"
+                                                (ngModelChange)="reminderPlanCard.planDerivationCriteria.customer=$event"
+                                                [isReadOnly]="reminderPlanCard ? reminderPlanCard.isCustomerDisable : false"
+                                                [ControlConfig]="AutoCompleteTextBoxconfig"
+                                                field="name"
+                                                #autocomplete2="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="reminderPlanCard?.planDerivationCriteria?.isCustomerindependent"
+                                            (ngModelChange)="changeCustomerCheck($event)"
+                                            name="isCustomerindependent">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.reminder.card.customerindi' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.intrrior' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-autocomplete [ngModel]="reminderPlanCard?.planDerivationCriteria?.initiator"
+                                                name="initiator"
+                                                [filteredNames]="filteredInitiator"
+                                                (filtername)="filterInitiator($event)"
+                                                (Selected)="changeInitiator($event)"
+                                                (ngModelChange)="reminderPlanCard.planDerivationCriteria.initiator=$event"
+                                                [isReadOnly]="reminderPlanCard ? reminderPlanCard.isInitiatorDisable : false"
+                                                [ControlConfig]="AutoCompleteTextBoxconfig"
+                                                field="name"
+                                                #autocomplete3="ngModel"
+                                                minLength="1">
+                        </cfc-fluid-autocomplete>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="reminderPlanCard?.planDerivationCriteria?.isInitiatorIndependent"
+                                            (ngModelChange)="changeInitiatorCheck($event)"
+                                            name="isInitiatorIndependent">
+                        </cfc-fluid-checkbox>
+                      </div>
+                      <div class="col-7">
+                        <label class="closefo-form-label">{{'plan.reminder.card.initiator' | translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">
+                          {{ 'plan.reminder.card.validfrom' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="ValidFromDateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.validFrom"
+                                              yearRange="1800:2100"
+                                              (ngModelChange)="changeValidFrom($event)"
+                                              name="validFrom"
+                                              appendToBody="body"
+                                              [maxDate]="reminderPlanCard?.planDerivationCriteria?.validTo"
+                                              [isReadOnly]="reminderPlanCard ? reminderPlanCard.validFromDisable : false"
+                                              [cfcFluidValidation]="{errors:ValidFrom.errors ? ValidFromDateconfig.Errors :'', formSubmitted:(ValidFromDateconfig.externalError)}"
+                                              #ValidFrom="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">
+                          {{ 'plan.reminder.card.validto' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.validTo"
+                                              yearRange="1800:2100"
+                                              appendToBody="body"
+                                              [isReadOnly]="reminderPlanCard ? reminderPlanCard.validToDisable : false"
+                                              (ngModelChange)="changeValidTo($event)"
+                                              [minDate]="reminderPlanCard?.planDerivationCriteria?.validFrom"
+                                              name="validTo"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label required">{{'plan.reminder.card.priority' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="PriorityTextBoxconfig"
+                                           [ngModel]="reminderPlanCard?.planDerivationCriteria?.priority"
+                                           (OnchangedNumber)="changePriority($event)"
+                                           name="priority"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:priority.errors? (priority.errors?.maxValueError) ? numberErrorDto : PriorityTextBoxconfig.Errors :'', formSubmitted:(PriorityTextBoxconfig.externalError)}"
+                                           [maximumValue]="maxLimitForNumbers"
+                                           #priority="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.debtortype' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="reminderPlanCard?.planDerivationCriteria?.debtorType"
+                                            Type="single"
+                                            name="debtorType"
+                                            [placeholder]="placeholder"
+                                            [options]="getInitialData.debtorTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [showClearIcon]="reminderPlanCard?.planDerivationCriteria?.debtorType ? true : false"
+                                            [title]="reminderPlanCard?.planDerivationCriteria?.debtorType?.caption"
+                                            (OnSelectionChanged)="changeDebtorType($event)"
+                                            #chargingOfdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.dossiertype' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="reminderPlanCard?.planDerivationCriteria?.dossierType"
+                                            Type="single"
+                                            name="dossierType"
+                                            [placeholder]="placeholder"
+                                            [options]="getInitialData.dossierTypeList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [showClearIcon]="reminderPlanCard?.planDerivationCriteria?.dossierType ? true : false"
+                                            [title]="reminderPlanCard?.planDerivationCriteria?.dossierType?.caption"
+                                            (OnSelectionChanged)="changeDossierType($event)"
+                                            #chargingOfdropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.reminder.heading.generaldata' | translate }}</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.minamount' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="MinAmtTextBoxconfig"
+                                           [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMinAmount"
+                                           (OnchangedAmount)="changeMinAmount($event,true)"
+                                           (ngModelChange)="changeMinAmount($event,false)"
+                                           name="invoiceMinAmount"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="14"
+                                           [cfcFluidValidation]="{errors:minamt.errors? (minamt.errors?.maxValueError) ? minAmtErrorDto : MinAmtTextBoxconfig.Errors :'', formSubmitted:(MinAmtTextBoxconfig.externalError)}"
+                                           [maximumValue]="reminderPlanCard ? reminderPlanCard.planDerivationCriteria.invoiceMaxAmount : 0"
+                                           #minamt="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label ">{{'plan.reminder.card.maxamount' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="amountLimitValidation"
+                                           [ControlConfig]="MaxAmtTextBoxconfig"
+                                           [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMaxAmount"
+                                           (OnchangedAmount)="changeMaxAmount($event,true)"
+                                           (ngModelChange)="changeMaxAmount($event,false)"
+                                           name="invoiceMaxAmount"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="14"
+                                           [cfcFluidValidation]="{errors:maxamt.errors? (maxamt.errors?.minValueError) ? maxAmtErrorDto : MaxAmtTextBoxconfig.Errors :'', formSubmitted:(MaxAmtTextBoxconfig.externalError)}"
+                                           [minimumValue]="reminderPlanCard ? reminderPlanCard.planDerivationCriteria.invoiceMinAmount : 0"
+                                           #maxamt="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">
+                          {{ 'plan.reminder.card.minold' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMinOldestDate"
+                                              yearRange="1800:2100"
+                                              appendToBody="body"
+                                              (ngModelChange)="changeMinOldest($event)"
+                                              name="invoiceMinOldestDate"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label ">
+                          {{ 'plan.reminder.card.maxold' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMaxOldestDate"
+                                              yearRange="1800:2100"
+                                              appendToBody="body"
+                                              (ngModelChange)="changemaxOldest($event)"
+                                              name="invoiceMaxOldestDate"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">
+                          {{ 'plan.reminder.card.minnew' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMinNewestDate"
+                                              yearRange="1800:2100"
+                                              appendToBody="body"
+                                              (ngModelChange)="changeMinNewest($event)"
+                                              name="invoiceMinNewestDate"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">
+                          {{ 'plan.reminder.card.maxnew' | translate }}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-datepicker [ControlConfig]="Dateconfig"
+                                              [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMaxNewestDate"
+                                              yearRange="1800:2100"
+                                              appendToBody="body"
+                                              (ngModelChange)="changeMaxNewest($event)"
+                                              name="invoiceMaxNewestDate"
+                                              #postageStart="ngModel">
+                        </cfc-fluid-datepicker>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.minav' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="MinAvgTextBoxconfig"
+                                           [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMinAvgAge"
+                                           (OnchangedNumber)="changeMinAvg($event)"
+                                           name="invoiceMinAvgAge"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:minAvg.errors? (minAvg.errors?.maxValueError) ? minAvgErrorDto : MinAvgTextBoxconfig.Errors :'', formSubmitted:(MinAvgTextBoxconfig.externalError)}"
+                                           [maximumValue]="(reminderPlanCard ? reminderPlanCard.planDerivationCriteria.invoiceMaxAvgAge : 0) || maxLimitForNumbers"
+                                           #minAvg="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5 text-right">
+                        <label class="closefo-form-label">{{'plan.reminder.card.maxav' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="MaxAvgTextBoxconfig"
+                                           [ngModel]="reminderPlanCard?.planDerivationCriteria?.invoiceMaxAvgAge"
+                                           (OnchangedNumber)="changeMaxAvg($event)"
+                                           name="invoiceMaxAvgAge"
+                                           [isAllowSpace]="false"
+                                           [maxlength]="10"
+                                           [cfcFluidValidation]="{errors:maxAvg.errors? (maxAvg.errors?.maxValueError) ? numberErrorDto : (maxAvg.errors?.minValueError) ? maxAvgErrorDto : MaxAvgTextBoxconfig.Errors :'', formSubmitted:(MaxAvgTextBoxconfig.externalError)}"
+                                           [minimumValue]="reminderPlanCard ? reminderPlanCard.planDerivationCriteria.invoiceMinAvgAge : 0"
+                                           [maximumValue]="maxLimitForNumbers"
+                                           #maxAvg="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'plan.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'plan.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'plan.dialog.Yes' | translate}}"
+                              (click)="onYes(reminderGridData.reminderPlanConfigurationList.items)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

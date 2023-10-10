@@ -1,0 +1,145 @@
+<div class="whitelabel-config">
+  <div class="close-app-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'app-instance.prepayment-reason.heading.prepayment' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'app-instance.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(prePaymentReason)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'app-instance.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <p-table [value]="prePaymentReason"
+                   [columns]="RevisionHeader"
+                   [resizableColumns]="true"
+                   styleClass="closefo-datatable closefo-bo-table checkboxalign table-without-scroll"
+                   [reorderableColumns]="true"
+                   [rowHover]="true">
+
+            <ng-template pTemplate="header" let-columns>
+
+              <tr>
+
+                <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+
+                  <span>{{ col.header }}</span>
+
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+
+              </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+
+              <tr [pSelectableRow]="rowData">
+
+                <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                  <span *ngSwitchCase="'stringList'">{{ rowData.prepaymentReason.caption }}</span>
+
+                  <span *ngSwitchCase="'checkboxList'">
+
+                    <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                        [ngModel]="rowData.calculatePrepaymentPenalty"
+                                        name="calculatePrepayment_{{ rowData.prepaymentReason.caption }}_{{index}}"
+                                        (ngModelChange)="changeCalculatePrepaymentPenalty($event,index)">
+                    </cfc-fluid-checkbox>
+
+                  </span>
+
+                  <span *ngSwitchCase="'amountText'">
+
+                    <cfc-fluid-textbox #policypercent="ngModel"
+                                       Type="amount"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="rowData.maximumPenaltyPercentage"
+                                       name="percent_{{rowData.maximumPenaltyPercentage}}_{{ rowData.prepaymentReason.caption }}_{{index}}"
+                                       (OnchangedAmount)="changeMaximumPenaltyPercentage($event,index,true)"
+                                       (ngModelChange)="changeMaximumPenaltyPercentage($event,index,false)"
+                                       [maxlength]="14"
+                                       [isReadOnly]="rowData.isPenaltyReadOnly"
+                                       >
+
+                    </cfc-fluid-textbox>
+
+                  </span>
+
+                </td>
+
+              </tr>
+
+            </ng-template>
+
+          </p-table>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'app-instance.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'app-instance.close.body' | translate}}
+
+          </div>         
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'app-instance.close.yes' | translate}}"
+                              (click)="onYes(prePaymentReason)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'app-instance.close.no' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'app-instance.close.cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error
+            and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+          </div>
+
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>

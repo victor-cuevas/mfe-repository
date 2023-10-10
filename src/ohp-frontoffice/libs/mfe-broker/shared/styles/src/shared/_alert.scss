@@ -1,0 +1,12 @@
+.p-message {
+  &.p-message-warn {
+    border: solid $secondary;
+    border-width: 0px 0px 0px 6px;
+    background: $neutral-light-1;
+    color: $neutral-dark;
+  }
+
+  .p-message-icon {
+    color: $secondary !important;
+  }
+}

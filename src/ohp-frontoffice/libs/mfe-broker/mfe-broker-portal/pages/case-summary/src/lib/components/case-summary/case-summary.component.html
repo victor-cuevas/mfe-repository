@@ -1,0 +1,225 @@
+<ng-container *ngIf="loanStatus$ | async as loanStatus">
+  <div
+    *ngIf="
+      (caseStage$ | async) === caseStageEnum.Dip &&
+      (loanStatus === loanStatusEnum.Assessment ||
+        loanStatus === loanStatusEnum.Rejected ||
+        loanStatus === loanStatusEnum.Referred ||
+        loanStatus === loanStatusEnum.Accepted ||
+        loanStatus === loanStatusEnum.Completed)
+    "
+  >
+    <div [className]="'rounded d-flex my-4 pt-3 pb-4 mx-0 ' + 'bg-' + loanStatus.toLowerCase() + '-light'">
+      <div class="status-icon-wrapper">
+        <div
+          *ngIf="loanData?.status === loanStatusEnum.Referred; else elseBlock"
+          class="ms-3 my-2 status-container--referred rounded d-flex align-items-center justify-content-center"
+        >
+          <span>!</span>
+        </div>
+        <ng-template #elseBlock>
+          <div
+            [className]="
+              'ms-3 my-2 status-container--circle d-flex align-items-center justify-content-center ' + 'bg-' + loanStatus.toLowerCase()
+            "
+          >
+            <i [className]="'color-white my-2 pi ' + (loanStatus | statusIcon)"></i>
+          </div>
+        </ng-template>
+      </div>
+      <div class="pe-4 py-1">
+        <h2 [className]="'color-' + loanStatus.toLowerCase()">{{ caseStage$ | async | dipDecision: loanStatus }}</h2>
+        <p *ngIf="loanStatus === loanStatusEnum.Referred" class="pt-2">
+          {{ 'caseSummary.titles.referredMessage' | translate }}
+        </p>
+        <div *ngIf="loanStatus === loanStatusEnum.Accepted || loanStatus === loanStatusEnum.Completed" class="pt-2">
+          <p>
+            {{ 'caseSummary.titles.completedMessageStart' | translate }}
+            {{ dipExpirationDate$ | async | date: 'dd/MM/yyyy' }}
+            {{ 'caseSummary.titles.completedMessageEnd' | translate }}
+          </p>
+        </div>
+        <p *ngIf="loanStatus === loanStatusEnum.Assessment" class="pt-2">
+          {{ 'caseSummary.titles.assessmentMessage' | translate }}
+        </p>
+        <p *ngIf="loanStatus === loanStatusEnum.Rejected" class="pt-2">
+          {{ 'caseSummary.titles.declinedMessage' | translate }}
+        </p>
+        <div class="py-1 mt-4">
+          <ng-container *ngIf="rejectionReasons$ | async as rejectionReasons">
+            <div *ngIf="rejectionReasons?.length">
+              <h5 class="primary-color mb-2">
+                {{ 'caseSummary.titles.reasons' | translate: { loanStatus: loanStatus.toLowerCase() } }}
+              </h5>
+              <div class="col-12 mb-4 ml-12">
+                <ul>
+                  <li *ngFor="let rejectionReason of rejectionReasons">{{ rejectionReason.reason }}</li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div class="row row-flex mb-3">
+  <div class="col-xl-5 col-md-12 pt-2 pb-2">
+    <div class="card shadow-sm h-100 p-2">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div class="card-info-block">
+            <h5 class="card-subtitle" id="caseStage">{{ 'caseSummary.labels.stage' | translate }}</h5>
+            <div aria-labelledby="caseStage" class="card-text-highlight">
+              {{ caseStageToDisplay$ | async | titlecase }} {{ loanStatus$ | async | loanStatus }}
+            </div>
+          </div>
+          <p-button (click)="showCaseDialog()" class="divlink" styleClass="p-button-link">
+            {{ 'general.buttons.view' | translate }}
+          </p-button>
+        </div>
+        <div class="card-info-block">
+          <h5 class="card-subtitle pt-3" id="caseReference">{{ 'caseSummary.labels.caseReference' | translate }}</h5>
+          <div aria-labelledby="caseReference" class="card-text-highlight">
+            {{ caseData?.caseId }}<span *ngIf="caseData?.dossierNumber !== null"> - {{ caseData?.dossierNumber }}</span>
+          </div>
+        </div>
+        <div class="card-info-block">
+          <h5 class="card-subtitle py-2" id="applicantName">{{ 'caseSummary.labels.applicantName' | translate }}</h5>
+          <div class="card-text">
+            <ol aria-labelledby="applicantName">
+              <li *ngFor="let applicant of caseData?.contactsInformation" class="card-text-highlight">
+                {{ applicant.firstName | titlecase }} {{ applicant.familyName | titlecase }}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-md-6 pt-2 pb-2">
+    <div class="card shadow-sm h-100 p-2">
+      <div class="card-body">
+        <div class="card-info-block">
+          <h5 class="card-subtitle">{{ 'caseSummary.labels.applicationType' | translate }}</h5>
+          <p class="card-text-highlight">{{ caseData?.casePurposeType | label: 'cdtb-broker-applicationtypes' }}</p>
+        </div>
+        <div class="card-info-block">
+          <h5 class="card-subtitle">{{ 'caseSummary.labels.propertyPurpose' | translate }}</h5>
+          <p class="card-text-highlight">{{ propertyPurpose?.value | label: 'cdtb-broker-propertypurpose' }}</p>
+        </div>
+        <div class="card-info-block">
+          <h5 class="card-subtitle">{{ 'caseSummary.labels.assignedTo' | translate }}</h5>
+          <div class="d-flex align-items-center">
+            <p class="card-text-highlight">
+              {{ caseData?.assigneeFullName }}
+            </p>
+            <!-- Edit assignee-->
+            <ng-template
+              [cfoPermissions]="'case'"
+              [cfoPermissionsFeatures]="['assignee', 'transferAssignee']"
+              [cfoPermissionsNeededPermission]="portalPermissionType.View"
+            >
+              <div *ngIf="(caseStatus$ | async) !== caseStatusEnum.Cancelled" (click)="editAssignee()" class="divlink mx-2">
+                {{ 'general.buttons.edit' | translate }}
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="card-info-block">
+          <h5 class="card-subtitle">{{ 'caseSummary.labels.status' | translate }}</h5>
+          <p class="card-text">
+            <p-tag
+              [styleClass]="
+                'p-tag-rectangle p-tag-' + caseData?.stage?.toLowerCase() + ' p-tag-' + caseData?.status?.replace(' ', '-')?.toLowerCase()
+              "
+              value="{{ caseData?.status | uppercase }}"
+            ></p-tag>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6 pt-2 pb-2">
+    <div class="card shadow-sm h-100 pt-2 pb-2">
+      <div class="card-body">
+        <cfo-circular-percentage
+          [percentage]="progress"
+          [percentageLabel]="'caseSummary.labels.progress' | translate"
+          [doneLabel]="'caseSummary.labels.done' | translate"
+          [missingLabel]="'caseSummary.labels.missing' | translate"
+        ></cfo-circular-percentage>
+      </div>
+    </div>
+  </div>
+</div>
+
+<cfo-dialog [showDialog]="showApplicants" [dataForTemplateHeader]="dataForTemplateHeader" [dataForTemplateContent]="dataForTemplateContent">
+  <ng-template #headerTemplate let-dataHeader>
+    <div class="header-box">
+      <h5>{{ dataHeader?.title }}</h5>
+      <i [class]="'dialog-icon ' + dataHeader?.icon" (click)="closeApplicantsDialog()"></i>
+    </div>
+    <hr />
+  </ng-template>
+  <ng-template #contentTemplate let-dataContent>
+    <p-table [value]="dataContent" styleClass="p-datatable-striped">
+      <ng-template pTemplate="body" let-applicant let-i="rowIndex">
+        <tr>
+          <div class="row mt-4">
+            <td>
+              <strong>{{ i + 1 }}. {{ 'caseSummary.titles.applicantType' | translate }} : {{ applicant.contactType }}</strong>
+            </td>
+          </div>
+          <div class="row mt-4">
+            <td class="col-md-4">
+              <strong>{{ 'caseSummary.titles.firstName' | translate }}: </strong>{{ applicant.firstName | titlecase }}
+            </td>
+            <td class="col-md-4">
+              <strong>{{ 'caseSummary.titles.surname' | translate }}: </strong>{{ applicant.familyName | titlecase }}
+            </td>
+            <td class="col-md-4">
+              <strong>{{ 'caseSummary.titles.dob' | translate }} : </strong>{{ applicant.dateOfBirth | date: 'dd/MM/yyyy' }}
+            </td>
+          </div>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+  <ng-template #footerTemplate>
+    <div class="text-center mt-4 footer-box">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="closeApplicantsDialog()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>
+
+<p-dialog
+  [(visible)]="showSuccessfulModal"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [modal]="true"
+  [resizable]="false"
+  [showHeader]="false"
+  [style]="{ width: '25vw' }"
+  closeIcon="none"
+  styleClass="transfer-dialog"
+>
+  <div class="text-center pt-5">
+    <i class="pi pi-check"></i>
+    <h3 class="my-3">{{ 'cases.transfer.success.title' | translate }}</h3>
+    <p>{{ 'cases.transfer.success.body' | translate }} {{ newAssigneeName }}</p>
+
+    <button
+      (click)="closeSuccessfulModal()"
+      [label]="'general.buttons.ok' | translate"
+      class="p-button-primary mt-5"
+      icon="none"
+      pButton
+      type="button"
+    ></button>
+  </div>
+</p-dialog>

@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/case-summary",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/case-summary/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/case-summary"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/case-summary/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/case-summary/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/case-summary/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["scope:broker-portal", "type:feature"]
+}

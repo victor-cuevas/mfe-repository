@@ -1,0 +1,130 @@
+<div class="whitelabel-config">
+  <div class="close-accounting-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'accounting.interest-mediation.heading.interestMediation' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'accounting.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(responseInterestMediation)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'accounting.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="closefo-panel-spacing">
+        <div class="=row">
+          <div class="col-12 closefo-btn-wrapper text-right mb-2">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'accounting.button.add' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addRow()"></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="responseInterestMediation" (rowClickedEvent)="clickGrid($event)"
+                            [gridDataHeader]="interestHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (deleteRowEvent)="onRowDelete($event,responseInterestMediation)" [selectedDetail]="interestMediationCard">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+      </div>
+        
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="Nothide">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'accounting.interest-mediation.card.RateAdaption' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="interestMediationCard?.rateAdaptationNameList"
+                                        Type="single"
+                                        name="RateAdaptionDropdown"
+                                        [placeholder]="placeholder"
+                                        [options]="responseRateAdaptation"
+                                        [ControlConfig]="interestMediationDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="caption"
+                                        [cfcFluidValidation]="{errors:RateAdaptiondropdown.errors? interestMediationDropdownConfig.Errors :'', formSubmitted: (interestMediationDropdownConfig.externalError)}"
+                                        (OnSelectionChanged)="changeRateAdaptationName($event)"
+                                        #RateAdaptiondropdown="ngModel"
+                                        [isReadOnly]="editable"
+                                        [title]="interestMediationCard?.rateAdaptationNameList?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+          <ng-template #headerTemplate>
+            {{'accounting.dialog.header' | translate}}
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div class="dialog-content-inner">
+              {{'accounting.dialog.body' | translate}}
+            </div>
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'accounting.dialog.yes' | translate}}"
+                                (click)="onYes(responseInterestMediation)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'accounting.dialog.no' | translate}}"
+                                (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'accounting.dialog.cancel' | translate}}"
+                                (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+
+        <div>
+          <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+            <ng-template #headerTemplate>
+              Technical Exception
+            </ng-template>
+            <ng-template #contentTemplate>
+              <div id="warning-dialog" class="dialog-inner-content">
+                <div class="warning-main">
+                  <div class="war-left">
+                    <i class="pi pi-exclamation-triangle"></i>
+                  </div>
+                </div>
+                <div class="war-right">
+                  Technical Exception has occured in a component in our application.<br />
+                  If you click continue, the application will ignore this error
+                  and attempt to continue
+                  <br />
+                  <br />
+                  Fault Code: {{errorCode}}.
+                </div>
+              </div>
+
+
+            </ng-template>
+            <ng-template #footerTemplate>
+              <div class="d-flex closefo-btn-wrapper">
+                <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                  (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+            </ng-template>
+
+          </cfc-fluid-dialog>
+        </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-panel/pages/lender-page",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-panel/pages/lender-page/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-panel/pages/lender-page"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-panel/pages/lender-page/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-panel/pages/lender-page/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-panel/pages/lender-page/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

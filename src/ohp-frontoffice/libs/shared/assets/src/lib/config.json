@@ -1,0 +1,138 @@
+{
+  "AWS": {
+    "REGION": "eu-west-1",
+    "USER_POOL_ID": "eu-west-1_sQxQypcLC",
+    "USER_POOL_APP_CLIENT_ID": "2foc54nunhbs1ohd5c008sg26q",
+    "USER_POOL_SIGN_IN_REDIRECT_URL": "http://localhost:4200/broker/",
+    "USER_POOL_REDIRECT_URL": "http://localhost:4200",
+    "USER_POOL_AUTH_DOMAIN": "https://elq-dev.auth.eu-west-1.amazoncognito.com"
+  },
+  "LOGO_PATH": "/assets/ohpen-logo.png",
+  "CLIENT": "ohp",
+  "STAGE": "dev",
+  "CLIENT": "april",
+  "DEFAULT_ROUTE": "broker",
+  "DEFAULT_CONFIG_ROUTE": "product",
+  "REMOTE_MFES": [
+    {
+      "path": "broker",
+      "remoteUrl": "http://localhost:4210",
+      "remoteName": "mfeBrokerPortal",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPortalModule",
+      "apiUrl": "https://broker-api.dev.davincicloud.nl"
+    },
+    {
+      "path": "panel",
+      "remoteUrl": "http://localhost:4220",
+      "remoteName": "mfeBrokerPanel",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPanelModule",
+      "apiUrl": "https://panel-api.dev.davincicloud.nl"
+    },
+    {
+      "path": "authorisation",
+      "remoteUrl": "http://localhost:5000",
+      "remoteName": "mfeAuthConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AuthConfigModule",
+      "apiUrl": "https://localhost:44366/"
+    },
+    {
+      "path": "process",
+      "remoteUrl": "http://localhost:4260",
+      "remoteName": "mfeProcessConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "ProcessConfigModule",
+      "apiUrl": "https://localhost:44383/"
+    },
+    {
+      "path": "asset",
+      "remoteUrl": "http://localhost:4270",
+      "remoteName": "mfeAssetConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AssetConfigModule",
+      "apiUrl": "https://localhost:44311/"
+    },
+    {
+      "path": "agenda",
+      "remoteUrl": "http://localhost:5010",
+      "remoteName": "mfeAgendaConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AgendaConfigModule",
+      "apiUrl": "https://localhost:44309/"
+    },
+    {
+      "path": "product",
+      "remoteUrl": "http://localhost:4250",
+      "remoteName": "mfeProductConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "ProductConfigModule",
+      "apiUrl": "https://localhost:44342/"
+    },
+    {
+      "path": "financial",
+      "remoteUrl": "http://localhost:5050",
+      "remoteName": "mfeFinancialConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "FinancialConfigServiceModule",
+      "apiUrl": "https://localhost:44343/"
+    },
+    {
+      "path": "appinstance",
+      "remoteUrl": "http://localhost:4280",
+      "remoteName": "mfeAppInstanceConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AppInstanceConfigModule",
+      "apiUrl": "https://localhost:44337/"
+    },
+    {
+      "path": "accounting",
+      "remoteUrl": "http://localhost:4290",
+      "remoteName": "mfeAccountingConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AccountingConfigModule",
+      "apiUrl": "https://localhost:44343/"
+    },
+    {
+      "path": "taxstatement",
+      "remoteUrl": "http://localhost:5090",
+      "remoteName": "mfeTaxStatementConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "TaxStatementConfigModule",
+      "apiUrl": "https://localhost:44370/"
+    },
+    {
+      "path": "runningaccount",
+      "remoteUrl": "http://localhost:5070",
+      "remoteName": "mfeRunningAccountConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "RunningaccountConfigServiceModule",
+      "apiUrl": "https://localhost:44332/"
+    },
+    {
+      "path": "communication",
+      "remoteUrl": "http://localhost:5080",
+      "remoteName": "mfeCommunicationConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "CommunicationConfigServiceModule",
+      "apiUrl": "https://localhost:44369/"
+    },
+    {
+      "path": "collection-measure",
+      "remoteUrl": "http://localhost:4230",
+      "remoteName": "mfeCollectionMeasureConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "CollectionMeasureConfigModule",
+      "apiUrl": "https://localhost:44300/"
+    },
+    {
+      "path": "plan",
+      "remoteUrl": "http://localhost:5030",
+      "remoteName": "mfePlanConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "PlanConfigModule",
+      "apiUrl": "https://localhost:44346/"
+    }
+  ]
+}

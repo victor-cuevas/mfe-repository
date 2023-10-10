@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "target": "es2015",
+    "lib": ["dom", "es2018"],
+    "outDir": "../../dist/out-tsc",
+    "allowJs": false,
+    "types": ["cypress", "cypress-each", "node", "@testing-library/cypress"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  },
+  "include": ["src/**/*.ts"]
+}

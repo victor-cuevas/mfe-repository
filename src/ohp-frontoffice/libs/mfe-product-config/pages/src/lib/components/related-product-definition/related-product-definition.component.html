@@ -1,0 +1,184 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #relatedproductform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': relatedproductform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'product.RelatedProduct.heading.RelatedProduct' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'product.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(RelatedProductData)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'product.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+          
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-12 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" [disabled]="disableAddNew" caption="{{'product.RelatedProduct.label.AddNew' | translate}}" (click)="addNew()" [ControlConfig]="ButtonConfig">
+              </cfc-fluid-button>
+            </div>
+            <div class="col-md-12">
+              <p-table
+                [value]="RelatedProductData"
+                [columns]="RelatedProDefDefHeader"
+                [resizableColumns]="true"
+                styleClass="table-without-scroll closefo-datatable closefo-bo-table checkboxalign"
+                [reorderableColumns]="true"
+                [rowHover]="true"
+              >
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                      <span>{{ col.header }}</span>
+
+                      
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                  <tr [pSelectableRow]="rowData" [ngClass]="{'highlight' : higlightRelatedProduct === rowData }">
+                    <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property"  (click)="onRowSelect(rowData)"  [ngClass]="{'highlight' : rowData.selectedRow }" >
+                      <span *ngSwitchCase="'textdropdownList'">
+                        <ng-container *ngIf="!rowData.isReadOnly; else elseblock">
+                          <span>{{ rowData.relatedProductType.caption }}</span>
+                        </ng-container>
+
+                        <ng-template #elseblock>
+                          <cfc-fluid-dropdown
+                            [ngModel]="rowData.relatedProductType"
+                            Type="single"
+                            name="RelatedProDef{{index}}"
+                            [placeholder]="placeholder"
+                            [options]="rowData.relatedProductTypeList"
+                            [ControlConfig]="DropdownConfig"
+                            optionLabel="caption"
+                            dataKey="caption"
+                            #relatedProduct="ngModel"
+                            (OnSelectionChanged)="onrelatedProductSelect($event,rowData)"
+                            [isReadOnly]="rowData.disabledropdown"
+                            [cfcFluidValidation]="{
+                              errors: relatedProduct.errors ? DropdownConfig.Errors:'',
+                              formSubmitted:  DropdownConfig.externalError
+                            }"
+                            [title]="rowData?.relatedProductType?.caption === null ? '' :rowData?.relatedProductType?.caption "
+                          >
+                          </cfc-fluid-dropdown>
+                        </ng-template>
+                      </span>
+                      
+                      <span *ngSwitchCase="'percentText'">
+                        <cfc-fluid-textbox
+                         #policypercent="ngModel"
+                          Type="amount"
+                          [ControlConfig]="RequiredTextBoxconfig"
+                          [ngModel]="rowData.defaultPolicyPercentage"                        
+                          name ="percent{{index}}"
+                          (OnchangedAmount) = "onPercentChange($event,rowData,true)"
+                          (ngModelChange) = "onPercentChange($event,rowData,false)"
+                          [cfcFluidValidation]="{
+                            errors: policypercent.errors ? RequiredTextBoxconfig.Errors:'',
+                            formSubmitted:  RequiredTextBoxconfig.externalError
+                          }"
+                          [isReadOnly]="rowData.disabletextbox"
+                          [maxlength]="11"
+                        >
+                        </cfc-fluid-textbox>
+                        
+                      </span>
+                      <span *ngSwitchCase="'Delete'">
+                        <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRowDelete(rowData,RelatedProductData)" ></i> </span>
+                      </span>
+                     
+                    </td>
+                   
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'product.dialog.Header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'product.dialog.Content' | translate }}</div>          
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'product.dialog.Yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogYes(RelatedProductData )"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'product.dialog.No' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'product.dialog.Cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+
+    </form>
+  </div>
+</div>

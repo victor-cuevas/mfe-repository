@@ -1,0 +1,635 @@
+@mixin step-header {
+  background: $neutral-light-1;
+  border: 1px solid $neutral-dark-1;
+}
+
+@mixin step-body {
+  border-style: solid;
+  border-width: 0px 1px 1px 1px;
+  border-color: $neutral-dark-1;
+}
+
+//cards
+.card-subtitle {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  color: $primary;
+}
+
+.status-icon-wrapper {
+  min-width: 3.5rem;
+}
+
+.applicant-list-item {
+  list-style-position: inside;
+  font-family: $primary-font;
+  font-size: 1rem;
+  color: $primary;
+
+  h5 {
+    font-size: 1rem;
+    display: inline;
+  }
+
+  .applicant-list-item__details {
+    font-family: $secondary-font;
+    color: $neutral-dark;
+    font-size: 0.9rem;
+  }
+
+  &:nth-child(odd) {
+    @include step-header;
+  }
+
+  &:nth-child(even) {
+    @include step-body;
+  }
+
+  &:first-child {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+}
+
+.card-header {
+  padding: 32px 56px;
+  margin-bottom: 0;
+  background-color: transparent;
+  border-bottom: 1px solid $neutral-dark-1;
+}
+
+.card-body {
+  padding: 32px;
+}
+
+.card-info-block {
+  margin-bottom: 15px;
+
+  p-avatar {
+    top: 0px;
+    vertical-align: middle;
+  }
+
+  .card-text {
+    font-size: 16px;
+    line-height: 20px;
+    color: $neutral-dark;
+  }
+
+  .card-text-highlight {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 28px;
+    color: $neutral-dark;
+  }
+
+  .card-text-highlight {
+    color: $neutral-dark;
+    font-weight: 700;
+  }
+
+  ol {
+    list-style: none;
+    padding-left: 0px;
+  }
+
+  ol li {
+    counter-increment: my-awesome-counter;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  ol li::before {
+    content: counter(my-awesome-counter);
+    color: $white;
+    background: $neutral-dark;
+    font-size: 16px;
+    border: 1px solid $neutral-dark;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin-right: 14px;
+    padding: 2px 14px;
+    border-radius: 4px;
+  }
+}
+
+@mixin light-hover-card {
+  display: block;
+  box-shadow: $mainShadow;
+  border-radius: $mainBorderRadius;
+  background: $white;
+  text-decoration: none;
+  cursor: pointer;
+  color: $primary;
+  transition: $mainTransition;
+
+  &:focus,
+  &:hover,
+  :checked div {
+    background: $primary;
+    color: $white;
+
+    p,
+    h2,
+    .pi {
+      color: $white;
+    }
+  }
+}
+
+.status-container--referred {
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 0.2rem;
+  transform: rotate(-45deg);
+  background: $pendingColor;
+
+  span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    transform: rotate(45deg);
+    color: #fff;
+  }
+}
+
+.status-container--circle {
+  height: 1.8rem;
+  width: 1.8rem;
+  border-radius: 50%;
+
+  i {
+    color: #fff;
+  }
+}
+
+:not(.type-hover-cards--disabled) {
+  input.mbpanel-type-radio {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    top: 0;
+    right: 0;
+
+    &:checked + div {
+      background: $primary !important;
+      color: $white;
+
+      p,
+      h2,
+      .pi {
+        color: $white;
+      }
+    }
+  }
+}
+
+.type-hover-cards {
+  &--disabled {
+    .type-hover-card {
+      opacity: 0.6;
+      cursor: initial;
+
+      &:hover {
+        background: $white;
+        color: $primary;
+
+        .pi,
+        p {
+          color: $primary;
+        }
+      }
+    }
+  }
+}
+
+.mbpanel-type-label {
+  margin-left: 1rem;
+  transition: transform 0.2s ease-in;
+
+  &:focus-within {
+    transform: scale(1.05);
+  }
+
+  label {
+    margin-bottom: 0;
+  }
+}
+
+.mbpanel-type-container {
+  margin-top: -1rem;
+  margin-left: -1rem;
+}
+
+.dashboard-hover-card {
+  @include light-hover-card;
+  min-height: 320px;
+  padding: 40px;
+  margin-bottom: 25px;
+
+  .pi {
+    color: $primary;
+    font-size: 60px;
+  }
+
+  .pi-arrow-right {
+    color: $primary;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.type-hover-card {
+  @include light-hover-card;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  padding: 0 0.5rem;
+
+  input {
+    appearance: none;
+  }
+
+  .pi {
+    font-size: 3rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: break-spaces;
+  }
+
+  &.color-primary {
+    background: $primary !important;
+    color: $white;
+
+    p,
+    h2,
+    .pi {
+      color: $white;
+    }
+  }
+}
+
+// containers
+.summarycontainer {
+  background-color: $neutral-light-1;
+  border-radius: 12px;
+}
+
+// badge
+.p-badge {
+  background: $secondary;
+}
+
+// tags
+.p-tag-rectangle {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  border-radius: 2px;
+  padding: 4px 6px;
+  text-align: center;
+  min-width: 82px;
+  border: 2px solid;
+}
+
+// tag colors
+.p-tag-green-outline {
+  border-color: $activeColor;
+  background-color: transparent;
+  color: $activeColor;
+}
+
+.p-tag-red-outline {
+  border-color: $auxiliary-c;
+  background-color: transparent;
+  color: $auxiliary-c;
+}
+
+.p-tag-green {
+  border-color: $activeBackground;
+  background-color: $activeBackground;
+  color: $activeColor;
+}
+
+.p-tag-yellow {
+  border-color: $inProgressBackground;
+  background-color: $inProgressBackground;
+  color: $inProgress;
+}
+
+.p-tag-blue {
+  border-color: $auxiliary-b-2;
+  background-color: $auxiliary-b-2;
+  color: $auxiliary-a;
+}
+
+.p-tag-red {
+  border-color: $auxiliary-c-1;
+  background-color: $auxiliary-c-1;
+  color: $auxiliary-c;
+}
+
+.p-tag-orange {
+  border-color: $secondary-1;
+  background-color: $secondary-1;
+  color: $secondary;
+}
+
+.p-tag-grey {
+  border-color: $inactiveBackground;
+  background-color: $inactiveBackground;
+  color: $inactiveColor;
+}
+
+// tag status
+.p-tag-closed.p-tag-completed {
+  @extend .p-tag-green-outline;
+}
+
+.p-tag-cancelled {
+  @extend .p-tag-red-outline;
+}
+
+.p-tag-completed,
+.p-tag-accepted,
+.p-tag-underwriter-approved {
+  @extend .p-tag-green;
+}
+
+.p-tag-active,
+.p-tag-success {
+  @extend .p-tag-green;
+}
+
+.p-tag-paused,
+.p-tag-in-progress,
+.p-tag-waiting-for-documentation,
+.p-tag-waiting-for-fees {
+  @extend .p-tag-yellow;
+}
+
+.p-tag-registered,
+.p-tag-submitted,
+.p-tag-assessment,
+.p-tag-underwriting,
+.p-tag-waiting-for-valuation,
+.p-tag-waiting-for-signature,
+.p-tag-waiting-for-cot,
+.p-tag-waiting-for-completion-day,
+.p-tag-funds-transferred {
+  @extend .p-tag-blue;
+}
+
+.p-tag-inactive,
+.p-tag-disabled {
+  @extend .p-tag-inactive;
+}
+
+.p-tag-pending,
+.p-tag-referred {
+  @extend .p-tag-orange;
+}
+
+.p-tag-declined,
+.p-tag-rejected,
+.underwriter-declined {
+  @extend .p-tag-red;
+}
+
+.p-tag-broker,
+.p-tag-supervisor {
+  border-color: $primary-4;
+  background-color: $primary-4;
+  color: $white;
+}
+
+.p-tag-assistant {
+  border-color: $primary-1;
+  background-color: $primary-1;
+  color: $primary;
+}
+
+.p-tag-viewer {
+  border-color: $neutral-dark-1;
+  background-color: $neutral-dark-1;
+  color: $neutral-dark;
+}
+
+.p-tag-text-completed,
+.p-tag-text-verified {
+  background-color: white;
+  color: $activeColor;
+  padding: 0px;
+  width: auto;
+}
+
+.p-tag-text-pending {
+  color: $pendingColor;
+  background-color: white;
+  padding: 0px;
+  width: auto;
+}
+
+.step-header {
+  @include step-header;
+}
+
+// tabs
+.p-tabview {
+  .p-tabview-nav {
+    li {
+      .p-tabview-nav-link:not(.p-disabled) {
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      &.p-highlight {
+        .p-tabview-nav-link {
+          color: $primary;
+          border-color: $primary;
+        }
+      }
+
+      &:not(.p-highlight):not(.p-disabled) {
+        &:hover {
+          .p-tabview-nav-link {
+            color: $neutral-dark-3;
+          }
+        }
+
+        .p-tabview-nav-link {
+          &:focus {
+            color: $neutral-dark-3;
+            border-color: $neutral-dark-3;
+          }
+        }
+      }
+    }
+  }
+
+  .p-tabview-panels {
+    padding: 0px;
+  }
+}
+
+.product-summary {
+  background: $white;
+  border-radius: 4px;
+  box-shadow: 0px 2px 8px rgba(151, 151, 151, 0.45);
+}
+
+.journey-info-box {
+  width: 100%;
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  margin-top: -20px;
+  color: $neutral-dark;
+
+  &__header {
+    background: $primary;
+    padding: 1rem 1rem 0.7rem 1rem;
+    color: #fff;
+  }
+
+  &__body {
+    padding: 1rem;
+    border-style: solid;
+    border-width: 0px 1px 1px 1px;
+    border-color: $neutral-dark-1;
+  }
+}
+
+.step-body {
+  @include step-body;
+
+  li {
+    margin-left: 1rem;
+  }
+}
+
+.alertcontainer p,
+.alertcontainer span,
+.alertcontainer {
+  margin-left: 6px;
+  font-size: 13px;
+  color: $auxiliary-c;
+  padding-top: 5px;
+}
+
+.journey-btn-container {
+  color: $primary;
+}
+
+mbp-root-layout,
+mbpanel-root-layout {
+  display: block;
+  padding-top: 78px;
+}
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('/assets/images/spinner.gif') 50% 50% no-repeat,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 1) 98%, rgba(255, 255, 255, 1) 100%);
+  background-size: 400px;
+}
+
+.loader-text {
+  left: 50%;
+  top: calc(50% + 70px);
+  transform: translateX(-50%);
+  position: absolute;
+  color: $primary;
+}
+
+.table-loader {
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('/assets/images/spinner.gif') 45% 50% no-repeat rgba(255, 255, 255, 0.8);
+  background-size: 150px;
+  background-position-x: center;
+  position: absolute;
+  top: 0;
+  min-height: 200px;
+
+  &--scroll-dialog {
+    height: 250px !important;
+    position: static;
+  }
+}
+
+.table-empty {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  top: 0;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary;
+}
+
+// avatar
+.avatar-lg span {
+  margin-top: -0.2rem;
+}
+
+.p-avatar span {
+  font-weight: 500;
+}
+
+.content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 78px);
+  overflow: auto hidden;
+}
+
+.side-menu-page-container {
+  position: relative;
+  display: flex;
+  height: calc(100vh - 78px);
+}
+
+.side-menu-content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto hidden;
+  flex-grow: 1;
+
+  .scroll-container {
+    padding: 0 20px;
+  }
+}
+
+.scroll-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: hidden auto; // Firefox uses this option
+  overflow: hidden overlay;
+}

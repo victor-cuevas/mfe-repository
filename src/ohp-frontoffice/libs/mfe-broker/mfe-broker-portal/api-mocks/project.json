@@ -1,0 +1,18 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/api-mocks",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/api-mocks/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/api-mocks/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/api-mocks/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

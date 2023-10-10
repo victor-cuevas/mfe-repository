@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-runningaccount-config-service/shared",
+  "sourceRoot": "libs/mfe-runningaccount-config-service/shared/src",
+  "prefix": "mracs",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-runningaccount-config-service/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-runningaccount-config-service/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-runningaccount-config-service/shared/src/**/*.ts",
+          "libs/mfe-runningaccount-config-service/shared/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

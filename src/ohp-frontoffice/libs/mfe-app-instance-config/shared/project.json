@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-app-instance-config/shared",
+  "sourceRoot": "libs/mfe-app-instance-config/shared/src",
+  "prefix": "maic",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-app-instance-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-app-instance-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-app-instance-config/shared/src/**/*.ts", "libs/mfe-app-instance-config/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

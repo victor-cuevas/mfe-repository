@@ -1,0 +1,758 @@
+<div class="whitelabel-config">
+  <div class="close-process-config container">
+    <form #followUpConfigForm="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':followUpConfigForm.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'process.managefllowup.heading.manageFollow' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'process.button.save' | translate}}" (OnClick)="onSave(followUpList.items)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'process.button.close' | translate}}" (OnClick)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="closefo-heading-3 closefo-text-primary mb-2">
+        {{'process.managefllowup.card.filter' | translate}}
+      </div>
+      <form #searchCriteriaform="ngForm" class="closefo-form closefo-panel-spacing"
+            [ngClass]="{'closefo-form-submitted':searchCriteriaform.submitted}">
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'process.managefllowup.card.Flowname' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-autocomplete [ngModel]="filter.flowName"
+                                            [form]="searchCriteriaform"
+                                            name="follownames"
+                                            [filteredNames]="filterName"
+                                            (filtername)="filterNames($event)"
+                                            (focusout)="changeName($event)"
+                                            [ControlConfig]="AutoCompleteConfig"
+                                            field="name"
+                                            #autocomplete="ngModel"
+                                            minLength="1">
+                    </cfc-fluid-autocomplete>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end closefo-btn-wrapper filter-button">
+              <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary" caption="{{'process.managefllowup.card.Clear' | translate}}" (OnClick)="onClear()"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'process.managefllowup.card.Filter' | translate}}" (OnClick)="onSearch(filter)"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+
+
+          </div>
+        </div>
+      </form>
+
+
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-12 closefo-btn-wrapper text-right ">
+          <cfc-fluid-button Type="button"
+                            ButtonStyle="closefo-add-btn-small"
+                            (OnClick)="addEventBasedFlow()"
+                            caption="{{'process.managefllowup.table.Addevent' | translate}}"
+                            [ControlConfig]="ButtonConfig"
+                            class="mr-0">
+          </cfc-fluid-button>
+        </div>
+        <div class="col-12">
+
+          <cfc-fluid-grid Type="bo-table" dataKey="followUpList.items" [gridData]="followUpList.items"
+                          [gridDataHeader]="FlowNameHeader" [paginationStatus]="true" paginationReportStatus="true"
+                          (rowClickedEvent)=dataSelection($event) (deleteRowEvent)="onRowDelete($event,followUpList.items)"
+                          [pageReportContent]="paginationContent" (gridPageIndex)="onPageIndex($event)"
+                          [PageRows]="pageRow" [totalRecords]="recordsAvailable" [resetFirst]="resetPagination"
+                          [selectedDetail]="followUpDetail">
+
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <ng-container *ngIf="showFollowUpData">
+        <div class="closefo-heading-3 closefo-text-primary mb-2">
+          {{'process.managefllowup.card.FlowDet' | translate}}
+        </div>
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+          <div class="closefo-form-group">
+            <div class="col-12 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button"
+                                ButtonStyle="closefo-add-btn-small"
+                                (OnClick)="addStopEvent() "
+                                caption="{{'process.managefllowup.card.AddStopevent' | translate}}"
+                                [ControlConfig]="ButtonConfig">
+              </cfc-fluid-button>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'process.managefllowup.card.Flowname' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="FlowNameTextBoxconfig"
+                                       [ngModel]="followUpDetail?.flowName"
+                                       (change)="onChangeFlowName($event)"
+                                       name="flowName"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:flowName.errors? FlowNameTextBoxconfig.Errors :'', formSubmitted:(this.FlowNameTextBoxconfig.externalError)}"
+                                       #flowName="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'process.managefllowup.card.startevent' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown [ngModel]="followUpDetail?.startTriggerEvent"
+                                          Type="single"
+                                          name="startTriggerEvent"
+                                          [placeholder]="placeholder"
+                                          [options]="followUpScreenData?.followupEventNameList"
+                                          [ControlConfig]="startEventDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="codeId"
+                                          (OnSelectionChanged)="onChangeStartTriggerEvent($event)"
+                                          [cfcFluidValidation]="{errors:startEventdropdown.errors? startEventDropdownConfig.Errors :'', formSubmitted:(this.startEventDropdownConfig.externalError)}"
+                                          #startEventdropdown="ngModel"
+                                          [title]="followUpDetail.startTriggerEvent?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="followUpDetail.followUpProcedure2StopEventList.length > 0">
+                  <div class="row align-items-center">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-9">
+                      <p-table [value]="followUpDetail.followUpProcedure2StopEventList" [columns]="stopEvent" [resizableColumns]="true" styleClass="eventscroll">
+
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'label'">{{'process.managefllowup.card.Stopevent' | translate}}</span>
+                              <span *ngSwitchCase="'StopEvent'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.stopTriggerEvent"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="stopTriggerEvent{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="rowData.followupEventNameList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    [isReadOnly]="rowData.isReadOnly"
+                                                    [title]="rowData.stopTriggerEvent?.caption"
+                                                    (OnSelectionChanged)="onChangeStopTriggerEvent($event,index)"
+                                                    #languagedropdown="ngModel">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onStopEventDelete(rowData,followUpDetail.followUpProcedure2StopEventList)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button"
+                              ButtonStyle="closefo-add-btn-small"
+                              (OnClick)="addStep()"
+                              caption="{{'process.managefllowup.table.AddStep' | translate}}"
+                              [ControlConfig]="ButtonConfig">
+            </cfc-fluid-button>
+          </div>
+
+          <div class="col-12">
+
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="followUpDetail.followUpStepList"
+                            [gridDataHeader]="stepseqHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (rowClickedEvent)=stepListDataSelection($event) (deleteRowEvent)=" onStepDelete($event,followUpDetail.followUpStepList)"
+                            [selectedDetail]="followUpStepListDetail">
+
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <ng-container *ngIf="showFollowUpStepDetail">
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+            <div class="closefo-form-group">
+              <p-tabView class="manage-mutation-tab" [(activeIndex)]="SelectedTabIndex">
+                <p-tabPanel header="{{'process.managefllowup.tabHeading.FlowStepGeneral' | translate}}">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'process.managefllowup.tab.name' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="text"
+                                             [ControlConfig]="NameTextBoxconfig"
+                                             [ngModel]="followUpStepListDetail.name"
+                                             (change)="onChangeStepname($event)"
+                                             name="followUpStepListDetail.name"
+                                             [isAllowSpace]="false"
+                                             [cfcFluidValidation]="{errors:nameModel.errors? NameTextBoxconfig.Errors :'', formSubmitted:(this.NameTextBoxconfig.externalError)}"
+                                             #nameModel="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'process.managefllowup.tab.triggerevent' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="followUpStepListDetail.triggerEvent"
+                                              Type="single"
+                                              name="triggerEvent"
+                                              [placeholder]="placeholder"
+                                              [options]="followUpScreenData?.followupEventNameList"
+                                              [ControlConfig]="TriggerEventDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangeTriggerEvent($event)"
+                                              [title]="followUpStepListDetail.triggerEvent?.caption"
+                                              [cfcFluidValidation]="{errors:triggerEventdropdown.errors? TriggerEventDropdownConfig.Errors :'', formSubmitted:(this.TriggerEventDropdownConfig.externalError)}"
+                                              #triggerEventdropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'process.managefllowup.tab.elapsedType' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="followUpStepListDetail.elapsedPeriodType"
+                                              Type="single"
+                                              name="elapsedPeriodType"
+                                              [placeholder]="placeholder"
+                                              [options]="followUpScreenData?.elapsedPeriodTypeList"
+                                              [ControlConfig]="ElapsedPeriodTypeDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangeElapsedPeriodType($event)"
+                                              [title]="followUpStepListDetail.elapsedPeriodType?.caption"
+                                              [cfcFluidValidation]="{errors:elapsedPeriodTypedropdown.errors? ElapsedPeriodTypeDropdownConfig.Errors :'', formSubmitted:(this.ElapsedPeriodTypeDropdownConfig.externalError)}"
+                                              #elapsedPeriodTypedropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'process.managefllowup.tab.elapsedPeriod' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="elapsedPeriodTextBoxconfig"
+                                             [ngModel]="followUpStepListDetail.elapsedPeriod"
+                                             (change)="onChangeElapsedPeriod($event)"
+                                             name="elapsedPeriod"
+                                             [isAllowSpace]="false"
+                                             [form]="followUpConfigForm"
+                                             [maximumValue]="intMaxValue"
+                                             [cfcFluidValidation]="{errors:(elapsedPeriod.errors?.maxValueError)? maxErrorDto :'', formSubmitted:(this.elapsedPeriodTextBoxconfig.externalError)}"
+                                             #elapsedPeriod="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'process.managefllowup.tab.statusChange' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                              [ngModel]="followUpStepListDetail.changeStatus"
+                                              name="changeStatus"
+                                              [form]="followUpConfigForm"
+                                              (ngModelChange)="onChangeStatus($event)">
+                          </cfc-fluid-checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'process.managefllowup.tab.TargetStatus' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="followUpStepListDetail.stateStep?.targetStateStatusName"
+                                              [form]="followUpConfigForm"
+                                              Type="single"
+                                              name="targetStateStatusName"
+                                              [placeholder]="placeholder"
+                                              [options]="followUpScreenData?.followUpCaseStatusList"
+                                              [ControlConfig]="DropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              [isReadOnly]="!followUpStepListDetail.enableTargetState"
+                                              (OnSelectionChanged)="onChangeTargetStateStatusName($event)"
+                                              [title]="followUpStepListDetail.stateStep?.targetStateStatusName?.caption"
+                                              #languagedropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'process.managefllowup.tab.HandlingDate' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="followUpStepListDetail.handlingDateType"
+                                              Type="single"
+                                              name="handlingDateType"
+                                              [placeholder]="placeholder"
+                                              [options]="followUpScreenData?.eventDateTypeList"
+                                              [ControlConfig]="HandlingDateDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangeHandlingDateType($event)"
+                                              [title]="followUpStepListDetail.handlingDateType?.caption"
+                                              [cfcFluidValidation]="{errors:handlingDatedropdown.errors? HandlingDateDropdownConfig.Errors :'', formSubmitted:(this.HandlingDateDropdownConfig.externalError)}"
+                                              #handlingDatedropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label">{{'process.managefllowup.tab.IntervalType' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="followUpStepListDetail.intervalMeasure"
+                                              [form]="followUpConfigForm"
+                                              Type="single"
+                                              name="intervalMeasure"
+                                              [placeholder]="placeholder"
+                                              [options]="followUpScreenData?.intervalMeasureList"
+                                              [ControlConfig]="DropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangeIntervalMeasure($event)"
+                                              [title]="followUpStepListDetail.intervalMeasure?.caption"
+                                              #languagedropdown="ngModel">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{'process.managefllowup.tabHeading.Actions' | translate}}">
+                  <div class="row">
+                    <div class="col-12 closefo-btn-wrapper text-right">
+                      <cfc-fluid-button Type="button"
+                                        ButtonStyle="closefo-add-btn-small"
+                                        (OnClick)=" addActions() "
+                                        caption="{{'process.managefllowup.tab.AddActions' | translate}}"
+                                        [ControlConfig]="ButtonConfig">
+                      </cfc-fluid-button>
+                    </div>
+
+                    <div class="col-12">
+
+                      <p-table [value]="followUpStepListDetail.actionList" [columns]="actionHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                              <span>{{col.header}}</span>
+                              <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'ActionName'">
+                                <cfc-fluid-dropdown [ngModel]="rowData?.action"
+                                                    Type="single"
+                                                    name="name_{{rowData?.action?.name}}_{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.actionList"
+                                                    [ControlConfig]="ActionNameDropdownConfig"
+                                                    optionLabel="name"
+                                                    dataKey="name"
+                                                    (OnSelectionChanged)="onChangeActionName($event,index)"
+                                                    [cfcFluidValidation]="{errors:actionNamedropdown.errors? ActionNameDropdownConfig.Errors :'', formSubmitted:(this.ActionNameDropdownConfig.externalError)}"
+                                                    #actionNamedropdown="ngModel"
+                                                    [title]="rowData.action?.name">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'ActionType'">
+                                {{rowData.action?.actionType?.caption}}
+                              </span>
+                              <span *ngSwitchCase="'ActionReceiver'">
+                                {{rowData.action?.actionReceiverTypeName?.caption}}
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onActionDelete(rowData,followUpStepListDetail.actionList)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{'process.managefllowup.tabHeading.Communication' | translate}}">
+                  <div class="row">
+                    <div class="col-12 closefo-btn-wrapper text-right">
+                      <cfc-fluid-button Type="button"
+                                        ButtonStyle="closefo-add-btn-small"
+                                        (OnClick)=" addCommunications() "
+                                        caption="{{'process.managefllowup.tab.TempName' | translate}}"
+                                        [ControlConfig]="ButtonConfig">
+                      </cfc-fluid-button>
+                    </div>
+
+                    <div class="col-12">
+
+                      <p-table [value]="followUpStepListDetail.messageList" [columns]="CommunicationHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                              <span>{{col.header}}</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'TemplateName'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.documentTemplate"
+                                                    Type="single"
+                                                    name="documentTemplate{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.documentTemplateList"
+                                                    [ControlConfig]="TemplateNameDropdownConfig"
+                                                    optionLabel="name"
+                                                    dataKey="name"
+                                                    (OnSelectionChanged)="onChangeDocumentTemplate($event,index)"
+                                                    [cfcFluidValidation]="{errors:templateNamedropdown.errors? TemplateNameDropdownConfig.Errors :'', formSubmitted:(this.TemplateNameDropdownConfig.externalError)}"
+                                                    #templateNamedropdown="ngModel"
+                                                    [title]="rowData.communication?.documentTemplate?.name">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'CommunicationMedium'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.communicationMedium"
+                                                    Type="single"
+                                                    name="communicationMedium{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.communicationMediumList"
+                                                    [ControlConfig]="CommunicationMediumDropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeCommunicationMedium($event,index)"
+                                                    [cfcFluidValidation]="{errors:communicationMediumdropdown.errors? CommunicationMediumDropdownConfig.Errors :'', formSubmitted:(this.CommunicationMediumDropdownConfig.externalError)}"
+                                                    #communicationMediumdropdown="ngModel"
+                                                    [title]="rowData.communication?.communicationMedium?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'RoleType'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.roleType"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="roleType{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.roleTypeList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeRoleType($event,index)"
+                                                    #languagedropdown="ngModel"
+                                                    [title]="rowData.communication?.roleType?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'AdminRoleType'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.adminRoleType"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="adminRoleType{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.adminRoleTypeList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeAdminRoleType($event,index)"
+                                                    #languagedropdown="ngModel"
+                                                    [title]="rowData.communication?.adminRoleType?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'CollectionRoleType'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.collectionsRoleType"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="collectionsRoleType{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.collectionsRoleTypeList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeCollectionsRoleType($event,index)"
+                                                    #languagedropdown="ngModel"
+                                                    [title]="rowData.communication?.collectionsRoleType?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'ConstructionDepotRoleType'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.communication?.constructionDepotRoleType"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="constructionDepotRoleType{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.constructionDepotRoleTypeList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeConstructionDepotRoleType($event,index)"
+                                                    #languagedropdown="ngModel"
+                                                    [title]="rowData.communication?.constructionDepotRoleType?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'Registered'">
+                                <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                    [form]="followUpConfigForm"
+                                                    [ngModel]="rowData.communication?.registeredLetter"
+                                                    name="registeredLetter{{index}}"
+                                                    (ngModelChange)="onChangeRegisteredLetter($event,index)">
+                                </cfc-fluid-checkbox>
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onCommunicationDelete(rowData,followUpStepListDetail.messageList)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{'process.managefllowup.tabHeading.Services' | translate}}">
+                  <div class="row">
+                    <div class="col-12 closefo-btn-wrapper text-right">
+                      <cfc-fluid-button Type="button"
+                                        ButtonStyle="closefo-add-btn-small"
+                                        (OnClick)=" addServices() "
+                                        caption="{{'process.managefllowup.tab.servicesName' | translate}}"
+                                        [ControlConfig]="ButtonConfig">
+                      </cfc-fluid-button>
+                    </div>
+
+                    <div class="col-12">
+
+                      <p-table [value]="followUpStepListDetail.serviceActionList" [columns]="ServicesHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                              <span>{{col.header}}</span>
+                              <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'ActionName'">
+                                <cfc-fluid-textbox Type="text"
+                                                   [ControlConfig]="ServiceActionNameDropdownConfig"
+                                                   [ngModel]="rowData.actionName"
+                                                   (ngModelChange)="onChangeServiceActionName($event,index)"
+                                                   name="actionName_{{rowData.actionName}}_{{index}}"
+                                                   [isAllowSpace]="false"
+                                                   #serviceActionName="ngModel"
+                                                   [cfcFluidValidation]="{errors:serviceActionName.errors? ServiceActionNameDropdownConfig.Errors :'', formSubmitted:(this.ServiceActionNameDropdownConfig.externalError)}">
+                                </cfc-fluid-textbox>
+                              </span>
+                              <span *ngSwitchCase="'ServiceName'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.serviceAction"
+                                                    [form]="followUpConfigForm"
+                                                    Type="single"
+                                                    name="serviceAction_{{rowData?.serviceAction?.caption}}_{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.serviceActionList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    (OnSelectionChanged)="onChangeServiceAction($event,index)"
+                                                    #languagedropdown="ngModel"
+                                                    [title]="rowData.serviceAction?.caption">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'IsBlocking'">
+                                <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                    [form]="followUpConfigForm"
+                                                    [ngModel]="rowData.isBlocking"
+                                                    name="isBlocking_{{rowData.actionName}}_{{index}}"
+                                                    (ngModelChange)="onChangeIsBlocking($event,index)">
+                                </cfc-fluid-checkbox>
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onServiceDelete(rowData,followUpStepListDetail.serviceActionList)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="{{'process.managefllowup.tabHeading.Events' | translate}}">
+                  <div class="row">
+                    <div class="col-12 closefo-btn-wrapper text-right">
+                      <cfc-fluid-button Type="button"
+                                        ButtonStyle="closefo-add-btn-small"
+                                        (OnClick)=" addEvents() "
+                                        caption="{{'process.managefllowup.tab.EventsAdd' | translate}}"
+                                        [ControlConfig]="ButtonConfig">
+                      </cfc-fluid-button>
+                    </div>
+
+                    <div class="col-12">
+
+                      <p-table [value]="followUpStepListDetail.followUpStepEventList" [columns]="EventsHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                              <span>{{col.header}}</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr *ngIf="!rowData.isDeleted">
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'FollowUpEvent'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.event"
+                                                    Type="single"
+                                                    name="event{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="followUpScreenData?.followupEventNameList"
+                                                    [ControlConfig]="FollowUpEventDropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="caption"
+                                                    [required]="true"
+                                                    (OnSelectionChanged)="onChangeEvent($event,index)"
+                                                    [cfcFluidValidation]="{errors:eventdropdown.errors? FollowUpEventDropdownConfig.Errors :'', formSubmitted:(this.FollowUpEventDropdownConfig.externalError)}"
+                                                    #eventdropdown="ngModel"
+                                                    [title]="rowData.event?.caption">
+                                </cfc-fluid-dropdown>
+
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onEventDelete(rowData,followUpStepListDetail.followUpStepEventList,index)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </p-tabPanel>
+              </p-tabView>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'process.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'process.dialog.Content' | translate}}
+          </div>          
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'process.dialog.Yes' | translate}}" (click)="onClickYes(followUpList.items)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'process.dialog.No' | translate}}" (click)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'process.dialog.Cancel' | translate}}" (click)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>
+

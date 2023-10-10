@@ -1,0 +1,14 @@
+<div class="side-menu-page-container">
+  <mbpanel-configuration-menu></mbpanel-configuration-menu>
+  <div class="side-menu-content-container">
+    <mbpanel-layout [breadcrumbItems]="breadcrumb" class="bpanel-breadcrumb">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </mbpanel-layout>
+  </div>
+</div>

@@ -1,0 +1,2128 @@
+$baseUrl: "/";
+@import "mixins";
+@import "variables";
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border: .5px solid #597564;
+  box-shadow: 0 0 0 0.1rem rgb(89 117 100 / 15%);
+  border-radius: 5px;
+}
+
+.p-checkbox .p-checkbox-box.p-focus {
+  border: 1px solid #597564;
+  box-shadow: 0 0 0 0.1rem rgb(89 117 100 / 15%);
+  border-radius: 5px;
+}
+
+.closefo-btn-wrapper button:focus {
+  border: 1px solid #000;
+  box-shadow: 0 0 0 0.1rem rgb(89 117 100 / 15%);
+  border-radius: 5px;
+}
+
+.closefo-btn-color-primary {
+  border-color: $portal-primary-color;
+  background: $portal-primary-color;
+}
+
+cfc-fluid-checkbox {
+  .p-hidden-accessible {
+    position: relative;
+  }
+}
+
+.required {
+
+  &:after {
+    content: '*';
+    font-size: 1.5rem;
+    /* position: absolute;*/
+    margin-left: 0.1875rem;
+    color: #dc3545;
+  }
+}
+
+/*.new-product-tab .p-tabview-panels {
+  height: 20rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}*/
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  color: #597564;
+  background: #d5dcd8;
+}
+/*.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 0.2s, 0.2s, 0.2s;
+  transition-timing-function: ease, ease, ease;
+  transition-delay: 0s, 0s, 0s;
+}*/
+
+.whitelabel-config {
+  .close-auth-config {
+    .closefo-card {
+      p-tabview {
+        &.new-product-tab {
+          cfc-fluid-button {
+            margin-right: 0rem !important;
+          }
+
+          ul {
+            padding-bottom: 1rem;
+
+            li.p-highlight {
+              .p-tabview-nav-link {
+                background: #597564;
+                color: #FFF;
+                height: 32px;
+                padding-top: 10px;
+              }
+            }
+
+            li:hover {
+              .p-tabview-nav-link {
+                background: #98AD96;
+                color: #FFF;
+                border: none;
+                height: 32px;
+                padding-top: 8px;
+              }
+            }
+
+            .p-tabview-nav-link {
+              border-radius: 0rem !important;
+              margin-right: 0.2rem;
+            }
+
+            li {
+              list-style: none;
+              margin-left: 0rem;
+
+              a {
+                color: #000;
+                padding: .5rem 1rem;
+                margin-right: 0rem;
+                margin-bottom: .2rem;
+                background: #ffffff;
+                align-items: center;
+              }
+            }
+          }
+        }
+
+        &.manage-mutation-tab {
+          cfc-fluid-button {
+            margin-right: 0rem !important;
+          }
+
+          ul {
+            padding-bottom: 1rem;
+
+            li.p-highlight {
+              .p-tabview-nav-link {
+                background: #597564;
+                color: #FFF;
+                height: 32px;
+                padding-top: 10px;
+              }
+            }
+
+            li:hover {
+              .p-tabview-nav-link {
+                background: #98AD96;
+                color: #FFF;
+                border: none;
+                height: 32px;
+                padding-top: 8px;
+              }
+            }
+
+            .p-tabview-nav-link {
+              border-radius: 0rem !important;
+              margin-right: 0.2rem;
+            }
+
+            li {
+              list-style: none;
+              margin-left: 0rem;
+
+              a {
+                color: #000;
+                padding: .5rem 1rem;
+                margin-right: 0rem;
+                margin-bottom: .2rem;
+                background: #ffffff;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.closefo-overlay-div.spinner-overlay {
+  z-index: 99999;
+
+  .spinner-wrapper {
+    .p-progress-spinner-svg {
+      .p-progress-spinner-circle {
+        stroke: $portal-primary-color;
+      }
+    }
+  }
+}
+
+.closefo-body-wrapper {
+  padding: 2rem 0;
+
+  .no-max-width {
+    top: -2rem;
+  }
+}
+
+small {
+  font-size: 90%;
+}
+
+.p-toast {
+  z-index: 11111 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.closefo-content-wrapper {
+  padding-bottom: 8rem;
+  background: $portal-white;
+}
+
+.closefo-logo-img {
+  background: url("#{$baseUrl}img/logo_project.png") no-repeat center center;
+  background-size: contain;
+}
+
+.closefo-dropdown {
+  .p-dropdown {
+    .p-dropdown-label {
+      border-right: 0;
+      border-color: $portal-border-color;
+      border-bottom-right-radius: unset;
+      border-top-right-radius: unset;
+      background: $portal-white;
+    }
+
+    .p-dropdown-trigger {
+      padding: 0 0.75rem 0 0;
+      background: $portal-white;
+      border-color: $portal-border-color;
+    }
+  }
+
+  .p-multiselect {
+    border-color: $portal-border-color;
+    border-radius: 0.1875rem;
+  }
+}
+
+.closefo-highlight {
+  color: $portal-primary-color;
+}
+
+.closefo-display-content {
+  padding: 0.9375rem 0;
+  border-bottom: 0.0625rem solid $portal-background-color;
+  font-size: 0.9375rem;
+
+  .closefo-edit {
+    font-size: 0.8125rem;
+    cursor: pointer;
+
+    .fa-pen {
+      color: $portal-primary-color;
+      margin-right: 0.25rem;
+    }
+  }
+
+  &:last-child {
+    border: 0;
+  }
+
+  .pi-star {
+    font-size: 1.25rem;
+    color: #cfd3e6;
+  }
+
+  small {
+    color: #949494;
+  }
+}
+/*account logo*/
+.closefo-logo-img-account {
+  background: url("#{$baseUrl}img/logo_project.png") no-repeat center center;
+  background-size: contain;
+}
+/*account layout*/
+.closefo-bg-grey,
+.closefo-grey-bg {
+  background: $portal-background-color;
+}
+
+.closefo-header-underline-1 {
+  color: $portal-primary-color;
+  border-color: $portal-border-color;
+}
+
+.closefo-header-1 {
+  color: $portal-primary-color;
+  font-weight: bold;
+}
+
+.closefo-account-widget-common {
+  background: $portal-background-color;
+
+  .closefo-account-wrapper {
+    border-color: $portal-border-color;
+
+    .closefo-account-header {
+      .logo-text {
+        color: $portal-primary-color;
+      }
+    }
+
+    .closefo-links-wrapper {
+      border-color: $portal-border-color;
+    }
+
+    .closefo-input {
+      .p-inputtext {
+        border-color: $portal-border-color;
+        background-color: $portal-background-color;
+        border-radius: 0;
+
+        &:focus {
+          border-color: $portal-primary-color;
+          box-shadow: none;
+        }
+      }
+    }
+
+    .closefo-link-secondary {
+      .closefo-icon-replay {
+        &:after {
+          color: $portal-primary-color;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+/*form*/
+.closefo-form-common {
+  .closefo-input {
+    .p-inputtext {
+      border-color: $portal-border-color;
+      background-color: $portal-white;
+      border-radius: 0.1875rem;
+
+      &:focus {
+        border-color: $portal-primary-color;
+        box-shadow: none;
+      }
+
+      &:read-only,
+      &:disabled {
+        background: $portal-background-color;
+        pointer-events: none;
+      }
+    }
+
+    .p-inputtext,
+    input#phone {
+      &:focus {
+        border-color: $portal-primary-color;
+        -webkit-box-shadow: 0 0 0 0.1rem transparentize($portal-primary-color, 0.85);
+        box-shadow: 0 0 0 0.1rem transparentize($portal-primary-color, 0.85);
+      }
+    }
+  }
+
+  &.closefo-input-del-icon {
+    position: relative;
+
+    input {
+      padding-right: 2.1875rem;
+    }
+
+    .closefo-del-icon {
+      position: absolute;
+      right: 0.625rem;
+      top: 1rem;
+      transform: unset;
+      color: $portal-content-background;
+      cursor: pointer;
+
+      i {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .closefo-dropdown {
+    .p-dropdown {
+      .p-dropdown-label {
+        border-right: 0;
+        border-color: $portal-border-color;
+        border-bottom-right-radius: unset;
+        border-top-right-radius: unset;
+        background: $portal-white;
+      }
+
+      .p-dropdown-trigger {
+        padding: 0 0.75rem 0 0;
+        background: white;
+        border-color: $portal-border-color;
+      }
+    }
+
+    .p-multiselect {
+      border-color: $portal-border-color;
+      border-radius: 0.1875rem;
+    }
+  }
+
+  .closefo-calendar {
+    .p-calendar {
+      .p-datepicker {
+        .p-datepicker-title {
+          text-align: center;
+        }
+
+        .p-datepicker-month {
+          margin-bottom: 0.125rem;
+        }
+
+        .p-datepicker-calendar .p-highlight {
+          background: $portal-primary-color;
+        }
+      }
+
+      .p-datepicker-trigger {
+        &:after {
+          color: $portal-primary-color;
+        }
+      }
+    }
+  }
+
+  p-selectbutton.ng-invalid {
+    .p-selectbutton {
+      &.p-buttonset .p-button {
+        &:first-of-type {
+          border-right: 0.0625rem solid #e0d4d9;
+          border-top-right-radius: 1.5625rem;
+          border-bottom-right-radius: 1.5625rem;
+          width: 52.5%;
+        }
+
+        &:last-of-type {
+          border-top-left-radius: 1.5625rem;
+          border-bottom-left-radius: 1.5625rem;
+          width: 47.5%;
+        }
+
+        &:hover {
+          background-color: #f3f0f1;
+        }
+      }
+    }
+  }
+
+  .p-selectbutton {
+    border-color: $portal-primary-color;
+
+    &.p-buttonset .p-button {
+      &.p-highlight {
+        &:before {
+          background: $portal-primary-color;
+        }
+      }
+    }
+  }
+
+  .closefo-radio-button-wrapper {
+    .closefo-radio-button {
+      .p-radiobutton-label {
+        color: $portal-text-color;
+        margin-bottom: 0;
+        line-height: 1.5;
+      }
+
+      .p-radiobutton {
+        .p-radiobutton-box {
+          &.p-highlight:hover,
+          &.p-highlight {
+            border-color: darken($portal-secondary-color, 10);
+            color: darken($portal-secondary-color, 10);
+
+            .p-radiobutton-icon {
+              &:before {
+                display: none;
+              }
+
+              background: darken($portal-secondary-color, 10);
+            }
+          }
+        }
+      }
+    }
+
+    .flex-row {
+      .closefo-radio-button label {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .p-slider {
+    &.p-slider-horizontal {
+      .p-slider-handle {
+        border-color: $portal-primary-color;
+      }
+
+      .p-slider-range {
+        background: $portal-primary-color;
+        max-width: 100% !important;
+      }
+    }
+  }
+}
+/* buttons*/
+.closefo-btn-wrapper-common {
+  .closefo-btn-primary,
+  .closefo-btn-next {
+    background: $portal-primary-color;
+  }
+
+  .closefo-btn-primary:hover,
+  .closefo-btn-next:hover {
+    background: $portal-secondary-color;
+  }
+
+  .closefo-btn-search {
+    background: $portal-primary-color;
+    margin: 0.75rem 0;
+    width: 2.875rem;
+    height: 2.875rem;
+    padding: 0;
+
+    &:after {
+      font-size: 1.25rem;
+    }
+  }
+
+  .closefo-btn-secondary {
+    color: $portal-secondary-color;
+    background-color: $portal-white;
+    border-color: transparent;
+    font-weight: 500;
+  }
+
+  .closefo-btn-secondary:hover {
+    color: $portal-white;
+    background-color: $portal-secondary-color;
+    border: 1px solid $portal-secondary-color;
+  }
+
+  .closefo-btn-outlined {
+    background: $portal-white;
+    color: $portal-primary-color;
+    font-size: 0.875rem;
+    line-height: 1;
+
+    &:hover {
+      background: #e9f1ec;
+    }
+
+    &.active {
+      background: #e9f1ec;
+    }
+  }
+
+  .closefo-btn-calculate {
+    width: 100%;
+
+    @include respond-to(lg) {
+      width: auto;
+    }
+
+    background-color: $portal-primary-color;
+
+    &:hover {
+      background-color: darken($portal-primary-color, 15);
+    }
+
+    &:after {
+      color: $portal-primary-color;
+    }
+  }
+
+  .closefo-btn-curved {
+    border-radius: 0.1875rem;
+    background: #f8f8f8;
+    color: $portal-text-color;
+    font-size: 0.875rem;
+    padding: 0.25rem 1rem;
+    border: 0.0625rem solid #cacaca;
+
+    &:hover {
+      background: #e9f1ec;
+    }
+  }
+
+  .closefo-btn-curved-new {
+    background: #f5f5f5;
+    border: 0;
+    padding: 0.4375rem 1rem;
+    border-radius: 0.4375rem;
+    font-weight: 700;
+
+    &.closefo-btn-red {
+      color: #dc3545;
+      background: #ffcdd2;
+      padding: 0.3125rem 0.625rem;
+      cursor: auto;
+    }
+  }
+
+  .closefo-btn-blue {
+    .closefo-btn-curved-new {
+      background: #e1f0ff;
+      color: #369aff;
+    }
+  }
+
+  .closefo-btn-yellow {
+    .closefo-btn-curved-new {
+      background: #fff4de;
+      color: #ffa841;
+    }
+  }
+
+  .closefo-btn-green {
+    .closefo-btn-curved-new {
+      background: #c9f7f5;
+      color: #28c6be;
+    }
+  }
+
+  .closefo-btn-download,
+  .closefo-btn-upload {
+    padding: 0.4375rem 0.625rem;
+    border: 0.0625rem solid $portal-secondary-color;
+    border-radius: 0.3125rem;
+    font-size: 0.75rem;
+
+    &:after {
+      font-family: "primeicons";
+    }
+  }
+
+  .closefo-btn-download {
+    background: none;
+    color: $portal-secondary-color;
+
+    &:after {
+      content: "\e956";
+    }
+
+    &:hover {
+      background: $portal-secondary-color;
+      color: $portal-white;
+      box-shadow: 0 0 0.3125rem $portal-secondary-color;
+    }
+  }
+
+  .closefo-btn-upload {
+    background: $portal-primary-color;
+    color: $portal-white;
+    font-weight: bold;
+
+    &:after {
+      content: "\e90d";
+    }
+
+    &:hover {
+      background: $portal-white;
+      box-shadow: 0 0 0.3125rem $portal-secondary-color;
+      color: $portal-primary-color;
+    }
+  }
+
+  .closefo-btn-back {
+    color: $portal-text-color;
+
+    &:before {
+      color: $portal-secondary-color;
+    }
+  }
+
+  .closefo-add-btn-big {
+    border-color: $portal-border-color;
+    color: $portal-text-color;
+    background: transparent;
+
+    &:before {
+      color: $portal-secondary-color;
+    }
+  }
+
+  .close-save {
+    &:before {
+      @include pi("\e95b", inherit, 1rem);
+    }
+  }
+
+  .close-times {
+    &:before {
+      @include pi("\e90b", inherit, 1rem);
+    }
+  }
+
+  .close-times-circle {
+    &:before {
+      @include pi("\e90c", inherit, 1rem);
+    }
+  }
+
+  .close-update {
+    &:before {
+      @include pi("\e942", inherit, 1rem);
+    }
+  }
+
+  .close-read {
+    &:before {
+      @include pi("\e9ba", inherit, 1rem);
+    }
+  }
+}
+/*portal-banner*/
+.closefo-banner-common {
+  border: 0.125rem solid darken($portal-secondary-color, 8);
+
+  .closefo-banner-sub-header {
+    color: $portal-primary-color;
+  }
+
+  li {
+    &:before {
+      background: darken($portal-secondary-color, 8);
+    }
+  }
+
+  &.closefo-accept-agreement {
+    border: 0;
+
+    ul li {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .closefo-banner-sub-header,
+    .closefo-input {
+      color: $portal-black;
+    }
+
+    .closefo-agree-checkbox {
+      .closefo-checkbox {
+        .closefo-input {
+          .p-checkbox {
+            .p-checkbox-box {
+              border-color: darken($portal-secondary-color, 10);
+
+              &.p-highlight {
+                .p-checkbox-icon {
+                  &:before {
+                    color: darken($portal-secondary-color, 10);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*card*/
+.closefo-card-common {
+  border: 0.125rem solid $portal-border-color;
+  box-shadow: 0 0.0625rem 0.3125rem rgba(0, 0, 0, 0.07);
+  padding: 0;
+
+  .closefo-heading-1 {
+    color: $portal-primary-color;
+    letter-spacing: 0.0625rem;
+  }
+
+  .closefo-data-item {
+    &:last-child {
+      color: $portal-text-color;
+      font-weight: normal;
+      font-size: 0.875rem;
+    }
+  }
+
+  &.closefo-tile-with-chart {
+    padding: 0.9375rem 0.75rem;
+
+    @include respond-to(lg) {
+      padding: 0.9375rem 1.5625rem;
+    }
+
+    .closefo-calculation-block {
+      background: $portal-background-color;
+      border: none;
+    }
+  }
+
+  .closefo-card-header {
+    padding: 0.9375rem;
+    font-weight: bold;
+    border-bottom: 0.0625rem solid #b7b7b7;
+    color: $portal-primary-color;
+  }
+
+  .closefo-btn-wrapper {
+    .closefo-btn-primary {
+      background: $portal-primary-color;
+      font-size: 1rem;
+    }
+
+    .closefo-btn-primary:hover {
+      background: $portal-secondary-color;
+    }
+
+    .closefo-add-btn-small {
+      color: $portal-primary-color;
+      font-size: 1rem;
+
+      &:before {
+        // content: "\f067";
+        padding-right: 0.25rem;
+        color: $portal-primary-color;
+        font-size: 0.9375rem;
+      }
+
+      &.btn-subtract {
+        &:before {
+          content: "\f068";
+        }
+      }
+    }
+    .closefo-delete-btn {
+      color: $portal-primary-color;
+      font-size: 1rem;
+      border-radius: 0;
+        border: 0;
+        background: transparent
+    }
+  }
+
+  &.closefo-card-rounded {
+    border-radius: 1.25rem;
+    padding: 1rem;
+    border: 0.0625rem solid $portal-border-color;
+    box-shadow: 0 0.0625rem 0.3125rem rgba(0, 0, 0, 0.07);
+
+    @include respond-to(md) {
+      padding: 1rem;
+    }
+
+    .closefo-sub-headers-uppercase {
+      text-transform: uppercase;
+      color: $portal-content-background;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .closefo-sub-content-bold {
+      font-size: 0.9375rem;
+    }
+
+    .closefo-display-input {
+      color: $portal-primary-color;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .closefo-card-table-small {
+      border-top: 0.0625rem solid $portal-border-color;
+      margin: 0 -0.75rem;
+
+      @include respond-to(md) {
+        margin: 0 -1.5625rem;
+      }
+
+      .closefo-card-table-cell {
+        border-right: 0.0625rem solid $portal-border-color;
+        text-align: center;
+        margin-bottom: -0.15rem;
+        padding: 0.5rem;
+
+        @include respond-to(md) {
+          margin-bottom: -0.9375rem;
+        }
+
+        &:last-child {
+          border-right: 0;
+        }
+      }
+    }
+  }
+
+  &.closefo-card-sm {
+    padding: 1.25rem;
+  }
+
+  &.closefo-card-highlight {
+    background: transparentize($portal-secondary-color, 0.75);
+  }
+
+  &.closefo-custom-block {
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    border: 0.0625rem solid transparentize($portal-secondary-color, 0.5);
+    background: $portal-background-color;
+    box-shadow: none;
+  }
+
+  &.closefo-card-md {
+    background: white;
+    border: 0;
+    box-shadow: 0.1rem 0.1rem 0.25rem rgba(0, 0, 0, 0.2);
+    padding: 1rem 1.5625rem;
+  }
+
+  ul {
+    li {
+      list-style: disc;
+      margin-left: 1.25rem;
+    }
+  }
+
+  .closefo-data-with-underline {
+    align-items: center;
+    padding: 0;
+    margin: 0 0 0.5rem;
+    border-color: $portal-border-color;
+
+    .closefo-data-item {
+      padding: 0;
+    }
+  }
+
+  &.closefo-banner {
+    ul {
+      margin-bottom: 0;
+
+      li {
+        list-style: none;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.closefo-text-disabled {
+  color: $portal-content-background;
+}
+
+.closefo-text-primary,
+.closefo-primary {
+  color: $portal-primary-color;
+}
+
+.closefo-bg-grey {
+  background: $portal-background-color;
+}
+
+.closefo-bg-white {
+  background: white;
+}
+
+.closefo-sub-text {
+  color: #717171;
+}
+
+.closefo-text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.closefo-accept-agreement-common {
+  background: $portal-white;
+
+  .closefo-heading-1 {
+    text-align: center;
+    text-transform: uppercase;
+
+    @include respond-to(md) {
+      text-align: left;
+    }
+  }
+
+  .closefo-text-primary {
+    color: #bbbbbb;
+  }
+
+  .closefo-agree-checkbox {
+    margin-top: 0.5rem;
+
+    .closefo-checkbox {
+      .closefo-input {
+        p-checkbox {
+          align-items: start;
+        }
+
+        label {
+          line-height: 1.25;
+        }
+
+        .p-checkbox {
+          .p-checkbox-box {
+            border-color: #ccc;
+            width: 1.25rem;
+            height: 1.25rem;
+
+            &.p-highlight {
+              border-color: $portal-primary-color;
+
+              .p-checkbox-icon {
+                top: -0.25rem;
+
+                &:before {
+                  width: 0.625rem;
+                  height: 0.625rem;
+                  background: $portal-primary-color;
+                  content: "";
+                  display: inline-block;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*help-text*/
+.closefo-info-icon-common {
+  .closefo-helptext-wrapper {
+    .closefo-helptext-icon {
+      .fa-question-circle {
+        &:before {
+          content: "\f05a";
+          color: $portal-secondary-color;
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+}
+
+.closefo-helptext-bottom-common {
+  .closefo-helptext-wrapper {
+    .closefo-help-text {
+      bottom: unset;
+      top: 2rem;
+
+      .closefo-help-text-arrow:after {
+        top: -1rem;
+        bottom: unset;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.closefo-helptext-start-common {
+  .closefo-helptext-wrapper {
+    .closefo-help-text {
+      transform: translateX(-25%);
+
+      .closefo-help-text-arrow:after {
+        left: 22%;
+      }
+    }
+  }
+}
+
+.closefo-helptext-wrapper-common {
+  .closefo-help-text {
+    background: $portal-background-color;
+    border-color: $portal-background-color;
+    box-shadow: 0 0.125rem 0.21875rem rgba(0, 0, 0, 0.2);
+    transform: translateX(-50%);
+    right: unset;
+    min-width: 40vw;
+    left: 0;
+    padding: 0.5rem;
+    z-index: 3;
+    word-break: break-word;
+
+    .closefo-help-text-arrow:after {
+      margin-left: 0;
+    }
+
+    .helptext-content {
+      font-size: 0.8125rem;
+    }
+
+    @include respond-to(sm) {
+      min-width: 10rem;
+    }
+
+    @include respond-to(md) {
+      min-width: 20rem;
+      padding: 0.5rem 0.75rem;
+      word-break: unset;
+      left: unset;
+
+      .closefo-help-text-arrow:after {
+        margin-left: -1rem;
+      }
+
+      .helptext-content {
+        font-size: 0.875rem;
+      }
+    }
+
+    .closefo-help-text-arrow {
+      display: block;
+
+      &:after {
+        background: $portal-background-color;
+      }
+
+      .helptext-close-icon .fa-times-circle {
+        color: $portal-content-background;
+      }
+    }
+  }
+
+  &.closefo-helptext-warning {
+    .closefo-help-text {
+      background: #fff4de;
+      border-color: #fff4de;
+      transform: none;
+    }
+
+    .closefo-help-text-arrow {
+      &:after {
+        background: #fff4de;
+      }
+    }
+  }
+}
+
+.closefo-status-indicator-common {
+  &.closefo-status-complete {
+    &:before {
+      background: #2db730;
+    }
+  }
+
+  &.closefo-status-inprogress {
+    &:before {
+      background: #2db730;
+    }
+  }
+}
+
+.closefo-extend-margin-common {
+  .closefo-table-header {
+    color: $portal-content-background;
+  }
+
+  .closefo-table-item-bordered {
+    color: $portal-text-color;
+
+    &:hover {
+      box-shadow: 0 0 0.25rem 0.25rem transparentize($portal-primary-color, 0.7);
+    }
+
+    &.closefo-custom-design {
+      color: $portal-text-color;
+      border: 0.0625rem solid transparent;
+
+      &.row-selected {
+        border-color: $portal-secondary-color;
+      }
+
+      &.row-default {
+        border-color: $portal-black;
+      }
+    }
+
+    .closefo-file-with-icon {
+      background: url("#{$baseUrl}img/pdf-icon.png") no-repeat center center;
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.625rem;
+    }
+  }
+
+  .p-accordion {
+    .p-accordion-content {
+      border-color: $portal-border-color;
+    }
+
+    .p-accordion-header {
+      margin: 0;
+
+      a {
+        .closefo-table-toggle {
+          color: $portal-primary-color;
+          font-size: 1.25rem;
+
+          &:before {
+            content: "\f107";
+          }
+        }
+
+        p-header {
+          width: 100%;
+        }
+      }
+
+      &.p-highlight {
+        a {
+          .closefo-table-toggle {
+            &:before {
+              content: "\f106";
+            }
+          }
+        }
+      }
+    }
+
+    .closefo-display-sequence {
+      margin-bottom: 1rem;
+
+      div:first-child {
+        color: $portal-text-color;
+        font-weight: normal;
+        font-size: 0.875rem;
+      }
+
+      div:last-child {
+        font-weight: bold;
+        color: $portal-primary-color;
+        font-size: 0.875rem;
+        text-align: right;
+
+        @include respond-to(md) {
+          font-size: 0.9375rem;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  .closefo-menu-panel {
+    .p-accordion {
+      .p-accordion-header {
+        a {
+          color: $portal-content-background;
+        }
+      }
+    }
+
+    &.closefo-inner-menu-panel {
+      .p-accordion {
+        .p-accordion-header {
+          a {
+            color: $portal-text-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+.closefo-file-upload-common {
+  border-color: $portal-border-color;
+
+  .upload-header {
+    color: $portal-primary-color;
+  }
+
+  .closefo-upload-body {
+    .p-fileupload {
+      .p-fileupload-buttonbar {
+        font-size: 0.9375rem;
+
+        a {
+          color: $portal-primary-color;
+        }
+      }
+    }
+  }
+}
+
+.closefo-track-trace-basic-common {
+  .closefo-steps {
+    &.p-steps.p-component {
+      ul {
+        .p-menuitem-link {
+          &:hover {
+            color: $portal-primary-color;
+          }
+        }
+
+        .p-steps-current {
+          .p-menuitem-link {
+            color: $portal-primary-color;
+
+            &:before {
+              background: $portal-primary-color;
+            }
+
+            .p-steps-title {
+              &:before {
+                border-color: $portal-primary-color;
+              }
+            }
+          }
+
+          &.p-steps-rejected {
+            .p-menuitem-link {
+              .p-steps-title {
+                &:before {
+                  background: $portal-error;
+                  border-color: $portal-error;
+                }
+              }
+            }
+          }
+        }
+
+        .p-steps-complete,
+        .p-steps-complete.p-steps-current {
+          .p-menuitem-link {
+            &:before {
+              background: $portal-primary-color;
+            }
+          }
+
+          .p-steps-title {
+            &:before {
+              background: $portal-primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.closefo-track-trace-vertical-common {
+  ul {
+    .p-steps-item:first-child .p-menuitem-link:before,
+    .steps-current:first-child .p-menuitem-link:before,
+    .steps-complete:first-child .p-menuitem-link:before,
+    .p-steps-item:last-child .p-menuitem-link:after {
+      background: $portal-background-color;
+    }
+
+    .p-steps-item.steps-current .p-menuitem-link:after {
+      content: "";
+      height: 100%;
+      width: 0.25rem;
+      background: $portal-background-color;
+      position: absolute;
+      left: 1.375rem;
+      top: 1rem;
+      z-index: 1;
+    }
+  }
+}
+
+.closefo-upload-dialog-common {
+  .p-dialog {
+    width: 90vw !important;
+    min-height: auto;
+
+    .p-dialog-content {
+      min-height: auto;
+    }
+
+    .p-dialog-footer {
+      padding: 0;
+    }
+
+    @include respond-to(md) {
+      width: 75vw !important;
+    }
+
+    @include respond-to(xxl) {
+      width: 60vw !important;
+    }
+  }
+}
+
+.closefo-multiple-upload-common {
+  .p-fileupload-content {
+    padding: 2rem;
+  }
+
+  .p-button {
+    background: $portal-primary-color;
+    border-color: $portal-primary-color;
+
+    &:hover {
+      background: darken($portal-primary-color, 10);
+    }
+  }
+
+  .p-accordion {
+    .p-accordion-content {
+      .closefo-upload-body {
+        .p-fileupload {
+          .toolbar-content a {
+            color: $portal-primary-color;
+          }
+
+          .p-fileupload-content {
+            &.p-fileupload-highlight {
+              border-color: $portal-primary-color;
+            }
+          }
+
+          .closefo-uploaded-files {
+            border-color: $portal-primary-color;
+          }
+
+          p-button {
+            width: calc(90vw - 8rem);
+            bottom: -12rem;
+
+            @include respond-to(md) {
+              width: calc(75vw - 8rem);
+              bottom: -3.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .p-fileupload-row > div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .p-fileupload-content {
+    padding: 0.5rem;
+
+    @include respond-to(md) {
+      padding: 2rem;
+    }
+
+    ul {
+      display: none;
+    }
+  }
+
+  .p-fileupload-buttonbar {
+    .pi {
+      margin-right: 0.25rem;
+
+      @include respond-to(md) {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.p-dialog-mask-common {
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000 !important;
+}
+
+.p-dialog-common {
+  border-radius: 0.125rem;
+  box-shadow: 0 0.875rem 0.5rem rgba(0, 0, 0, 0.18);
+  background: white;
+  min-height: 75vh;
+
+  .closefo-multiple-upload .p-button {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    margin-right: 0.25rem;
+  }
+
+  @include respond-to(md) {
+    .closefo-multiple-upload .p-button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .closefo-amount-input {
+    .euro-icon {
+      left: 0;
+      top: 0.5rem;
+    }
+
+    .p-inputtext {
+      padding-left: 0.9375rem;
+    }
+  }
+
+  .p-dialog-header-icon {
+    color: white;
+  }
+
+  .p-dialog-header {
+    box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.2);
+    background: $portal-primary-color;
+    padding: 0.75rem 1.25rem;
+    color: white;
+  }
+
+  .p-dialog-content {
+    padding: 1.25rem;
+    height: 100%;
+    min-height: calc(75vh - 6.25rem);
+    overflow: auto !important;
+    overflow: overlay !important;
+
+    label {
+      color: $portal-primary-color;
+      font-size: 1rem;
+    }
+
+    .closefo-input {
+      margin: 0;
+
+      .p-inputtext {
+        border: 0;
+        border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
+        border-radius: 0;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .closefo-dropdown {
+      .p-dropdown {
+        min-width: 100%;
+
+        .p-dropdown-label-container {
+          .p-dropdown-label {
+            border-bottom: 0.0625rem solid #e5e5e5;
+            padding-left: 0;
+          }
+        }
+
+        .p-dropdown-trigger {
+          border: 0;
+          border-bottom: 0.0625rem solid #e5e5e5;
+
+          &:before {
+            border: 0;
+          }
+
+          &:after {
+            top: 0.6rem;
+            left: unset;
+            right: 0;
+            color: $portal-primary-color;
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+
+    .closefo-btn-wrapper {
+      .closefo-btn-search {
+        margin: 0;
+        width: 2.3125rem;
+        height: 2.3125rem;
+
+        &:after {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .closefo-form.closefo-input-del-icon {
+      .closefo-del-icon {
+        top: 0.5rem;
+        right: 0;
+      }
+    }
+
+    p {
+      font-size: 0.875rem;
+    }
+
+    .closefo-form-sub-label {
+      color: #b0bfc7;
+      font-size: 0.875rem;
+      margin: 0.625rem 0;
+    }
+
+    .closefo-data-selection-item {
+      border-radius: 0.125rem;
+      margin: 0;
+      border: 0.0625rem solid #e6f2f7;
+      box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+      background: white;
+
+      &.item-selected {
+        background: #eaf3f8;
+      }
+    }
+
+    .closefo-radio-button-wrapper {
+      .closefo-radio-button {
+        display: block;
+
+        label {
+          margin-bottom: 0;
+          margin-left: 0.5rem;
+        }
+
+        .p-radiobutton {
+          .p-radiobutton-box {
+            border-color: $portal-primary-color;
+
+            &.p-highlight,
+            &.p-highlight:hover {
+              border-color: $portal-primary-color;
+
+              .p-radiobutton-icon {
+                color: $portal-primary-color;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .closefo-calendar {
+      .p-calendar {
+        .p-datepicker {
+          top: 2.5rem !important;
+          right: 0;
+          left: unset !important;
+
+          .p-datepicker-calendar .p-highlight {
+            background: $portal-primary-color;
+          }
+        }
+
+        .p-datepicker-trigger {
+          right: 0;
+          top: 0.5rem;
+
+          &:after {
+            color: $portal-primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .p-dialog-footer {
+    margin-top: auto;
+    padding: 1.5em;
+    text-align: right;
+
+    button {
+      margin: 0;
+    }
+
+    .closefo-btn-wrapper {
+      .closefo-btn-primary,
+      .closefo-btn-secondary {
+        font-size: 1rem;
+      }
+
+      .closefo-btn-secondary {
+        border-radius: 0;
+        border: 0;
+        border-bottom: 0.125rem solid transparentize($portal-primary-color, 0.5);
+
+        &:hover {
+          border-color: $portal-primary-color;
+        }
+      }
+    }
+  }
+}
+
+.p-autocomplete-common {
+  width: 100%;
+
+  .p-autocomplete-input {
+    &:focus {
+      border-color: $portal-secondary-color;
+      -webkit-box-shadow: 0 0 0 0.1rem transparentize($portal-secondary-color, 0.75);
+      box-shadow: 0 0 0 0.1rem transparentize($portal-secondary-color, 0.75);
+    }
+  }
+}
+
+.closefo-steps-wrapper-common {
+  .closefo-step-widget-basic {
+    .closefo-steps {
+      &.p-steps.p-component {
+        ul {
+          .p-steps-item .p-menuitem-link {
+            &:hover {
+              color: $portal-primary-color;
+            }
+          }
+
+          .p-steps-item.p-steps-current .p-menuitem-link {
+            color: $portal-primary-color;
+          }
+
+          .p-steps-item.p-state-complete .p-menuitem-link {
+            color: $portal-text-color;
+          }
+
+          .p-steps-item:first-child {
+            .p-menuitem-link:before {
+              background: white;
+              height: 0.3rem;
+              bottom: 3.4rem;
+            }
+          }
+
+          .p-steps-item:last-child {
+            .p-menuitem-link:after {
+              height: 0.3rem;
+              bottom: 3.4rem;
+            }
+          }
+
+          .p-steps-current {
+            .p-steps-number {
+              border-color: $portal-primary-color;
+              box-shadow: 0 0 0.125rem 0.125rem transparentize($portal-primary-color, 0.85);
+            }
+
+            .p-menuitem-link:before {
+              background: $portal-primary-color;
+            }
+          }
+
+          .p-state-complete {
+            .p-steps-number {
+              background: $portal-primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .closefo-step-widget-custom-2 {
+    .closefo-steps {
+      &.p-steps.p-component {
+        background: $portal-background-color;
+
+        ul {
+          .p-steps-item {
+            background: $portal-background-color;
+          }
+
+          .p-steps-item .p-menuitem-link {
+            &:hover {
+              color: $portal-primary-color;
+            }
+          }
+
+          .p-steps-item.p-steps-current .p-menuitem-link {
+            color: $portal-primary-color;
+          }
+
+          .p-steps-item.p-state-complete .p-menuitem-link {
+            color: $portal-text-color;
+          }
+
+          .p-steps-current {
+            .p-steps-number {
+              border-color: $portal-primary-color;
+              box-shadow: 0 0 0.125rem 0.125rem transparentize($portal-primary-color, 0.85);
+            }
+
+            .p-menuitem-link:before {
+              background: $portal-primary-color;
+            }
+          }
+
+          .p-state-complete {
+            .p-steps-number {
+              background: $portal-primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .closefo-step-widget-custom {
+    .closefo-steps {
+      &.p-steps.p-component {
+        ul {
+          &:before {
+            background-color: $portal-border-color;
+          }
+
+          .p-steps-item {
+            &:last-child {
+              &.p-state-complete {
+                &:after {
+                  background-color: $portal-primary-color;
+                }
+              }
+            }
+
+            &.p-steps-current {
+              .p-menuitem-link {
+                color: $portal-primary-color;
+                font-size: $font-size-xl;
+
+                &:after {
+                  background-color: $portal-primary-color;
+                }
+              }
+            }
+
+            .p-menuitem-link {
+              &:hover {
+                color: $portal-primary-color;
+              }
+
+              &:before {
+                background-color: unset;
+              }
+
+              &:after {
+                background-color: $portal-border-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*widgets*/
+/*account widgets*/
+.closefo-activate-account-widget,
+.closefo-change-password-widget,
+.closefo-login-widget,
+.closefo-register-widget,
+.closefo-sms-widget,
+.closefo-theme-widget,
+.closefo-forgot-password-widget {
+  .closefo-account-widget {
+    @extend .closefo-account-widget-common;
+  }
+
+  .closefo-logo-img {
+    @extend .closefo-logo-img-account;
+  }
+
+  .closefo-form {
+    @extend .closefo-form-common;
+  }
+
+  .closefo-btn-wrapper {
+    @extend .closefo-btn-wrapper-common;
+  }
+
+  portal-widget-theme {
+    background: $portal-background-color;
+    display: block;
+  }
+
+  .closefo-anchor-link {
+    border-color: $portal-border-color;
+    color: $portal-primary-color;
+
+    &:hover {
+      border-color: $portal-primary-color;
+    }
+
+    &:after,
+    &:before {
+      background-image: url("#{$baseUrl}img/whitelabel-arrow-back.png");
+    }
+  }
+}
+/*header*/
+.closefo-header {
+  .navbar {
+    box-shadow: none;
+    border: 0.0625rem solid $portal-border-color;
+
+    @include respond-to(lg) {
+      box-shadow: 0rem 0.0575rem 0.1875rem rgba(0, 0, 0, 0.05);
+    }
+
+    .p-dropdown {
+      width: 100%;
+
+      @include respond-to(lg) {
+        width: 75%;
+      }
+
+      text-align: left;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+
+      .default-header {
+        font-size: 1.5rem;
+        letter-spacing: 0.0625rem;
+        color: $portal-primary-color;
+        margin: 0;
+      }
+
+      .default-sub-header {
+        font-size: 0.8125rem;
+        letter-spacing: 0.0625rem;
+        color: $portal-secondary-color;
+        position: relative;
+        top: -0.3125rem;
+      }
+
+      .closefo-logo-img {
+        background: url("#{$baseUrl}img/logo_ohpen.png") no-repeat center center;
+        width: 4rem;
+        height: 4rem;
+        background-size: contain;
+      }
+    }
+
+    &.navbar-with-theme {
+      .closefo-theme-dropdown {
+        position: unset;
+
+        .max-width-30 {
+          max-width: 30%;
+          flex: 0 0 30%;
+        }
+      }
+    }
+  }
+}
+/*Navigation-Menu*/
+.closefo-navigation-menu.navbar {
+  background: $portal-white;
+  box-shadow: none;
+  border: 0;
+
+  @include respond-to(lg) {
+    box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.15);
+  }
+
+  .navbar-nav {
+    .active {
+      .nav-link,
+      .nav-link:hover {
+        color: $portal-white;
+        background: $portal-primary-color;
+        font-weight: bold;
+      }
+    }
+
+    .nav-link {
+      color: $portal-text-color;
+      border-radius: 0.3125rem;
+      font-size: 1rem;
+
+      &:hover {
+        color: $portal-primary-color;
+      }
+    }
+  }
+
+  .closefo-profile-link {
+    color: $portal-text-color;
+    border-color: $portal-primary-color;
+    margin: 0.75rem 1rem;
+
+    @include respond-to(lg) {
+      margin: 0;
+      margin-right: 1rem;
+    }
+
+    &:after {
+      @include pi("\e906", 1rem, $portal-primary-color);
+      position: absolute;
+      right: unset;
+      margin-left: 0.5rem;
+
+      @include respond-to(lg) {
+        right: -0.05rem;
+        margin-left: 0;
+      }
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .dropdown-menu {
+    box-shadow: 0 0.1875rem 0.3125rem rgba(0, 0, 0, 0.1);
+    border: 0.0625rem solid $portal-border-color;
+    margin-top: 0.625rem;
+    min-width: 15rem;
+
+    .dropdown-username {
+      padding: 1.25rem 0.625rem;
+      text-align: center;
+
+      .fa-user-circle {
+        color: $portal-secondary-color;
+        font-size: 1.875rem;
+        margin-bottom: 0.3125rem;
+      }
+    }
+
+    .p-selectbutton {
+      font-size: 1.125rem;
+      margin-top: 0.9375rem;
+
+      .p-highlight {
+        font-weight: bold;
+      }
+
+      .p-button + .p-button {
+        border-left: 0.0625rem solid;
+      }
+
+      .p-button-label {
+        padding: 0 0.5em;
+      }
+    }
+
+    .dropdown-item {
+      i {
+        color: $portal-secondary-color;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .dropdown-item.active,
+  .dropdown-item:active,
+  .dropdown-item:hover {
+    background-color: #d1d8d4;
+  }
+
+  &.PositionFixed.navbar {
+    .closefo-logo-img {
+      left: 0;
+      width: 4rem;
+      height: 4rem;
+      background: url("#{$baseUrl}img/logo_ohpen.png") no-repeat center center;
+      -webkit-animation: whiteLabelImageSlide 1s;
+      animation: whiteLabelImageSlide 1s;
+    }
+  }
+
+  .closefo-navigation-absolute-content {
+    .closefo-btn-secondary {
+      border-color: $portal-primary-color;
+      color: $portal-primary-color;
+
+      &:hover {
+        background: $portal-primary-color;
+        color: $portal-white;
+      }
+    }
+  }
+}
+/*breadcrumb*/
+.closefo-breadcrumb {
+  background: $portal-background-color;
+
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        color: $portal-text-color;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .closefo-page-header {
+    color: $portal-primary-color;
+    font-family: $portal-heading-font;
+    letter-spacing: 0.0625rem;
+  }
+}
+/*welcome-widget*/
+.closefo-welcome-widget {
+  .closefo-landing-header {
+    font-family: $portal-heading-font;
+
+    h2 {
+      color: $portal-text-color;
+    }
+
+    background: $portal-background-color;
+  }
+}
+
+.closefo-file-upload {
+  .p-dialog {
+    @extend .p-dialog-common;
+  }
+
+  @extend .closefo-file-upload-common;
+}
+
+.p-dialog-mask.p-component-overlay {
+  @extend .p-dialog-mask-common;
+}
+
+@keyframes whiteLabelImageSlide {
+  0% {
+    left: -6rem;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+.mr-1 {
+  margin-right: 1rem !important;
+}

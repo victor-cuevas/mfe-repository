@@ -1,0 +1,29 @@
+<div class="d-flex align-items-center toggle-hover" (click)="profile.toggle($event)">
+  <div class="user-info-cred">
+    <div class="text-right user-info-name">
+      {{ (user | async)?.title | titlecase }} {{ (user | async)?.firstName | titlecase }} {{ (user | async)?.lastName | titlecase }}
+    </div>
+    <div class="text-right user-info-email">{{ (user | async)?.role | userRole }}</div>
+  </div>
+  <div class="user-info">
+    <!--    TODO: fix class when role is correct-->
+    <p-avatar
+      [label]="user | async | initials"
+      [styleClass]="'ms-2 avatar-lg ' + (user | async)?.role"
+      shape="circle"
+      size="large"
+    ></p-avatar>
+    <i class="pi pi-chevron-down user-info__chevron"></i>
+  </div>
+</div>
+<p-overlayPanel #profile [dismissable]="true">
+  <ng-template pTemplate>
+    <div class="notification-content">
+      <div class="user-info-wrapper">
+        <div class="">
+          <p-menu #menu [model]="items"></p-menu>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

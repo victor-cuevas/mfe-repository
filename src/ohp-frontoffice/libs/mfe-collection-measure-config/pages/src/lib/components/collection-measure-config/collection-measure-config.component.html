@@ -1,0 +1,416 @@
+<div class="whitelabel-config-styles">
+  <div class="close-collection-measure-config container">
+    <form #collectionMeasureform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': collectionMeasureform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'collectionMeasure.heading.collectionMeasure' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'collectionMeasure.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(collectionMeasureConfigList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'collectionMeasure.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col-lg-9 closefo-heading-3 closefo-text-primary">
+            {{ 'collectionMeasure.heading.collectionMeasureType' | translate }}
+          </div>
+          <div class="col-3 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{ 'collectionMeasure.tabel.add' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onAdd()"
+            ></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <cfc-fluid-grid
+              Type="bo-table"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              dataSelectionMode="single"
+              [gridDataHeader]="collectionMeasureHeader"
+              [gridData]="collectionMeasureConfigList"
+              [dataSelection]="dataSelected"
+              dataKey="collectionMeasureList"
+              (rowClickedEvent)="onRowselect($event)"
+              (deleteRowEvent)="onRowDelete($event)"
+              [selectedDetail]="highlightCollectionMeaasure"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="hideCard">
+        <div class="closefo-form-group">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{ 'collectionMeasure.card.collectionMeasureType' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    #type="ngModel"
+                    [ngModel]="collectionMeasureConfigData.type"
+                    [form]="collectionMeasureform"
+                    Type="single"
+                    name="type"
+                    [placeholder]="placeholder"
+                    [options]="collectionMeasureTypeList"
+                    [ControlConfig]="RequiredDropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onTypeChange($event)"
+                    [showClearIcon]="collectionMeasureConfigData.type ? true : false"
+                    [title]="collectionMeasureConfigData.type?.caption === null ? '' : collectionMeasureConfigData.type?.caption"
+                    [cfcFluidValidation]="{
+                      errors: type.errors ? RequiredDropdownConfig.Errors : '',
+                      formSubmitted: collectionMeasureform.submitted || RequiredDropdownConfig.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.startEvent' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="collectionMeasureConfigData.startEvent"
+                    [form]="collectionMeasureform"
+                    Type="single"
+                    name="startEvent"
+                    [placeholder]="placeholder"
+                    [options]="followUpEventList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onstartEventChange($event)"
+                    [showClearIcon]="collectionMeasureConfigData.startEvent ? true : false"
+                    [title]="
+                      collectionMeasureConfigData.startEvent?.caption === null ? '' : collectionMeasureConfigData.startEvent?.caption
+                    "
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.stopEvent' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="collectionMeasureConfigData.stopEvent"
+                    [form]="collectionMeasureform"
+                    Type="single"
+                    name="stopEvent"
+                    [placeholder]="placeholder"
+                    [options]="followUpEventList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    [title]="collectionMeasureConfigData.stopEvent?.caption === null ? '' : collectionMeasureConfigData.stopEvent?.caption"
+                    (OnSelectionChanged)="onstopEventChange($event)"
+                    [showClearIcon]="collectionMeasureConfigData.stopEvent ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.creationEvent' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                    [ngModel]="collectionMeasureConfigData?.creationEvent"
+                    [form]="collectionMeasureform"
+                    Type="single"
+                    name="createEvent"
+                    [placeholder]="placeholder"
+                    [options]="followUpEventList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    [title]="
+                      collectionMeasureConfigData.creationEvent?.caption === null ? '' : collectionMeasureConfigData.creationEvent?.caption
+                    "
+                    (OnSelectionChanged)="onCreateEventChange($event)"
+                    [showClearIcon]="collectionMeasureConfigData.creationEvent ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.closeMeasureIntervalType' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown
+                  [ngModel]="collectionMeasureConfigData.closeMeasureIntervalType"
+                  [form]="collectionMeasureform"
+                  Type="single"
+                  name="closeMeasureIntervalType"
+                  [placeholder]="placeholder"
+                  [options]="intervalTypeMeasureTypeList"
+                  [ControlConfig]="DropdownConfig"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="onintervalTypeMeasureTypeChange($event)"
+                  [showClearIcon]="collectionMeasureConfigData.closeMeasureIntervalType ? true : false"
+                  [title]="
+                    collectionMeasureConfigData.closeMeasureIntervalType?.caption === null ? '' : collectionMeasureConfigData.closeMeasureIntervalType?.caption
+                  "
+                >
+                </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.elapsedPeriodToCloseMeasure' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox
+                  #elapsedPeriodToCloseMeasure="ngModel"
+                  Type="numbers"
+                  [ControlConfig]="RequiredElapsedPeriod"
+                  [ngModel]="collectionMeasureConfigData?.elapsedPeriodToCloseMeasure"
+                  (OnchangedNumber)="onelapsedPeriodChange($event)"
+                  name="elapsedPeriodToCloseMeasure"
+                  [isAllowSpace]="false"
+                  [form]="collectionMeasureform"
+                  [maxlength]="10"
+                  [maximumValue]="intMaxValue"
+                  [cfcFluidValidation]="{
+                    errors: elapsedPeriodToCloseMeasure.errors?.maxValueError ? elapsedPeriodDto : '',
+                    formSubmitted: collectionMeasureform.submitted || RequiredElapsedPeriod.externalError
+                  }"
+                >
+              </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.isRole' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox
+                    [ControlConfig]="CheckboxConfig"
+                    [form]="collectionMeasureform"
+                    [ngModel]="collectionMeasureConfigData.isRoleLinkingApplicable"
+                    name="isRole"
+                    (ngModelChange)="onRoleChange($event)"
+                  >
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="showCheckBox">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.showSimulation' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox
+                    [ControlConfig]="CheckboxConfig"
+                    [form]="collectionMeasureform"
+                    [ngModel]="collectionMeasureConfigData.showSimulation"
+                    name="simulation"
+                    (ngModelChange)="onSimulationChange($event)"
+                  >
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">
+                    {{ 'collectionMeasure.card.isParty' | translate }}
+                  </label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox
+                    [ControlConfig]="CheckboxConfig"
+                    [form]="collectionMeasureform"
+                    [ngModel]="collectionMeasureConfigData.isPartyMeasure"
+                    name="isPartyMeasure"
+                    (ngModelChange)="onisPartyMeasureChange($event)"
+                  >
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-panel-spacing">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="closefo-form-label">
+                      {{ 'collectionMeasure.card.dossierStatus' | translate }}
+                    </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="closefo-form-label collectionMeasurePickList required">
+                      {{ 'collectionMeasure.card.selectedDossier' | translate }}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+                        <div class="col-12">
+                          <cfc-fluid-picklist
+                            [source]="sourceCaption"
+                            [target]="targetCaption"
+                            filterBy="caption"
+                            sourceValue="caption"
+                            (click)="changeTarget(targetCaption)"
+                            (dblclick)="changeTarget(targetCaption)"
+                            [ControlConfig]="PickListConfig"
+                          >
+                          </cfc-fluid-picklist>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'collectionMeasure.dialog.Header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'collectionMeasure.dialog.Content' | translate }}</div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'collectionMeasure.dialog.Yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(collectionMeasureConfigList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'collectionMeasure.dialog.No' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'collectionMeasure.dialog.Cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate> Technical Exception </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'collectionMeasure.dialog.Continue' | translate }}"
+            (click)="onException()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+  </div>
+</div>

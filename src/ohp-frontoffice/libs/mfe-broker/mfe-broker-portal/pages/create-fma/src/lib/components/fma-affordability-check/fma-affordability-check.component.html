@@ -1,0 +1,15 @@
+<div class="container pb-4">
+  <h2 class="mb-0">
+    {{ 'createFma.titles.affordabilityCheck' | translate }}
+  </h2>
+</div>
+<div class="container">
+  <mbp-affordability-check
+    [affordabilityData]="currentData"
+    [isAffordable]="isAffordable"
+    #affordabilityCheckChild
+  ></mbp-affordability-check>
+  <div class="row mt-4">
+    <p>{{ 'createFma.labels.affordabilityNotPossibleToComplete' | translate }}</p>
+  </div>
+</div>

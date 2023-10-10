@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-panel/pages/submission-route",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-panel/pages/submission-route/src",
+  "prefix": "mbpanel",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-panel/pages/submission-route"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-panel/pages/submission-route/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-panel/pages/submission-route/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-panel/pages/submission-route/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["scope:broker-panel", "type:feature"]
+}

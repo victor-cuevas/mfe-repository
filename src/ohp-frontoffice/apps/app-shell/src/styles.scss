@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@aws-amplify/ui-angular/theme.css';
+@import './libs/mfe-broker/shared/styles/src/variables/variables';
+
+* {
+  --amplify-components-button-primary-background-color: #{$primary};
+  --amplify-components-button-link-color: #{$primary};
+
+  --amplify-components-button-primary-hover-background-color: #{$primary-4};
+  --amplify-components-button-link-hover-background-color: #{$white};
+  --amplify-components-button-hover-background-color: #{$auxiliary-b-1};
+  --amplify-components-button-hover-border-color: #{$primary};
+  --amplify-components-button-hover-color: #{$primary};
+
+  --amplify-components-button-primary-focus-background-color: #{$primary-4};
+  --amplify-components-button-link-focus-background-color: #{$white};
+  --amplify-components-button-focus-background-color: #{$auxiliary-b-1};
+  --amplify-components-button-focus-border-color: #{$primary};
+  --amplify-components-button-focus-color: #{$primary};
+
+  --amplify-components-button-primary-active-background-color: #{$primary-4};
+  --amplify-components-button-link-active-background-color: #{$white};
+  --amplify-components-button-active-background-color: #{$auxiliary-b-1};
+  --amplify-components-button-active-border-color: #{$primary};
+  --amplify-components-button-active-color: #{$primary};
+}
+
+body {
+  margin: 0;
+}
+
+.amplify-field-group .amplify-input {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.amplify-field-group__outer-end .amplify-button:not(:focus):not(:hover):not(:active) {
+  border-left: none;
+}

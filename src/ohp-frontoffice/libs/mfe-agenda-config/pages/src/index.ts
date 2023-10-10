@@ -1,0 +1,1 @@
+export * from './lib/mfe-agenda-config-pages.module';

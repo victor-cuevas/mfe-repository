@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/core",
+  "sourceRoot": "libs/mfe-broker/core/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/core"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-broker/core/src/**/*.ts", "libs/shared/broker-utils/src/**/*.html"]
+      }
+    }
+  }
+}

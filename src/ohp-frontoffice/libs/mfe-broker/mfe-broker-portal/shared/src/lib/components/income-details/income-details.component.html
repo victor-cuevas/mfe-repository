@@ -1,0 +1,901 @@
+<ng-container [formGroup]="form" [ngSwitch]="true">
+  <ng-container *ngIf="otherEmployment === 0 || form.getRawValue().incomeType === incomeType.EMPLOYMENT">
+    <ng-container
+      *ngSwitchCase="
+        form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+        form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25
+      "
+    >
+      <p-accordion styleClass="bordered-selection-accordion px-4">
+        <p-accordionTab [selected]="true" header="{{ 'general.buttons.incomeDetailsGross' | translate }}">
+          <div class="row">
+            <div class="col">
+              <label id="idContractType"> {{ 'createDip.labels.incomeDescription' | translate }} * </label>
+              <p-dropdown
+                id="incomeDescription"
+                [options]="incomeDescriptionOptions"
+                formControlName="isIncomeRecurrentSalaryOrDailyRate"
+                ngDefaultControl
+                class="journey-dropdown"
+                [placeholder]="'createDip.placeholders.selectIncomeDescription' | translate"
+                aria-labelledby="idContractType"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+              <cfo-validation-errors
+                [control]="form.get('isIncomeRecurrentSalaryOrDailyRate')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+          <ng-container *ngIf="form.getRawValue().isIncomeRecurrentSalaryOrDailyRate === incomeDescription.SALARY">
+            <div class="row mt-4">
+              <div class="col-md-4 col">
+                <label id="idBasicSalary"> {{ 'createDip.labels.basicSalary' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="basicSalary"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idBasicSalary"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('basicSalary')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-4 col" *ngIf="form.getRawValue().basicSalary">
+                <label id="idSalaryFrequency"> {{ ('createDip.labels.frequency' | translate) + ' *' }} </label>
+                <p-dropdown
+                  [options]="frequencyOptions"
+                  formControlName="salaryFrequency"
+                  ngDefaultControl
+                  class="journey-dropdown"
+                  [placeholder]="'createDip.placeholders.selectSalaryFrequency' | translate"
+                  aria-labelledby="idSalaryFrequency"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+                <cfo-validation-errors
+                  [control]="form.get('salaryFrequency')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="form.getRawValue().isIncomeRecurrentSalaryOrDailyRate === incomeDescription.DAILY_RATE">
+            <div class="row mt-4">
+              <div class="col-md-4 col">
+                <label id="idDailyRate"> {{ 'createDip.labels.dailyRate' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="dailyRate"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idDailyRate"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('dailyRate')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-4 col" *ngIf="form.getRawValue().dailyRate">
+                <label id="idDailyRateNumberOfDays"> {{ ('createDip.labels.daysPerWeek' | translate) + ' *' }} </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="dailyRateNumberOfDays"
+                  [config]="{ mode: MODE.DECIMAL, min: 0, max: 7 }"
+                  aria-labelledby="idDailyRateNumberOfDays"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('dailyRateNumberOfDays')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              form.getRawValue().currentEmploymentStatus === employmentStatus.Employed &&
+              form.getRawValue().contractType === contractType.ZERO_HOUR_CONTRACT
+            "
+          >
+            <div class="row mt-4">
+              <div class="col-md-4 col">
+                <label id="idHourlyRate"> {{ 'createDip.labels.hourlyRate' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="hourlyRate"
+                  [config]="{ mode: MODE.DECIMAL, min: 0, maxFractionDigits: 2, minFractionDigits: 2 }"
+                  aria-labelledby="idHourlyRate"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('hourlyRate')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-4 col">
+                <label id="idHoursPerWeek"> {{ 'createDip.labels.hoursPerWeek' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="hoursPerWeek"
+                  [config]="{ mode: MODE.DECIMAL, min: 0 }"
+                  aria-labelledby="idHoursPerWeek"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('hoursPerWeek')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-4 col">
+                <label id="idLast3MonthsIncome">
+                  {{ ('createDip.labels.last3MonthsIncome' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="last3MonthsIncome"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idLast3MonthsIncome"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('last3MonthsIncome')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-4 col">
+                <label id="idLast6MonthsIncome">
+                  {{ ('createDip.labels.last6MonthsIncome' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="last6MonthsIncome"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idLast6MonthsIncome"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('last6MonthsIncome')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-4 col">
+                <label id="idLast12MonthsIncome">
+                  {{ ('createDip.labels.last12MonthsIncome' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="last12MonthsIncome"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idLast12MonthsIncome"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('last12MonthsIncome')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </ng-container>
+          <div class="row mt-4">
+            <div class="col-md-6 col mb-4">
+              <div class="summarycontainer p-4">
+                <label class="largelabel">
+                  {{ 'createDip.labels.guaranteedIncome' | translate }}
+                </label>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idGIOvertimeAmount" class="text-contain">
+                      {{ 'createDip.labels.overtimeAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="gIOvertimeAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idGIOvertimeAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().gIOvertimeAmount">
+                    <label id="idGIOvertimeFrequency" class="text-contain">
+                      {{ ('createDip.labels.overtimeFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="gIOvertimeFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idGIOvertimeFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('gIOvertimeFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idGIBonusAmount" class="text-contain">
+                      {{ 'createDip.labels.bonusAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="gIBonusAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idGIBonusAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().gIBonusAmount">
+                    <label id="idGIBonusFrequency" class="text-contain">
+                      {{ ('createDip.labels.bonusFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="gIBonusFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idGIBonusFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('gIBonusFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idGICommissionAmount" class="text-contain">
+                      {{ 'createDip.labels.commissionAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="gICommissionAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idGICommissionAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().gICommissionAmount">
+                    <label id="idGICommissionFrequency" class="text-contain">
+                      {{ ('createDip.labels.commissionFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="gICommissionFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idGICommissionFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('gICommissionFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col">
+              <div class="summarycontainer p-4">
+                <label class="largelabel">
+                  {{ 'createDip.labels.nonGuaranteedIncome' | translate }}
+                </label>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idNogIOvertimeAmount" class="text-contain">
+                      {{ 'createDip.labels.overtimeAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="nogIOvertimeAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idNogIOvertimeAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().nogIOvertimeAmount">
+                    <label id="idNogIOvertimeFrequency" class="text-contain">
+                      {{ ('createDip.labels.overtimeFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="nogIOvertimeFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idNogIOvertimeFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('nogIOvertimeFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idNogIBonusAmount" class="text-contain">
+                      {{ 'createDip.labels.bonusAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="nogIBonusAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idNogIBonusAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().nogIBonusAmount">
+                    <label id="idNogIBonusFrequency" class="text-contain">
+                      {{ ('createDip.labels.bonusFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="nogIBonusFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idNogIBonusFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('nogIBonusFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idNogICommissionAmount" class="text-contain">
+                      {{ 'createDip.labels.commissionAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="nogICommissionAmount"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idNogICommissionAmount"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().nogICommissionAmount">
+                    <label id="idNogICommissionFrequency" class="text-contain">
+                      {{ ('createDip.labels.commissionFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="nogICommissionFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idNogICommissionFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('nogICommissionFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-6 col">
+              <div class="summarycontainer p-4">
+                <label class="largelabel">
+                  {{ 'createDip.labels.guaranteedAllowances' | translate }}
+                </label>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idLocationAllowance" class="text-contain">
+                      {{ 'createDip.labels.locationAllowanceAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="locationAllowance"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idLocationAllowance"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().locationAllowance">
+                    <label id="idLocationAllowanceFrequency" class="text-contain">
+                      {{ ('createDip.labels.locationAllowanceFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="locationAllowanceFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idLocationAllowanceFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('locationAllowanceFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idTravelAllowance" class="text-contain">
+                      {{ 'createDip.labels.travelCarAllowanceAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="travelAllowance"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idTravelAllowance"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().travelAllowance">
+                    <label id="idTravelAllowanceFrequency" class="text-contain">
+                      {{ ('createDip.labels.travelCarAllowanceFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="travelAllowanceFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idTravelAllowanceFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('travelAllowanceFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idShiftAllowance" class="text-contain">
+                      {{ 'createDip.labels.shiftAllowanceAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="shiftAllowance"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idShiftAllowance"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().shiftAllowance">
+                    <label id="idShiftAllowanceFrequency" class="text-contain">
+                      {{ ('createDip.labels.shiftAllowanceFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="shiftAllowanceFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idShiftAllowanceFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('shiftAllowanceFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 mt-3">
+                    <label id="idOtherAllowance" class="text-contain">
+                      {{ 'createDip.labels.otherAllowanceAmount' | translate }}
+                    </label>
+                    <cfo-input-number
+                      [form]="form"
+                      controlName="otherAllowance"
+                      [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                      aria-labelledby="idOtherAllowance"
+                    ></cfo-input-number>
+                  </div>
+                  <div class="col-6 mt-3" *ngIf="form.getRawValue().otherAllowance">
+                    <label id="idOtherAllowanceFrequency" class="text-contain">
+                      {{ ('createDip.labels.otherAllowanceFrequency' | translate) + ' *' }}
+                    </label>
+                    <p-dropdown
+                      [options]="frequencyOptions"
+                      formControlName="otherAllowanceFrequency"
+                      ngDefaultControl
+                      class="journey-dropdown"
+                      aria-labelledby="idOtherAllowanceFrequency"
+                      [placeholder]="'createDip.placeholders.selectFrequency' | translate"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                    <cfo-validation-errors
+                      [control]="form.get('otherAllowanceFrequency')"
+                      [errorMessages]="{
+                        required: ('general.validations.requiredMsg' | translate)
+                      }"
+                    ></cfo-validation-errors>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="
+        form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership ||
+        form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed ||
+        form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus
+      "
+    >
+      <p-accordion styleClass="bordered-selection-accordion px-4">
+        <p-accordionTab [selected]="true" header="{{ 'general.buttons.incomeDetailsGross' | translate }}">
+          <div class="row summarycontainer p-4">
+            <label class="largelabel" id="currentYear">
+              {{ 'createDip.labels.incomeCurrentYear' | translate }}
+            </label>
+            <div class="row mt-4" aria-labelledby="currentYear">
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idAnnualDrawingsCurYear" class="text-contain">
+                  {{
+                    form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed
+                      ? ('createDip.labels.annualSalary' | translate) + ' *'
+                      : ('createDip.labels.annualDrawings' | translate) + ' *'
+                  }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="annualDrawingsCurYear"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idAnnualDrawingsCurYear"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('annualDrawingsCurYear')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div
+                *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus"
+                [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'"
+              >
+                <label id="idProjectedDividendCurYear" class="text-contain">
+                  {{ ('createDip.labels.projectDividends' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedDividendCurYear"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedDividendCurYear"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedDividendCurYear')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedNetProfitCurYear" class="text-contain">
+                  {{ ('createDip.labels.projectedNetProfit' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedNetProfitCurYear"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedNetProfitCurYear"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedNetProfitCurYear')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedGrossProfitCurYear" class="text-contain">
+                  {{ ('createDip.labels.projectedGrossProfit' | translate) + ' *' }}
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedGrossProfitCurYear"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedGrossProfitCurYear"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedGrossProfitCurYear')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div *ngIf="CONFIGURATION.REQUEST_ENDING_DATE" class="col-3">
+                <!-- TODO change style with a dropdown -->
+                <label id="idYearEnding">{{ ('createDip.labels.yearEnding' | translate) + ' *' }}</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="cfo-hidden-accessible" id="idYearEndingMonth">Months</label>
+                    <p-dropdown
+                      id="months"
+                      [options]="monthsOptions"
+                      formControlName="yearEndingCurYearMonth"
+                      ngDefaultControl
+                      class="journey-dropdown-small"
+                      aria-labelledby="idYearEndingMonth"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="cfo-hidden-accessible" id="idYearEndingYear">Years</label>
+                    <p-dropdown
+                      id="year"
+                      [options]="yearOptions"
+                      formControlName="yearEndingCurYearYear"
+                      ngDefaultControl
+                      class="journey-dropdown-small"
+                      aria-labelledby="idYearEndingYear"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <cfo-validation-errors
+                  [control]="form.get('yearEndingCurYearYear')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row summarycontainer p-4 mt-4">
+            <label class="largelabel" id="1YearAgo">
+              {{ 'createDip.labels.1yaIncome' | translate }}
+            </label>
+            <div class="row mt-4" aria-labelledby="1YearAgo">
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idAnnualDrawings1Year" class="text-contain">
+                  {{
+                    form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed
+                      ? ('createDip.labels.annualSalary' | translate)
+                      : ('createDip.labels.annualDrawings' | translate)
+                  }}
+                  *</label
+                >
+                <cfo-input-number
+                  [form]="form"
+                  controlName="annualDrawings1Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idAnnualDrawings1Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('annualDrawings1Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div
+                *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus"
+                [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'"
+              >
+                <label id="idProjectedDividend1Year" class="text-contain"> {{ 'createDip.labels.dividends' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedDividend1Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedDividend1Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedDividend1Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedNetProfit1Year" class="text-contain"> {{ 'createDip.labels.netProfit' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedNetProfit1Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedNetProfit1Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedNetProfit1Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedGrossProfit1Year" class="text-contain"> {{ 'createDip.labels.grossProfit' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedGrossProfit1Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedGrossProfit1Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedGrossProfit1Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </div>
+          <div class="row summarycontainer p-4 mt-4">
+            <label class="largelabel" id="2YearAgo">
+              {{ 'createDip.labels.2yaIncome' | translate }}
+            </label>
+            <div class="row mt-4" aria-labelledby="2YearAgo">
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idAnnualDrawings2Year" class="text-contain">
+                  {{
+                    form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed
+                      ? ('createDip.labels.annualSalary' | translate)
+                      : ('createDip.labels.annualDrawings' | translate)
+                  }}
+                  *
+                </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="annualDrawings2Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idAnnualDrawings2Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('annualDrawings2Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div
+                *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus"
+                [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'"
+              >
+                <label id="idProjectedDividend2Year" class="text-contain"> {{ 'createDip.labels.dividends' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedDividend2Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedDividend2Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedDividend2Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedNetProfit2Year" class="text-contain"> {{ 'createDip.labels.netProfit' | translate }} * </label>
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedNetProfit2Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedNetProfit2Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedNetProfit2Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div [ngClass]="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ? 'col-md-3' : 'col-md-4'">
+                <label id="idProjectedGrossProfit2Year"> {{ 'createDip.labels.grossProfit' | translate }} * </label>
+
+                <cfo-input-number
+                  [form]="form"
+                  controlName="projectedGrossProfit2Year"
+                  [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+                  aria-labelledby="idProjectedGrossProfit2Year"
+                >
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('projectedGrossProfit2Year')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/shared/ui",
+  "sourceRoot": "libs/mfe-broker/shared/ui/src",
+  "prefix": "cfo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/shared/ui"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/shared/ui/jest.config.js",
+        "passWithNoTests": true,
+        "updateSnapshot": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-broker/shared/ui/src/**/*.ts", "libs/mfe-broker/shared/ui/src/**/*.html"]
+      }
+    }
+  }
+}

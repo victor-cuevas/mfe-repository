@@ -1,0 +1,29 @@
+/*Green Theme*/
+$portal-primary-color: #597564;
+$portal-secondary-color: #98ad96;
+$portal-text-color: #1a1a1a;
+$portal-background-color: #e8e8e8;
+$portal-content-background: #9d9d9c;
+$portal-border-color: #d5d5d5;
+$portal-secondary-text-color: #3e5d58;
+$portal-color-gradient1: #3379b6;
+$portal-color-gradient2: #2e6da3;
+$portal-white: #fff;
+$portal-black: #000;
+$portal-error: #dc3545;
+
+/*font-family*/
+$portal-heading-font: "UniversLtStd", Arial;
+$portal-body-font: "VisueltPro-Light", Arial;
+
+/*RWD*/
+$breakpoints: ("xs": (min-width: 0px), "sm": (min-width: 576px), "md": (min-width: 768px), "lg": (min-width: 992px), "xl": (min-width: 1200px), "xxl": (min-width: 1440px), "xxxl": (min-width: 1920px),"smh":(max-height : 650px));
+/*font styles*/
+/*font-size*/
+$font-size-md:1rem;
+$font-size-sm: 0.875rem;
+$font-size-xs: 0.75rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-xxl: 1.5rem;
+

@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/fluid-controls",
+  "sourceRoot": "libs/shared/fluid-controls/src",
+  "prefix": "cfc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/fluid-controls"],
+      "options": {
+        "jestConfig": "libs/shared/fluid-controls/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/fluid-controls/src/**/*.ts", "libs/shared/fluid-controls/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

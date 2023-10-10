@@ -1,0 +1,14 @@
+<div>
+    <button
+      [type]="Type"
+      [name]="name"
+      [className]="ButtonStyle"
+      (click)="OnClickEvent($event)"
+      [disabled]="disabled"
+    >
+      {{ caption }}
+      <p-progressBar [value]="progressBtnPercentage"></p-progressBar>
+      <span class="pi pi-spinner pi-spin"></span>
+    </button>
+ </div>
+  

@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-asset-config/core",
+  "sourceRoot": "libs/mfe-asset-config/core/src",
+  "prefix": "masc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-asset-config/core"],
+      "options": {
+        "jestConfig": "libs/mfe-asset-config/core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-asset-config/core/src/**/*.ts", "libs/mfe-asset-config/core/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,170 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ 'firms.titles.profile' | translate }}</h2>
+</div>
+<div class="pb-2">
+  <h3 class="">{{ intermediaryDetails.person?.firstName | titlecase }} {{ intermediaryDetails.person?.lastName | titlecase }}</h3>
+</div>
+<div class="py-2">
+  <form [formGroup]="editProfileForm">
+    <!--Status-->
+    <ng-container *ngIf="intermediaryDetails.status !== intermediaryStatus.Pending; else isRegistered">
+      <div class="row mt-4">
+        <h5 class="primary-color">{{ 'profile.labels.status' | translate }}</h5>
+      </div>
+      <div class="d-flex align-items-center mt-3">
+        <p-inputSwitch
+          formControlName="status"
+          ngDefaultControl
+          styleClass="switch-success"
+          (onChange)="onSwitchStatus($event)"
+        ></p-inputSwitch>
+        <label for="status">{{
+          (editProfileForm.controls.status.value ? 'profile.labels.active' : 'profile.labels.inactive') | translate
+        }}</label>
+      </div>
+      <div class="row my-2">
+        <p class="info-paragraph">{{ 'profile.labels.statusMsg' | translate }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #isRegistered>
+      <div class="row mt-4">
+        <h3 class="primary-color">{{ 'profile.labels.cancelInvitation' | translate }}</h3>
+      </div>
+      <div class="row mt-4">
+        <p class="info-paragraph">{{ 'profile.labels.cancelInvitationMsg' | translate }}</p>
+      </div>
+      <div class="my-4 btn-section">
+        <p-button
+          [disabled]="readOnly"
+          styleClass="p-button-danger mb-2 my-lg-0 me-lg-2"
+          label="{{ 'profile.labels.cancelInvitation' | translate }}"
+          (click)="!readOnly ? openCancelInvitationModal() : null"
+        ></p-button>
+      </div>
+    </ng-template>
+
+    <ng-template [cfoPermissions]="'profiles'" [cfoPermissionsFeatures]="['lender']">
+      <div class="mt-4">
+        <h5 class="primary-color mb-2">{{ 'profile.labels.underReview' | translate }}</h5>
+      </div>
+      <div class="d-flex align-items-center mt-3">
+        <p-inputSwitch
+          formControlName="isUnderReview"
+          ngDefaultControl
+          styleClass="switch-danger"
+          (onChange)="onSwitchUnderReview()"
+        ></p-inputSwitch>
+        <label for="status">{{
+          (editProfileForm.controls.isUnderReview.value ? 'general.labels.yes' : 'general.labels.no') | translate
+        }}</label>
+      </div>
+    </ng-template>
+
+    <!-- User Role -->
+    <cfo-user-role
+      [hasFCADataFeature]="true"
+      (populateDataFromAdvisorUniqueID)="populateData($event)"
+      [isAdvisorUniqueIDSelected]="lockDefaultStructure"
+      (unlockDefaultStructureEvent)="unlockDefaultStructure()"
+      [hasFCADetails]="hasFCADetail"
+      [readOnly]="readOnly"
+    ></cfo-user-role>
+    <!-- Personal Details -->
+    <cfo-personal-details [open]="true" [readOnly]="readOnly"></cfo-personal-details>
+
+    <div class="row mt-4">
+      <div class="my-4 btn-section">
+        <p-button
+          styleClass="p-button-outlined--bold mb-2 my-lg-0 me-lg-2"
+          label="{{ 'general.buttons.cancel' | translate }}"
+          [routerLink]="firmId ? routePaths.LIST_INTERMEDIARIES.replace(':id', firmId) : ''"
+        ></p-button>
+        <ng-container *ngIf="intermediaryDetails.status !== intermediaryStatus.Pending; else isRegisteredButton">
+          <p-button
+            [disabled]="readOnly"
+            styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+            label="{{ 'general.buttons.save' | translate }}"
+            (click)="updateProfile()"
+          ></p-button>
+        </ng-container>
+        <ng-template #isRegisteredButton>
+          <p-button
+            [disabled]="readOnly"
+            styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+            label="{{ 'profile.labels.resendInvitation' | translate }}"
+            (click)="!readOnly ? openResendInvitationModal() : null"
+          ></p-button
+        ></ng-template>
+      </div>
+    </div>
+  </form>
+</div>
+
+<cfo-dialog [showDialog]="showResendInvitationPopup" [data]="sendInvitationDataPopup" width="sm">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelResendInvitation()"
+      ></p-button>
+      <p-button
+        styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'general.buttons.ok' | translate }}"
+        (click)="confirmResendInvitation()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>
+
+<cfo-dialog [showDialog]="showCancelInvitation" [data]="cancelInvitationDataPopup">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelCancelInvitation()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-danger mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.ok' | translate }}"
+        (click)="confirmCancelInvitation()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>
+
+<cfo-dialog [showDialog]="showChangeStatusPopup" [data]="changeStatusDataPopup" width="md">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelChangeStatus()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'dialog.yes' | translate }}"
+        (click)="confirmChangeStatus()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>
+
+<cfo-dialog [showDialog]="showUnderReviewPopup" [data]="underReviewPopup" width="md">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold btn-min-width mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelUnderReview()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'dialog.yes' | translate }}"
+        (click)="confirmUnderReview()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>

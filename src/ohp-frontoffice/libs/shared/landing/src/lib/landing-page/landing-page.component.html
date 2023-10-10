@@ -1,0 +1,29 @@
+<ng-container *ngIf="spinnerService.getIsLoading()">
+      <div class="loader">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-container>
+  
+<div class="screenSize">
+  <div>
+      <h2>Configuration Screens</h2>
+  </div>
+  <div class="screenSize">
+      <div *ngFor="let data of mfesData">
+          <div>
+              <div *ngFor="let submfe of mfesSubRoutes">
+                  <div *ngIf="data.path === submfe.mfeName">
+                    <h4><b>{{data.path | titlecase}}</b></h4>
+                      <div class="row">
+                          <ul class="column" style="padding-left: 30px;" *ngFor="let submfess of submfe.components ">
+                              <li>
+                                <p (click)="navigation(submfess.route)"> {{submfess.title}} </p>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

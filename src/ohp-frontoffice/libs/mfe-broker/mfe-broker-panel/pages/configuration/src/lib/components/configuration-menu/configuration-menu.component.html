@@ -1,0 +1,6 @@
+<nav class="main-menu" [ngClass]="{ expanded: isExpanded }">
+  <span class="collapsebutton" (click)="toggleSidebarMenu()" (keyup)="toggleSidebarMenuKeyboard($event)" [tabindex]="0"
+    ><i class="pi pi-angle-right"></i
+  ></span>
+  <div class="menucontent"><p-panelMenu [model]="items" [style]="{ width: '100%' }" [multiple]="true"></p-panelMenu></div>
+</nav>

@@ -1,0 +1,138 @@
+<div class="container pb-4">
+  <div class="row">
+    <div class="col mb-3">
+      <h2 class="mb-0">{{ 'createFma.titles.feePayment' | translate }}</h2>
+      <p class="mt-2">{{ 'createFma.subTitles.feePaymentMsg' | translate }}</p>
+    </div>
+  </div>
+  <ng-container>
+    <div *ngIf="code === '00' || areFeesPaid; else rejected" class="rounded d-flex pt-3 pb-4 bg-accepted-light">
+      <div class="status-icon-wrapper">
+        <div class="ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-accepted">
+          <i [className]="'color-white my-2 pi pi-check'"></i>
+        </div>
+      </div>
+      <div class="pe-4 py-1">
+        <h3 [className]="'color-accepted'">{{ 'createFma.labels.paymentAccepted' | translate }}</h3>
+        <p class="pt-2">
+          <strong>{{ 'createFma.labels.paymentAcceptedMsg' | translate }}</strong>
+        </p>
+      </div>
+    </div>
+    <ng-template #rejected>
+      <ng-container *ngIf="errorMessage">
+        <div class="rounded d-flex my-4 pt-3 pb-4 mx-0 bg-referred-light">
+          <div class="status-icon-wrapper">
+            <div class="ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-rejected">
+              <i [className]="'color-white my-2 pi pi-times'"></i>
+            </div>
+          </div>
+          <div class="pe-4 py-1">
+            <h3 [className]="'color-rejected'">Not valid</h3>
+            <p class="pt-2">
+              <strong>{{ errorMessage }}</strong>
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </ng-template>
+  </ng-container>
+  <p-accordion styleClass="bordered-selection-accordion mt-4">
+    <p-accordionTab [selected]="true" header="{{ 'createFma.labels.FeesToBePaidInAdvance' | translate }}">
+      <div class="row mt-4" *ngIf="applicationFee?.feeAmount">
+        <div class="col-md-3">{{ applicationFee?.feeType?.replace('_', ' ') | titlecase }}</div>
+        <div class="col-md-4">
+          <strong>{{ applicationFee?.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </div>
+      </div>
+      <ng-container *ngIf="valuationFee?.feeAmount">
+        <div class="row mt-4">
+          <div class="col-md-3">{{ valuationFee?.feeType?.replace('_', ' ') | titlecase }}</div>
+          <div class="col-md-4">
+            <strong>{{ valuationFee?.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row mt-4">
+        <hr />
+      </div>
+      <ng-container *ngIf="productFeesToBePaid?.length">
+        <div class="row mt-4">
+          <p class="primary-color fw-bold">{{ 'createFma.labels.productFees' | translate }}</p>
+          <div class="row mt-4" *ngFor="let productFeeToBePaid of productFeesToBePaid">
+            <div class="col-md-3">{{ productFeeToBePaid.feeType?.replace('_', ' ') | titlecase }}</div>
+            <div class="col-md-4">
+              <strong>{{ productFeeToBePaid.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <hr />
+        </div>
+      </ng-container>
+      <div class="row mt-4">
+        <div class="col-md-3">
+          <p class="primary-color fw-bold">{{ 'createFma.labels.totalFeeAmount' | translate }}</p>
+        </div>
+        <div class="col-md-4">
+          <strong class="primary-color">{{ totalFeeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </div>
+      </div>
+      <div class="mt-4 d-flex" *ngIf="!(areFeesPaid || code === '00')">
+        <button class="p-button-primary--bold mt-2 d-inline" id="autoload" pButton style="width: 180px" (click)="payNow()">
+          {{ 'general.buttons.payNow' | translate }}
+        </button>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+  <div class="mt-4 mb-3" *ngIf="productFeesAddedToLoan?.length">
+    <i class="pi pi-info-circle primary-color mt-4"></i><span class="px-2">{{ 'createFma.labels.infoMsgFeesWillBePaid' | translate }}</span>
+  </div>
+
+  <p-accordion styleClass="bordered-selection-accordion mt-4" *ngIf="productFeesAddedToLoan?.length">
+    <p-accordionTab header="{{ 'createFma.labels.feesAddedToTheLoan' | translate }}">
+      <div class="row mt-4">
+        <p class="primary-color fw-bold">{{ 'createFma.labels.productFees' | translate }}</p>
+        <div class="row mt-4" *ngFor="let productFeeAddedToLoan of productFeesAddedToLoan">
+          <div class="col-md-3">{{ productFeeAddedToLoan?.feeType?.replace('_', ' ') | titlecase }}</div>
+          <div class="col-md-4">
+            <strong>{{ productFeeAddedToLoan.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <hr />
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-3">
+            <p class="primary-color fw-bold">{{ 'createFma.labels.totalFeeAmount' | translate }}</p>
+          </div>
+          <div class="col-md-4">
+            <strong class="primary-color">{{ totalAddedToLoanAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+  <p-accordion styleClass="bordered-selection-accordion mt-4" *ngIf="intermediaryFee">
+    <p-accordionTab header="{{ 'createFma.labels.otherFees' | translate }}">
+      <div class="row mt-4">
+        <div class="col-md-3 primary-color fw-bold">{{ 'createFma.labels.intermediaryFee' | translate }}</div>
+        <div class="col-md-4">
+          <strong>{{ intermediaryFee.feeAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col">
+          <p>
+            <i class="primary-color">{{
+              'createFma.labels.payableToMsg'
+                | translate
+                  : { whenPayable: intermediaryFee.whenPayable?.toLowerCase()?.replace('_', ' '), payableTo: intermediaryFee.payableTo }
+            }}</i>
+          </p>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</div>

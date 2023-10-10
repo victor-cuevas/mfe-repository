@@ -1,0 +1,135 @@
+<!-- Title -->
+<div class="container">
+  <div class="row pb-4">
+    <div>
+      <h2 class="mb-1">{{ 'createDip.titles.depositDetails' | translate }}</h2>
+      <p *ngIf="depositRequired">
+        Please enter sources to satisfy the required deposit of
+        {{ depositRequired | currency: 'GBP':'symbol':'1.0-0' }}
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-9 d-flex justify-content-between flex-column">
+      <div class="row py-4 d-block d-lg-none">
+        <div class="col">
+          <ng-container *ngTemplateOutlet="summary"></ng-container>
+        </div>
+      </div>
+
+      <div *ngIf="dataService.activeJourney" class="row pt-2 pb-4">
+        <div class="col-md-4">
+          <button
+            pButton
+            class="p-button-outlined--bold d-inline"
+            label="Add more"
+            icon="pi pi-plus"
+            (click)="addSourceOfDeposit()"
+          ></button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="row pb-3">
+        <form [formGroup]="depositDetailsForm">
+          <ng-container formArrayName="depositDetails">
+            <ng-container *ngFor="let depositDetail of depositDetails.controls; let i = index">
+              <div class="rounded shadow mt-1 mb-7 p-0">
+                <div class="step-header rounded-top py-2" [formGroup]="$any(depositDetail)">
+                  <div class="row px-3 py-2">
+                    <div class="col-md-6 col-xl-5 py-2">
+                      <label id="ddSourceOfDeposit">{{ 'createDip.labels.sourceOfDeposit' | translate }} *</label>
+                      <p-dropdown
+                        [options]="sourceOfDepositOptions"
+                        [placeholder]="'createDip.placeholders.selectSourceOfDeposit' | translate"
+                        class="journey-dropdown journey-dropdown--full-width"
+                        formControlName="depositSourceType"
+                        aria-labelledby="ddSourceOfDeposit"
+                        ngDefaultControl
+                      >
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors
+                        [control]="depositDetail.get('depositSourceType')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                    <div class="col-md-4 col-xl-5 py-2">
+                      <label id="ddAmountToDeposit">{{ 'createDip.labels.amountToDeposit' | translate }} *</label>
+                      <cfo-input-number
+                        [form]="$any(depositDetail)"
+                        class="journey-input&#45;&#45;medium"
+                        [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                        controlName="depositAmount"
+                        aria-labelledby="ddAmountToDeposit"
+                      ></cfo-input-number>
+
+                      <cfo-validation-errors
+                        [control]="depositDetail.get('depositAmount')"
+                        [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"
+                      ></cfo-validation-errors>
+                    </div>
+                    <div *ngIf="depositDetail.get('depositSourceType')?.value" class="pt-3 to-be-satisfied-info-message primary-color">
+                      <i class="pi pi-info-circle"></i>
+                      <p>{{ setTextToDisplay(depositDetail.get('depositSourceType')?.value) }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="dataService.activeJourney" class="step-body rounded-bottom px-3 py-2">
+                  <button
+                    class="hidden-btn d-flex align-items-center p-button p-button-link"
+                    (click)="deleteDepositDetails(i)"
+                    *ngIf="depositDetails.controls.length > 1"
+                  >
+                    <i class="pi pi-minus-circle me-1 fs-6"></i>
+                    <h6>Remove source of deposit</h6>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12 pt-4 d-none d-lg-block">
+      <ng-container *ngTemplateOutlet="summary"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #summary>
+  <mbp-summary-card header="Summary">
+    <div class="row pb-3">
+      <h6 class="col">{{ 'createDip.labels.depositSummary' | translate }}</h6>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-lg-12">
+        <p>{{ 'createDip.labels.depositRequired' | translate }}</p>
+        <p class="pb-2">
+          <strong>{{ depositRequired | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </p>
+      </div>
+      <div class="col-md-4 col-lg-12" [class.success-text]="toBeSatisfied === 0" [class.warning-text]="toBeSatisfied && toBeSatisfied > 0">
+        <p>{{ 'createDip.labels.toBeSatisfied' | translate }}</p>
+        <p class="pb-2">
+          <strong [ngClass]="{ 'to-be-satisfied-text-color-red': toBeSatisfied < 0 }">{{
+            toBeSatisfied | currency: 'GBP':'symbol':'1.0-0'
+          }}</strong>
+        </p>
+      </div>
+    </div>
+  </mbp-summary-card>
+
+  <div class="col-sm-12 pt-3">
+    <div *ngIf="toBeSatisfied < 0" class="pb-2 to-be-satisfied-text-color-red to-be-satisfied-info-message">
+      <i class="pi pi-info-circle"></i>
+      <p>{{ 'createDip.labels.depositAmountExceedsRequired' | translate }}</p>
+    </div>
+  </div>
+</ng-template>

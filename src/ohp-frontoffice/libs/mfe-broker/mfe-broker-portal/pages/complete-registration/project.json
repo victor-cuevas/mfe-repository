@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/complete-registration",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/complete-registration/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/complete-registration"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/complete-registration/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/complete-registration/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/complete-registration/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

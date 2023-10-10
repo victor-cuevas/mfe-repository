@@ -1,0 +1,164 @@
+<!-- Title -->
+<div class="container d-flex justify-content-between align-items-center pb-4">
+  <h2 class="mb-0">{{ 'createCase.titles.addApplicants' | translate }}</h2>
+</div>
+<!-- Content -->
+<div class="container my-2">
+  <form [formGroup]="applicantForm">
+    <div class="d-flex align-items-center justify-content-end"></div>
+    <ng-container formArrayName="applicants">
+      <ng-container *ngFor="let applicant of applicants.controls; let i = index" class="mb-5">
+        <div class="mb-5" [formGroup]="$any(applicant)">
+          <div class="step-header rounded-top py-2">
+            <div class="row p-4">
+              <div class="col-lg-6 col-md-8 col-sm-10">
+                <label id="applicantType" class="mb-2">
+                  {{ ('createCase.labels.applicantType' | translate) + ' *' }}
+                </label>
+                <p-dropdown
+                  [options]="applicantTypesOptions"
+                  class="journey-dropdown journey-dropdown--full-width"
+                  ngDefaultControl
+                  formControlName="applicantType"
+                  [placeholder]="'createCase.placeholders.selectApplicantType' | translate"
+                  aria-labelledby="applicantType"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+                <cfo-validation-errors
+                  [control]="applicant.get('applicantType')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    valueIsNot: ('general.validations.firstTimeBuyerRemoMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-3">
+                <ng-container *ngIf="applicant.value.applicantType === applicantsType.EXISTING_CUSTOMER">
+                  <label id="mortgageAccountNumber" class="mb-2">
+                    {{ ('createCase.labels.mortgageAccountNumber' | translate) + ' *' }}
+                  </label>
+                  <input
+                    type="number"
+                    pInputText
+                    class="journey-input"
+                    formControlName="mortgageAccountNumber"
+                    aria-labelledby="mortgageAccountNumber"
+                  />
+                  <cfo-validation-errors
+                    [control]="applicant.get('mortgageAccountNumber')"
+                    [errorMessages]="{
+                      required: ('general.validations.requiredMsg' | translate)
+                    }"
+                  ></cfo-validation-errors>
+                </ng-container>
+              </div>
+              <div class="col text-end journey-btn-container text-align-end">
+                <button type="button" class="hidden-btn" (click)="deleteApplicant(i)" *ngIf="applicants.controls.length > 1">
+                  <i class="pi pi-minus journey-icon mx-2"></i>
+                  <span>{{ 'general.buttons.removeApplicant' | translate }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="step-body rounded-bottom p-4">
+            <div class="row">
+              <div class="col-md-3 col-sm-12 pb-3">
+                <label id="applicantName" class="mb-2">
+                  {{ ('createCase.labels.firstName' | translate) + ' *' }}
+                </label>
+                <input
+                  type="text"
+                  pInputText
+                  formControlName="firstName"
+                  class="journey-input text-capitalize"
+                  [cfoOnlyCharacters]="true"
+                  aria-labelledby="applicantName"
+                  [value]="applicant.get('firstName')?.value | titlecase"
+                />
+                <cfo-validation-errors
+                  [control]="applicant.get('firstName')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-3 col-sm-12 pb-3">
+                <label id="applicantSurname" class="mb-2">
+                  {{ ('createCase.labels.surName' | translate) + ' *' }}
+                </label>
+                <input
+                  type="text"
+                  pInputText
+                  formControlName="familyName"
+                  class="journey-input text-capitalize"
+                  [cfoOnlyCharacters]="true"
+                  aria-labelledby="applicantSurname"
+                  [value]="applicant.get('familyName')?.value | titlecase"
+                />
+                <cfo-validation-errors
+                  [control]="applicant.get('familyName')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+              <div class="col-md-3 col-sm-12 pb-3">
+                <label id="applicantDateOfBirth" class="mb-2">
+                  {{ ('createCase.labels.dob' | translate) + ' *' }}
+                </label>
+                <p-calendar
+                  #calendar
+                  class="journey-input"
+                  formControlName="dateOfBirth"
+                  dateFormat="dd/mm/yy"
+                  [defaultDate]="defaultDate"
+                  [showIcon]="true"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  appendTo="body"
+                  ngDefaultControl
+                  aria-labelledby="applicantDateOfBirth"
+                  [yearRange]="maxYear + ':' + minYear"
+                  (onYearChange)="populateYearRange()"
+                  (onMonthChange)="populateYearRange()"
+                  [minDate]="minDate"
+                  [maxDate]="maxDate"
+                >
+                </p-calendar>
+                <cfo-validation-errors
+                  [control]="applicant.get('dateOfBirth')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    checkAge: ('general.validations.checkAgeMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+          </div>
+          <button
+            *ngIf="applicants.length < 2"
+            (click)="addApplicant()"
+            class="p-button-outlined--bold d-inline mt-4"
+            icon="pi pi-plus"
+            [label]="'createDip.button.addMore' | translate"
+            pButton
+          ></button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </form>
+  <div class="my-4">
+    <a class="link-outlined" [routerLink]="'../' + routePaths.CREATE_CASE_INITIAL_STEP">{{ 'general.buttons.previous' | translate }}</a>
+    <a
+      class="link-button-primary mx-4"
+      [attr.disabled]="!allFormsValid ? true : undefined"
+      [class.link-disabled]="!allFormsValid"
+      [tabindex]="allFormsValid ? 0 : -1"
+      [routerLink]="'../' + routePaths.CREATE_CASE_REVIEW"
+      >{{ 'general.buttons.review' | translate }}</a
+    >
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="pb-4">
+  <h2 class="my-3 mb-lg-0">
+    {{ 'lender.titles.lenderDetails' | translate }}
+  </h2>
+</div>
+<form [formGroup]="lenderDetailsForm">
+  <p-accordion styleClass="form-accordion">
+    <p-accordionTab header="Main information" [selected]="true">
+      <div class="row mt-4">
+        <div class="col-md-4 col-xs-12">
+          <label for="lenderName">{{ 'lender.labels.lenderName' | translate }} *</label>
+          <input type="text" pInputText class="journey-input--large" formControlName="lenderName" ngDefaultControl />
+          <cfo-validation-errors
+            [control]="lenderDetailsForm.get('lenderName')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4 col-xs-12">
+          <label for="firmWebsite">{{ 'lender.labels.lenderReference' | translate }} * </label>
+          <input type="text" pInputText class="journey-input--large" formControlName="reference" ngDefaultControl />
+          <cfo-validation-errors
+            [control]="lenderDetailsForm.get('reference')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <label for="firmWebsite">{{ 'lender.labels.lenderWebsite' | translate }}</label>
+          <input type="text" pInputText class="journey-input--large" formControlName="website" ngDefaultControl />
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <label for="complaintsWebPage">{{ 'lender.labels.complaintsWebPage' | translate }} *</label>
+          <input type="text" pInputText class="journey-input--large" formControlName="complaintsWebpage" ngDefaultControl />
+          <cfo-validation-errors
+            [control]="lenderDetailsForm.get('complaintsWebpage')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4 col-xs-12">
+          <label for="firmTelephoneNumber">{{ 'lender.labels.lenderTelephoneNumber' | translate }} </label>
+          <cfo-phone-input controlName="telephone"></cfo-phone-input>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <label for="contactEmail">{{ 'lender.labels.contactEmail' | translate }}</label>
+          <input type="text" pInputText class="journey-input--large" formControlName="email" ngDefaultControl />
+          <cfo-validation-errors
+            [control]="lenderDetailsForm.get('email')"
+            [errorMessages]="{
+              email: ('general.validations.email' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <label for="contactPerson">{{ 'lender.labels.contactPerson' | translate }} </label>
+          <input type="text" pInputText class="journey-input--large" formControlName="contactPerson" ngDefaultControl />
+        </div>
+      </div>
+      <div class="row mt-4">
+        <cfo-address-search
+          [form]="lenderDetailsForm"
+          (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+          [suggestedAddresses]="suggestedAddresses"
+          (selectedAddressEvent)="onSelectedAddress($event)"
+          [selectedAddress]="selectedAddress"
+        ></cfo-address-search>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+  <!-- TODO - Not available yet -->
+  <!-- <div class="row mt-4">
+  <div class="col">
+    <p-checkbox
+      [binary]="true"
+      ngDefaultControl
+      formControlName="sendCaseNotification"
+      [label]="'lender.labels.sendCaseNotification' | translate"
+    ></p-checkbox>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col">
+    <label for="firmSharedEmail">{{ 'lender.labels.firmSharedEmail' | translate }} </label>
+    <input type="text" pInputText class="journey-input&#45;&#45;large" formControlName="firmSharedEmail" ngDefaultControl />
+    <span class="ps-2 primary-color" [pTooltip]="'lender.tooltip.firmSharedEmailMsg' | translate" [hideDelay]="300"
+      ><i class="pi pi-info-circle"></i
+    ></span>
+    <cfo-validation-errors
+      [control]="lenderDetailsForm.get('firmSharedEmail')"
+      [errorMessages]="{
+        email: ('general.validations.email' | translate)
+      }"
+    ></cfo-validation-errors>
+  </div>
+</div>-->
+</form>
+<div class="row mt-4">
+  <div class="my-4 btn-section">
+    <p-button
+      styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+      label="{{ 'general.buttons.save' | translate }}"
+      (click)="updateLenderDetails()"
+    ></p-button>
+  </div>
+</div>

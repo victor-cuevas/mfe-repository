@@ -1,0 +1,524 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form
+      class="closefo-form"
+      #communicationoutcomeform="ngForm"
+      [ngClass]="{ 'closefo-form-submitted': communicationoutcomeform.submitted }"
+    >
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'communication.CommunicationOutcome.heading.CommunicationOutcome' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'communication.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(commDossierStatusList,commDossierPhaseList,commOutcomePossibleList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'communication.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{'communication.button.Add' | translate}}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onAddDossierStatus()"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="commDossierStatusList"
+            [gridDataHeader]="commOutHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDeleteDossierStatus($event)"
+            (rowClickedEvent)="onDossierstsRowselect($event)"
+            [selectedDetail]="commDossierStatusData"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="hideDossierStatusCard">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{ 'communication.CommunicationOutcome.card.CommunicationOutcome' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <!-- <cfc-fluid-dropdown
+                    [ngModel]="CommunicationOutcome"
+                    [form]="userDetailsform"
+                    Type="single"
+                    name="Dropdown"
+                    [placeholder]="placeholder"
+                    [options]="dropdownList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="option"
+                    dataKey="value"
+                    (ngModelChange)="CommunicationOutcome = $event"
+                    #languagedropdown="ngModel"
+                    [title]="internaldrop?.option"
+                  >
+                  </cfc-fluid-dropdown> -->
+                  <cfc-fluid-dropdown
+                    [ngModel]="commDossierStatusData?.outcome"
+                    [form]="communicationoutcomeform"
+                    Type="single"
+                    name="outcome"
+                    [placeholder]="placeholder"
+                    [options]="communicationOutcomeList"
+                    [ControlConfig]="RequiredOutcome"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onOutcomeChange($event)"
+                    #outcomedropdown="ngModel"
+                    [title]="commDossierStatusData?.outcome?.caption === null ? '' : commDossierStatusData?.outcome?.caption"
+                    [showClearIcon]="commDossierStatusData?.outcome ? true : false"
+                    [cfcFluidValidation]="{
+                      errors: outcomedropdown.errors ? RequiredOutcome.Errors : '',
+                      formSubmitted: communicationoutcomeform.submitted || RequiredOutcome.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label required">{{ 'communication.CommunicationOutcome.card.DossierStatus' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <!-- <cfc-fluid-dropdown
+                    [ngModel]="DossierStatus"
+                    [form]="userDetailsform"
+                    Type="single"
+                    name="Dropdown"
+                    [placeholder]="placeholder"
+                    [options]="dropdownList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="option"
+                    dataKey="value"
+                    (ngModelChange)="DossierStatus = $event"
+                    #languagedropdown="ngModel"
+                    [title]="internaldrop?.option"
+                  >
+                  </cfc-fluid-dropdown> -->
+                  <cfc-fluid-dropdown
+                    [ngModel]="commDossierStatusData?.dossierStatus"
+                    [form]="communicationoutcomeform"
+                    Type="single"
+                    name="dossierStatus"
+                    [placeholder]="placeholder"
+                    [options]="dossierStatusList"
+                    [ControlConfig]="RequiredDossierStatus"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="ondossierStatusChange($event)"
+                    #dossierStatusdropdown="ngModel"
+                    [title]="commDossierStatusData?.dossierStatus?.caption === null ? '' : commDossierStatusData?.dossierStatus?.caption"
+                    [showClearIcon]="commDossierStatusData?.dossierStatus ? true : false"
+                    [cfcFluidValidation]="{
+                      errors: dossierStatusdropdown.errors ? RequiredDossierStatus.Errors : '',
+                      formSubmitted: communicationoutcomeform.submitted || RequiredDossierStatus.externalError
+                    }"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5 text-right">
+                  <label class="closefo-form-label">{{ 'communication.CommunicationOutcome.card.SubStatus' | translate }}</label>
+                </div>
+                <div class="col-7">
+                  <!-- <cfc-fluid-dropdown
+                    [ngModel]="SubStatus"
+                    [form]="userDetailsform"
+                    Type="single"
+                    name="Dropdown"
+                    [placeholder]="placeholder"
+                    [options]="dropdownList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="option"
+                    dataKey="value"
+                    (ngModelChange)="SubStatus = $event"
+                    #languagedropdown="ngModel"
+                    [title]="internaldrop?.option"
+                  >
+                  </cfc-fluid-dropdown> -->
+                  <cfc-fluid-dropdown
+                    [ngModel]="commDossierStatusData?.subStatus"
+                    [form]="communicationoutcomeform"
+                    Type="single"
+                    name="subStatus"
+                    [placeholder]="placeholder"
+                    [options]="subStatusList"
+                    [ControlConfig]="DropdownConfig"
+                    optionLabel="caption"
+                    dataKey="caption"
+                    (OnSelectionChanged)="onsubStatusChange($event)"
+                    #dossierStatusdropdown="ngModel"
+                    [title]="commDossierStatusData?.subStatus?.caption === null ? '' : commDossierStatusData?.subStatus?.caption"
+                    [showClearIcon]="commDossierStatusData?.subStatus ? true : false"
+                  >
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="closefo-form" #dossierphaseform="ngForm" [ngClass]="{ 'closefo-form-submitted': dossierphaseform.submitted }">
+        <div class="row closefo-btn-wrapper close-header-block">
+          <div class="col-12">
+            <h2 class="closefo-heading-2">
+              {{ 'communication.CommunicationOutcome.heading.Dossierstatus2dossierphase' | translate }}
+            </h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{'communication.button.Add' | translate}}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDossierPhaseAdd()"
+            ></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block">
+            <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="Username"
+              [gridData]="commDossierPhaseList"
+              [gridDataHeader]="dossierHeader"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              (deleteRowEvent)="onDossierPhaseRowDelete($event)"
+              (rowClickedEvent)="onDossierPhaseRowselect($event)"
+               [selectedDetail]="commDossierPhaseData"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+     
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="hideDossierPhaseCard">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{ 'communication.CommunicationOutcome.card.DossierStatus1' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <!-- <cfc-fluid-dropdown
+                  [ngModel]="DossierStatus1"
+                  [form]="communicationoutcomeform"
+                  Type="single"
+                  name="Dropdown"
+                  [placeholder]="placeholder"
+                  [options]="dropdownList"
+                  [ControlConfig]="DropdownConfig"
+                  optionLabel="option"
+                  dataKey="value"
+                  (ngModelChange)="DossierStatus1 = $event"
+                  #languagedropdown="ngModel"
+                  [title]="internaldrop?.option"
+                >
+                </cfc-fluid-dropdown> -->
+                    <cfc-fluid-dropdown
+                      [ngModel]="commDossierPhaseData?.dossierStatus"
+                      [form]="dossierphaseform"
+                      Type="single"
+                      name="dossierPhaseStatus"
+                      [placeholder]="placeholder"
+                      [options]="dossierStatusList"
+                      [ControlConfig]="RequiredDossierStatusPhase"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="ondossierPhaseStatusChange($event)"
+                      #dossierPhaseStatusdropdown="ngModel"
+                      [title]="commDossierPhaseData?.dossierStatus?.caption === null ? '' : commDossierPhaseData?.dossierStatus?.caption"
+                      [showClearIcon]="commDossierPhaseData?.dossierStatus ? true : false"
+                      [cfcFluidValidation]="{
+                        errors: dossierPhaseStatusdropdown.errors ? RequiredDossierStatusPhase.Errors : '',
+                        formSubmitted: dossierphaseform.submitted || RequiredDossierStatusPhase.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{ 'communication.CommunicationOutcome.card.DossierPhase' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown
+                      [ngModel]="commDossierPhaseData?.dossierPhase"
+                      [form]="dossierphaseform"
+                      Type="single"
+                      name="dossierPhase"
+                      [placeholder]="placeholder"
+                      [options]="dossierPhaseList"
+                      [ControlConfig]="RequiredDossierPhase"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="ondossierPhaseChange($event)"
+                      #dossierPhasedropdown="ngModel"
+                      [title]="commDossierPhaseData?.dossierPhase?.caption === null ? '' : commDossierPhaseData?.dossierPhase?.caption"
+                      [showClearIcon]="commDossierPhaseData?.dossierPhase ? true : false"
+                      [cfcFluidValidation]="{
+                        errors: dossierPhasedropdown.errors ? RequiredDossierPhase.Errors : '',
+                        formSubmitted: dossierphaseform.submitted || RequiredDossierPhase.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <form class="closefo-form" #dossierpossibleform="ngForm" [ngClass]="{ 'closefo-form-submitted': dossierphaseform.submitted }">
+        <div class="row closefo-btn-wrapper close-header-block">
+          <div class="col-12">
+            <h2 class="closefo-heading-2">
+              {{ 'communication.CommunicationOutcome.heading.Dossierstatus2possibleoutcome' | translate }}
+            </h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-add-btn-small"
+              caption="{{'communication.button.Add' | translate}}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDossierPossibleOutcomeAdd()"
+            
+            ></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block">
+            <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="Username"
+              [gridData]="commOutcomePossibleList"
+              [gridDataHeader]="dossier1Header"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              (deleteRowEvent)="onDossierPossibleOutcomeRowDelete($event)"
+              (rowClickedEvent)="onDossierPossibleOutcomeRowselect($event)"
+              [selectedDetail]="commOutcomePossibleData"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+      
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin" *ngIf="hideDossierPossibleOutCard">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5 text-right">
+                    <label class="closefo-form-label required">{{ 'communication.CommunicationOutcome.card.DossierStatus2' | translate }}</label>
+                  </div>
+                  <div class="col-7">
+                    <!-- <cfc-fluid-dropdown
+                  [ngModel]="DossierStatus2"
+                  [form]="communicationoutcomeform"
+                  Type="single"
+                  name="Dropdown"
+                  [placeholder]="placeholder"
+                  [options]="dropdownList"
+                  [ControlConfig]="DropdownConfig"
+                  optionLabel="option"
+                  dataKey="value"
+                  (ngModelChange)="DossierStatus2 = $event"
+                  #languagedropdown="ngModel"
+                  [title]="internaldrop?.option"
+                >
+                </cfc-fluid-dropdown> -->
+                    <cfc-fluid-dropdown
+                      [ngModel]="commOutcomePossibleData?.dossierStatus"
+                      [form]="dossierpossibleform"
+                      Type="single"
+                      name="dossierPossibeOutcomeStatus"
+                      [placeholder]="placeholder"
+                      [options]="dossierStatusList"
+                      [ControlConfig]="RequiredPossibleOutcomeStatus"
+                      optionLabel="caption"
+                      dataKey="caption"
+                      (OnSelectionChanged)="ondossierStatusPossibeChange($event)"
+                      #dossierPossibledropdown="ngModel"
+                      [title]="commOutcomePossibleData?.dossierStatus?.caption === null ? '' : commOutcomePossibleData?.dossierStatus?.caption"
+                      [showClearIcon]="commOutcomePossibleData?.dossierStatus ? true : false"
+                      [cfcFluidValidation]="{
+                        errors: dossierPossibledropdown.errors ? RequiredPossibleOutcomeStatus.Errors : '',
+                        formSubmitted: dossierpossibleform.submitted || RequiredPossibleOutcomeStatus.externalError
+                      }"
+                    >
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-panel-spacing">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="closefo-form-label">
+                      {{ 'communication.CommunicationOutcome.picker.PossibleCommunicationOutcome' | translate }}
+                    </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="closefo-form-label possibleOutcomePickListLabel required">
+                      {{ 'communication.CommunicationOutcome.picker.SelectedPossibleCommunicationOutcome' | translate }}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+                        <div class="col-12">
+                          <cfc-fluid-picklist
+                            [source]="source"
+                            [target]="target"
+                            filterBy="caption"
+                            sourceValue="caption"
+                            (click)="changeTarget(target)"
+                            (dblclick)="changeTarget(target)"
+                            [ControlConfig]="PickListConfig"
+                          >
+                          </cfc-fluid-picklist>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'communication.close.header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'communication.close.body' | translate }}</div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'communication.close.yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(commDossierStatusList,commDossierPhaseList,commOutcomePossibleList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.close.no' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.close.cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate> Technical Exception </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="button"
+            class="ms-auto"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'communication.button.continue' | translate }}"
+            (click)="onException()"
+            [ControlConfig]="ButtonConfig"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+  </div>
+</div>

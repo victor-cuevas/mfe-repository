@@ -1,0 +1,743 @@
+<!-- title -->
+<div class="container pb-4">
+  <h2 class="mt-4 mt-md-0">{{ 'createDip.titles.securityProperty' | translate }}</h2>
+</div>
+<!-- Content -->
+<div class="container my-2">
+  <form [formGroup]="securityPropertyForm">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.subtitles.aboutProperty' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <cfo-address-search
+        [form]="securityPropertyForm"
+        (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+        [suggestedAddresses]="suggestedAddresses"
+        (selectedAddressEvent)="onSelectedAddress($event)"
+        [selectedAddress]="selectedAddress"
+        [hasButtonVisible]="hasButtonVisible"
+      >
+      </cfo-address-search>
+
+      <div class="row mt-4">
+        <div class="col-12 col-md-4 col-xl-3 mb-2 mb-md-0">
+          <label id="spPropertyStyle">{{ 'createDip.labels.propertyStyle' | translate }} *</label>
+          <p-dropdown
+            [options]="propertyStyleOptions"
+            [placeholder]="'createDip.placeholders.selectPropertyStyle' | translate"
+            class="journey-dropdown"
+            formControlName="propertyStyle"
+            aria-labelledby="spPropertyStyle"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('propertyStyle')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 mb-2 mb-md-0">
+          <label id="spPropertyType">{{ 'createDip.labels.propertyType' | translate }} *</label>
+          <p-dropdown
+            [options]="propertyTypeOption"
+            [placeholder]="'createDip.placeholders.selectPropertyType' | translate"
+            class="journey-dropdown"
+            formControlName="propertyType"
+            aria-labelledby="spPropertyType"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('propertyType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma' && securityPropertyForm.get('propertyType')?.value === propertyType.FLAT_APARTMENT" class="row mt-4">
+        <div class="col-12">
+          <label id="spIsFlatAboveCommercialPremises"
+            >{{ 'createFma.labels.isFlatAboveCommercialPremises' | translate }} *
+            <span [hideDelay]="300" [pTooltip]="'createFma.tooltips.commercialPremises' | translate" class="ps-2 primary-color"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <div aria-labelledby="spIsFlatAboveCommercialPremises">
+            <cfo-radio-button
+              name="isFlatAboveCommercialPremises"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="isFlatAboveCommercialPremises"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="isFlatAboveCommercialPremises"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="isFlatAboveCommercialPremises"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('isFlatAboveCommercialPremises')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 col-md-4 col-xl-3 mb-2 mb-md-0">
+          <label id="spTenure">{{ 'createDip.labels.tenure' | translate }} *</label>
+          <p-dropdown
+            [options]="tenureOptions"
+            [placeholder]="'general.placeholders.selectOne' | translate"
+            class="journey-dropdown"
+            formControlName="tenure"
+            aria-labelledby="spTenure"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('tenure')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              valueIsNot: ('createFma.validations.notCommonhold' | translate),
+              tenure: ('createFma.validations.tenure' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div *ngIf="securityPropertyForm.get('tenure')?.value === tenure.LEASEHOLD" class="col-12 col-md-4 col-xl-3 mb-2 mb-md-0">
+          <label id="spRemainingTermOfLeaseInYears"
+            >{{ 'createFma.labels.remainingTermOfLeaseInYears' | translate }} *<span
+              *ngIf="securityPropertyForm.get('remainingTermOfLeaseInYears')?.value < 85"
+              class="ps-2 primary-color"
+              [pTooltip]="'createDip.tooltips.remainingTermOfLeaseInYears' | translate"
+              [hideDelay]="300"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <cfo-input-number
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="remainingTermOfLeaseInYears"
+            aria-labelledby="spRemainingTermOfLeaseInYears"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('remainingTermOfLeaseInYears')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              min: ('createFma.validations.remainingTermMinMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 mb-2 mb-md-0">
+          <label id="spYearBuilt">{{ 'createFma.labels.yearBuilt' | translate }} *</label>
+          <cfo-input-number
+            [config]="{ useGrouping: false, min: 0 }"
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="yearBuilt"
+            aria-labelledby="spYearBuilt"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('yearBuilt')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              min: ('createFma.validations.yearBuiltMinMsg' | translate),
+              max: ('createFma.validations.yearBuiltMaxMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12 col-md-6 col-xl-4 mb-2 mb-md-0">
+          <label id="spNumberOfFloors">{{ 'createFma.labels.numberOfFloors' | translate }} *</label>
+          <cfo-input-number
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="numberOfFloors"
+            aria-labelledby="spNumberOfFloors"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('numberOfFloors')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              max: ('createFma.validations.numberOfFloorsMaxMsg' | translate),
+              min: ('createFma.validations.numberOfFloorsMinMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div
+          *ngIf="securityPropertyForm.get('propertyType')?.value === propertyType.FLAT_APARTMENT"
+          class="col-12 col-md-6 col-xl-4 mb-2 mb-md-0"
+        >
+          <label id="spFloor"
+            >{{ 'createFma.labels.floor' | translate }} *
+            <span [hideDelay]="300" [pTooltip]="'createFma.tooltips.floor' | translate" class="ps-2 primary-color"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <cfo-input-number
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="floor"
+            aria-labelledby="spFloor"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('floor')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              valueIsGreaterThan: ('general.validations.valueIsGreaterThanMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div
+        *ngIf="
+          type === 'fma' &&
+          securityPropertyForm.get('numberOfFloors')?.value > 3 &&
+          securityPropertyForm.get('propertyType')?.value === propertyType.FLAT_APARTMENT
+        "
+        class="row mt-4"
+      >
+        <div class="col-12">
+          <label id="spHasLift">{{ 'createFma.labels.hasLift' | translate }} *</label>
+          <div aria-labelledby="hasLift">
+            <cfo-radio-button
+              name="hasLift"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="hasLift"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="hasLift"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="hasLift"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('hasLift')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                hasLift: ('createFma.validations.hasLiftMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-4 col-xl-3 mt-4 mb-2 mb-md-0">
+          <label id="spNumberOfBedrooms">{{ 'createDip.labels.numberOfBedrooms' | translate }} *</label>
+          <cfo-input-number
+            [config]="{ mode: MODE.DECIMAL, min: 0 }"
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="numberOfBedrooms"
+            aria-labelledby="spNumberOfBedrooms"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('numberOfBedrooms')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div *ngIf="type === 'fma'" class="col-12 col-md-4 col-xl-3 mt-4 mb-2 mb-md-0">
+          <label id="spNumberOfBathrooms">{{ 'createFma.labels.numberOfBathrooms' | translate }} *</label>
+          <cfo-input-number
+            [config]="{ mode: MODE.DECIMAL, min: 0 }"
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="numberOfBathrooms"
+            aria-labelledby="spNumberOfBathrooms"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('numberOfBathrooms')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div *ngIf="type === 'fma'" class="col-12 col-md-4 col-xl-3 mt-4 mb-2 mb-md-0">
+          <label id="spNumberOfKitchens">{{ 'createFma.labels.numberOfKitchens' | translate }} *</label>
+          <cfo-input-number
+            [config]="{ mode: MODE.DECIMAL, min: 0 }"
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="numberOfKitchens"
+            aria-labelledby="spNumberOfKitchens"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('numberOfKitchens')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+        <div *ngIf="type === 'fma'" class="col-12 col-md-4 col-xl-3 mt-4 mb-2 mb-md-0">
+          <label id="spNumberOfReceptionrooms">{{ 'createDip.labels.numberOfReceptionRooms' | translate }} *</label>
+          <cfo-input-number
+            [config]="{ mode: MODE.DECIMAL, min: 0 }"
+            [form]="securityPropertyForm"
+            className="journey-input"
+            controlName="numberOfReceptionrooms"
+            aria-labelledby="spNumberOfReceptionrooms"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('numberOfReceptionrooms')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spHasGarageOrParkingSpace">{{ 'createFma.labels.hasGarageOrParkingSpace' | translate }} *</label>
+          <p-dropdown
+            [options]="parkingSpaceTypeOptions"
+            [placeholder]="'createDip.placeholders.selectGarageOrParkingSpace' | translate"
+            class="journey-dropdown"
+            formControlName="hasGarageOrParkingSpace"
+            aria-labelledby="spHasGarageOrParkingSpace"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('hasGarageOrParkingSpace')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spIsPlotSizeGreaterThanOneAcre">{{ 'createFma.labels.isPlotSizeGreaterThanOneAcre' | translate }} *</label>
+          <div aria-labelledby="spIsPlotSizeGreaterThanOneAcre">
+            <cfo-radio-button
+              name="isPlotSizeGreaterThanOneAcre"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="isPlotSizeGreaterThanOneAcre"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="isPlotSizeGreaterThanOneAcre"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="isPlotSizeGreaterThanOneAcre"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('isPlotSizeGreaterThanOneAcre')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <label id="spStandardConstruction">{{ 'createDip.labels.standardConstruction' | translate }} *</label>
+          <p-dropdown
+            [options]="standardConstructionOptions"
+            [placeholder]="'createDip.placeholders.selectConstructionType' | translate"
+            class="journey-dropdown"
+            formControlName="constructionType"
+            aria-labelledby="spStandardConstruction"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('constructionType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              valueIsNot: ('createFma.validations.constructionTypeMsg' | translate),
+              notAcceptable: ('createFma.validations.constructionTypeMsgYearBuildMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="securityPropertyForm.get('constructionType')?.value === constructionType.OTHER">
+        <div class="col">
+          <label id="constructionDetails">{{ 'createDip.labels.constructionDetails' | translate }}</label>
+          <input
+            class="journey-input--large"
+            formControlName="constructionDetails"
+            aria-labelledby="constructionDetails"
+            name="constructionDetails"
+            pInputText
+            type="text"
+          />
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('constructionDetails')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <label id="spRoofType">{{ 'createDip.labels.standardRoof' | translate }} *</label>
+          <p-dropdown
+            [options]="roofTypeOptions"
+            [placeholder]="'createDip.placeholders.selectRoofType' | translate"
+            class="journey-dropdown"
+            formControlName="roofType"
+            aria-labelledby="spRoofType"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('roofType')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spHasSufferedFromSubsidence">{{ 'createFma.labels.hasSufferedFromSubsidence' | translate }} *</label>
+          <div aria-labelledby="spHasSufferedFromSubsidence">
+            <cfo-radio-button
+              name="hasSufferedFromSubsidence"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="hasSufferedFromSubsidence"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="hasSufferedFromSubsidence"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="hasSufferedFromSubsidence"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('hasSufferedFromSubsidence')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <label id="spHeritageStatus">{{ 'createDip.labels.listedBuilding' | translate }} *</label>
+          <p-dropdown
+            [options]="heritageStatusOptions"
+            [placeholder]="'createDip.placeholders.selectListedBuilding' | translate"
+            class="journey-dropdown"
+            formControlName="heritageStatus"
+            aria-labelledby="spHeritageStatus"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('heritageStatus')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              valueIsNot: ('createFma.validations.heritageStatusMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spIsHabitable">{{ 'createFma.labels.isHabitable' | translate }} *</label>
+          <div aria-label="spIsHabitable">
+            <cfo-radio-button
+              name="isHabitable"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="isHabitable"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="isHabitable"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="isHabitable"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('isHabitable')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                valueIs: ('createFma.validations.isHabitableMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spHasBeenPreviouslyOwnedByLo">{{ 'createFma.labels.ownedByLocalAuthority' | translate }} *</label>
+          <div aria-labelledby="spHasBeenPreviouslyOwnedByLo">
+            <cfo-radio-button
+              name="hasBeenPreviouslyOwnedByLo"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="hasBeenPreviouslyOwnedByLo"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="hasBeenPreviouslyOwnedByLo"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="hasBeenPreviouslyOwnedByLo"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('hasBeenPreviouslyOwnedByLo')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                valueIs: ('createFma.validations.hasBeenPreviouslyOwnedByLoMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spArePeopleOver17NotInTheMortgageLivingInTheProperty"
+            >{{ 'createFma.labels.peopleOver17' | translate }} *<span
+              [hideDelay]="300"
+              [pTooltip]="'createFma.tooltips.peopleOver17' | translate"
+              class="ps-2 primary-color"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <div aria-labelledby="spArePeopleOver17NotInTheMortgageLivingInTheProperty">
+            <cfo-radio-button
+              name="arePeopleOver17NotInTheMortgageLivingInTheProperty"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="arePeopleOver17NotInTheMortgageLivingInTheProperty"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="arePeopleOver17NotInTheMortgageLivingInTheProperty"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="arePeopleOver17NotInTheMortgageLivingInTheProperty"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('arePeopleOver17NotInTheMortgageLivingInTheProperty')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <label id="spRealEstateScenario">{{ 'createDip.labels.newBuilding' | translate }} *</label>
+          <p-dropdown
+            [options]="realEstateScenarioOptions"
+            [placeholder]="'createDip.placeholders.selectNewBuilding' | translate"
+            class="journey-dropdown"
+            formControlName="realEstateScenario"
+            aria-labelledby="spRealEstateScenario"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('realEstateScenario')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              valueIsNot: ('createFma.validations.realEstateScenarioMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma' && showGuaranteeScheme" class="row mt-4">
+        <div class="col-12">
+          <label id="spHasPropertyGuaranteeScheme">{{ 'createFma.labels.hasPropertyGuaranteeScheme' | translate }} *</label>
+          <div aria-labelledby="spHasPropertyGuaranteeScheme">
+            <cfo-radio-button
+              name="hasPropertyGuaranteeScheme"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="hasPropertyGuaranteeScheme"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="hasPropertyGuaranteeScheme"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="hasPropertyGuaranteeScheme"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('hasPropertyGuaranteeScheme')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                valueIs: ('createFma.validations.guaranteeSchemeMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="type === 'fma' && securityPropertyForm.get('hasPropertyGuaranteeScheme')?.value && showGuaranteeScheme" class="row mt-4">
+        <div class="col-12">
+          <label id="spPropertyGuaranteeScheme">{{ 'createFma.labels.propertyGuaranteeScheme' | translate }} *</label>
+          <p-dropdown
+            [options]="propertyGuaranteeSchemeOptions"
+            [placeholder]="'createDip.placeholders.selectNewBuilding' | translate"
+            class="journey-dropdown"
+            formControlName="propertyGuaranteeScheme"
+            aria-labelledby="spPropertyGuaranteeScheme"
+            ngDefaultControl
+          >
+            <ng-template let-option pTemplate="item">
+              <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+            </ng-template>
+          </p-dropdown>
+          <cfo-validation-errors
+            [control]="securityPropertyForm.get('propertyGuaranteeScheme')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </div>
+
+      <ng-container
+        *ngIf="
+          type === 'fma' &&
+          securityPropertyForm.get('propertyGuaranteeScheme')?.value === propertyGuaranteeScheme.OTHER &&
+          securityPropertyForm.get('hasPropertyGuaranteeScheme')?.value &&
+          showGuaranteeScheme
+        "
+      >
+        <div class="row mt-4">
+          <div class="col-md-3 col-12">
+            <label id="spOtherGuaranteeScheme">{{ 'createFma.labels.otherGuaranteeScheme' | translate }} *</label>
+            <input
+              class="journey-input--large"
+              formControlName="otherPropertyGuaranteeScheme"
+              aria-labelledby="spOtherGuaranteeScheme"
+              name="otherGuaranteeScheme"
+              pInputText
+              type="text"
+            />
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('otherPropertyGuaranteeScheme')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </ng-container>
+
+      <div *ngIf="type === 'fma'" class="row mt-4">
+        <div class="col-12">
+          <label id="spIsToBeUsedForBusinessPurposes"
+            >{{ 'createFma.labels.isToBeUsedForBusinessPurposes' | translate }} *
+            <span [hideDelay]="300" [pTooltip]="'createFma.tooltips.isToBeUsedForBusinessPurposes' | translate" class="ps-2 primary-color"
+              ><i class="pi pi-info-circle"></i></span
+          ></label>
+          <div aria-labelledby="spIsToBeUsedForBusinessPurposes">
+            <cfo-radio-button
+              name="isToBeUsedForBusinessPurposes"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.yes' | translate"
+              [value]="true"
+              formControlName="isToBeUsedForBusinessPurposes"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-radio-button
+              name="isToBeUsedForBusinessPurposes"
+              [disabledExternal]="!dataService.activeJourney"
+              [label]="'general.labels.no' | translate"
+              [value]="false"
+              class="ms-3"
+              formControlName="isToBeUsedForBusinessPurposes"
+              ngDefaultControl
+            ></cfo-radio-button>
+            <cfo-validation-errors
+              [control]="securityPropertyForm.get('isToBeUsedForBusinessPurposes')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

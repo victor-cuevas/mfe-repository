@@ -1,0 +1,16 @@
+<ng-container *ngIf="useTooltip; elseBlock">
+  <span
+    #valueWrapper
+    class="cfo-truncated-text"
+    [pTooltip]="tooltip"
+    [tooltipPosition]="tooltipPosition"
+    [tooltipStyleClass]="tooltipStyleClass"
+  >
+    {{ value }}
+  </span>
+</ng-container>
+<ng-template #elseBlock>
+  <span [ngClass]="{ 'cfo-truncated-text': isTruncated }">
+    {{ value }}
+  </span>
+</ng-template>

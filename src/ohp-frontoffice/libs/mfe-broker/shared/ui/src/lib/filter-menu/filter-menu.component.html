@@ -1,0 +1,12 @@
+<div class="menu-container ml-2" (keydown.escape)="showFilter = false">
+  <button
+    [ngClass]="showFilter || isActive ? 'filter-btn filter-btn__active' : 'filter-btn filter-btn__inactive'"
+    (click)="toggleFilter()"
+    aria-label="filter button"
+  >
+    <i class="pi pi-filter"></i>
+  </button>
+  <ul *ngIf="showFilter" class="filter-overlay bg-white shadow">
+    <ng-content></ng-content>
+  </ul>
+</div>

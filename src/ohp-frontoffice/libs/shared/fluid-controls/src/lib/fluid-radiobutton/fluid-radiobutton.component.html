@@ -1,0 +1,105 @@
+<ng-container [ngSwitch]="Type">
+  <ng-container
+    *ngSwitchCase="ButtonTypes.TOGGLE"
+    [ngTemplateOutlet]="toggle"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="ButtonTypes.RADIO"
+    [ngTemplateOutlet]="radio"
+  ></ng-container>
+</ng-container>
+
+<ng-template #toggle>
+  <div class="closefo-input-switch">
+    <p-inputSwitch
+      [required]="ControlConfig.required"
+      [name]="name"
+      (onChange)="OnToggleChangeValue($event)"
+      [(ngModel)]="value"
+      #inputModel="ngModel"
+    ></p-inputSwitch>
+    <div *ngIf="inputModel.errors && form?.submitted">
+      <div
+        class="closefo-validation-error"
+        *ngFor="let error of ControlConfig.Errors"
+      >
+        <small
+          class="form-error"
+          *ngIf="
+            error.isModelError &&
+            inputModel.errors[error['validation']] &&
+            error['validation']
+          "
+          >{{ error["validationMessage"] }}</small
+        >
+      </div>
+    </div>
+    <div *ngIf="form?.submitted">
+      <div
+        class="closefo-validation-error"
+        *ngFor="let error of ControlConfig.Errors"
+      >
+        <small
+          class="form-error"
+          *ngIf="!error.isModelError && error.isShowValidation"
+          >{{ error["validationMessage"] }}</small
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #radio>
+  <div class="closefo-radio-button-wrapper">
+    <div [ngClass]="[flexColumn ? 'flex-column' : 'flex-row']">
+      <div class="d-flex h-100 closefo-radio-align">
+        <div
+          class="closefo-radio-button"
+          *ngFor="let item of options; let last = last"
+        >
+          <p-radioButton
+            [value]="item.value"
+            [name]="name"
+            [disabled]="isReadOnly"
+            [(ngModel)]="value"
+            #inputModel="ngModel"
+            (onClick)="OnRadioChangeValue(value)"
+            [required]="IsRequired()"
+            [label]="item.label"
+          >
+          </p-radioButton>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div *ngIf="inputValue?.errors && form?.submitted">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            class="form-error"
+            *ngIf="
+              error.isModelError &&
+              inputValue.errors[error['validation']] &&
+              error['validation']
+            "
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+      <div *ngIf="form?.submitted">
+        <div
+          class="closefo-validation-error"
+          *ngFor="let error of ControlConfig.Errors"
+        >
+          <small
+            class="form-error"
+            *ngIf="!error.isModelError && error.isShowValidation"
+            >{{ error["validationMessage"] }}</small
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

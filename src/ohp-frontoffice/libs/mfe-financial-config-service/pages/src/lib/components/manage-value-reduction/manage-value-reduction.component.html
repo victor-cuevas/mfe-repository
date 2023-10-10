@@ -1,0 +1,355 @@
+<div class="whitelabel-config">
+  <div class="close-financial-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            <span class="process-number">1</span>
+            {{'financial.valueReduction.heading.ValueReduction' | translate}}
+            <span class="process-number ml-2 p-7">2</span>
+            {{'financial.valueReduction.heading.ValueRed' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'financial.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(getValueReduction.valueReductionPrincipleList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'financial.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onclose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="Header"></cfc-fluid-validation-error>
+
+      <div class="closefo-btn-wrapper close-header-block">
+        <div class="col-12 d-flex">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-back" caption="{{'financial.valueReduction.button.back' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onBackclose()" [disabled]="backDisable"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-primary close-next" caption="{{'financial.valueReduction.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="saveAndNext()" [disabled]="saveAndNextDisable"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <div *ngIf="!HideVR">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="closefo-heading-3 closefo-text-primary mb-2">{{'financial.valueReduction.heading.Value-Reduction' | translate}}</div>
+          </div>
+          <div class="col-4 closefo-btn-wrapper text-right mb-2">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addVRRow()"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="getValueReduction.valueReductionPrincipleList" [selectedDetail]="ValueReductionCard"
+                            [gridDataHeader]="valueHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (deleteRowEvent)="onVRRowDelete($event,getValueReduction.valueReductionPrincipleList)" (rowClickedEvent)="clickVRGrid($event)">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+        <div *ngIf="notHideVRCard">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="closefo-heading-3 closefo-text-primary mb-2">{{'financial.valueReduction.heading.ValueReductionDetail' | translate}}</div>
+            </div>
+          </div>
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey mb-3">
+            <div class="closefo-form-group">
+
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.name' | translate}}</label>
+                    </div>
+                    <div class="col-5">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="VRNameTextBoxconfig"
+                                         [ngModel]="ValueReductionCard?.name"
+                                         (OnchangedText)="changeVRName($event)"
+                                         [maxlength]="250"
+                                         [cfcFluidValidation]="{errors:VRname.errors? VRNameTextBoxconfig.Errors :'', formSubmitted: (VRNameTextBoxconfig.externalError)}"
+                                         name="nameText"
+                                         [isAllowSpace]="false"
+                                         #VRname="ngModel">
+                      </cfc-fluid-textbox>
+                     
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.PeriodBase' | translate}}</label>
+                    </div>
+                    <div class="col-5">
+                      <cfc-fluid-dropdown [ngModel]="ValueReductionCard?.periodBase"
+                                          Type="single"
+                                          name="periodBaseDropdown"
+                                          [placeholder]="placeholder"
+                                          [cfcFluidValidation]="{errors:periodBasedropdown.errors? periodBaseDropdownConfig.Errors :'', formSubmitted: (periodBaseDropdownConfig.externalError)}"
+                                          [options]="getValueReduction.periodBaseList"
+                                          [ControlConfig]="periodBaseDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="caption"
+                                          (OnSelectionChanged)="changeVRPeriodBase($event)"
+                                          #periodBasedropdown="ngModel"
+                                          [title]="ValueReductionCard?.periodBase?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!HideVRC">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="closefo-heading-3 closefo-text-primary mb-2">{{'financial.valueReduction.heading.ValueReductiono' | translate}}</div>
+          </div>
+          <div class="col-4 closefo-btn-wrapper text-right mb-2">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'financial.button.add' | translate}}"
+                              [ControlConfig]="ButtonConfig" (click)="addVRCRow()"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="getValueReduction.valueReductionPrincipleList[this.ValuereductionIndex].valueReductionConfigs"
+                            [gridDataHeader]="valueoHeader" [paginationStatus]="false" paginationReportStatus="false" [selectedDetail]="ValuereductionConfigCard"
+                            (deleteRowEvent)="onVRCRowDelete($event,getValueReduction.valueReductionPrincipleList[this.ValuereductionIndex].valueReductionConfigs)" (rowClickedEvent)="clickVRCGrid($event)">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <div *ngIf="notHideVRCCard">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="closefo-heading-3 closefo-text-primary mb-2">{{'financial.valueReduction.heading.valueDetails' | translate}}</div>
+            </div>
+          </div>
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group">
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.nameo' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="VRCNameTextBoxconfig"
+                                         [ngModel]="ValuereductionConfigCard?.name"
+                                         [cfcFluidValidation]="{errors:VRCname.errors? VRCNameTextBoxconfig.Errors :'', formSubmitted: (VRCNameTextBoxconfig.externalError)}"
+                                         (OnchangedText)="changeVRCName($event)"
+                                         [maxlength]="250"
+                                         name="nameo"
+                                         [isAllowSpace]="false"
+                                         #VRCname="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.CalculationBase' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown [ngModel]="ValuereductionConfigCard?.valueReductionCalculationBase"
+                                          Type="single"
+                                          name="CalculationBaseDropdown"
+                                          [placeholder]="placeholder"
+                                          [options]="getValueReduction.valueReductionCalculationBaseList"
+                                          [ControlConfig]="calculationBaseDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="caption"
+                                          [cfcFluidValidation]="{errors:calbasedropdown.errors? calculationBaseDropdownConfig.Errors :'', formSubmitted: (calculationBaseDropdownConfig.externalError)}"
+                                          (OnSelectionChanged)="changeCalculationBase($event)"
+                                          #calbasedropdown="ngModel"
+                                          [title]="ValuereductionConfigCard?.valueReductionCalculationBase?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.DueElapse' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="dueTextBoxconfig"
+                                         [ngModel]="ValuereductionConfigCard?.dueElapsedPeriod"
+                                         (OnchangedNumber)="changeDueElapsedPeriod($event)"
+                                         name="dueElapse"
+                                         [maxlength]="10"
+                                         [cfcFluidValidation]="{errors:dueElapsed.errors? dueTextBoxconfig.Errors :'', formSubmitted: (dueTextBoxconfig.externalError)}"
+                                         [isAllowSpace]="false"
+                                         #dueElapsed="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'financial.valueReduction.card.Reduction' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="amount"
+                                         [ControlConfig]="reductionTextBoxconfig"
+                                         [ngModel]="ValuereductionConfigCard?.reduction"
+                                         (ngModelChange)="changeReductionPercentage($event,false)"
+                                         (OnchangedAmount)="changeReductionPercentage($event,true)"
+                                         name="valueRed"
+                                         [maxlength]="14"
+                                         [cfcFluidValidation]="{errors:reduction.errors? reductionTextBoxconfig.Errors :'', formSubmitted: (reductionTextBoxconfig.externalError)}"
+                                         [isAllowSpace]="false"
+                                         #reduction="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'financial.valueReduction.card.Factor' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="TextBoxconfig"
+                                         [ngModel]="ValuereductionConfigCard?.factor"
+                                         (OnchangedNumber)="changeFactor($event)"
+                                         name="factor"
+                                         [maxlength]="10"
+                                         [isAllowSpace]="false"
+                                         [form]="userDetailsform">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="show" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate>
+          {{'financial.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'financial.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'financial.dialog.Yes' | translate}}"
+                              (click)="onYes(getValueReduction.valueReductionPrincipleList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.No' | translate}}"
+                              (click)="onNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.Cancel' | translate}}"
+                              (click)="onCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="backShow" (OnCloseModel)="onBackCancel()">
+        <ng-template #headerTemplate>
+          {{'financial.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'financial.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'financial.dialog.Yes' | translate}}"
+                              (click)="onBackYes(getValueReduction.valueReductionPrincipleList)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.No' | translate}}"
+                              (click)="onBackNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'financial.dialog.Cancel' | translate}}"
+                              (click)="onBackCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="lengthBox" (OnCloseModel)="onLengthBox()">
+          
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              
+              <div class="war-right">
+                {{'financial.valueReduction.mandatory.lengthError' | translate}}
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption=" {{'financial.dialog.ok' | translate}}"
+                                (click)="onLengthBox()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+    </form>
+  </div>
+</div>

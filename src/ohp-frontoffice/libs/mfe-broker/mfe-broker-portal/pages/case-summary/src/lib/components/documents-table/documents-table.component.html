@@ -1,0 +1,211 @@
+<div class="card mt-2 mb-4">
+  <p-accordion styleClass="summary-accordion">
+    <p-accordionTab #documentsAccRef>
+      <ng-template pTemplate="header">
+        <h5 class="card-header-title">{{ 'caseSummary.titles.documents' | translate }}</h5>
+      </ng-template>
+      <ng-template pTemplate="body">
+        <p-tabView>
+          <p-tabPanel [disabled]="documentsAccIsClosed">
+            <ng-template pTemplate="header">
+              <h6 class="fw-medium">{{ 'caseSummary.labels.caseDocuments' | translate }}</h6>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <ng-container *ngIf="(caseDocuments$ | async) && (caseDocuments$ | async)?.length; else noDocs">
+                <p-table [autoLayout]="true" [responsive]="true" [value]="(caseDocuments$ | async) || []" dataKey="id">
+                  <ng-template pTemplate="header">
+                    <tr class="px-3">
+                      <th>
+                        {{ 'caseSummary.labels.documentName' | translate }}
+                      </th>
+                      <th>
+                        {{ 'caseSummary.labels.stage' | translate }}
+                      </th>
+                      <th>
+                        {{ 'caseSummary.labels.date' | translate }}
+                      </th>
+                      <th>
+                        {{ 'caseSummary.labels.status' | translate }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template let-document pTemplate="body">
+                    <tr class="px-3">
+                      <td>
+                        <div
+                          (click)="downloadRelatedDocument(document.id)"
+                          (keyup)="downloadRelatedDocumentKeyboard($event, document.id)"
+                          *ngIf="document.date; else noDownload"
+                          class="fw-bold text-decoration-underline cursor-pointer"
+                          [tabindex]="documentsAccIsClosed ? -1 : 0"
+                        >
+                          <i class="pi pi-file me-1"></i>
+                          {{ document.name }}
+                        </div>
+                        <ng-template #noDownload>
+                          <div class="fw-bold">
+                            <i class="pi pi-file me-1"></i>
+                            {{ document.name }}
+                          </div>
+                        </ng-template>
+                      </td>
+                      <td>{{ document.stage | titlecase }}</td>
+                      <td>
+                        {{ document.date | date: 'dd/MM/yyyy' }}
+                      </td>
+                      <td>{{ document.status }}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </ng-container>
+              <ng-template #noDocs>
+                <div class="p-1">
+                  <div class="card-info-block">
+                    <p class="fw-medium px-2 py-3">
+                      {{ 'caseSummary.labels.noDocs' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-template>
+          </p-tabPanel>
+          <p-tabPanel [disabled]="documentsAccIsClosed">
+            <ng-template pTemplate="header">
+              <h6 class="fw-medium">
+                {{ 'caseSummary.labels.requiredDocuments' | translate }}
+                <span *ngIf="(stipulations$ | async)?.length as stipulationLength">{{
+                  stipulationLength ? '(' + stipulationLength + ')' : ''
+                }}</span>
+              </h6>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <ng-container *ngIf="(stipulations$ | async)?.length || loadingStipulations; else noStipulations">
+                <p class="m-3 text-small fst-italic">
+                  {{ 'createFma.subTitles.uploadStipulationsMsg' | translate }}
+                </p>
+                <p-table
+                  [autoLayout]="true"
+                  [loading]="loadingStipulations"
+                  [responsive]="true"
+                  [value]="(stipulations$ | async) || []"
+                  dataKey="id"
+                >
+                  <ng-template pTemplate="header">
+                    <tr class="px-3">
+                      <th>
+                        {{ 'caseSummary.labels.documentName' | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ 'caseSummary.labels.status' | translate }}
+                      </th>
+                      <th class="text-center">
+                        {{ 'caseSummary.labels.date' | translate }}
+                      </th>
+                      <ng-template
+                        [cfoPermissions]="'fma'"
+                        [cfoPermissionsFeatures]="['assignee']"
+                        [cfoPermissionsNeededPermission]="portalPermissionType.FullMortgageApplication"
+                      >
+                        <ng-container *ngIf="(caseStatus$ | async) !== caseStatus.Cancelled">
+                          <th class="text-center" *ngIf="(draftStage$ | async) === stageEnum.Fma">
+                            {{ 'caseSummary.labels.upload' | translate }}
+                          </th>
+                        </ng-container>
+                      </ng-template>
+                    </tr>
+                  </ng-template>
+                  <ng-template let-i="rowIndex" let-stipulation pTemplate="body">
+                    <tr class="px-3">
+                      <td>
+                        <div
+                          (click)="downloadStipulation(stipulation.stipulationId)"
+                          *ngIf="(stipulation.status | uploadStatus: true) === 'upload-success'; else noStipulationDownload"
+                          class="d-flex align-items-center document-title fw-bold"
+                        >
+                          <i class="pi pi-check-circle me-2 document-title--upload-success"></i>
+                          <span [class]="stipulation.documentName ? 'fw-bold text-decoration-underline cursor-pointer' : ''">
+                            {{ stipulation.stipulationDescription }}
+                          </span>
+                        </div>
+                        <ng-template #noStipulationDownload>
+                          <div class="d-flex align-items-center document-title fw-bold">
+                            <i class="pi pi-file me-2"></i>
+                            {{ stipulation.stipulationDescription }}
+                          </div>
+                        </ng-template>
+                      </td>
+                      <td>
+                        <div
+                          *ngIf="
+                            (stipulation.rejectionReasons?.length && (stipulation.status | uploadStatus: true) === 'upload-pending') ||
+                              (stipulation.status | uploadStatus: true) === 'upload-rejected';
+                            else noTooltip
+                          "
+                          [class]="
+                            'd-flex align-items-center justify-content-center document-title document-title--' +
+                            (stipulation.status | uploadStatus: true)
+                          "
+                          [pTooltip]="stipulation.rejectionReasons | multilineTooltip"
+                          tooltipPosition="left"
+                          [escape]="false"
+                        >
+                          <i
+                            *ngIf="(stipulation.status | uploadStatus: true) === 'upload-pending'"
+                            class="pi pi-exclamation-triangle me-2"
+                          ></i>
+                          <i *ngIf="(stipulation.status | uploadStatus: true) === 'upload-rejected'" class="pi pi-info-circle me-2"></i>
+                          {{ stipulation.status | uploadStatus }}
+                        </div>
+                        <ng-template #noTooltip>
+                          <div
+                            [class]="
+                              'd-flex align-items-center justify-content-center document-title document-title--' +
+                              (stipulation.status | uploadStatus: true)
+                            "
+                          >
+                            {{ stipulation.status | uploadStatus }}
+                          </div>
+                        </ng-template>
+                      </td>
+                      <td class="text-center">
+                        {{ stipulation.date | date: 'dd/MM/yyyy' }}
+                      </td>
+                      <ng-template
+                        [cfoPermissions]="'fma'"
+                        [cfoPermissionsFeatures]="['assignee']"
+                        [cfoPermissionsNeededPermission]="portalPermissionType.FullMortgageApplication"
+                      >
+                        <ng-container *ngIf="(caseStatus$ | async) !== caseStatus.Cancelled">
+                          <td *ngIf="(draftStage$ | async) === stageEnum.Fma" class="text-center">
+                            <cfo-file-upload
+                              (uploadFile)="onUploadStipulation($event, i)"
+                              [showUpload]="
+                                (stipulation.status | uploadStatus: true) === 'upload-required' ||
+                                (stipulation.status | uploadStatus: true) === 'upload-rejected'
+                              "
+                              [isUploading]="stipulation.isUploading"
+                              [stipulationId]="stipulation.stipulationId"
+                            ></cfo-file-upload>
+                          </td>
+                        </ng-container>
+                      </ng-template>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </ng-container>
+              <ng-template #noStipulations>
+                <div class="p-1">
+                  <div class="card-info-block">
+                    <p class="fw-medium px-2 py-3">
+                      {{ 'caseSummary.labels.noStipulations' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-template>
+          </p-tabPanel>
+        </p-tabView>
+      </ng-template>
+    </p-accordionTab>
+  </p-accordion>
+</div>

@@ -1,0 +1,7 @@
+{
+  "root": "<lib_path>",
+  "sourceRoot": "<lib_path>/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}

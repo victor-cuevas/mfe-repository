@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/create-fma",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/create-fma/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/create-fma"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/create-fma/jest.config.js",
+        "passWithNoTests": true,
+        "coverageReporters": ["text"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/create-fma/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/create-fma/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

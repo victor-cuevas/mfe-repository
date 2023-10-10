@@ -1,0 +1,92 @@
+{
+    "tax-statement": {
+      "taxcertificate": {
+        "heading": {
+          "tax-certificate": "Manage Tax Certificate Mapping",
+          "TaxCertificateSystem": "Manage Tax Certificate System Parameters",
+          "TaxCertificateConfig": "Manage Tax Certificate Transactions"
+        },
+        "tabel": {
+          "TaxCertificate": "FR - Tax Certificate Config Type",
+          "TaxcertificateCategory": "FR - Tax Certificate Category",
+          "TaxCertificateReference": "FR - Tax Certificate Reference",
+          "Direction": "FR - Direction",
+          "delete": "",
+          "TaxCertificateConfig": "FR - TaxCertificate Config Type",
+          "TxelType": "FR - TxEl Type",
+          "ConvertedtxType": "FR - ConvertedTx Type",
+          "Decrease": "FR - Decrease",
+          "TaxcertificateType": "FR - Tax Certificate Type",
+          "TaxcertificateCategorys": "FR - Tax Certificate Category",
+          "BalancemovementType": "FR - Balance Movement Type"
+        },
+        "card": {
+          "TaxCertificateConfigType": "FR - Tax Certificate Config Type",
+          "TaxCeritificateCategory": "FR - Tax Ceritificate Category",
+          "TaxCertificateReference": "FR - Tax Certificate Reference",
+          "Direction": "FR - Direction",
+          "Cutoffdays": "FR - Cut Off Days",
+          "CutoffdaysPreviousYear": "FR - Cut Off Days Previous Year",
+          "UseFirst": "FR - Use First Day Of Year For Tax Certificate",
+          "ReporterName": "FR - Reporter Name",
+          "ReporterCompanyNumber": "FR - Reporter Company Number",
+          "RelationNumber": "FR - Relation Number",
+          "NameLabel": "FR - Name Label For Running Account",
+          "Maxnumber": "FR - Max Number Of Root Objects For Annual Overview Batch",
+          "Communication": "FR - Communication Medium For Annual Overview",
+          "TaxCertificateConfigTypes": "FR - Tax Certificate Config Type",
+          "TxelType": "FR - TxEl Type",
+          "ConvertedtxType": "FR - ConvertedTx Type",
+          "Decrease": "FR - Decrease",
+          "TaxCeritificateType": "FR - Tax Certificate Type",
+          "TaxCeritificateCategorys": "FR - Tax Certificate Category",
+          "BalancemovementType": "FR - Balance Movement Type"
+        },
+        "picklist": {
+          "heading": {
+            "CreditProvider": "Credit Provider"
+          },
+          "ValidationError":{
+            "CreditProvider":"FR - Atleast one Record Should Exist in 'Credit Provider'"
+          }
+        },
+        "ValidationError":{
+          "required":" est obligatoire.",
+          "TaxCertificateConfigType": "'FR - Tax Certificate Config Type'",
+          "TaxCeritificateCategory": "'FR - Tax Ceritificate Category'",
+          "TaxCertificateReference": "'FR - Tax Certificate Reference'",
+          "BusinessValidation":"The given record is already in the list. Please make sure that the record is unique.",
+          "Cutoffdays": "'FR - Cut Off Days'",
+          "CutoffdaysPreviousYear": "'FR - Cut Off Days Previous Year'",
+          "UseFirst": "'FR - Use First Day Of Year For Tax Certificate'",
+          "ReporterName": "'FR - Reporter Name'",
+          "ReporterCompanyNumber": "'FR - Reporter Company Number'",
+          "RelationNumber": "'FR - Relation Number'",
+          "Maxnumber": "'NL - Max Number Of Root Objects For Annual Overview Batch'",
+          "InputIncorrect": "Input is not in correct format.",
+          "numberInt32Check": "Value was either too large or too small for an Int32.",
+          "TaxCertificateConfigTypes": "'FR -  Tax Certificate Config Type'",
+          "TaxCeritificateType": "'FR -  Tax Ceritificate Type'",
+          "TaxCeritificateCategorys": "'FR - Tax Ceritificate Category'",
+          "Communication": "'FR - Communication Medium For Annual Overview'",
+          "CreditBusinessValidation":"FR - Only one field should be filled in 'TxEl Type','ConvertedTx Type','Balance Movement Type'."
+        }
+      },
+      "button": {
+        "save": "Sauvegarder",
+        "clear": "Fermer",
+        "Add" :"Ajoute",
+        "continue": "FR - Continue"
+      },
+      "Validation": {
+        "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+      },
+      "close": {
+        "header": "Changements non sauvegardé",
+        "body": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+        "yes": "Oui",
+        "no": "Non",
+        "cancel": "Annuler"
+      }
+    }
+  }

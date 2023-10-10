@@ -1,0 +1,38 @@
+{
+  "AWS": {
+    "REGION": "eu-west-1",
+    "USER_POOL_ID": "eu-west-1_vI6HfGbnT",
+    "USER_POOL_APP_CLIENT_ID": "622lmk1u7kuapkbmnr9elvp789",
+    "USER_POOL_SIGN_IN_REDIRECT_URL": "https://portal-acc.april-acc.project.cloud",
+    "USER_POOL_REDIRECT_URL": "https://portal-acc.april-acc.project.cloud",
+    "USER_POOL_AUTH_DOMAIN": "https://apr-acc.auth.eu-west-1.amazoncognito.com"
+  },
+  "CLIENT": "apr",
+  "STAGE": "acc",
+  "DATADOG": {
+    "applicationId": "b4a1736a-e73a-48d8-b7fa-2a866a590840",
+    "clientToken": "pub4794a37b50efdbde1f705e55adaf97ec",
+    "site": "datadoghq.eu",
+    "service": "mfes-app-angular"
+  },
+  "LOGO_PATH": "/assets/april-logo.png",
+  "DEFAULT_ROUTE": "broker",
+  "REMOTE_MFES": [
+    {
+      "path": "broker",
+      "remoteUrl": "https://portal.april-acc.project.cloud",
+      "remoteName": "mfeBrokerPortal",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPortalModule",
+      "apiUrl": "https://jwca74ruz6.execute-api.eu-west-1.amazonaws.com/acc"
+    },
+    {
+      "path": "panel",
+      "remoteUrl": "https://panel.april-acc.project.cloud",
+      "remoteName": "mfeBrokerPanel",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPanelModule",
+      "apiUrl": "https://zrgzw1bfb2.execute-api.eu-west-1.amazonaws.com/acc"
+    }
+  ]
+}

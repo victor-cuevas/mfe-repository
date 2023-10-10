@@ -1,0 +1,35 @@
+<mbpanel-layout [breadcrumbItems]="breadcrumb" class="firm-details-header">
+  <!-- Title -->
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center pb-4">
+    <h2 class="my-3 mb-lg-0">{{ 'intermediary.titles.add' | translate }}</h2>
+  </div>
+  <div class="container p-2">
+    <div class="container my-2">
+      <!-- User Role -->
+      <cfo-user-role
+        [hasFCADataFeature]="true"
+        (populateDataFromAdvisorUniqueID)="populateData($event)"
+        [isAdvisorUniqueIDSelected]="lockDefaultStructure"
+        (unlockDefaultStructureEvent)="unlockDefaultStructure()"
+        [hasFCADetails]="hasFCADetail"
+      ></cfo-user-role>
+      <!-- Personal Details -->
+      <cfo-personal-details [hasFCADataFeature]="isFieldDisabled" [readOnly]="!hasPermission"></cfo-personal-details>
+      <!-- Account information -->
+      <cfo-account-info></cfo-account-info>
+      <!-- Trading Address -->
+      <cfo-trading-address [firmName]="firm?.firmName"></cfo-trading-address>
+      <div class="my-4">
+        <a class="link-outlined" [routerLink]="'../../'">{{ 'general.buttons.cancel' | translate }}</a>
+        <button
+          pButton
+          type="button"
+          class="p-button-primary mx-4"
+          icon="none"
+          (click)="submit()"
+          [label]="'general.buttons.invite' | translate"
+        ></button>
+      </div>
+    </div>
+  </div>
+</mbpanel-layout>

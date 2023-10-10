@@ -1,0 +1,1917 @@
+<div class="whitelabel-config-styles">
+  <div class="close-communication-config container">
+    <form #reminderFlowform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':reminderFlowform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'plan.flow.heading.manageFlow' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'plan.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave((filter.flowType.codeId === 1)?remainderScenarioList.items:followUpList.items )"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'plan.button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.flow.heading.filter' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+        <div class="closefo-form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'plan.flow.card.flowname' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-autocomplete [ngModel]="filter.flowName"
+                                          [form]="reminderFlowform"
+                                          name="follownames"
+                                          [filteredNames]="filterName"
+                                          (filtername)="filterNames($event)"
+                                          (focusout)="changeName($event)"
+                                          [ControlConfig]="AutoCompleteConfig"
+                                          field="name"
+                                          #autocomplete="ngModel"
+                                          minLength="1">
+                  </cfc-fluid-autocomplete>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'plan.flow.card.flowtype' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="filter.flowType"
+                                      [form]="reminderFlowform"
+                                      Type="single"
+                                      name="flowType"
+                                      [placeholder]="placeholder"
+                                      [options]="remainderFlowScreenData?.flowTypeList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="codeId"
+                                      (OnSelectionChanged)="onChangeFlowType($event)"
+                                      #languagedropdown="ngModel"
+                                      [title]="filter?.flowType?.caption">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end closefo-btn-wrapper">
+
+              <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary mr-1" caption="{{'plan.flow.button.clear' | translate}}" (click)="onClear()"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.flow.button.filter' | translate}}" (click)="onSearch(filter)"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--Remainder Scenario-->
+      <div *ngIf="showRemainderData">
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                              caption="{{'plan.flow.tabel.add' | translate}}" (click)="addStatusBasedFlow()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="remainderScenarioList?.items" [gridData]="remainderScenarioList.items"
+                            [gridDataHeader]="RemainderFlowNameHeader" [paginationStatus]="true" paginationReportStatus="true"
+                            (rowClickedEvent)=remainderScenarioDataSelect($event) (deleteRowEvent)="onRemainderScenarioRowDelete($event,remainderScenarioList.items)"
+                            [pageReportContent]="paginationContent" (gridPageIndex)="onPageIndex($event)"
+                            [PageRows]="pageRow" [totalRecords]="recordsAvailable" [resetFirst]="resetPagination"
+                            [selectedDetail]="remainderScenarioDetail">
+
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <div *ngIf="showRemainderScenarioDetail">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.flow.heading.sampel' | translate }}</div>
+            </div>
+          </div>
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+            <div class="closefo-form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.flow.card.flowname1' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="RSNameTextBoxconfig"
+                                         [ngModel]="remainderScenarioDetail?.scenarioName"
+                                         (change)="onChangeRSScenarioName($event)"
+                                         name="scenarioName"
+                                         [isAllowSpace]="false"
+                                         [cfcFluidValidation]="{errors:RSflowName.errors? RSNameTextBoxconfig.Errors :'', formSubmitted:(this.RSNameTextBoxconfig.externalError)}"
+                                         #RSflowName="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'plan.flow.card.flowtype1' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="TextBoxconfig"
+                                         [ngModel]="filter.flowType?.caption"
+                                         name="userName"
+                                         [isReadOnly]="true"
+                                         [isAllowSpace]="false"
+                                         [form]="reminderFlowform">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSStep()"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 close-header-block ">
+              <cfc-fluid-grid Type="bo-table" dataKey="remainderScenarioDetail?.reminderScenarioStepList"
+                              [gridData]="remainderScenarioDetail?.reminderScenarioStepList" (rowClickedEvent)=RSStepListDataSelection($event)
+                              [gridDataHeader]="RemainderScenarioStepSeqHeader" [paginationStatus]="false" paginationReportStatus="false"
+                              (deleteRowEvent)="onRSStepDelete($event,remainderScenarioDetail.reminderScenarioStepList)" [selectedDetail]="remainderScenarioStepListDetail">
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <div *ngIf="showRemainderScenarioStepDetail">
+            <div class="tab-top closefo-form-group">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <p-tabView class="reminder-flow-tab" [(activeIndex)]="SelectedTabIndex">
+
+                  <p-tabPanel header="{{'plan.flow.tab.flowstep' | translate}}" [selected]="true">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.name' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="text"
+                                               [ControlConfig]="RSStepNameTextBoxconfig"
+                                               [ngModel]="remainderScenarioStepListDetail?.name"
+                                               (change)="OnChangeRSStepName($event)"
+                                               name="Stepname"
+                                               [isAllowSpace]="false"
+                                               [cfcFluidValidation]="{errors:Stepname.errors? RSStepNameTextBoxconfig.Errors :'', formSubmitted:(this.RSStepNameTextBoxconfig.externalError)}"
+                                               #Stepname="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.minDueAmount' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="amount"
+                                               [ControlConfig]="RSMinDueAmountTestBoxconfig"
+                                               [ngModel]="remainderScenarioStepListDetail?.minDueAmount"
+                                               (OnchangedAmount)="onChangeMinDueAmount($event,true)"
+                                               (ngModelChange)="onChangeMinDueAmount($event,false)"
+                                               name="minDueAmount"
+                                               [isAllowSpace]="false"
+                                               [cfcFluidValidation]="{errors:minDueAmount.errors? RSMinDueAmountTestBoxconfig.Errors :'', formSubmitted:(this.RSMinDueAmountTestBoxconfig.externalError)}"
+                                               [form]="reminderFlowform"
+                                               #minDueAmount="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.elapsedperiod' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderScenarioStepListDetail?.elapsedPeriodType"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="elapsedPeriodType"
+                                                [placeholder]="placeholder"
+                                                [options]="ElapsedPeriodTypeListForStatusBased"
+                                                [ControlConfig]="RSElapsedPeriodDropdownconfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeRSElapsedPeriodType($event)"
+                                               [cfcFluidValidation]="{errors:elapsedPeriodType.errors ? (elapsedPeriodType.errors?.maxValueError)? maxErrorDto: RSElapsedPeriodDropdownconfig.Errors :'', formSubmitted:(this.RSElapsedPeriodDropdownconfig.externalError)}"
+                                                #elapsedPeriodType="ngModel"
+                                                [title]="remainderScenarioStepListDetail?.elapsedPeriodType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.elapsedperiod1' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="numbers"
+                                               [ControlConfig]="RSElapsedPeriodTextBoxconfig"
+                                               [ngModel]="remainderScenarioStepListDetail?.elapsedPeriod"
+                                               (OnchangedNumber)="onChangeRSElapsedPeriod($event)"
+                                               name="elapsedPeriod"
+                                               [isAllowSpace]="false"
+                                               [maximumValue]="intMaxValue"
+                                               [maxlength]="11"
+                                               [cfcFluidValidation]="{errors:elapsedPeriod.errors ? (elapsedPeriod.errors?.maxValueError)? maxErrorDto: RSElapsedPeriodTextBoxconfig.Errors :'', formSubmitted:(this.RSElapsedPeriodTextBoxconfig.externalError)}"
+                                               #elapsedPeriod="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.statuschange' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                [form]="reminderFlowform"
+                                                name="changeDossierStatus"
+                                                [ngModel]="remainderScenarioStepListDetail?.changeDossierStatus"
+                                                (ngModelChange)="onChangeRSDossierStatus($event)">
+                            </cfc-fluid-checkbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.targetChange' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderScenarioStepListDetail?.targetDossierStatus"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="targetDossierStatus"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.dossierStatusList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                [showClearIcon]="(remainderScenarioStepListDetail?.targetDossierStatus)?true:false"
+                                                [isReadOnly]="!remainderScenarioStepListDetail?.changeDossierStatus"
+                                                (OnSelectionChanged)="onChangeRSTargetDossierStatus($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="remainderScenarioStepListDetail?.targetDossierStatus?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.actions' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSActions()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="remainderScenarioStepListDetail?.actionList"
+                                        [gridDataHeader]="RemainderScenarioActionHeader" (rowClickedEvent)=RSActionDataSelect($event)
+                                        [paginationStatus]="false" paginationReportStatus="false" [selectedDetail]="remainderScenarioActionDetail"
+                                        (deleteRowEvent)="onRSActionDelete($event, remainderScenarioStepListDetail.actionList)">
+                        </cfc-fluid-grid>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="remainderScenarioStepListDetail.actionList.length > 0">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actionname' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="text"
+                                               [ControlConfig]="RSActionNameTextBoxconfig"
+                                               [ngModel]="remainderScenarioActionDetail?.action?.name"
+                                               (change)="onChangeRSActionName($event)"
+                                               name="remainderScenarioActionname"
+                                               [isAllowSpace]="false"
+                                               [cfcFluidValidation]="{errors:remainderScenarioActionname.errors? RSActionNameTextBoxconfig.Errors :'', formSubmitted:(this.RSActionNameTextBoxconfig.externalError)}"
+                                               #remainderScenarioActionname="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actiontype' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderScenarioActionDetail?.action?.actionType"
+                                                Type="single"
+                                                name="actionType"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.actionTypeList"
+                                                [ControlConfig]="RSActionTypeDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeRSActionType($event)"
+                                                [cfcFluidValidation]="{errors:actionType.errors? RSActionTypeDropdownConfig.Errors :'', formSubmitted:(this.RSActionTypeDropdownConfig.externalError)}"
+                                                #actionType="ngModel"
+                                                [title]="remainderScenarioActionDetail?.action?.actionType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.default' | translate}}</label>
+                          </div>
+                          <div class="col-7 d-flex">
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="TextBoxconfig"
+                                                   [ngModel]="remainderScenarioActionDetail?.action?.defaultHandleTimeDays"
+                                                   (OnchangedNumber)="onChangeRSDefaultHandleTimeDays($event)"
+                                                   name="defaultHandleTimeDays"
+                                                   [isAllowSpace]="false"
+                                                   [maxlength]="2"
+                                                   [form]="reminderFlowform">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.d' | translate}}</label>
+                              </div>
+                            </div>
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7 text-right">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="HoursTextBoxconfig"
+                                                   [ngModel]="remainderScenarioActionDetail?.action?.defaultHandleTimeHours"
+                                                   (OnchangedNumber)="onChangeRSDefaultHandleTimeHours($event)"
+                                                   name="defaultHandleTimeHours"
+                                                   [isAllowSpace]="false"
+                                                   [form]="reminderFlowform"
+                                                   [maximumValue]="23"
+                                                   [minimumValue]="0"
+                                                   [maxlength]="2"
+                                                   [cfcFluidValidation]="{errors:(defaultHandleTimeHours.errors?.maxValueError || defaultHandleTimeHours.errors?.invalidDefaultError) ? (defaultHandleTimeHours.errors?.maxValueError) ? maxHourDto : (defaultHandleTimeHours.errors?.invalidDefaultError) ? minHourDto : '' :'', formSubmitted: HoursTextBoxconfig.externalError}"
+                                                   #defaultHandleTimeHours="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.h' | translate}}</label>
+                              </div>
+                            </div>
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7 text-right">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="MinutesTextBoxconfig"
+                                                   [ngModel]="remainderScenarioActionDetail?.action?.defaultHandleTimeMinutes"
+                                                   (OnchangedNumber)="onChangeRSDefaultHandleTimeMinutes($event)"
+                                                   name="defaultHandleTimeMinutes"
+                                                   [isAllowSpace]="false"
+                                                   [form]="reminderFlowform"
+                                                   [maximumValue]="59"
+                                                   [minimumValue]="0"
+                                                   [maxlength]="2"
+                                                   [cfcFluidValidation]="{errors:(defaultHandleTimeMinutes.errors?.maxValueError || defaultHandleTimeMinutes.errors?.invalidDefaultError)? (defaultHandleTimeMinutes.errors?.maxValueError) ? maxMinuteDto : (defaultHandleTimeMinutes.errors?.invalidDefaultError) ? minMinuteDto : '' :'', formSubmitted: MinutesTextBoxconfig.externalError}"
+                                                   #defaultHandleTimeMinutes="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.m' | translate}}</label>
+                              </div>
+                            </div>
+                          </div>
+                        
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.defaultmargin' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="numbers"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="remainderScenarioActionDetail?.action?.defaultHandleMargin"
+                                               (OnchangedNumber)="onChangeRSDefaultHandleMargin($event)"
+                                               name="defaultHandleMargin"
+                                               [isAllowSpace]="false"
+                                               [form]="reminderFlowform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actionreceiver' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderScenarioActionDetail?.action?.actionReceiverTypeName"
+                                                Type="single"
+                                                name="actionReceiverTypeName"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.actionReceiverTypeNameList"
+                                                [ControlConfig]="RSActionReceiverDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeRSActionReceiverTypeName($event)"
+                                                [cfcFluidValidation]="{errors:actionReceiverTypeName.errors? RSActionReceiverDropdownConfig.Errors :'', formSubmitted:(this.RSActionReceiverDropdownConfig.externalError)}"
+                                                #actionReceiverTypeName="ngModel"
+                                                [title]="remainderScenarioActionDetail?.action?.actionReceiverTypeName?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actinPriority' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="remainderScenarioActionDetail?.action?.priority"
+                                                Type="single"
+                                                name="priority"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.priorityList"
+                                                [ControlConfig]="RSPriorityDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeRSPriority($event)"
+                                                [cfcFluidValidation]="{errors:priority.errors? RSPriorityDropdownConfig.Errors :'', formSubmitted:(this.RSPriorityDropdownConfig.externalError)}"
+                                                #priority="ngModel"
+                                                [title]="remainderScenarioActionDetail?.action?.priority?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.communication' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSCommunications()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="remainderScenarioStepListDetail.communicationList" [columns]="RemainderScenarioCommunicationHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr (click)="RSCommunicationDataSelect(rowData)">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'ReferenceType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.referenceType"
+                                                      Type="single"
+                                                      name="referenceType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.referenceTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="name"
+                                                      dataKey="name"
+                                                      [showClearIcon]="(rowData.communication?.referenceType?.name)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSReferenceType($event,index)"
+                                                      [title]="rowData.communication?.referenceType?.name">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'CommunicationMedium'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.communicationMedium"
+                                                      Type="single"
+                                                      name="communicationMedium{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.communicationMediumList"
+                                                      [ControlConfig]="RSCommunicationMediumDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.communicationMedium?.codeId)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSCommunicationMedium($event,index)"
+                                                      [cfcFluidValidation]="{errors:communicationMediumdropdown.errors? RSCommunicationMediumDropdownConfig.Errors :'', formSubmitted:(this.RSCommunicationMediumDropdownConfig.externalError)}"
+                                                      #communicationMediumdropdown="ngModel"
+                                                      [title]="rowData.communication?.communicationMedium?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'TemplateName'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.documentTemplate"
+                                                      Type="single"
+                                                      name="documentTemplate{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="rowData.communication?.documentTemplateList"
+                                                      [ControlConfig]="RSTemplateNameDropdownConfig"
+                                                      optionLabel="docGenType.caption"
+                                                      dataKey="docGenType.codeId"
+                                                      [showClearIcon]="(rowData.communication?.documentTemplate?.docGenType?.codeId)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSDocumentTemplate($event,index)"
+                                                      [cfcFluidValidation]="{errors:documentTemplate.errors? RSTemplateNameDropdownConfig.Errors :'', formSubmitted:(this.RSTemplateNameDropdownConfig.externalError)}"
+                                                      #documentTemplate="ngModel"
+                                                      [title]="rowData.communication?.documentTemplate?.docGenType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'FallBackMechanism'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.fallbackMechanism"
+                                                      [form]="reminderFlowform"
+                                                      Type="single"
+                                                      name="fallbackMechanism{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.fallbackMechanismList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="name"
+                                                      dataKey="name"
+                                                      [showClearIcon]="(rowData.communication?.fallbackMechanism?.name)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSFallbackMechanism($event,index)"
+                                                      [title]="rowData.communication?.fallbackMechanism?.name">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'CommunicationReceiver'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.communicationReceiver"
+                                                      Type="single"
+                                                      name="communicationReceiver{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.communicationReceiverList"
+                                                      [ControlConfig]="RSCommunicationReceiverDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.communicationReceiver?.codeId)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSCommunicationReceiver($event,index)"
+                                                      [cfcFluidValidation]="{errors:communicationReceiver.errors? RSCommunicationReceiverDropdownConfig.Errors :'', formSubmitted:(this.RSCommunicationReceiverDropdownConfig.externalError)}"
+                                                      #communicationReceiver="ngModel"
+                                                      [title]="rowData.communication?.communicationReceiver?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'ReceiverType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.receiverType"
+                                                      [form]="reminderFlowform"
+                                                      Type="single"
+                                                      name="receiverType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.receiverTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.receiverType?.codeId)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSReceiverType($event,index)"
+                                                      #languagedropdown="ngModel"
+                                                      [title]="rowData.communication?.receiverType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'Registered'">
+                                  <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                      [form]="reminderFlowform"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      [ngModel]="rowData.communication?.registeredLetter"
+                                                      (ngModelChange)="onChangeRSRegisteredLetter($event,index)"
+                                                      name="registeredLetter{{index}}">
+                                  </cfc-fluid-checkbox>
+                                </span>
+                                <span *ngSwitchCase="'AddressType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.addressType"
+                                                      [form]="reminderFlowform"
+                                                      Type="single"
+                                                      name="addressType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.addressTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.addressType?.codeId)?true:false"
+                                                      [isReadOnly]="!rowData.isCommunicationSelected"
+                                                      (OnSelectionChanged)="onChangeRSAddressType($event,index)"
+                                                      #languagedropdown="ngModel"
+                                                      [title]="rowData.communication?.addressType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRSCommunicationDelete(rowData,remainderScenarioStepListDetail.communicationList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+
+                    <div *ngIf="showAttachment">
+                      <div class="row">
+                        <div class="col-12 closefo-btn-wrapper text-right">
+                          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                            caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)=" addRSAttachment()"
+                                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 close-header-block ">
+                          <p-table [value]="remainderScenarioCommunicationDetail.communication.attachmentList" [columns]="RemainderScenarioAttachmentHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                            <ng-template pTemplate="header" let-columns>
+                              <tr>
+                                <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                  <span>{{col.header}}</span>
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                              <tr>
+                                <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                  <span *ngSwitchCase="'AttachmentType'">
+                                    <cfc-fluid-dropdown [ngModel]="rowData?.documentTemplate"
+                                                        Type="single"
+                                                        name="attachmentType{{index}}"
+                                                        [placeholder]="placeholder"
+                                                        [options]="attachmentList"
+                                                        [ControlConfig]="RSAttachmentTypeDropdownConfig"
+                                                        optionLabel="docGenType.caption"
+                                                        dataKey="docGenType.caption"
+                                                        (OnSelectionChanged)="onChangeRSAttachmentType($event,index)"
+                                                        [cfcFluidValidation]="{errors:attachmentTypedropdown.errors? RSAttachmentTypeDropdownConfig.Errors :'', formSubmitted:(this.RSAttachmentTypeDropdownConfig.externalError)}"
+                                                        #attachmentTypedropdown="ngModel"
+                                                        [title]="rowData.documentTemplate?.docGenType?.caption">
+                                    </cfc-fluid-dropdown>
+                                  </span>
+                                  <span *ngSwitchCase="'Delete'">
+                                    <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRSAttachmentDelete(rowData,remainderScenarioCommunicationDetail.communication.attachmentList)"></i>  </span>
+                                  </span>
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.role' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSRole()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="remainderScenarioStepListDetail?.roleCreationList"
+                                        [gridDataHeader]="RoleHeader" [paginationStatus]="false"  [selectedDetail]="remainderScenarioRoleDetail"
+                                        paginationReportStatus="false" (rowClickedEvent)=RSRoleDataSelect($event)
+                                        (deleteRowEvent)="onRSRoleDelete($event, remainderScenarioStepListDetail.roleCreationList)">
+                        </cfc-fluid-grid>
+                      </div>
+
+                      <div class="closefo-card closefo-card-rounded closefo-bg-grey" *ngIf="remainderScenarioStepListDetail.roleCreationList.length > 0">
+                        <div class="closefo-form-group">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="row align-items-center">
+                                <div class="col-5">
+                                  <label class="closefo-form-label">{{'plan.flow.card.role' | translate}}</label>
+                                </div>
+                                <div class="col-7">
+                                  <cfc-fluid-dropdown [ngModel]="remainderScenarioRoleDetail?.roleType"
+                                                      Type="single"
+                                                      name="roleType"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.roleTypeList"
+                                                      [ControlConfig]="RSRoleTypeDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      (OnSelectionChanged)="onChangeRSRoleType($event)"
+                                                      [cfcFluidValidation]="{errors:roleType.errors? RSRoleTypeDropdownConfig.Errors :'', formSubmitted:(this.RSRoleTypeDropdownConfig.externalError)}"
+                                                      #roleType="ngModel"
+                                                      [title]="remainderScenarioRoleDetail?.roleType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.document' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSDocument()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="remainderScenarioStepListDetail.reminderDocumentList" [columns]="RemainderScenarioDocumentHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'TemplateType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.documentConfiguration?.documentTemplate?.documentTemplateType"
+                                                      Type="single"
+                                                      name="documentTemplateType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="documentTypeList"
+                                                      [ControlConfig]="DocumentTemplateTypeDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.documentConfiguration?.documentTemplate?.documentTemplateType)?true:false"
+                                                      (OnSelectionChanged)="onChangeRSDocumentTemplateType($event,index)"
+                                                      [cfcFluidValidation]="{errors:documentTemplateType.errors? DocumentTemplateTypeDropdownConfig.Errors :'', formSubmitted:(this.DocumentTemplateTypeDropdownConfig.externalError)}"
+                                                      #documentTemplateType="ngModel"
+                                                      [title]="rowData.documentConfiguration?.documentTemplate?.documentTemplateType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+
+                                <span *ngSwitchCase="'DocGenType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.documentConfiguration?.documentTemplate?.docGenType"
+                                                      Type="single"
+                                                      name="docGenType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="rowData.docGenTypeList"
+                                                      [ControlConfig]="DocGenTypeDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.documentConfiguration?.documentTemplate?.docGenType)?true:false"
+                                                      [isReadOnly]="!rowData.documentConfiguration?.documentTemplate?.documentTemplateType"
+                                                      (OnSelectionChanged)="onChangeRSDocGenType($event,index)"
+                                                      [cfcFluidValidation]="{errors:docGenType.errors? DocGenTypeDropdownConfig.Errors :'', formSubmitted:(this.DocGenTypeDropdownConfig.externalError)}"
+                                                      #docGenType="ngModel"
+                                                      [title]="rowData.documentConfiguration?.documentTemplate?.docGenType?.caption">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRSDocumentDelete(rowData, remainderScenarioStepListDetail.reminderDocumentList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.events' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRSEvents()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="remainderScenarioStepListDetail.followUpEventForReminderStepList" [columns]="RemainderScenarioEventsHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'RemainderEvent'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.eventName"
+                                                      Type="single"
+                                                      name="eventName{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.followupEventNameList"
+                                                      [ControlConfig]="RSFollowUpEventDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      (OnSelectionChanged)="onChangeRSEventName($event,index)"
+                                                      [cfcFluidValidation]="{errors:eventdropdown.errors? FollowUpEventDropdownConfig.Errors :'', formSubmitted:(this.FollowUpEventDropdownConfig.externalError)}"
+                                                      #eventdropdown="ngModel"
+                                                      [title]="rowData.eventName?.caption">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRSEventDelete(rowData,remainderScenarioStepListDetail.followUpEventForReminderStepList) "></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                </p-tabView>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--FollowUp-->
+      <div *ngIf="showFollowUpData">
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                              caption="{{'plan.flow.tabel.add' | translate}}" (click)="addEventBasedFlow()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="followUpList?.items" [gridData]="followUpList?.items"
+                            [gridDataHeader]="FlowNameHeader" [paginationStatus]="true" paginationReportStatus="true"
+                            (rowClickedEvent)=dataSelection($event) (deleteRowEvent)="onFollowUpRowDelete($event,followUpList.items)"
+                            [pageReportContent]="paginationContent" (gridPageIndex)="onPageIndex($event)"
+                            [PageRows]="pageRow" [totalRecords]="recordsAvailable" [resetFirst]="resetPagination"
+                            [selectedDetail]="followUpDetail">
+
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <div *ngIf="showFollowUpDetail">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="closefo-heading-3 closefo-text-primary mb-0">{{ 'plan.flow.heading.sampel' | translate }}</div>
+            </div>
+            <div class="col-3 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)="addStopEvent() "
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </div>
+
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey closefo-card-margin">
+            <div class="closefo-form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'plan.flow.card.flowname' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="FlowNameTextBoxconfig"
+                                         [ngModel]="followUpDetail?.name"
+                                         (change)="onChangeFlowName($event)"
+                                         name="name"
+                                         [isAllowSpace]="false"
+                                         [cfcFluidValidation]="{errors:flowName.errors? FlowNameTextBoxconfig.Errors :'', formSubmitted:(this.FlowNameTextBoxconfig.externalError)}"
+                                         #flowName="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'plan.flow.card.flowtype' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="text"
+                                         [ControlConfig]="TextBoxconfig"
+                                         [ngModel]="filter?.flowType?.caption"
+                                         [isReadOnly]="true"
+                                         name="userName"
+                                         [isAllowSpace]="false"
+                                         [form]="reminderFlowform">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'plan.flow.card.startevent' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown [ngModel]="followUpDetail?.startTriggerEvent"
+                                          [form]="reminderFlowform"
+                                          Type="single"
+                                          name="startTriggerEvent"
+                                          [placeholder]="placeholder"
+                                          [options]="remainderFlowScreenData?.followupEventNameList"
+                                          [ControlConfig]="DropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="codeId"
+                                          [showClearIcon]="(followUpDetail?.startTriggerEvent)?true:false"
+                                          (OnSelectionChanged)="onChangeStartTriggerEvent($event)"
+                                          #languagedropdown="ngModel"
+                                          [title]="followUpDetail?.startTriggerEvent?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="followUpDetail.followUpProcedure2StopEventList.length > 0">
+                  <div class="row align-items-center eventHover">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-9">
+                      <p-table [value]="followUpDetail.followUpProcedure2StopEventList" [columns]="stopEvent" [resizableColumns]="true" styleClass="eventscroll">
+
+                        <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                              <span *ngSwitchCase="'label'">{{'plan.flow.card.stopevent' | translate}}</span>
+                              <span *ngSwitchCase="'StopEvent'">
+                                <cfc-fluid-dropdown [ngModel]="rowData.stopTriggerEvent"
+                                                    [form]="reminderFlowform"
+                                                    Type="single"
+                                                    name="stopTriggerEvent{{rowData.stopTriggerEvent}}{{index}}"
+                                                    [placeholder]="placeholder"
+                                                    [options]="rowData.followupEventNameList"
+                                                    [ControlConfig]="DropdownConfig"
+                                                    optionLabel="caption"
+                                                    dataKey="codeId"
+                                                    [isReadOnly]="rowData.isReadOnly"
+                                                    [title]="rowData.stopTriggerEvent?.caption"
+                                                    (OnSelectionChanged)="onChangeStopTriggerEvent($event,index)"
+                                                    #languagedropdown="ngModel">
+                                </cfc-fluid-dropdown>
+                              </span>
+                              <span *ngSwitchCase="'Delete'">
+                                <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onStopEventDelete(rowData,followUpDetail.followUpProcedure2StopEventList)"></i>  </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)="addStep()"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 close-header-block ">
+              <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="followUpDetail.followUpStepList"
+                              [gridDataHeader]="stepseqHeader" [paginationStatus]="false" (deleteRowEvent)="onStepDelete($event,followUpDetail.followUpStepList)"
+                              paginationReportStatus="false" (rowClickedEvent)=stepListDataSelection($event)
+                              [selectedDetail]="followUpStepListDetail">
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <ng-container *ngIf="showFollowUpStepDetail">
+            <div class="tab-top closefo-form-group">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <p-tabView class="reminder-flow-tab" [(activeIndex)]="SelectedTabIndex">
+
+                  <p-tabPanel header="{{'plan.flow.tab.flowstep' | translate}}" [selected]="true">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.name' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="text"
+                                               [ControlConfig]="NameTextBoxconfig"
+                                               [ngModel]="followUpStepListDetail?.name"
+                                               (change)="onChangeStepname($event)"
+                                               name="followUpStepListDetail.name"
+                                               [isAllowSpace]="false"
+                                               [cfcFluidValidation]="{errors:nameModel.errors? NameTextBoxconfig.Errors :'', formSubmitted:(this.NameTextBoxconfig.externalError)}"
+                                               #nameModel="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.triggerevent' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="followUpStepListDetail?.triggerEvent"
+                                                Type="single"
+                                                name="triggerEvent"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.followupEventNameList"
+                                                [ControlConfig]="TriggerEventDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeTriggerEvent($event)"
+                                                [cfcFluidValidation]="{errors:triggerEventdropdown.errors? TriggerEventDropdownConfig.Errors :'', formSubmitted:(this.TriggerEventDropdownConfig.externalError)}"
+                                                #triggerEventdropdown="ngModel"
+                                                [title]="followUpStepListDetail.triggerEvent?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.elapsedperiod' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="followUpStepListDetail?.elapsedPeriodType"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="elapsedPeriodType"
+                                                [placeholder]="placeholder"
+                                                [options]="ElapsedPeriodTypeListForEventBased"
+                                                [ControlConfig]="RSElapsedPeriodDropdownconfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeElapsedPeriodType($event)"
+                                                #elapsedPeriodType="ngModel"
+                                               [cfcFluidValidation]="{errors:elapsedPeriodType.errors ? (elapsedPeriodType.errors?.maxValueError)? maxErrorDto: RSElapsedPeriodDropdownconfig.Errors :'', formSubmitted:(this.RSElapsedPeriodDropdownconfig.externalError)}"
+                                                [title]="followUpStepListDetail.elapsedPeriodType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.elapsedperiod1' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="duration"
+                                               [ControlConfig]="elapsedPeriodTextBoxconfig"
+                                               [ngModel]="followUpStepListDetail?.elapsedPeriod"
+                                               (OnchangedNumber)="onChangeElapsedPeriod($event)"
+                                               name="elapsedPeriod"
+                                               [isAllowSpace]="false"
+                                               [maximumValue]="intMaxValue"
+                                               [maxlength]="11"
+                                               [cfcFluidValidation]="{errors:(elapsedPeriod?.errors)?(elapsedPeriod.errors?.maxValueError)? maxErrorDto:elapsedPeriodTextBoxconfig.Errors  :'', formSubmitted:(this.elapsedPeriodTextBoxconfig.externalError)}"
+                                               #elapsedPeriod="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.statuschange' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                [form]="reminderFlowform"
+                                                [ngModel]="followUpStepListDetail?.changeStatus"
+                                                name="changeStatus"
+                                                (ngModelChange)="onChangeStatus($event)">
+                            </cfc-fluid-checkbox>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.targetChange' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="followUpStepListDetail?.stateStep?.targetStateStatusName"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="targetStateStatusName"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.followUpCaseStatusList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                [isReadOnly]="!followUpStepListDetail.enableTargetState"
+                                                (OnSelectionChanged)="onChangeTargetStateStatusName($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="followUpStepListDetail.stateStep?.targetStateStatusName?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.handling' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="followUpStepListDetail?.handlingDateType"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="handlingDateType"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.eventDateTypeList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                [showClearIcon]="(followUpStepListDetail?.handlingDateType)?true:false"
+                                                (OnSelectionChanged)="onChangeHandlingDateType($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="followUpStepListDetail.handlingDateType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.intervalmeasure' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="followUpStepListDetail?.intervalMeasure"
+                                                [form]="reminderFlowform"
+                                                Type="single"
+                                                name="intervalMeasure"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.intervalMeasureList"
+                                                [ControlConfig]="DropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                [showClearIcon]="(followUpStepListDetail?.intervalMeasure)?true:false"
+                                                (OnSelectionChanged)="onChangeIntervalMeasure($event)"
+                                                #languagedropdown="ngModel"
+                                                [title]="followUpStepListDetail.intervalMeasure?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.actions' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'plan.flow.tabel.add' | translate}}" (click)="addActions()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <cfc-fluid-grid Type="bo-table" dataKey="followUpStepListDetail?.actionList" [gridData]="followUpStepListDetail?.actionList"
+                                        [gridDataHeader]="ActionHeader" [paginationStatus]="false" paginationReportStatus="false" [selectedDetail]="actiondetail"
+                                        (deleteRowEvent)="onActionDelete($event, followUpStepListDetail.actionList)" (rowClickedEvent)=actionDataSelect($event)>
+                        </cfc-fluid-grid>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="followUpStepListDetail.actionList.length > 0">
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actionname' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="text"
+                                               [ControlConfig]="ActionNameTextBoxconfig"
+                                               [ngModel]="actiondetail?.name"
+                                               (change)="onChangeActionName($event)"
+                                               name="actionName"
+                                               [isAllowSpace]="false"
+                                               [cfcFluidValidation]="{errors:(actionName.errors)? ActionNameTextBoxconfig.Errors :'', formSubmitted:(this.ActionNameTextBoxconfig.externalError)}"
+                                               #actionName="ngModel">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actiontype' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="actiondetail?.actionType"
+                                                Type="single"
+                                                name="actionType"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.actionTypeList"
+                                                [ControlConfig]="ActionTypeDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeActionType($event)"
+                                                [cfcFluidValidation]="{errors:(actionType.errors)? ActionTypeDropdownConfig.Errors :'', formSubmitted:(this.ActionTypeDropdownConfig.externalError)}"
+                                                #actionType="ngModel"
+                                                [title]="actiondetail?.actionType?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.default' | translate}}</label>
+                          </div>
+                          <div class="col-7 d-flex">
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="TextBoxconfig"
+                                                   [ngModel]="actiondetail?.defaultHandleTimeDays"
+                                                   (OnchangedNumber)="onChangeDefaultHandleTimeDays($event)"
+                                                   name="defaultHandleTimeDays"
+                                                   [isAllowSpace]="false"
+                                                   [maxlength]="2"
+                                                   [form]="reminderFlowform">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.d' | translate}}</label>
+                              </div>
+                            </div>
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7 text-right">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="HoursTextBoxconfig"
+                                                   [ngModel]="actiondetail?.defaultHandleTimeHours"
+                                                   (OnchangedNumber)="onChangeDefaultHandleHoursDays($event)"
+                                                   name="defaultHandleTimeHours"
+                                                   [isAllowSpace]="false"
+                                                   [form]="reminderFlowform"
+                                                   [maximumValue]="23"
+                                                   [minimumValue]="0"
+                                                   [maxlength]="2"
+                                                   [cfcFluidValidation]="{errors:(defaultHandleTimeHours.errors?.maxValueError || defaultHandleTimeHours.errors?.invalidDefaultError) ? (defaultHandleTimeHours.errors?.maxValueError) ? maxHourDto : (defaultHandleTimeHours.errors?.invalidDefaultError) ? minHourDto : '' :'', formSubmitted: HoursTextBoxconfig.externalError}"
+                                                   #defaultHandleTimeHours="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.h' | translate}}</label>
+                              </div>
+                            </div>
+                            <div class="col-4 d-flex align-items-center">
+                              <div class="col-7 text-right">
+                                <cfc-fluid-textbox Type="numbers"
+                                                   [ControlConfig]="MinutesTextBoxconfig"
+                                                   [ngModel]="actiondetail?.defaultHandleTimeMinutes"
+                                                   (OnchangedNumber)="onChangeDefaultHandleTimeeMinutes($event)"
+                                                   name="defaultHandleTimeMinutes"
+                                                   [isAllowSpace]="false"
+                                                   [form]="reminderFlowform"
+                                                   [maximumValue]="59"
+                                                   [minimumValue]="0"
+                                                   [maxlength]="2"
+                                                   [cfcFluidValidation]="{errors:(defaultHandleTimeMinutes.errors?.maxValueError || defaultHandleTimeMinutes.errors?.invalidDefaultError)? (defaultHandleTimeMinutes.errors?.maxValueError) ? maxMinuteDto : (defaultHandleTimeMinutes.errors?.invalidDefaultError) ? minMinuteDto : '' :'', formSubmitted: MinutesTextBoxconfig.externalError}"
+                                                   #defaultHandleTimeMinutes="ngModel">
+                                </cfc-fluid-textbox>
+                              </div>
+                              <div class="col-6 ms-1">
+                                <label class="closefo-form-label text-start">{{'plan.flow.card.m' | translate}}</label>
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label">{{'plan.flow.card.defaultmargin' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-textbox Type="numbers"
+                                               [ControlConfig]="TextBoxconfig"
+                                               [ngModel]="actiondetail?.defaultHandleMargin"
+                                               (OnchangedNumber)="onChangeDefaultHandleMargin($event)"
+                                               name="defaultHandleMargin"
+                                               [isAllowSpace]="false"
+                                               [form]="reminderFlowform">
+                            </cfc-fluid-textbox>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actionreceiver' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="actiondetail?.actionReceiverTypeName"
+                                                Type="single"
+                                                name="actionReceiverTypeName"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.actionReceiverTypeNameList"
+                                                [ControlConfig]="ActionReceiverDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangeActionReceiverTypeName($event)"
+                                                [cfcFluidValidation]="{errors:(actionReceiverTypeName.errors)? ActionReceiverDropdownConfig.Errors :'', formSubmitted:(this.ActionReceiverDropdownConfig.externalError)}"
+                                                #actionReceiverTypeName="ngModel"
+                                                [title]="actiondetail?.actionReceiverTypeName?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="row align-items-center">
+                          <div class="col-5">
+                            <label class="closefo-form-label required">{{'plan.flow.card.actinPriority' | translate}}</label>
+                          </div>
+                          <div class="col-7">
+                            <cfc-fluid-dropdown [ngModel]="actiondetail?.priority"
+                                                Type="single"
+                                                name="priority"
+                                                [placeholder]="placeholder"
+                                                [options]="remainderFlowScreenData?.priorityList"
+                                                [ControlConfig]="PriorityDropdownConfig"
+                                                optionLabel="caption"
+                                                dataKey="codeId"
+                                                (OnSelectionChanged)="onChangePriority($event)"
+                                                [cfcFluidValidation]="{errors:(priority.errors)? PriorityDropdownConfig.Errors :'', formSubmitted:(this.PriorityDropdownConfig.externalError)}"
+                                                #priority="ngModel"
+                                                [title]="actiondetail?.priority?.caption">
+                            </cfc-fluid-dropdown>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.communication' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)=" addCommunications()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="followUpStepListDetail.messageList" [columns]="CommunicationHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr (click)="messageDataSelect(rowData)">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'ReferenceType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.referenceType"
+                                                      Type="single"
+                                                      name="referenceType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.referenceTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="name"
+                                                      dataKey="name"
+                                                      [showClearIcon]="(rowData.communication?.referenceType?.name)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeReferenceType($event,index)"
+                                                      #referenceTypedropdown="ngModel"
+                                                      [title]="rowData.communication?.referenceType?.name">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'CommunicationMedium'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.communicationMedium"
+                                                      Type="single"
+                                                      name="communicationMedium{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.communicationMediumList"
+                                                      [ControlConfig]="CommunicationMediumDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.communicationMedium?.caption)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeCommunicationMedium($event,index)"
+                                                      [cfcFluidValidation]="{errors:communicationMediumdropdown.errors? CommunicationMediumDropdownConfig.Errors :'', formSubmitted:(this.CommunicationMediumDropdownConfig.externalError)}"
+                                                      #communicationMediumdropdown="ngModel"
+                                                      [title]="rowData.communication?.communicationMedium?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'TemplateName'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.documentTemplate"
+                                                      Type="single"
+                                                      name="documentTemplate{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="rowData.communication?.documentTemplateList"
+                                                      [ControlConfig]="TemplateNameDropdownConfig"
+                                                      optionLabel="docGenType.caption"
+                                                      dataKey="docGenType.codeId"
+                                                      [showClearIcon]="(rowData.communication?.documentTemplate?.docGenType?.caption)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeDocumentTemplate($event,index)"
+                                                      [cfcFluidValidation]="{errors:templateNamedropdown.errors? TemplateNameDropdownConfig.Errors :'', formSubmitted:(this.TemplateNameDropdownConfig.externalError)}"
+                                                      #templateNamedropdown="ngModel"
+                                                      [title]="rowData.communication?.documentTemplate?.docGenType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'CommunicationReceiver'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.communicationReceiver"
+                                                      Type="single"
+                                                      name="communicationReceiver{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.communicationReceiverList"
+                                                      [ControlConfig]="CommunicationReceiverDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.communicationReceiver?.caption)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeCommunicationReceiver($event,index)"
+                                                      [cfcFluidValidation]="{errors:communicationReceiverdropdown.errors? CommunicationReceiverDropdownConfig.Errors :'', formSubmitted:(this.CommunicationReceiverDropdownConfig.externalError)}"
+                                                      #communicationReceiverdropdown="ngModel"
+                                                      [title]="rowData.communication?.communicationReceiver?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'ReceiverType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.receiverType"
+                                                      [form]="reminderFlowform"
+                                                      Type="single"
+                                                      name="receiverType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.receiverTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.receiverType?.caption)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeReceiverType($event,index)"
+                                                      #languagedropdown="ngModel"
+                                                      [title]="rowData.communication?.receiverType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'Registered'">
+                                  <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                      [form]="reminderFlowform"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      [ngModel]="rowData.communication?.registeredLetter"
+                                                      (ngModelChange)="onChangeRegisteredLetter($event,index)"
+                                                      name="registeredLetter{{index}}">
+                                  </cfc-fluid-checkbox>
+                                </span>
+                                <span *ngSwitchCase="'AddressType'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.communication?.addressType"
+                                                      [form]="reminderFlowform"
+                                                      Type="single"
+                                                      name="addressType{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.addressTypeList"
+                                                      [ControlConfig]="DropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      [showClearIcon]="(rowData.communication?.addressType?.caption)?true:false"
+                                                      [isReadOnly]="!rowData.isMessageSelected"
+                                                      (OnSelectionChanged)="onChangeAddressType($event,index)"
+                                                      #languagedropdown="ngModel"
+                                                      [title]="rowData.communication?.addressType?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onCommunicationDelete(rowData,followUpStepListDetail.messageList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+
+                    <div *ngIf="showAttachment">
+                      <div class="row">
+                        <div class="col-12 closefo-btn-wrapper text-right">
+                          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                            caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)=" addAttachment()"
+                                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 close-header-block ">
+                          <p-table [value]="communicationDetail.communication.attachmentList" [columns]="AttachmentHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                            <ng-template pTemplate="header" let-columns>
+                              <tr>
+                                <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                  <span>{{col.header}}</span>
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                              <tr>
+                                <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                  <span *ngSwitchCase="'AttachmentType'">
+                                    <cfc-fluid-dropdown [ngModel]="rowData?.documentTemplate"
+                                                        Type="single"
+                                                        name="attachmentType{{index}}"
+                                                        [placeholder]="placeholder"
+                                                        [options]="attachmentList"
+                                                        [ControlConfig]="AttachmentTypeDropdownConfig"
+                                                        optionLabel="docGenType.caption"
+                                                        dataKey="docGenType.caption"
+                                                        (OnSelectionChanged)="onChangeAttachmentType($event,index)"
+                                                        [cfcFluidValidation]="{errors:attachmentTypedropdown.errors? AttachmentTypeDropdownConfig.Errors :'', formSubmitted:(this.AttachmentTypeDropdownConfig.externalError)}"
+                                                        #attachmentTypedropdown="ngModel"
+                                                        [title]="rowData.documentTemplate?.docGenType?.caption">
+                                    </cfc-fluid-dropdown>
+                                  </span>
+                                  <span *ngSwitchCase="'Delete'">
+                                    <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onAttachmentDelete(rowData,communicationDetail.communication.attachmentList)"></i>  </span>
+                                  </span>
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.services' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)=" addServices()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="followUpStepListDetail.serviceActionList" [columns]="ServicesHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                                <span>{{col.header}}</span>
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'ActionName'">
+                                  <cfc-fluid-textbox Type="text"
+                                                     [ControlConfig]="ServiceActionNameTextBoxconfig"
+                                                     [ngModel]="rowData.name"
+                                                     (ngModelChange)="onChangeServiceActionName($event,index)"
+                                                     name="actionName_{{rowData.actionName}}_{{index}}"
+                                                     [isAllowSpace]="false"
+                                                     #serviceActionName="ngModel"
+                                                     [cfcFluidValidation]="{errors:serviceActionName.errors? ServiceActionNameTextBoxconfig.Errors :'', formSubmitted:(this.ServiceActionNameTextBoxconfig.externalError)}">
+                                  </cfc-fluid-textbox>
+                                </span>
+                                <span *ngSwitchCase="'ServiceName'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.serviceAction"
+                                                      Type="single"
+                                                      name="serviceAction_{{rowData?.serviceAction?.caption}}_{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.serviceActionNameList"
+                                                      [ControlConfig]="ServiceActionDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="codeId"
+                                                      (OnSelectionChanged)="onChangeServiceAction($event,index)"
+                                                      #serviceAction="ngModel"
+                                                      [cfcFluidValidation]="{errors:serviceAction.errors? ServiceActionDropdownConfig.Errors :'', formSubmitted:(this.ServiceActionDropdownConfig.externalError)}"
+                                                      [title]="rowData.serviceAction?.caption">
+                                  </cfc-fluid-dropdown>
+                                </span>
+                                <span *ngSwitchCase="'IsBlocking'">
+                                  <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                      [form]="reminderFlowform"
+                                                      [ngModel]="rowData.isBlocking"
+                                                      name="isBlocking_{{rowData.actionName}}_{{index}}"
+                                                      (ngModelChange)="onChangeIsBlocking($event,index)">
+                                  </cfc-fluid-checkbox>
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onServiceDelete(rowData,followUpStepListDetail.serviceActionList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.events' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (OnClick)=" addEvents()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="followUpStepListDetail.followUpStepEventList" [columns]="EventsHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'FollowUpEvent'">
+                                  <cfc-fluid-dropdown [ngModel]="rowData.event"
+                                                      Type="single"
+                                                      name="event{{index}}"
+                                                      [placeholder]="placeholder"
+                                                      [options]="remainderFlowScreenData?.followupEventNameList"
+                                                      [ControlConfig]="FollowUpEventDropdownConfig"
+                                                      optionLabel="caption"
+                                                      dataKey="caption"
+                                                      (OnSelectionChanged)="onChangeFollowUpEvent($event,index)"
+                                                      [cfcFluidValidation]="{errors:eventdropdown.errors? FollowUpEventDropdownConfig.Errors :'', formSubmitted:(this.FollowUpEventDropdownConfig.externalError)}"
+                                                      #eventdropdown="ngModel"
+                                                      [title]="rowData.event?.caption">
+                                  </cfc-fluid-dropdown>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onEventDelete(rowData,followUpStepListDetail.followUpStepEventList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </p-tabPanel>
+
+                  <p-tabPanel header="{{'plan.flow.tab.ruleengine' | translate}}">
+                    <div class="row">
+                      <div class="col-12 closefo-btn-wrapper text-right">
+                        <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                          caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRuleAction()"
+                                          [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 close-header-block ">
+                        <p-table [value]="followUpStepListDetail.ruleEngineActionConfigList" [columns]="RoleEngineActionHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                <span>{{col.header}}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                            <tr (click)="RuleActionDataSelect(rowData)" [ngClass]="{'highlight' : ruleEngineActionDetail === rowData }">
+                              <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                <span *ngSwitchCase="'RuleModelName'">
+                                  <cfc-fluid-textbox Type="text"
+                                                     [ControlConfig]="RuleModelNameTextBoxconfig"
+                                                     [ngModel]="rowData?.ruleModelName"
+                                                     (ngModelChange)="onChangeRuleModelName($event)"
+                                                     name="ruleModelName{{index}}"
+                                                     [isAllowSpace]="false"
+                                                     [cfcFluidValidation]="{errors:ruleModelName.errors? RuleModelNameTextBoxconfig.Errors :'', formSubmitted:(this.RuleModelNameTextBoxconfig.externalError)}"
+                                                     #ruleModelName="ngModel">
+                                  </cfc-fluid-textbox>
+
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRuleActionDelete(rowData, followUpStepListDetail.ruleEngineActionConfigList)"></i>  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+
+                    <ng-container *ngIf="followUpStepListDetail.ruleEngineActionConfigList.length > 0">
+                      <div class="row">
+                        <div class="col-12 closefo-btn-wrapper text-right">
+                          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small"
+                                            caption="{{'plan.flow.tabel.add' | translate}}" (click)="addRuleOutput()"
+                                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 close-header-block ">
+                          <p-table [value]="ruleEngineActionDetail.ruleEngineOutputConfigList" [columns]="RuleEngineOutputHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+                            <ng-template pTemplate="header" let-columns>
+                              <tr>
+                                <th *ngFor="let col of columns" [style.width]="col.width" pResizableColumn>
+                                  <span>{{col.header}}</span>
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                              <tr>
+                                <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+                                  <span *ngSwitchCase="'Output'">
+                                    <cfc-fluid-textbox Type="text"
+                                                       [ControlConfig]="RuleOutputTextBoxconfig"
+                                                       [ngModel]="rowData?.output"
+                                                       (ngModelChange)="onChangeOutputName($event,index)"
+                                                       name="output{{index}}"
+                                                       [isAllowSpace]="false"
+                                                       [cfcFluidValidation]="{errors:output.errors? RuleOutputTextBoxconfig.Errors :'', formSubmitted:(this.RuleOutputTextBoxconfig.externalError)}"
+                                                       #output="ngModel">
+                                    </cfc-fluid-textbox>
+                                  </span>
+
+                                  <span *ngSwitchCase="'StepNr'">
+                                    <cfc-fluid-textbox Type="numbers"
+                                                       [ControlConfig]="TextBoxconfig"
+                                                       [ngModel]="rowData?.stepNr"
+                                                       (OnchangedNumber)="onChangeStepNr($event,index)"
+                                                       name="stepNr{{index}}"
+                                                       [isAllowSpace]="false"
+                                                       [form]="reminderFlowform">
+                                    </cfc-fluid-textbox>
+
+                                  </span>
+
+                                  <span *ngSwitchCase="'StopProcess'">
+                                    <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                                        [form]="reminderFlowform"
+                                                        [ngModel]="rowData.stopProcess"
+                                                        (ngModelChange)="onChangeStopProcess($event,index)"
+                                                        name="stopProcess{{index}}">
+                                    </cfc-fluid-checkbox>
+                                  </span>
+
+
+                                  <span *ngSwitchCase="'Delete'">
+                                    <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onRuleOutputDelete(rowData,ruleEngineActionDetail.ruleEngineOutputConfigList)"></i>  </span>
+                                  </span>
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </p-tabPanel>
+
+                </p-tabView>
+
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'plan.dialog.Header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'plan.dialog.Content' | translate}}
+
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption="{{'plan.dialog.Yes' | translate}}"
+                              (click)="onClickYes((filter.flowType.codeId === 1)?remainderScenarioList.items:followUpList.items)" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.No' | translate}}"
+                              (click)="onClickNo()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="{{'plan.dialog.Cancel' | translate}}"
+                              (click)="onClickCancel()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <div>
+        <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+          <ng-template #headerTemplate>
+            Technical Exception
+          </ng-template>
+          <ng-template #contentTemplate>
+            <div id="warning-dialog" class="dialog-inner-content">
+              <div class="warning-main">
+                <div class="war-left">
+                  <i class="pi pi-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="war-right">
+                Technical Exception has occured in a component in our application.<br />
+                If you click continue, the application will ignore this error
+                and attempt to continue
+                <br />
+                <br />
+                Fault Code: {{errorCode}}.
+              </div>
+            </div>
+
+
+          </ng-template>
+          <ng-template #footerTemplate>
+            <div class="d-flex closefo-btn-wrapper">
+              <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                                (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </ng-template>
+
+        </cfc-fluid-dialog>
+      </div>
+
+    </form>
+  </div>
+</div>

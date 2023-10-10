@@ -1,0 +1,5 @@
+export enum TenureType {
+  LEASEHOLD = 'LEASEHOLD',
+  FREEHOLD = 'FREEHOLD',
+  COMMONHOLD = 'COMMONHOLD',
+}

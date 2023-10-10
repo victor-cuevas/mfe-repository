@@ -1,0 +1,98 @@
+{
+  "agenda": {
+    "general": {
+      "Delete": "Delete"
+    },
+    "holidaycalendar": {
+      "Description": "Description",
+      "Date": "Date",
+      "New": "Add",
+      "CardHeader": "Holiday Details",
+      "ScreenHeader":"Manage Holiday Calendar",
+      "ValidationError":{
+        "required":" is Mandatory .",
+        "Date": "'Date'",
+        "buisnessError":"The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "action": {
+      "ActionTypeColon": "Action Type",
+      "DefaultHandleTimeDay": " D",
+      "DefaultHandleTimeHour": "H",
+      "DefaultHandleTimeMinute": "M",
+      "Name": "Name",
+      "Maxdays": "Default Handle Margin",
+      "Functionality": "Action Functionality",
+      "Description": "Message",
+      "Department": "Action Receiver",
+      "TreatmentTime": " Default Handle Time",
+      "Priority": "Action Priority",
+      "New": "Add",
+      "GridHeader": "Action Overview",
+      "CardHeader": "Action Detail",
+      "ScreenHeader":"Manage Actions",
+      "ValidationError":{
+        "required":" is Mandatory .",
+        "Priority": "'Action Priority'",
+        "ActionTypeColon": "'Action Type'"
+      }
+
+    },
+
+    "actionReceiver": {
+      "section": " Action Receiver Type",
+      "generalAgenda": " Agenda Master",
+      "departmentTasksOverview": "Action Receiver Overview",
+      "detailsDepartmentalTask": "Action Receiver Detail",
+      "users": "Action Receivers Users",
+      "addusers": "Add Users",
+      "actionReceiverUserdetail": "Action Receiver User Detail",
+      "user": "User",
+      "isonlyfortaskcreation": "Is only for task creation",
+      "ScreenHeader": "Action Receiver",
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "section": " 'Action Receiver Type'",
+        "generalAgenda": "'Agenda Master'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+
+    },
+    "masterAgenda": {
+      "name": "Name",
+      "gridname": "Name",
+      "commercialOwner": "Servicing Customer",
+      "mainOwner": "Master User",
+      "type": "Type",
+      "overviewGeneralAgenda": "Agenda Master Overview",
+      "generalAgendaDetail": " Agenda Master Detail",
+      "masterAgenda": "Master Agenda",
+      "ScreenHeader": "Master Agenda",
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "name": "'Name'",
+        "commercialOwner": "'Servicing Customer'",
+        "mainOwner": "'Master User'",
+        "type": "'Type'"
+      }
+    },
+
+    "buttons": {
+      "save": "Save",
+      "close": "Close",
+      "new": "Add"
+    },
+    "Validation": {
+      "Header": " You have {0} error(s). Click here to see the description."
+    },
+    "dialog": {
+      "Yes": "Yes",
+      "No": "No",
+      "Cancel": "Cancel",
+      "Header": "Unsaved Changes",
+      "Content": "You have unsaved data. Do you want to save?",
+      "exception": "Technical Exception",
+      "continue": "Continue"
+    }
+  }
+}

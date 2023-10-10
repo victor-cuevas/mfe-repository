@@ -1,0 +1,211 @@
+{
+  "financial": {
+    "manageDue": {
+      "heading": {
+        "manage-due": "Manage due amount sorting",
+        "paymentAllocation": "Ventilation du paiement par produit",
+        "payment-details": "Détail de la ventiliation du paiement"
+      },
+      "card": {
+        "paymentAllocation": "Ventilation paiement",
+        "product": "Produits",
+        "Payment": "Bloquer Allocation Du Paiement ",
+        "PaymentItem": "Item d'Allocation Du Paiement ",
+        "TimeSorting": "Temps de sélection",
+        "TxEITypeCd": "type transaction"
+      },
+      "tabel": {
+        "payment": "Ventilation paiement",
+        "": ""
+      },
+      "ValidationError": {
+        "required": " est obligatoire.",
+        "paymentAllocation": "'PaymentAllocationType'",
+        "timeSorting": "'TimingSorting'",
+        "TxElTypeCd": "'FR - TxEl Type'"
+      },
+      "AddButton": {
+        "AddItem": "Voeg Item Toe",
+        "AddBlock": "Voeg Blok Toe",
+        "AddPayment": "Ajout Ventilation du Paiement"
+      }
+    },
+    "valueReduction": {
+      "heading": {
+        "ValueReduction": "Value Reduction Principle",
+        "Value-Reduction": "Historique des réductions de valeur en capital",
+        "ValueRed": "Value Reduction",
+        "ValueReductionDetail": "Détail des réductions de valeur en capital",
+        "ValueReductiono": "Aperçu réductions valeur",
+        "valueDetails": "Détail réductions valeur"
+      },
+      "button": {
+        "back": "Retour",
+        "save": "Sauvegarder et suivant"
+      },
+      "card": {
+        "PeriodBase": "Période de base",
+        "name": "Nom",
+        "nameo": "Nom",
+        "CalculationBase": "FR - Calculation Base",
+        "DueElapse": "Période exigible",
+        "Reduction": "Pourcentage réduction",
+        "Factor": "Facteur"
+      },
+      "tabel": {
+        "name": "Nom",
+        "periodBase": "Période de base",
+        "": "",
+        "nameo": "Nom",
+        "CalculationBase": "FR - Calculation Base",
+        "DueElapsed": "Période exigible",
+        "Percentage": "Pourcentage"
+      },
+      "mandatory": {
+        "PeriodBase": "'Période de base'",
+        "name": "'Nom'",
+        "nameo": "'Nom'",
+        "CalculationBase": "'FR - Calculation Base'",
+        "DueElapse": "'Période exigible'",
+        "Reduction": "'Réduction'",
+        "required": " est obligatoire.",
+        "lengthError": "Aucun record sélectionné pour prochaine étape",
+        "error": "FR - The given record is already in the list. Please make sure that the record is unique. "
+
+      }
+    },
+    "ManageCost": {
+      "heading": {
+        "Manage-Cost": "Manage Cost",
+        "ReminderCostDetail": " FR – Reminder Cost Detail",
+        "PostageerCostDetail": "FR - Postager Cost Detail",
+        "MutationCost": "FR - Mutation Cost Details"
+      },
+      "tabheader": {
+        "Remainder": "FR -Reminder Cost",
+        "postageCost": "FR - Postage Cost",
+        "MutationCost": "FR - Mutation Cost"
+      },
+      "tabel": {
+        "valid": "FR - Valid From",
+        "amount": "FR - Amount",
+        "linked": "FR - Linked Product",
+        "creditProvider": "FR - Credit Provider",
+        "": "",
+        "validP": "FR - Valid From",
+        "amountP": "FR - Amount",
+        "Country": "Pays",
+        "Registered": "FR - Registered",
+        "validM": "FR - Valid From",
+        "amountM": "FR - Amount",
+        "CreditProviderM": "FR - Credit Provider",
+        "MutationType": "FR - Mutation Type"
+      },
+      "card": {
+        "validFrom": "FR - Valid From",
+        "Amount": "FR - Amount",
+        "product": "Produit",
+        "creditProvider": "FR - Credit Provider",
+        "Registered": "FR - Registered",
+        "validFromP": "FR - Valid From",
+        "AmountP": "FR - Amount",
+        "CountryP": "Pays",
+        "RegisteredP": "FR - Registered",
+        "validFromM": "FR - Valid From",
+        "AmountM": "FR - Amount",
+        "CredditProviderM": "FR - Credit Provider",
+        "MutationType": "FR - Mutation Type"
+      },
+      "mandatory": {
+        "validFrom": "'FR - Valid From'",
+        "Amount": "'FR - Amount'",
+        "validFromP": "'FR - Valid From'",
+        "AmountP": "'FR - Amount'",
+        "validFromM": "'FR - Valid From'",
+        "AmountM": "'FR - Amount'",
+        "required": " est obligatoire.",
+        "reminderbusiness": "FR - The Valid From date of the new Reminder cost for the selected product cannot be equal to an existing one.",
+        "postagebusiness": "FR - A Postage Cost already exists with those parameters.",
+        "mutationbusiness": "FR - A Mutation Cost already exists with those parameters."
+
+      }
+    },
+
+    "manageFee": {
+      "heading": {
+        "ManageFeeConfig": "Manage Fee Configuration",
+        "Transaction": "FR - Transaction Preferences"
+      },
+      "tabel": {
+        "FeeType": "FR - Fee Type",
+        "Delete": "Supprimer",
+        "": ""
+      },
+      "card": {
+        "charging": "FR - Charging of",
+        "ReversedCharging": "FR - Reversed charging of",
+        "Allocation": "FR - Allocation to",
+        "ReversedAllocation": "FR - Reversed allocation to",
+        "BonusAllocation": "FR - Bonus allocation to",
+        "ReversedBonusAllocation": "FR - Reversed bonus allocation to",
+        "construction": "FR - Construction depot allocation to",
+        "Reversedconstruction": "FR - Reversed construction depot allocation to",
+        "DueDate": "FR - Due date depot allocation to",
+        "ReversedDueDate": "FR - Reversed due date depot allocation to",
+        "LossOn": "FR - Loss on",
+        "ReversedLossOn": "FR - Reversed loss on",
+        "Collections": "FR - Collections booking of due",
+        "ReversedCollections": "FR - Reversed Collections Due",
+        "Accounting": "FR - Accounting write off on",
+        "ReversedAccounting": "FR - Reversed accounting write off on",
+        "Remission": "FR - Remission of non paid",
+        "ReversedRemission": "FR - Reversed remission of non paid",
+        "Transfer": "FR - Transfer in on",
+        "Increase": "FR - Increase of",
+        "Decrease": "FR - Decrease of",
+        "Initial": "FR - Initial booking",
+        "CloseDue": "FR - Close Due",
+        "OpenDue": "FR - Open Due"
+      },
+      "mandatory": {
+        "charging": "'FR - Charging of'",
+        "ReversedCharging": "'FR - Reversed charging of'",
+        "Allocation": "'FR - Allocation to'",
+        "ReversedAllocation": "'FR - Reversed allocation to'",
+        "BonusAllocation": "'FR - Bonus allocation to'",
+        "ReversedBonusAllocation": "'FR - Reversed bonus allocation to'",
+        "LossOn": "'FR - Loss on'",
+        "ReversedLossOn": "'FR - Reversed loss on'",
+        "Collections": "'FR - Collections booking of due'",
+        "ReversedCollections": "'FR - Reversed Collections Due'",
+        "Accounting": "'FR - Accounting write off on'",
+        "ReversedAccounting": "'FR - Reversed accounting write off on'",
+        "Remission": "'FR - Remission of non paid'",
+        "ReversedRemission": "'FR - Reversed remission of non paid'",
+        "Transfer": "'FR - Transfer in on'",
+        "Increase": "'FR - Increase of'",
+        "Decrease": "'FR - Decrease of'",
+        "Initial": "'FR - Initial booking'",
+        "FeeType": "'FR - Fee Type'",
+        "required": " est obligatoire."
+
+      }
+    },
+    "button": {
+      "save": "Sauvegarder",
+      "close": "Fermer",
+      "add": "Ajoute"
+    },
+    "validations": {
+      "Header": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+    },
+    "dialog": {
+      "Yes": "Oui",
+      "No": "Non",
+      "Cancel": "Annuler",
+      "Header": "Changements non sauvegardé",
+      "Content": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+      "ok": "OK"
+    }
+  }
+}

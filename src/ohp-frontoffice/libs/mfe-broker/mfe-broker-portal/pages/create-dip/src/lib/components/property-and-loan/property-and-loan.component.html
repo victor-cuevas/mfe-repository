@@ -1,0 +1,240 @@
+<!-- Title -->
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.propertyAndLoan' | translate }}</h2>
+</div>
+<!-- Content -->
+<div class="container my-2">
+  <form [formGroup]="propertyLoansForm">
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.subtitles.propertyDetails' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom px-4 py-5 mb-5 bg-white shadow">
+      <label id="palPropertyLocation">{{ 'createDip.labels.propertyLocation' | translate }} *</label>
+      <p-dropdown
+        [options]="locations"
+        [placeholder]="'createDip.placeholders.selectLocation' | translate"
+        formControlName="propertyLocation"
+        aria-labelledby="palPropertyLocation"
+        ngDefaultControl
+        class="journey-dropdown"
+      >
+        <ng-template let-option pTemplate="item">
+          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+        </ng-template>
+      </p-dropdown>
+      <cfo-validation-errors
+        [control]="propertyLoansForm.get('propertyLocation')"
+        [errorMessages]="{
+          required: ('general.validations.requiredMsg' | translate)
+        }"
+      ></cfo-validation-errors>
+      <ng-container *ngIf="stepSetupService.casePurposeType !== casePurposeType.Remortgage">
+        <label id="palHasCustomerFoundProperty" class="mt-4">{{ 'createDip.labels.propertyFound' | translate }} *</label>
+        <div aria-labelledby="palHasCustomerFoundProperty">
+          <cfo-radio-button
+            name="hasCustomerFoundProperty"
+            [disabledExternal]="!dataService.activeJourney"
+            formControlName="hasCustomerFoundProperty"
+            [value]="true"
+            [label]="'general.labels.yes' | translate"
+            ngDefaultControl
+          ></cfo-radio-button>
+          <cfo-radio-button
+            name="hasCustomerFoundProperty"
+            [disabledExternal]="!dataService.activeJourney"
+            formControlName="hasCustomerFoundProperty"
+            [value]="false"
+            [label]="'general.labels.no' | translate"
+            class="ms-3"
+            ngDefaultControl
+          ></cfo-radio-button>
+          <cfo-validation-errors
+            [control]="propertyLoansForm.get('hasCustomerFoundProperty')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate)
+            }"
+          ></cfo-validation-errors>
+        </div>
+      </ng-container>
+      <label id="palApplicantsLiveInTheProperty" class="mt-4">{{ 'createDip.labels.allApplicantsLiveInProperty' | translate }} *</label>
+      <div aria-labelledby="palApplicantsLiveInTheProperty">
+        <cfo-radio-button
+          name="applicantsLiveInTheProperty"
+          [disabledExternal]="!dataService.activeJourney"
+          formControlName="applicantsLiveInTheProperty"
+          [value]="true"
+          [label]="'general.labels.yes' | translate"
+          ngDefaultControl
+        ></cfo-radio-button>
+        <cfo-radio-button
+          name="applicantsLiveInTheProperty"
+          [disabledExternal]="!dataService.activeJourney"
+          formControlName="applicantsLiveInTheProperty"
+          [value]="false"
+          [label]="'general.labels.no' | translate"
+          class="ms-3"
+          ngDefaultControl
+        ></cfo-radio-button>
+        <cfo-validation-errors
+          [control]="propertyLoansForm.get('applicantsLiveInTheProperty')"
+          [errorMessages]="{
+            required: ('general.validations.applicantsLiveInThePropertyMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+      <ng-container *ngIf="stepSetupService.casePurposeType !== casePurposeType.Remortgage">
+        <label id="palPropertyOwnershipType" class="mt-4">{{ 'createDip.labels.propertyOwnershipType' | translate }} *</label>
+        <p-dropdown
+          [options]="propertyOwnershipTypeOptions"
+          [placeholder]="'createDip.placeholders.selectPropertyOwnershipType' | translate"
+          formControlName="propertyOwnershipType"
+          ngDefaultControl
+          class="journey-dropdown"
+          aria-labelledby="palPropertyOwnershipType"
+        >
+          <ng-template let-option pTemplate="item">
+            <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+          </ng-template>
+        </p-dropdown>
+        <cfo-validation-errors
+          [control]="propertyLoansForm.get('propertyOwnershipType')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </ng-container>
+      <ng-container *ngIf="propertyLoansForm.value.propertyOwnershipType === realEstateAgreementType.CONCESSIONARY_DISCOUNTED_PURCHASE">
+        <label class="mt-4" id="palIsPurchaseFromFamily"
+          >{{ 'createDip.labels.isPurchaseFromFamily' | translate }} *
+          <span
+            class="ps-2 primary-color radio-button-info-icon"
+            [pTooltip]="'createDip.tooltips.isPurchaseFromFamily' | translate"
+            [hideDelay]="1000"
+            ><i class="pi pi-info-circle"></i
+          ></span>
+        </label>
+        <div aria-labelledby="palIsPurchaseFromFamily">
+          <cfo-radio-button
+            name="isPurchaseFromFamily"
+            [disabledExternal]="!dataService.activeJourney"
+            formControlName="isPurchaseFromFamily"
+            [value]="true"
+            [label]="'general.labels.yes' | translate"
+            ngDefaultControl
+          ></cfo-radio-button>
+          <cfo-radio-button
+            name="isPurchaseFromFamily"
+            [disabledExternal]="!dataService.activeJourney"
+            formControlName="isPurchaseFromFamily"
+            [value]="false"
+            [label]="'general.labels.no' | translate"
+            class="ms-3"
+            ngDefaultControl
+          ></cfo-radio-button>
+        </div>
+
+        <label class="mt-4" id="palFullMarketValue">{{ 'createDip.labels.fullMarketValue' | translate }} *</label>
+        <p-inputNumber
+          mode="currency"
+          currency="GBP"
+          [maxFractionDigits]="0"
+          formControlName="fullMarketValue"
+          aria-labelledby="palFullMarketValue"
+          class="pb-4"
+          ngDefaultControl
+        ></p-inputNumber>
+        <cfo-validation-errors
+          [control]="propertyLoansForm.get('fullMarketValue')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </ng-container>
+
+      <ng-container *ngIf="stepSetupService.casePurposeType === casePurposeType.Remortgage; else purchase">
+        <label class="mt-4" id="palPurchasePriceRemortgage"> {{ 'createDip.labels.estimatedValue' | translate }} * </label>
+        <cfo-input-number
+          className="pb-4"
+          [form]="propertyLoansForm"
+          controlName="purchasePrice"
+          [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+          aria-labelledby="palPurchasePriceRemortgage"
+        ></cfo-input-number>
+        <cfo-validation-errors
+          [control]="propertyLoansForm.get('purchasePrice')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate),
+            min: ('general.validations.minPurchasePrice' | translate: { min: CONFIGURATION.MIN_PURCHASE_PRICE })
+          }"
+        ></cfo-validation-errors>
+      </ng-container>
+      <ng-template #purchase>
+        <ng-container *ngIf="propertyLoansForm.controls.propertyOwnershipType.value">
+          <label class="mt-4" id="palPurchasePrice">
+            <ng-container *ngIf="propertyLoansForm.controls.propertyOwnershipType.value === 'Discounted'; else standard">
+              {{ 'createDip.labels.discountedPurchasePrice' | translate }} *
+            </ng-container>
+
+            <ng-template #standard>
+              <ng-container *ngIf="propertyLoansForm.controls.hasCustomerFoundProperty.value; else propertyNotFound">
+                {{ 'createDip.labels.purchasePrice' | translate }} *
+              </ng-container>
+            </ng-template>
+
+            <ng-template #propertyNotFound>{{ 'createDip.labels.purchaseEstimatedPrice' | translate }} *</ng-template>
+          </label>
+          <cfo-input-number
+            className="pb-4"
+            [form]="propertyLoansForm"
+            controlName="purchasePrice"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+            aria-labelledby="palPurchasePrice"
+          ></cfo-input-number>
+          <cfo-validation-errors
+            [control]="propertyLoansForm.get('purchasePrice')"
+            [errorMessages]="{
+              required: ('general.validations.requiredMsg' | translate),
+              min: ('general.validations.minPurchasePrice' | translate: { min: CONFIGURATION.MIN_PURCHASE_PRICE }),
+              max: ('general.validations.maxPurchasePrice' | translate: { max: CONFIGURATION.MAX_PURCHASE_PRICE })
+            }"
+          ></cfo-validation-errors>
+        </ng-container>
+      </ng-template>
+    </div>
+    <div class="step-header rounded-top px-4 py-3 shadow">
+      <h4 class="mb-0 fw-bold">{{ 'createDip.subtitles.loanDetails' | translate }}</h4>
+    </div>
+    <div class="step-body rounded-bottom py-5 px-4 mb-5 bg-white shadow">
+      <div class="row">
+        <div class="col-md-3">
+          <label id="palTotalLoanAmount">{{ 'createDip.labels.totalLoanAmount' | translate }} *</label>
+          <cfo-input-number
+            [form]="propertyLoansForm"
+            controlName="loanAmount"
+            [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0 }"
+            aria-labelledby="palTotalLoanAmount"
+          ></cfo-input-number>
+        </div>
+        <cfo-validation-errors
+          [control]="propertyLoansForm.get('loanAmount')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate),
+            min: getMinErrorMessage(),
+            max: getMaxErrorMessage(),
+            maxLoanAmount: ('general.validations.maxLoanAmount' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+      <div class="row py-3">
+        <div class="col">
+          {{ 'createDip.labels.calculatedLTV' | translate }}
+          <span *ngIf="(ltv$ | async) !== undefined; else loadingLTV">{{ ltv$ | async | percent: '1.0-1' }}</span>
+        </div>
+        <div class="error">{{ LTVerror }}</div>
+      </div>
+    </div>
+    <ng-template #loadingLTV>
+      <strong><i class="pi pi-spin pi-spinner"></i> Calculating...</strong>
+    </ng-template>
+  </form>
+</div>

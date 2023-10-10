@@ -1,0 +1,100 @@
+{
+  "agenda": {
+    "general": {
+      "Delete": "Verwijderen"
+    },
+    "holidaycalendar": {
+      "Description": "Beschrijving",
+      "Date": "Datum",
+      "New": "Voeg toe",
+      "CardHeader": "Details feestdag",
+      "ScreenHeader":"Manage Holiday Calendar",
+      "ValidationError":{
+        "required":" is verplicht. ",
+        "Date": "'Datum'",
+        "buisnessError":"NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "action": {
+      "ActionTypeColon": "Type Taak",
+      "DefaultHandleTimeDay": "Dag",
+      "DefaultHandleTimeHour": "Uur",
+      "DefaultHandleTimeMinute": "Minuut",
+      "Name": "Naam",
+      "Maxdays": "Max aantal dagen open",
+      "Functionality": "NL - Action Functionality",
+      "Description": "Beschrijving",
+      "Department": "Afdeling",
+      "Priority": "Actie prioriteit",
+      "TreatmentTime": "Standaard behandelingstijd",
+      "New": "Voeg toe",
+      "GridHeader": "Taken overzicht",
+      "CardHeader": "Taak details",
+      "ScreenHeader":"Manage Actions",
+      "ValidationError":{
+        "required":" is verplicht. ",
+        "Priority": "'Actie prioriteit'",
+        "ActionTypeColon": "'Type Taak'"
+      }
+    },
+    "actionReceiver": {
+      "section": "Afdeling",
+      "generalAgenda": "Algemene Agenda",
+      "departmentTasksOverview": " Afdelingstaken Overzicht",
+      "detailsDepartmentalTask": "Detail Afdelingstaak",
+      "addusers": "Voeg grebruikers toe",
+      "users": "Grebruikers",
+      "actionReceiverUserdetail": "Action Receiver User Detail",
+      "user": "User",
+      "isonlyfortaskcreation": "Is only for task creation",
+      "ScreenHeader": "Action Receiver",
+      "ValidationError": {
+        "required": " is verplicht ",
+        "section": "'Afdeling'",
+        "generalAgenda": "'Algemene Agenda'",
+        "buisnessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+
+    },
+    "masterAgenda": {
+      "name": "Bedrijf/naam",
+      "gridname": "Naam",
+      "commercialOwner": "Commercieel eigenaar",
+      "mainOwner": "Hoofd gebruiker",
+      "type": "Type",
+      "overviewGeneralAgenda": "Overzicht algemene agenda",
+      "generalAgendaDetail": "Algemene agenda detail",
+      "masterAgenda": "Master Agenda",
+      "ScreenHeader": "Master Agenda",
+      "ValidationError": {
+        "required": " is verplicht ",
+        "name": "'Naam'",
+        "commercialOwner": "'Commercieel eigenaar'",
+        "mainOwner": "'Hoofd gebruiker'",
+        "type": "'Type'"
+      }
+    },
+
+    "buttons": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "new": "Voeg toe"
+    },
+
+    "Validation": {
+      "Header": "Er zijn {0} foutboodschap(pen). Klik hier om de omschirijving te bekijken"
+    },
+    "dialog": {
+      "Yes": "Ja",
+      "No": "Nee",
+      "Cancel": "Annuleer",
+      "Header": "Onopgeslagen wijzigingen",
+      "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "exception": "Technical Exception",
+      "continue": "Continue"
+    }
+
+  }
+
+}
+

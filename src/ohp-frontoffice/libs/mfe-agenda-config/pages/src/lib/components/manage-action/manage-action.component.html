@@ -1,0 +1,391 @@
+<div class="whitelabel-config">
+  <div class="close-agenda-config container">
+    <form
+      #manageActionform="ngForm"
+      class="closefo-form closefo-panel-spacing"
+      [ngClass]="{ 'closefo-form-submitted': manageActionform.submitted }"
+    >
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">{{'agenda.action.ScreenHeader'|translate}}</h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="submit"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'agenda.buttons.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(manageActionList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'agenda.buttons.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'agenda.action.GridHeader' | translate }}</div>
+          </div>
+          <div class="col-lg-3 text-right">
+            <div class="col-12 closefo-btn-wrapper">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-add-btn-small"
+                caption="{{ 'agenda.action.New' | translate }}"
+                [ControlConfig]="ButtonConfig"
+                (click)="addTask()"
+              ></cfc-fluid-button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <cfc-fluid-grid
+              Type="bo-table"
+              dataKey="manageActionList.name"
+              [gridData]="manageActionList"
+              [gridDataHeader]="TaskOverviewHeader"
+              [paginationStatus]="false"
+              paginationReportStatus="false"
+              [dataSelection]="dataSelected"
+              dataSelectionMode="single"
+              (rowClickedEvent)="onRowselect($event)"
+              (deleteRowEvent)="onRowDelete($event, manageActionList)"
+              [selectedDetail]="highlightActionData"
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="hideCard">
+        <div class="col-md-12">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'agenda.action.CardHeader' | translate }}</div>
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-6 text-right">
+                    <label class="closefo-form-label">{{ 'agenda.action.Name' | translate }}</label>
+                  </div>
+                  <div class="col-6">
+                    <cfc-fluid-textbox
+                      Type="text"
+                      [ControlConfig]="TextboxConfig"
+                      [ngModel]="manageActionData.name"
+                      (ngModelChange)="onNameChange($event)"
+                      name="Name"
+                      [isAllowSpace]="true"
+                      [form]="manageActionform"
+                      #name="ngModel"
+                      [maxlength]="250"
+                    >
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label required">{{ 'agenda.action.ActionTypeColon' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        #TaskType="ngModel"
+                        [ngModel]="manageActionData.actionType"
+                        [form]="manageActionform"
+                        Type="single"
+                        name="TaskType"
+                        [ControlConfig]="RequiredDropdownConfig"
+                        [options]="TaskTypeList"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onTaskTypeChange($event)"
+                        [placeholder]="placeHolder"
+                        [showClearIcon]="true"
+                        [cfcFluidValidation]="{
+                          errors: TaskType.errors ? RequiredDropdownConfig.Errors : '',
+                          formSubmitted: manageActionform.submitted || RequiredDropdownConfig.externalError
+                        }"
+                        [title]="manageActionData.actionType?.caption === null ? '' :manageActionData.actionType?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label">{{ 'agenda.action.Department' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="manageActionData.actionReceiverTypeName"
+                        [form]="manageActionform"
+                        Type="single"
+                        name="Department"
+                        [ControlConfig]="DropdownConfig"
+                        [options]="DepartmentDropdownList"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onDepartmentChange($event)"
+                        [placeholder]="placeHolder"
+                        [showClearIcon]="true"
+                        [title]="manageActionData.actionReceiverTypeName?.caption === null?'':manageActionData.actionReceiverTypeName?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label">{{ 'agenda.action.TreatmentTime' | translate }}</label>
+                    </div>
+                    <div class="col-7 d-flex">
+                      <div class="col-4 d-flex align-items-center">
+                        <div class="col-5">
+                          <cfc-fluid-textbox
+                            Type="numbersMaxLength"
+                            [ControlConfig]="TextboxConfig"
+                            [ngModel]="manageActionData.defaultHandleTimeDays === 0 ? '' : manageActionData.defaultHandleTimeDays"
+                            (focusout)="onDayChange($event)"
+                            name="Days"
+                            [form]="manageActionform"
+                            [maxlength]="2"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-6 ms-1">
+                          <label class="closefo-form-label">{{ 'agenda.action.DefaultHandleTimeDay' | translate }}</label>
+                        </div>
+                      </div>
+                      <div class="col-4 d-flex align-items-center">
+                        <div class="col-5 text-right">
+                          <cfc-fluid-textbox
+                            Type="numbersMaxLength"
+                            [ControlConfig]="TextboxConfig"
+                            [ngModel]="manageActionData.defaultHandleTimeHours === 0 ? '' : manageActionData.defaultHandleTimeHours"
+                            (focusout)="onHourChange($event)"
+                            name="Hours"
+                            [form]="manageActionform"
+                            [maxlength]="2"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-6 ms-1">
+                          <label class="closefo-form-label">{{ 'agenda.action.DefaultHandleTimeHour' | translate }}</label>
+                        </div>
+                      </div>
+                      <div class="col-4 d-flex align-items-center">
+                        <div class="col-5 text-right">
+                          <cfc-fluid-textbox
+                            Type="numbersMaxLength"
+                            [ControlConfig]="TextboxConfig"
+                            [ngModel]="manageActionData.defaultHandleTimeMinutes === 0 ? '' : manageActionData.defaultHandleTimeMinutes"
+                            (focusout)="onMinutesChange($event)"
+                            name="Minutes"
+                            [form]="manageActionform"
+                            [maxlength]="2"
+                          >
+                          </cfc-fluid-textbox>
+                        </div>
+                        <div class="col-6 ms-1">
+                          <label class="closefo-form-label">{{ 'agenda.action.DefaultHandleTimeMinute' | translate }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label">{{ 'agenda.action.Maxdays' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        Type="numbersMaxLength"
+                        [ControlConfig]="TextboxConfig"
+                        [ngModel]="manageActionData.defaultHandleMargin === 0 ? '' : manageActionData.defaultHandleMargin"
+                        (focusout)="onMaxdaysChange($event)"
+                        name="MaxDays"
+                        [form]="manageActionform"
+                        [maxlength]="10"
+                        [maximumValue]="intMaxValue"
+                        #maxdays="ngModel"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label">{{ 'agenda.action.Functionality' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="manageActionData.actionFunctionality"
+                        [form]="manageActionform"
+                        Type="single"
+                        name="Dropdown"
+                        [ControlConfig]="DropdownConfig"
+                        (OnSelectionChanged)="onFunctionalityChange($event)"
+                        #ActionFunctionalitydropdown="ngModel"
+                        [options]="ActionFunctionalityList"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        [placeholder]="placeHolder"
+                        [showClearIcon]="true"
+                        [title]="manageActionData.actionFunctionality?.caption === null ? '':manageActionData.actionFunctionality?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row align-items-center">
+                    <div class="col-3 messagetxtlbl">
+                      <label class="closefo-form-label">{{ 'agenda.action.Description' | translate }}</label>
+                    </div>
+                    <div class="col-9 actionmessagetext">
+                      <cfc-fluid-textarea
+                        [ControlConfig]="TextAreaConfig"
+                        [form]="manageActionform"
+                        name="Description"
+                        [ngModel]="manageActionData.actionMessage"
+                        (ngModelChange)="onMessageChange($event)"
+                        class="text-resize"
+                        [maxLength]="250"
+                      >
+                      </cfc-fluid-textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="row align-items-center">
+                    <div class="col-5 text-right">
+                      <label class="closefo-form-label required">{{ 'agenda.action.Priority' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        #Priority="ngModel"
+                        [ngModel]="manageActionData?.priority"
+                        [form]="manageActionform"
+                        Type="single"
+                        name="Priority"
+                        [ControlConfig]="PriorityDropDownConfig"
+                        [options]="PriorityList"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onPriorityChange($event)"
+                        [placeholder]="placeHolder"
+                        [showClearIcon]="true"
+                        [cfcFluidValidation]="{
+                          errors: Priority.errors ? PriorityDropDownConfig.Errors : '',
+                          formSubmitted: manageActionform.submitted || PriorityDropDownConfig.externalError
+                        }"
+                        [title]="manageActionData?.priority?.caption===null?'':manageActionData?.priority?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+        <ng-template #headerTemplate> {{ 'agenda.dialog.Header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'agenda.dialog.Content' | translate }}</div>          
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-primary"
+              caption="{{ 'agenda.dialog.Yes' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogYes(manageActionList)"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'agenda.dialog.No' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogNo()"
+            ></cfc-fluid-button>
+            <cfc-fluid-button
+              Type="button"
+              ButtonStyle="closefo-btn-secondary"
+              caption="{{ 'agenda.dialog.Cancel' | translate }}"
+              [ControlConfig]="ButtonConfig"
+              (click)="onDialogCancel()"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionbox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          {{ 'agenda.dialog.exception' | translate }}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error and attempt to continue.
+              <br />
+              <br />
+              Fault Code: {{errorCode}}
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+              Type="button"
+              class="ms-auto"
+              ButtonStyle="closefo-btn-secondary"
+              caption=" {{ 'agenda.dialog.continue' | translate }}"
+              (click)="onException()"
+              [ControlConfig]="ButtonConfig"
+            ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

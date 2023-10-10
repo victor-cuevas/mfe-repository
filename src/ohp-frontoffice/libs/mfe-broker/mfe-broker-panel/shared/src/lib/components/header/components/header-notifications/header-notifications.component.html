@@ -1,0 +1,22 @@
+<div class="d-flex align-items-center toggle-hover" (click)="notification.toggle($event)">
+  <div class="mx-4 pt-2 notifications">
+    <i class="pi pi-bell" pBadge style="font-size: 1.6rem" value="2"></i>
+  </div>
+</div>
+<p-overlayPanel #notification [dismissable]="true">
+  <ng-template pTemplate>
+    <div class="header-title"><p class="title">Notifications</p></div>
+    <div class="notification-content">
+      <div *ngFor="let item of notifications">
+        <div class="notification-wrapper">
+          <div class="d-flex justify-content-between">
+            <div class="notification-title">{{ item.title }}</div>
+            <div class="notification-date">{{ item.date }}</div>
+          </div>
+          <p class="notification-description">{{ item.description }}</p>
+        </div>
+      </div>
+      <div class="footer text-center"><a href="#">see all notifications</a></div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

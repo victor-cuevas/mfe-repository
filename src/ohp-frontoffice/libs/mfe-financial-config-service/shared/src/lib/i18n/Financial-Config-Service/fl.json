@@ -1,0 +1,212 @@
+{
+  "financial": {
+    "manageDue": {
+      "heading": {
+        "manage-due": "Manage due amount sorting",
+        "paymentAllocation": "Betalingstoewijzing per Product",
+        "payment-details": "Betalingstoewijzingsdetail"
+      },
+      "card": {
+        "paymentAllocation": "Betalingsventilatie",
+        "product": "Producten",
+        "Payment": "Betalingstoewijzingsblokkering",
+        "PaymentItem": "Betalingstoewijzingsitem",
+        "TimeSorting": "Tijdssortering",
+        "TxEITypeCd": "Type Transactie Element "
+      },
+      "tabel": {
+        "payment": "Betalingsventilatie",
+        "": ""
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "paymentAllocation": "'PaymentAllocationType'",
+        "timeSorting": "'TimingSorting'",
+        "TxElTypeCd": "'Transactie soort'"
+      },
+      "AddButton": {
+        "AddItem": "Voeg Item Toe",
+        "AddBlock": "Voeg Blok Toe",
+        "AddPayment": "Voeg Betalingsventilatie toe"
+      }
+    },
+    "valueReduction": {
+      "heading": {
+        "ValueReduction": "Value Reduction Principle",
+        "Value-Reduction": "Overzicht Berekeningsmethode Waardeverminderingen",
+        "ValueRed": "Value Reduction",
+        "ValueReductionDetail": "Detail Waardevermindering",
+        "ValueReductiono": "Overzicht waardeverminderingen",
+        "valueDetails": "Details Waardevermindering "
+      },
+      "button": {
+        "back": "Terug",
+        "save": "Opslaan en Volgende"
+      },
+      "card": {
+        "PeriodBase": "Basisperiode",
+        "name": "Bedrijf/naam ",
+        "nameo": "Naam ",
+        "CalculationBase": "Berekeningsbasis",
+        "DueElapse": "Verstreken periode",
+        "Reduction": "Verminderingspercentage ",
+        "Factor": "Factor"
+      },
+      "tabel": {
+        "name": "Bedrijf/naam",
+        "periodBase": "Basisperiode",
+        "": "",
+        "nameo": "Naam",
+        "CalculationBase": "Berekeningsbasis",
+        "DueElapsed": "Verstreken periode",
+        "Percentage": "Percentage"
+      },
+      "mandatory": {
+        "PeriodBase": "'Basisperiode'",
+        "name": "'Bedrijf/naam'",
+        "nameo": "'Naam'",
+        "CalculationBase": "'Berekeningsbasis'",
+        "DueElapse": "'Verstreken periode'",
+        "Reduction": "'Verminderings'",
+        "required": " is verplicht.",
+        "lengthError": " geen gegeven voor volgende stap",
+        "error": "NL - The given record is already in the list. Please make sure that the record is unique. "
+
+      }
+    },
+    "ManageCost": {
+      "heading": {
+        "Manage-Cost": "Manage Cost",
+        "ReminderCostDetail": "Rappel kosten detail",
+        "PostageerCostDetail": "Verzendkosten detail",
+        "MutationCost": "NL - Mutation Cost Details"
+      },
+      "tabheader": {
+        "Remainder": "Rappel kosten",
+        "postageCost": "Verzendkosten",
+        "MutationCost": "NL - Mutation Cost"
+      },
+      "tabel": {
+        "valid": "Geldig vanaf",
+        "amount": "Bedrag",
+        "linked": "Gerelateerd product",
+        "creditProvider": "Kredietverstrekker",
+        "": "",
+        "validP": "Geldig vanaf",
+        "amountP": "Bedrag",
+        "Country": "Land",
+        "Registered": "Geregistreerd",
+        "validM": "Geldig vanaf",
+        "amountM": "Bedrag",
+        "CreditProviderM": "Kredietverstrekker",
+        "MutationType": "NL - Mutation Type"
+      },
+      "card": {
+        "validFrom": "Geldig vanaf",
+        "Amount": "Bedrag",
+        "product": "Product",
+        "creditProvider": "Kredietverstrekker",
+        "Registered": "Geregistreerd",
+        "validFromP": "Geldig vanaf",
+        "AmountP": "Bedrag",
+        "CountryP": "Land",
+        "RegisteredP": "Geregistreerd",
+        "validFromM": "Geldig vanaf",
+        "AmountM": "Bedrag",
+        "CredditProviderM": "Kredietverstrekker",
+        "MutationType": "Mutatie type"
+      },
+      "mandatory": {
+
+        "validFrom": "'Geldig vanaf'",
+        "Amount": "'Bedrag'",
+        "validFromP": "'Geldig vanaf'",
+        "AmountP": "'Bedrag'",
+        "validFromM": "'Geldig vanaf'",
+        "AmountM": "'Bedrag'",
+        "required": " is verplicht.",
+        "reminderbusiness": "NL - The Valid From date of the new Reminder cost for the selected product cannot be equal to an existing one.",
+        "postagebusiness": "NL - A Postage Cost already exists with those parameters.",
+        "mutationbusiness": "NL - A Mutation Cost already exists with those parameters."
+
+      }
+    },
+
+    "manageFee": {
+      "heading": {
+        "ManageFeeConfig": "Manage Fee Configuration",
+        "Transaction": "NL - Transaction Preferences"
+      },
+      "tabel": {
+        "FeeType": "NL - Fee Type",
+        "Delete": "Verwijderen",
+        "": ""
+      },
+      "card": {
+        "charging": "NL - Charging of",
+        "ReversedCharging": "NL - Reversed charging of",
+        "Allocation": "NL - Allocation to",
+        "ReversedAllocation": "NL - Reversed allocation to",
+        "BonusAllocation": "NL - Bonus allocation to",
+        "ReversedBonusAllocation": "NL - Reversed bonus allocation to",
+        "construction": "NL - Construction depot allocation to",
+        "Reversedconstruction": "NL - Reversed construction depot allocation to",
+        "DueDate": "NL - Due date depot allocation to",
+        "ReversedDueDate": "NL - Reversed due date depot allocation to",
+        "LossOn": "NL - Loss on",
+        "ReversedLossOn": "NL - Reversed loss on",
+        "Collections": "NL - Collections booking of due",
+        "ReversedCollections": "NL - Reversed Collections Due",
+        "Accounting": "NL - Accounting write off on",
+        "ReversedAccounting": "NL - Reversed accounting write off on",
+        "Remission": "NL - Remission of non paid",
+        "ReversedRemission": "NL - Reversed remission of non paid",
+        "Transfer": "NL - Transfer in on",
+        "Increase": "NL - Increase of",
+        "Decrease": "NL - Decrease of",
+        "Initial": "NL - Initial booking",
+        "CloseDue": "NL - Close Due",
+        "OpenDue": "NL - Open Due"
+      },
+      "mandatory": {
+        "charging": "'NL - Charging of'",
+        "ReversedCharging": "'NL - Reversed charging of'",
+        "Allocation": "'NL - Allocation to'",
+        "ReversedAllocation": "'NL - Reversed allocation to'",
+        "BonusAllocation": "'NL - Bonus allocation to'",
+        "ReversedBonusAllocation": "'NL - Reversed bonus allocation to'",
+        "LossOn": "'NL - Loss on'",
+        "ReversedLossOn": "'NL - Reversed loss on'",
+        "Collections": "'NL - Collections booking of due'",
+        "ReversedCollections": "'NL - Reversed Collections Due'",
+        "Accounting": "'NL - Accounting write off on'",
+        "ReversedAccounting": "'NL - Reversed accounting write off on'",
+        "Remission": "'NL - Remission of non paid'",
+        "ReversedRemission": "'NL - Reversed remission of non paid'",
+        "Transfer": "'NL - Transfer in on'",
+        "Increase": "'NL - Increase of'",
+        "Decrease": "'NL - Decrease of'",
+        "Initial": "'NL - Initial booking'",
+        "FeeType": "'NL - Fee Type'",
+        "required": " is verplicht."
+      }
+    },
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "add": "Voeg Toe"
+
+    },
+    "validations": {
+      "Header": "Er zijn {0} foutboodschap(pen). Klik hier om de omschirijving te bekijken"
+    },
+    "dialog": {
+      "Yes": "Ja",
+      "No": "Nee",
+      "Cancel": "Annuleer",
+      "Header": "Onopgeslagen Wijzigingen",
+      "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "ok": "OK"
+    }
+  }
+}

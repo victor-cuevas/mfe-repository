@@ -1,0 +1,445 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'user.titles.manageUsers' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'button.save' | translate}}" (OnClick)="onSave(userList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'button.close' | translate}}" (OnClick)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+      <form #searchCriteriaform="ngForm" class="closefo-form closefo-panel-spacing"
+            [ngClass]="{'closefo-form-submitted':searchCriteriaform.submitted}">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-heading-3 closefo-text-primary mb-2"> {{'user.titles.searchUser' | translate}}</div>
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.userName' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="searchUsers?.userName"
+                                           (ngModelChange)="searchUsers.userName=$event" name="userName"
+                                           [maxlength]="250"
+                                           [isAllowSpace]="false" [form]="searchCriteriaform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.lastName' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="searchUsers?.lastName"
+                                           [maxlength]="250"
+                                           (ngModelChange)="searchUsers.lastName=$event" name="lastName"
+                                           [isAllowSpace]="false" [form]="searchCriteriaform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.employeeNo' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers" [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="searchUsers?.employeeNr" (ngModelChange)="searchUsers.employeeNr=$event"
+                                           name="employeeNr" [isAllowSpace]="false"
+                                           [form]="searchCriteriaform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end closefo-btn-wrapper">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-primary" caption="Search" (OnClick)="SearchForm(searchCriteriaform)"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption="Clear" (click)="onClear()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'user.titles.selectTheUser' | translate}}</div>
+          </div>
+          <div class="col-4 closefo-btn-wrapper text-right">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'user.buttons.addUser' | translate}}" (OnClick)="addUser()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+
+            <cfc-fluid-grid Type="bo-table" dataKey="Username" [gridData]="userList" dataSelectionMode="single"
+                            [gridDataHeader]="selectUserHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            [(dataSelection)]="dataSelected" (rowClickedEvent)=dataSelection($event)
+                            (deleteRowEvent)="onRowDelete($event,userList)" [selectedDetail]="userDetails">
+            </cfc-fluid-grid>
+
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="onSelectUser">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="closefo-heading-3 closefo-text-primary mb-2 ">{{'user.titles.userDetails' | translate}}</div>
+            <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+              <div class="closefo-form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">{{'user.labels.userName' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="UserNameTextBoxconfig" [ngModel]="userDetails?.userName"
+                                           (change)="onChangeUserName($event)" name="userName" [isAllowSpace]="false"
+                                           [form]="userDetailsform"
+                                           [isReadOnly]="isReadOnly"
+                                           [maxlength]="250"
+                                           [cfcFluidValidation]="{errors:userNameTextBox.errors? UserNameTextBoxconfig.Errors :'', formSubmitted: userDetailsform.submitted || (this.UserNameTextBoxconfig.externalError)}"
+                                           #userNameTextBox="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">{{'user.labels.lastName' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="LastNameTextBoxconfig" [ngModel]="userDetails?.name"
+                                           (change)="onChangeName($event)" name="lastName" [isAllowSpace]="false"
+                                           [form]="userDetailsform"
+                                           [maxlength]="250"
+                                           [cfcFluidValidation]="{errors:lastNameTextBox.errors? LastNameTextBoxconfig.Errors :'', formSubmitted: userDetailsform.submitted || (this.LastNameTextBoxconfig.externalError)}"
+                                           #lastNameTextBox="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.password' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="password"
+                                           [ControlConfig]="PasswordTextBoxconfig" [ngModel]="userDetails?.password"
+                                           (change)="onChangePassword($event)" name="password"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">
+                          {{'user.labels.firstName' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="FirstNameTextBoxconfig" [ngModel]="userDetails?.firstName"
+                                           (change)="onChangeFirstName($event)" name="firstName"
+                                           [isAllowSpace]="false" [form]="userDetailsform"
+                                           [maxlength]="250"
+                                           [cfcFluidValidation]="{errors:firstNameTextBox.errors? FirstNameTextBoxconfig.Errors :'', formSubmitted: userDetailsform.submitted || (this.FirstNameTextBoxconfig.externalError)}"
+                                           #firstNameTextBox="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.employeeNo' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="numbers"
+                                           [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="userDetails?.employeeNr"
+                                           (OnchangedNumber)="onChangeEmployeeNr($event)"
+                                           name="employeeNr"
+                                           [maxlength]="10"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">
+                          {{'user.labels.language' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-dropdown [ngModel]="userDetails?.language"
+                                            [form]="userDetailsform"
+                                            Type="single"
+                                            name="Language"
+                                            [placeholder]="placeholder"
+                                            [options]="user?.languageList"
+                                            [ControlConfig]="DropdownConfig"
+                                            optionLabel="caption"
+                                            dataKey="caption"
+                                            [title]="userDetails?.language?.caption"
+                                            (OnSelectionChanged)="onChangeLanguage($event)"
+                                            [cfcFluidValidation]="{errors:languagedropdown.errors? DropdownConfig.Errors :'', formSubmitted: userDetailsform.submitted || (this.DropdownConfig.externalError)}"
+                                            #languagedropdown="ngModel">
+                        </cfc-fluid-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.email' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text" [ControlConfig]="TextBoxconfig"
+                                           [ngModel]="userDetails?.email"
+                                           (change)="onChangeEmail($event)"
+                                           [maxlength]="250"
+                                           name="email" [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">
+                          {{'user.labels.faxNumber' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="userDetails?.faxNr"
+                                           (change)="onChangeFaxNr($event)" name="faxNo"
+                                           [maxlength]="25"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label ">{{'user.labels.telephone' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="userDetails?.telNr"
+                                           (change)="onChangeTelNr($event)" name="telephoneNo"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label ">
+                          {{'user.labels.privateNumber' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="TextBoxconfig" [ngModel]="userDetails?.personalTelNr"
+                                           (change)="onChangePersonalTelNr($event)" name="personalTelephone"
+                                           [isAllowSpace]="false" [form]="userDetailsform">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label ">{{'user.labels.accessToSettings' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="userDetails?.access2config"
+                                            name="accesstoconfig"
+                                            (ngModelChange)="onChangeAccess2Config($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label required">
+                          {{'user.labels.initials' | translate}}
+                        </label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-textbox Type="text"
+                                           [ControlConfig]="InitialTextBoxconfig" [ngModel]="userDetails?.initials"
+                                           (change)="onChangeInitials($event)" name="initials"
+                                           [isAllowSpace]="false"
+                                           [form]="userDetailsform"
+                                           [maxlength]="255"
+                                           [cfcFluidValidation]="{errors:initialTextBox.errors? InitialTextBoxconfig.Errors :'', formSubmitted: userDetailsform.submitted || (this.InitialTextBoxconfig.externalError)}"
+                                           #initialTextBox="ngModel">
+                        </cfc-fluid-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row align-items-center">
+                      <div class="col-5">
+                        <label class="closefo-form-label">{{'user.labels.isIntegrationUser' | translate}}</label>
+                      </div>
+                      <div class="col-7">
+                        <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                            [form]="userDetailsform"
+                                            [ngModel]="userDetails?.isIntegrationUser"
+                                            name="isuserIntegration"
+                                            (ngModelChange)="onChangeIsIntegrationUser($event)">
+                        </cfc-fluid-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="closefo-panel-spacing">
+          <div class="row">
+            <div class="col">
+              <div class="closefo-heading-3 closefo-text-primary mb-2">{{'user.titles.userProfiles' | translate}}</div>
+            </div>
+            <div class="col-4 closefo-btn-wrapper text-right">
+              <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'user.buttons.addUserProfile' | translate}}" (OnClick)="addUserProfile()"
+                                [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mb-3">
+
+              <cfc-fluid-grid Type="bo-table" dataKey="Functionalities" [gridData]="userDetails?.userProfile2CreditProvider"
+                              [gridDataHeader]="userProfileHeader" [paginationStatus]="false" paginationReportStatus="false"
+                              [(dataSelection)]="dataSelected" (dropDownValueChange)="dropDownEvent($event)"
+                              [ControlConfig]="GridConfig"
+                              (deleteRowEvent)="onUserProfileRowDelete($event,userDetails.userProfile2CreditProvider)">
+              </cfc-fluid-grid>
+            </div>
+
+          </div>
+        </div>
+
+
+      </ng-container>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'close.yes' | translate}}" (OnClick)="onClickYes(userList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+    </form>
+  </div>
+</div>
+
+
+

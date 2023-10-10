@@ -1,0 +1,269 @@
+{
+  "communication": {
+    "fallback": {
+      "heading": {
+        "FallbackMechanism": "Manage BO Communication Fallback"
+      },
+      "card": {
+        "name": "NL - Name",
+        "FollowupEventName": "NL - Followup Event Name",
+        "CommunicationMedium": "NL - Communication Medium",
+        "Seqnr": "NL - Seq nr"
+      },
+      "tabel": {
+        "name": "NL - Name",
+        "delete": "",
+        "FollowupEventName": "NL - Followup Event Name",
+        "CommunicationMedium": "NL - Communication Medium",
+        "Seqnr": "NL - Seq Nr",
+        "delete1": ""
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "name": "'NL - Name'",
+        "Seqnr": "'NL - Seq Nr'",
+        "FollowupEventName": "'NL - Followup Event Name'",
+        "CommunicationMedium": "'NL - Communication Medium'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateBusiness": "NL - The given record is already in the list. Please make sure that the record is unique.",
+        "nullCheckError": "NL - Either 'Followup Event Name' or 'Communication Medium' must be added",
+        "seqNoError": "NL - The given 'Seq Nr' is already in the list. Please make sure that the 'Seq Nr' is unique.",
+        "eventNameError": "NL - The given 'Followup Event Name' is already in the list. Please make sure that the 'Followup Event Name' is unique.",
+        "mediumError": "NL - The given 'Communication Medium' is already in the list. Please make sure that the 'Communication Medium' is unique."
+
+      }
+    },
+
+    "CommunicationOutcome": {
+      "heading": {
+        "CommunicationOutcome": "Manage Communication dossier status",
+        "Dossierstatus2dossierphase": "Dossierstatus 2 dossier phase",
+        "Dossierstatus2possibleoutcome": "Dossierstatus 2 possibleoutcome"
+      },
+      "tabel": {
+        "CommunicationOutcome": "NL - Communication Outcome",
+        "DossierStatus": "NL - Dossier Status",
+        "SubStatus": "NL - Sub Status",
+        "Delete": "",
+        "DossierStatus1": "NL - Dossier Status",
+        "DossierPhase": "NL - Dossier Phase",
+        "Delete1": "",
+        "DossierStatus2": "NL - Dossier Status",
+        "Delete2": ""
+      },
+      "card": {
+        "CommunicationOutcome": "NL - Communication Outcome",
+        "DossierStatus": "NL - Dossier Status",
+        "SubStatus": "NL - Sub Status",
+        "DossierStatus1": "NL - Dossier Status",
+        "DossierPhase": "NL - Dossier Phase",
+        "DossierStatus2": "NL - Dossier Status"
+      },
+      "picker": {
+        "PossibleCommunicationOutcome": "NL - Possible Communication Outcome",
+        "SelectedPossibleCommunicationOutcome": "NL - Selected Possible Communication Outcome"
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "CommunicationOutcome": "'NL - Communication Outcome'",
+        "DossierStatus": "'NL - Dossier Status'",
+        "OutcomeBusinessError": "'NL - Communication Outcome' must be Unique",
+        "DossierPhaseStatus": "'NL - Dossier Status'",
+        "DossierPhase": "'NL - Dossier Phase'",
+        "DossierPhaseBusinessError": "'NL - Dossier Status - DossierStatus 2 DossierPhase' must be Unique",
+        "PossibleOutcomeDosStatus": "'NL - Dossier Status'",
+        "PossibleOutcomeBusinessError": "'NL - Dossier Status - DossierStatus 2 PossibleOutcome' must be Unique",
+        "SelectedOutcomeList": "Atleast One 'NL - Possible Communication Outcome' Should be Selected"
+      }
+    },
+    "print": {
+      "heading": {
+        "managePrint": "Manage Print Document Filter",
+        "searchTemplate": "Zoek template",
+        "OnlyDisplay": "Alleen tonen als de status gelijk is aan",
+        "OnlyDisplaysub": "Alleen tonen als substatus gelijk is aan",
+        "UserProfile": "Alleen tonen als gebruikersprofiel gelijk is aan",
+        "OnlyContext": "NL - Only display when Context equals"
+      },
+      "card": {
+        "templateCode": "Template code",
+        "templateName": "Template naam",
+        "maxDue": "Alleen tonen als eisbaar bedrag kleiner is dan €"
+      },
+      "tabel": {
+        "templateCode": "Template code",
+        "templateName": "Template name",
+        "": ""
+      },
+      "tab": {
+        "MaximumDue": "Maximum eisbaar",
+        "CreditSts": "Krediet status",
+        "CreditSubsts": "Krediet substatus",
+        "UserProfile": "Gebruikersprofiel",
+        "Context": "NL - Context"
+      },
+      "BusinessError": {
+        "NoRecord": "NL - There is no record match for your search criteria. "
+      }
+    },
+    "DefaultReference": {
+      "heading": {
+        "DefaultReference": "Manage communication default referencetype"
+      },
+      "tabel": {
+        "ReferencetypeName": "NL - Reference Type Name",
+        "Referencetypeusage": "NL - Reference Type Usage",
+        "Delete": "Delete"
+      },
+      "card": {
+        "ReferencetypeName": "NL - Reference Type Name",
+        "Referencetypeusage": "NL - Reference Type Usage"
+      },
+      "mandatory": {
+        "ReferencetypeName": "'NL - Reference Type Name'",
+        "Referencetypeusage": "'NL - Reference Type Usage'",
+        "required": " is verplicht.",
+        "DupBusinessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+
+      }
+    },
+    "communication-medium": {
+      "heading": {
+        "communication-medium": "Manage Communication medium"
+      },
+      "tabel": {
+        "CommunicationMedium": "NL - Communication Medium",
+        "DocumentTemplate": "Document Template Type",
+        "Delete": "Verwijderen"
+      },
+      "card": {
+        "CommunicationMedium": "NL - Communication Medium",
+        "DocumentTemplate": "Document Template Type"
+      },
+      "mandatory": {
+        "CommunicationMedium": "'NL - Communication Medium'",
+        "DocumentTemplate": "'Document Template Type'",
+        "required": " is verplicht."
+      },
+      "ValidationError": {
+        "businessError": "NL - Communication Medium must be Unique"
+      }
+    },
+    "communication-receiver": {
+      "heading": {
+        "communication-receiver": "Manage communication receiver vs roletype"
+      },
+      "tabel": {
+        "CommunicationReceiver": "Communication Receiver",
+        "RoleType": "NL - Role Type",
+        "Delete": "Verwijderen"
+      },
+      "card": {
+        "CommunicationReceiver": "Communication Receiver",
+        "RoleType": "NL - Role Type"
+      },
+      "mandatory": {
+        "CommunicationReceiver": "'Communication Receiver'",
+        "RoleType": "'NL - Role Type'",
+        "required": " is verplicht."
+      },
+      "ValidationError": {
+        "buisnessError": "NL - Communication Receiver must be Unique"
+      }
+    },
+
+    "FallbackMechanism": {
+      "heading": {
+        "FallbackMechanism": "Manage cm communication fallback"
+      },
+      "tabel": {
+        "Name": "NL - Name",
+        "Delete": "",
+        "FollowupEventName": "NL - Followup Event Name",
+        "CommunicationMedium": "NL - Communication Medium",
+        "Seqnr": "NL - Seq Nr",
+        "Delete1": ""
+      },
+      "card": {
+        "Name": "NL -Name",
+        "FollowupEventName": "NL -Followup Event Name",
+        "CommunicationMedium": "NL -Communication Medium",
+        "Seqnr": "NL -Seq Nr"
+      },
+      "ValidationError": {
+        "required": " is verplicht.",
+        "name": "'NL - Name'",
+        "Seqnr": "'NL - Seq Nr'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "FollowupEventName": "'NL - Followup Event Name'",
+        "CommunicationMedium": "'NL - Communication Medium'",
+        "DuplicateBusiness": "NL - The given record is already in the list. Please make sure that the record is unique.",
+        "nullCheckError": "NL - Either 'Followup Event Name' or 'Communication Medium' must be added",
+        "seqNoError": "NL - The given 'Seq Nr' is already in the list. Please make sure that the 'Seq Nr' is unique.",
+        "eventNameError": "NL - The given 'Followup Event Name' is already in the list. Please make sure that the 'Followup Event Name' is unique.",
+        "mediumError": "NL - The given 'Communication Medium' is already in the list. Please make sure that the 'Communication Medium' is unique."
+
+
+      }
+    },
+
+    "document-templatebase": {
+      "heading": {
+        "DocumentTemplateBase": "Manage document template"
+      },
+      "tabel": {
+        "Name": "Bedrijf/Naam",
+        "DocumentTemplateType": "Document Template Type",
+        "Adhoc": "NL - Adhoc",
+        "DocGenType": "DocGen Type",
+        "ValidFrom": "Inschr. Vanaf",
+        "ValidUntil": "geldig tot ",
+        "OutputFormat": "NL - Output Format",
+        "DocGenDtoName": "NL - DocGenDto Name",
+        "Delete": "Verwijderen"
+      },
+      "card": {
+        "Name": "Bedrijf/Naam",
+        "DocumentTemplateType": "Document Template Type",
+        "Adhoc": "NL - Adhoc",
+        "DocGenType": "DocGen Type",
+        "ValidFrom": "Inschr. Vanaf",
+        "ValidUntil": "geldig tot ",
+        "OutputFormat": "NL - Output Format",
+        "DocGenDtoName": "NL - DocGenDto Name"
+      },
+      "mandatory": {
+        "Name": "'Bedrijf/Naam'",
+        "DocumentTemplateType": "'Document Template Type'",
+        "DocGenType": "'DocGen Type'",
+        "ValidFrom": "'Inschr. Vanaf'",
+        "OutputFormat": "'NL - Output Format'",
+        "DocGenDtoName": "'NL - DocGenDto Name'",
+        "required": " is verplicht."
+      },
+      "ValidationError": {
+        "businessError": "NL - Date fields cannot overlap per 'Name'"
+      }
+    },
+    "Validation": {
+      "validationHeader": "Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+    },
+    "button": {
+      "save": "Opslaan",
+      "clear": "Wissen",
+      "close": "Sluiten",
+      "search": "Zoeken",
+      "continue": "Continue",
+      "Add": "Voeg Toe"
+    },
+    "close": {
+      "header": "Onopgeslagen Wijzigingen",
+      "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "yes": "Ja",
+      "no": "Nee",
+      "cancel": "Annuleer"
+    }
+  }
+  }

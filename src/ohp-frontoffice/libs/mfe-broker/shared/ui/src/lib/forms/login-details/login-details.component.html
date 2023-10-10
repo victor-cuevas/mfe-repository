@@ -1,0 +1,115 @@
+<div class="row mt-4">
+  <form [formGroup]="loginDetailsForm">
+    <p-accordion styleClass="form-accordion">
+      <p-accordionTab [selected]="isOpen">
+        <ng-template pTemplate="header">{{ 'profile.labels.login' | translate }}</ng-template>
+
+        <div
+          *ngIf="changePasswordResult$ | async as changePasswordResult"
+          [className]="'rounded d-flex pt-3 pb-4 bg-' + changePasswordResult?.status + '-light'"
+        >
+          <div class="status-icon-wrapper">
+            <div
+              [className]="
+                'ms-3 my-1 status-container--circle d-flex align-items-center justify-content-center bg-' + changePasswordResult?.status
+              "
+            >
+              <i [className]="'color-white my-2 pi pi-' + (changePasswordResult?.status === 'accepted' ? 'check' : 'times')"></i>
+            </div>
+          </div>
+          <div class="pe-4 py-1">
+            <h3 [className]="'color-' + changePasswordResult?.status">
+              {{
+                changePasswordResult?.status === 'accepted'
+                  ? ('profile.labels.passwordChanged' | translate)
+                  : ('profile.labels.passwordError' | translate)
+              }}
+            </h3>
+            <p class="pt-2">
+              {{
+                changePasswordResult?.status === 'accepted'
+                  ? ('profile.labels.passwordChangedMsg' | translate)
+                  : ('profile.labels.passwordErrorMsg' | translate)
+              }}
+            </p>
+            <ul *ngIf="changePasswordResult?.error" class="pt-2 ms-4 mb-0">
+              <li>{{ changePasswordResult?.error }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <ng-container *ngIf="!wasChangePasswordClicked; else changePasswordForm">
+          <label for="password">{{ 'profile.labels.password' | translate }}</label>
+          <p-button
+            styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mt-2"
+            label="{{ 'general.buttons.changePassword' | translate }}"
+            (click)="wasChangePasswordClicked = true"
+          ></p-button>
+        </ng-container>
+        <ng-template #changePasswordForm>
+          <div class="row mt-4">
+            <div class="col-md-3 col-12">
+              <label for="currentPassword">{{ 'profile.labels.currentPassword' | translate }} *</label>
+              <p-password
+                [toggleMask]="true"
+                [feedback]="false"
+                formControlName="currentPassword"
+                class="journey-input--large"
+              ></p-password>
+              <cfo-validation-errors
+                [control]="loginDetailsForm.get('currentPassword')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-3 col-12">
+              <label for="newPassword">{{ 'profile.labels.newPassword' | translate }} *</label>
+              <p-password [toggleMask]="true" formControlName="newPassword" class="journey-input--large">
+                <ng-template pTemplate="content"></ng-template>
+                <ng-template pTemplate="footer">
+                  <ul class="pl-2 ml-2 mt-0 password-requirements">
+                    <li [ngClass]="{ 'password-requirement--valid': minChars }">Minimum 8 characters</li>
+                    <li [ngClass]="{ 'password-requirement--valid': oneNumber }">At least one number</li>
+                    <li [ngClass]="{ 'password-requirement--valid': oneLowercase }">At least one lowercase</li>
+                    <li [ngClass]="{ 'password-requirement--valid': oneUppercase }">At least one uppercase</li>
+                    <li [ngClass]="{ 'password-requirement--valid': oneSpecial }">At least one special character</li>
+                  </ul>
+                </ng-template>
+              </p-password>
+              <cfo-validation-errors
+                [control]="loginDetailsForm.get('newPassword')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  pattern: ('general.validations.password' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-3 col-12">
+              <label for="confirmedNewPassword">{{ 'profile.labels.confirmedNewPassword' | translate }} *</label>
+              <p-password [toggleMask]="true" [feedback]="false" formControlName="confirmedNewPassword" class="journey-input--large">
+              </p-password>
+              <cfo-validation-errors
+                [control]="loginDetailsForm.get('confirmedNewPassword')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  newMatchesConfirm: ('general.validations.passwordMatch' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="mt-4 btn-section">
+              <p-button
+                styleClass="p-button-outlined--bold my-lg-0 me-lg-2"
+                label="{{ 'profile.buttons.update' | translate }}"
+                [disabled]="loginDetailsForm.status === 'INVALID'"
+                (click)="onUpdate()"
+              ></p-button>
+            </div>
+          </div>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</div>

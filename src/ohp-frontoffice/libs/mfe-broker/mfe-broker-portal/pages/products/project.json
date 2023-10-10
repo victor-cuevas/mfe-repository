@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-portal/pages/products",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-portal/pages/products/src",
+  "prefix": "app",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-portal/pages/products"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-portal/pages/products/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-portal/pages/products/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-portal/pages/products/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

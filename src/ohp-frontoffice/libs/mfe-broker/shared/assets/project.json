@@ -1,0 +1,7 @@
+{
+  "root": "libs/mfe-broker/shared/assets",
+  "sourceRoot": "libs/mfe-broker/shared/assets/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {}
+}

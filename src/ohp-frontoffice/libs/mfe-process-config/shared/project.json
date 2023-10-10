@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-process-config/shared",
+  "sourceRoot": "libs/mfe-process-config/shared/src",
+  "prefix": "mprsc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-process-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-process-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-process-config/shared/src/**/*.ts", "libs/mfe-process-config/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

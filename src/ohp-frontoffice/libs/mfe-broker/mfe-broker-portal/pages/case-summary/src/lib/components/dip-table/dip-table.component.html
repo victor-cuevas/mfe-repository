@@ -1,0 +1,213 @@
+<div class="card mt-2 mb-4" *ngIf="dipData$ | async as dip; else noDip">
+  <p-accordion styleClass="summary-accordion">
+    <p-accordionTab [selected]="(caseStage$ | async) === loanStageEnum.Dip">
+      <ng-template pTemplate="header">
+        <div class="d-flex justify-content-between align-items-center p-1 w-100">
+          <h5 class="card-header-title">{{ 'caseSummary.titles.decisionInPrinciple' | translate }}</h5>
+          <div>
+            <ng-container>
+              <!-- Resume / View-Edit / View -->
+              <ng-template
+                [cfoPermissions]="'dip'"
+                [cfoPermissionsFeatures]="['assignee']"
+                [cfoPermissionsNeededPermission]="portalPermissionType.DecisionInPrinciple"
+                [cfoPermissionsElse]="viewTemplate"
+              >
+                <p-button
+                  [label]="
+                    ((loanStage$ | async) === loanStageEnum.Dip &&
+                      (loanStatus$ | async) === loanStatusEnum.Active &&
+                      (caseStatus$ | async) !== status.Cancelled) ||
+                    ((loanStage$ | async) === loanStageEnum.Dip &&
+                      (loanStatus$ | async) === loanStatusEnum.InProgress &&
+                      (caseStatus$ | async) !== status.Cancelled) ||
+                    ((loanStage$ | async) === loanStageEnum.Dip &&
+                      (loanStatus$ | async) === loanStatusEnum.Rejected &&
+                      (caseStatus$ | async) !== status.Cancelled)
+                      ? ('general.buttons.resumeDip' | translate)
+                      : ((loanStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Submitted) ||
+                        ((loanStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Assessment) ||
+                        ((loanStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Cancelled) ||
+                        (caseStatus$ | async) === status.Cancelled
+                      ? ('general.buttons.viewDip' | translate)
+                      : ('general.buttons.viewEditDip' | translate)
+                  "
+                  styleClass="p-button-sm p-button-primary ms-4"
+                  (click)="enterDip($event)"
+                  (keyup)="enterDipKeyboard($event)"
+                ></p-button>
+              </ng-template>
+              <!-- View -->
+              <ng-template #viewTemplate>
+                <ng-template
+                  [cfoPermissions]="'dip'"
+                  [cfoPermissionsFeatures]="['viewer']"
+                  [cfoPermissionsNeededPermission]="portalPermissionType.View"
+                >
+                  <p-button
+                    [label]="'general.buttons.viewDip' | translate"
+                    styleClass="p-button-sm p-button-primary shadow ms-4"
+                    (click)="enterDip($event)"
+                  ></p-button>
+                </ng-template>
+              </ng-template>
+            </ng-container>
+            <!-- Promote -->
+            <ng-template
+              [cfoPermissions]="'fma'"
+              [cfoPermissionsFeatures]="['assignee']"
+              [cfoPermissionsNeededPermission]="portalPermissionType.FullMortgageApplication"
+            >
+              <ng-container *ngIf="(caseStatus$ | async) !== status.Cancelled">
+                <p-button
+                  *ngIf="
+                    ((caseStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Completed) ||
+                    ((caseStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Referred)
+                  "
+                  [label]="'general.buttons.promoteToFMA' | translate"
+                  styleClass="p-button-sm p-button-primary shadow ms-4"
+                  (click)="promoteDip($event)"
+                ></p-button>
+              </ng-container>
+            </ng-template>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="body">
+        <div class="p-1">
+          <div class="card-info-block">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="card-text-highlight" *ngIf="loanStage$ | async as loanStage">
+                  {{ 'caseSummary.labels.decision' | translate }}:
+                  {{ loanStage | dipDecision: (loanStatus$ | async) }}
+                  <span *ngIf="expirationDateTime && expirationDateTime > today">
+                    | {{ 'caseSummary.labels.dipExpiryDate' | translate }}:
+                    {{ expirationDateTime && expirationDateTime | date: 'dd/MM/yyyy' }}</span
+                  >
+                </div>
+              </div>
+              <!-- Certificate -->
+              <ng-template
+                [cfoPermissions]="'dip'"
+                [cfoPermissionsFeatures]="['viewer', 'assignee']"
+                [cfoPermissionsNeededPermission]="portalPermissionType.View"
+              >
+                <p-button
+                  (click)="downloadDipCertificate()"
+                  label="{{ 'general.buttons.dipPack' | translate }}"
+                  icon="pi pi-file"
+                  styleClass="p-button-outlined p-button-sm"
+                  *ngIf="
+                    (((caseStage$ | async) === loanStageEnum.Dip && (loanStatus$ | async) === loanStatusEnum.Completed) ||
+                      (caseStage$ | async) === loanStageEnum.Fma) &&
+                    dipCertificate
+                  "
+                ></p-button>
+              </ng-template>
+            </div>
+          </div>
+          <p-table [value]="[dip]" [responsive]="true" dataKey="id" [autoLayout]="true">
+            <ng-template pTemplate="header">
+              <tr class="px-3">
+                <th>
+                  {{ 'caseSummary.labels.loanAmount' | translate }}
+                </th>
+                <th>{{ ('caseSummary.labels.applicant' | translate) + (dip.applicants && dip.applicants.length > 1 ? 's' : '') }}</th>
+                <th>
+                  {{ 'caseSummary.labels.employmentStatus' | translate }}
+                </th>
+                <th>
+                  {{ 'caseSummary.labels.product' | translate }}
+                </th>
+                <th>
+                  {{ 'caseSummary.labels.productAmount' | translate }}
+                </th>
+                <th>
+                  {{ 'caseSummary.labels.term' | translate }}
+                </th>
+                <th>
+                  {{ 'caseSummary.labels.type' | translate }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-dip>
+              <tr class="px-3">
+                <td>
+                  {{ totalLoanAmount | currency: 'GBP':'symbol':'1.0-0' }}
+                </td>
+                <td>
+                  <ng-container *ngFor="let applicant of dip.applicants">
+                    <p class="text-truncate">{{ applicant.fullName | titlecase }}</p>
+                  </ng-container>
+                </td>
+                <td>
+                  <div *ngFor="let applicant of dip.applicants">
+                    <p class="text-truncate">{{ applicant.employmentStatus ? (applicant.employmentStatus | employmentStatus) : '-' }}</p>
+                  </div>
+                </td>
+                <td>
+                  <div *ngFor="let product of dip.loan?.loanPartSummary">
+                    <p class="text-truncate">{{ product.productCode }}</p>
+                  </div>
+                </td>
+                <td>
+                  <div *ngFor="let product of dip.loan?.loanPartSummary">
+                    <p class="text-truncate">{{ product.loanAmount | currency: 'GBP':'symbol':'1.0-0' }}</p>
+                  </div>
+                </td>
+                <td>
+                  <div *ngFor="let product of dip.loan?.loanPartSummary">
+                    <p class="text-truncate">{{ +product?.term | mortgageTermPipe }}</p>
+                  </div>
+                </td>
+                <td>
+                  <div *ngFor="let product of dip.loan?.loanPartSummary">
+                    <p class="text-truncate">{{ product.type }}</p>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </ng-template>
+    </p-accordionTab>
+  </p-accordion>
+</div>
+<ng-template #noDip>
+  <div class="card mt-2 mb-4" *ngIf="(caseSummaryService.isLoadingDip$ | async) === false">
+    <p-accordion styleClass="summary-accordion">
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <div class="d-flex justify-content-between align-items-center p-1 w-100">
+            <h5 class="card-header-title">{{ 'caseSummary.labels.dipTable' | translate }}</h5>
+            <!-- Create -->
+            <ng-template
+              [cfoPermissions]="'dip'"
+              [cfoPermissionsFeatures]="['assignee']"
+              [cfoPermissionsNeededPermission]="portalPermissionType.DecisionInPrinciple"
+            >
+              <p-button
+                *ngIf="(caseStatus$ | async) !== status.Cancelled"
+                [label]="'general.buttons.createDip' | translate"
+                icon="pi pi-plus"
+                iconPos="left"
+                styleClass="p-button-sm p-button-primary shadow"
+                (click)="enterDip($event)"
+              ></p-button>
+            </ng-template>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="body">
+          <div class="p-1">
+            <div class="card-info-block">
+              <div class="card-text-highlight">
+                {{ 'caseSummary.labels.noDip' | translate }}
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</ng-template>

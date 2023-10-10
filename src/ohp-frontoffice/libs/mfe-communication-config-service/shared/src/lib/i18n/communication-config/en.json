@@ -1,0 +1,265 @@
+{
+  "communication": {
+    "fallback": {
+      "heading": {
+        "FallbackMechanism": "Manage BO Communication Fallback"
+      },
+      "card": {
+        "name": "Name",
+        "FollowupEventName": "Followup Event Name",
+        "CommunicationMedium": "Communication Medium",
+        "Seqnr": "Seq Nr"
+      },
+      "tabel": {
+        "name": "Name",
+        "delete": "",
+        "FollowupEventName": "Followup Event Name",
+        "CommunicationMedium": "Communication Medium",
+        "Seqnr": "Seq Nr",
+        "delete1": ""
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "name": "'Name'",
+        "Seqnr": "'Seq Nr'",
+        "FollowupEventName": "'Followup Event Name'",
+        "CommunicationMedium": "'Communication Medium'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateBusiness": "The given record is already in the list. Please make sure that the record is unique.",
+        "nullCheckError": "Either 'Followup Event Name' or 'Communication Medium' must be added",
+        "seqNoError": "The given 'Seq Nr' is already in the list. Please make sure that the 'Seq Nr' is unique.",
+        "eventNameError": "The given 'Followup Event Name' is already in the list. Please make sure that the 'Followup Event Name' is unique.",
+        "mediumError": "The given 'Communication Medium' is already in the list. Please make sure that the 'Communication Medium' is unique."
+
+      }
+    },
+    "print": {
+      "heading": {
+        "managePrint": "Manage Print Document Filter",
+        "searchTemplate": "Search Template",
+        "OnlyDisplay": "Only display when Status equals",
+        "OnlyDisplaysub": "Only display when Sub Status equals",
+        "UserProfile": "Only display when User Profile equals",
+        "OnlyContext": "Only display when Context equals"
+      },
+      "card": {
+        "templateCode": "Template Code",
+        "templateName": "Template Name",
+        "maxDue": "Only display when Due is smaller than"
+      },
+      "tabel": {
+        "templateCode": "Template Code",
+        "templateName": "Template Name",
+        "": ""
+      },
+      "tab": {
+        "MaximumDue": "Maximum Due",
+        "CreditSts": "Credit Status",
+        "CreditSubsts": "Credit Sub Status",
+        "UserProfile": "User Profile",
+        "Context": "Context"
+      },
+      "BusinessError": {
+        "NoRecord": "There is no record match for your search criteria. "
+      }
+    },
+    "communication-medium": {
+      "heading": {
+        "communication-medium": "Manage Communication medium"
+      },
+      "tabel": {
+        "CommunicationMedium": "Communication Medium",
+        "DocumentTemplate": "Document Template Type",
+        "Delete": "Delete"
+      },
+      "card": {
+        "CommunicationMedium": "Communication Medium",
+        "DocumentTemplate": "Document Template Type"
+      },
+      "mandatory": {
+        "CommunicationMedium": "'Communication Medium'",
+        "required": " is Mandatory.",
+        "DocumentTemplate": "'Document Template Type'"
+      },
+      "ValidationError": {
+        "businessError": "Communication Medium must be Unique"
+      }
+    },
+    "CommunicationOutcome": {
+      "heading": {
+        "CommunicationOutcome": "Manage Communication dossier status",
+        "Dossierstatus2dossierphase": "Dossierstatus 2 dossier phase",
+        "Dossierstatus2possibleoutcome": "Dossierstatus 2 possibleoutcome"
+      },
+      "tabel": {
+        "CommunicationOutcome": "Communication Outcome",
+        "DossierStatus": "Dossier Status",
+        "SubStatus": "Sub Status",
+        "Delete": "",
+        "DossierStatus1": "Dossier Status",
+        "DossierPhase": "Dossier Phase",
+        "Delete1": "",
+        "DossierStatus2": "Dossier Status",
+        "Delete2": ""
+      },
+      "card": {
+        "CommunicationOutcome": "Communication Outcome",
+        "DossierStatus": "Dossier Status",
+        "SubStatus": "Sub Status",
+        "DossierStatus1": "Dossier Status",
+        "DossierPhase": "Dossier Phase",
+        "DossierStatus2": "Dossier Status"
+      },
+      "picker": {
+        "PossibleCommunicationOutcome": "Possible Communication Outcome",
+        "SelectedPossibleCommunicationOutcome": "Selected Possible Communication Outcome"
+      },
+      "ValidationError":{
+        "required": " is Mandatory.",
+        "CommunicationOutcome": "'Communication Outcome'",
+        "DossierStatus": "'Dossier Status'",
+        "OutcomeBusinessError": "'Communication Outcome' must be Unique",
+        "DossierPhaseStatus": "'Dossier Status'",
+        "DossierPhase": "'Dossier Phase'",
+        "DossierPhaseBusinessError": "'Dossier Status - DossierStatus 2 DossierPhase' must be Unique",
+        "PossibleOutcomeDosStatus":"'Dossier Status'",
+        "PossibleOutcomeBusinessError":"'Dossier Status - DossierStatus 2 PossibleOutcome' must be Unique",
+        "SelectedOutcomeList":"Atleast One 'Possible Communication Outcome' Should be Selected"
+      }
+    },
+    "communication-receiver": {
+      "heading": {
+        "communication-receiver": "Manage communication receiver vs roletype"
+      },
+      "tabel": {
+        "CommunicationReceiver": "Communication Receiver",
+        "Delete": "Delete",
+        "RoleType": "Role Type"
+      },
+      "card": {
+        "CommunicationReceiver": "Communication Receiver",
+        "RoleType": "Role Type"
+      },
+      "mandatory": {
+        "CommunicationReceiver": "'Communication Receiver'",
+        "RoleType": "'Role Type'",
+        "required": " is Mandatory."
+      },
+      "ValidationError": {
+        "businessError": "Communication Receiver must be Unique"
+      }
+    },
+    "DefaultReference": {
+      "heading": {
+        "DefaultReference": "Manage communication default referencetype"
+      },
+      "tabel": {
+        "ReferencetypeName": "Reference Type Name",
+        "Referencetypeusage": "Reference Type Usage",
+        "Delete": "Delete"
+      },
+      "card": {
+        "ReferencetypeName": "Reference Type Name",
+        "Referencetypeusage": "Reference Type Usage"
+      },
+      "mandatory": {
+        "ReferencetypeName": "'Reference Type Name'",
+        "Referencetypeusage": "'Reference Type Usage'",
+        "required": " is Mandatory.",
+        "DupBusinessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "FallbackMechanism": {
+      "heading": {
+        "FallbackMechanism": "Manage cm communication fallback"
+      },
+      "tabel": {
+        "Name": "Name",
+        "Delete": "",
+        "FollowupEventName": "Followup Event Name",
+        "CommunicationMedium": "Communication Medium",
+        "Seqnr": "Seq Nr",
+        "Delete1": ""
+      },
+      "card": {
+        "Name": "Name",
+        "FollowupEventName": "Followup Event Name",
+        "CommunicationMedium": "Communication Medium",
+        "Seqnr": "Seq Nr"
+      },
+      "ValidationError": {
+        "required": " is Mandatory.",
+        "name": "'Name'",
+        "Seqnr": "'Seq Nr'",
+        "FollowupEventName": "'Followup Event Name'",
+        "CommunicationMedium": "'Communication Medium'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateBusiness": "The given record is already in the list. Please make sure that the record is unique.",
+
+        "nullCheckError": "Either 'Followup Event Name' or 'Communication Medium' must be added",
+        "seqNoError": "The given 'Seq Nr' is already in the list. Please make sure that the 'Seq Nr' is unique.",
+        "eventNameError": "The given 'Followup Event Name' is already in the list. Please make sure that the 'Followup Event Name' is unique.",
+        "mediumError": "The given 'Communication Medium' is already in the list. Please make sure that the 'Communication Medium' is unique."
+
+      }
+    },
+    "document-templatebase": {
+      "heading": {
+        "DocumentTemplateBase": "Manage document template"
+      },
+      "tabel": {
+        "Name": "Name",
+        "DocumentTemplateType": "Document Template Type",
+        "Adhoc": "Adhoc",
+        "DocGenType": "DocGen Type",
+        "ValidFrom": "Valid From",
+        "ValidUntil": "Valid Until",
+        "OutputFormat": "Output Format",
+        "DocGenDtoName": "DocGenDto Name",
+        "Delete": "Delete"
+      },
+      "card": {
+        "Name": "Name",
+        "DocumentTemplateType": "Document Template Type",
+        "Adhoc": "Adhoc",
+        "DocGenType": "DocGen Type",
+        "ValidFrom": "Valid From",
+        "ValidUntil": "Valid Until",
+        "OutputFormat": "Output Format",
+        "DocGenDtoName": "DocGenDto Name"
+      },
+      "mandatory": {
+        "Name": "'Name'",
+        "DocumentTemplateType": "'Document Template Type'",
+        "DocGenType": "'DocGen Type'",
+        "ValidFrom": "'Valid From'",
+        "DocGenDtoName": "'DocGenDto Name'",
+        "OutputFormat": "'Output Format'",
+        "required": " is Mandatory."
+      },
+      "ValidationError": {
+        "businessError": "Date fields cannot overlap per 'Name'"
+      }
+    },
+    "Validation": {
+      "validationHeader": "You have {0} error(s). Click here to see the description."
+    },
+    "button": {
+      "save": "Save",
+      "clear": "Clear",
+      "close": "Close",
+      "search": "Search",
+      "continue": "Continue",
+      "Add": "Add"
+    },
+    "close": {
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    }
+  }
+}

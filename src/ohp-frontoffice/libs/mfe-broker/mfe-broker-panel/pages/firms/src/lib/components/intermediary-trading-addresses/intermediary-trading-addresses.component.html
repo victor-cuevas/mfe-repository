@@ -1,0 +1,16 @@
+<cfo-trading-addresses
+  title="{{ 'firms.titles.tradingAddress' | translate }}"
+  intermediaryName="{{ intermediaryDetails?.person?.firstName | titlecase }} {{ intermediaryDetails?.person?.lastName | titlecase }}"
+  [firmName]="firmName"
+  [readOnly]="readOnly"
+></cfo-trading-addresses>
+<div class="row mt-4">
+  <div class="my-4 btn-section">
+    <p-button
+      [disabled]="readOnly"
+      styleClass="p-button-primary mb-2 my-lg-0 me-lg-2"
+      label="{{ 'general.buttons.save' | translate }}"
+      (click)="!readOnly ? updateProfile() : null"
+    ></p-button>
+  </div>
+</div>

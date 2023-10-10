@@ -1,0 +1,75 @@
+<ng-container [ngSwitch]="Type">
+  <ng-container *ngSwitchCase="dropDownType.SINGLE" [ngTemplateOutlet]="single"></ng-container>
+  <ng-container *ngSwitchCase="dropDownType.MULTIPLE" [ngTemplateOutlet]="multiple"></ng-container>
+</ng-container>
+<ng-template #single>
+  <div class="closefo-input closefo-dropdown" [ngClass]="{ 'closefo-dropdown-with-clear': showClearIcon }">
+    <p-dropdown
+      appendTo="body"
+      [options]="options"
+      appendTo="body"
+      [name]="name"
+      optionLabel="{{ optionLabel }}"
+      dataKey="{{ dataKey }}"
+      [(ngModel)]="value"
+      #inputModel="ngModel"
+      (onChange)="onSelectionchange($event)"
+      [disabled]="isReadOnly"
+      [filter]="true"
+      [resetFilterOnHide]="true"
+      [placeholder]="placeholder"
+      [required]="IsRequired()"
+      [showClear]="showClearIcon"
+      [showTransitionOptions]="'0ms'"
+      [hideTransitionOptions]="'0ms'"
+      [ngClass]="{ 'close-externalerror': inputModel.errors && (form?.submitted || ControlConfig.externalError) }"
+    >
+      <!--<ng-template let-option pTemplate="item">
+        <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+      </ng-template>-->
+    </p-dropdown>
+
+    <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+      <div class="closefo-validation-error" *ngFor="let error of ControlConfig.Errors">
+        <small *ngIf="error.isModelError && inputModel.errors[error['validation']] && error['validation']">{{
+          error['validationMessage']
+        }}</small>
+      </div>
+    </div>
+    <div *ngIf="form?.submitted || ControlConfig.externalError">
+      <div class="closefo-validation-error" *ngFor="let error of ControlConfig.Errors">
+        <small *ngIf="!error.isModelError && error.isShowValidation">{{ error['validationMessage'] }}</small>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #multiple>
+  <div class="closefo-input closefo-dropdown">
+    <p-multiSelect
+      [options]="options"
+      [defaultLabel]="placeholder"
+      optionLabel="{{ optionLabel }}"
+      [name]="name"
+      (onChange)="onSelectionchange($event)"
+      [(ngModel)]="value"
+      #inputModel="ngModel"
+      [disabled]="isReadOnly"
+      [required]="IsRequired()"
+      display="chip"
+    ></p-multiSelect>
+
+    <div *ngIf="inputModel.errors && form?.submitted">
+      <div class="closefo-validation-error" *ngFor="let error of ControlConfig.Errors">
+        <small *ngIf="error.isModelError && inputModel.errors[error['validation']] && error['validation']">{{
+          error['validationMessage']
+        }}</small>
+      </div>
+    </div>
+    <div *ngIf="form?.submitted">
+      <div class="closefo-validation-error" *ngFor="let error of ControlConfig.Errors">
+        <small *ngIf="!error.isModelError && error.isShowValidation">{{ error['validationMessage'] }}</small>
+      </div>
+    </div>
+  </div>
+</ng-template>

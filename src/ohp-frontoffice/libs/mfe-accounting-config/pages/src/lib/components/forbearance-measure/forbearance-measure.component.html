@@ -1,0 +1,210 @@
+<div class="whitelabel-config">
+  <div class="close-accounting-config container">
+    <form #forbearanceForm="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':forbearanceForm.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'accounting.forbearance-measure.heading.forbearanceMeasure' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'accounting.button.save' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onSave(forbearanceMeasureList)"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'accounting.button.close' | translate}}"
+                            [ControlConfig]="ButtonConfig" (click)="onClose()"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-1 mt-3">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'accounting.button.add' | translate}}" (click)="addForbearanceMeasure()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="forbearanceMeasureList" [gridData]="forbearanceMeasureList" [selectedDetail]="forbearanceMeasureDetail"
+                          [gridDataHeader]="forbearanceHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (rowClickedEvent)="dataSelection($event)" (deleteRowEvent)="onRowDelete($event, forbearanceMeasureList)">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey mt-4" *ngIf="showDetails">
+        <div class="closefo-form-group">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label required">{{'accounting.forbearance-measure.card.forbearanceMeasure' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="forbearanceMeasureDetail?.forbearanceMeasureType"
+                                      Type="single"
+                                      name="forbearanceMeasureType"
+                                      [placeholder]="placeholder"
+                                      [options]="forbearanceMeasureDetail?.forbearanceTypeList"
+                                      [ControlConfig]="ForBearanceMeasureDropdownConfig"
+                                      optionLabel="caption"
+                                      dataKey="codeId"
+                                      [isReadOnly]="forbearanceMeasureDetail.isForBearanceTypeReadOnly"
+                                      (OnSelectionChanged)="onChangeForbearanceMeasureType($event)"
+                                      [title]="forbearanceMeasureType"
+                                      [cfcFluidValidation]="{errors:forbearanceMeasureType.errors ? ForBearanceMeasureDropdownConfig.Errors :'', formSubmitted:(this.ForBearanceMeasureDropdownConfig.externalError)}"
+                                      #forbearanceMeasureType="ngModel">
+                  </cfc-fluid-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'accounting.forbearance-measure.card.paymentHoliday' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="MaxLimitTextBoxconfig"
+                                     [ngModel]="forbearanceMeasureDetail?.nrOfMonthsForPaymentHoliday"
+                                     (OnchangedNumber)="onChangeNrOfMonthsForPaymentHoliday($event)"
+                                     name="noOfMonthsForPaymentHoliday"
+                                     [maxlength]="11"
+                                     [maximumValue]="intMaxValue"
+                                     [isReadOnly]="!(forbearanceMeasureDetail?.forbearanceMeasureType?.codeId === 1)"
+                                     [cfcFluidValidation]="{ errors: noOfMonthsForPaymentHoliday.errors?.maxValueError ? maxErrorDto :'', formSubmitted:this.MaxLimitTextBoxconfig.externalError}"
+                                     #noOfMonthsForPaymentHoliday="ngModel"
+                                     [isAllowSpace]="false"
+                                     [form]="forbearanceForm">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label">{{'accounting.forbearance-measure.card.substantialModification' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="amount"
+                                     [ControlConfig]="TextBoxconfig"
+                                     [ngModel]="forbearanceMeasureDetail?.substantialModificationPercentage"
+                                     (ngModelChange)="onChangeSubstantialModificationPercentage($event,false)"
+                                     (OnchangedAmount)="onChangeSubstantialModificationPercentage($event,true)"
+                                     name="substantialModificationPercentage"
+                                     [isAllowSpace]="false"
+                                     [form]="forbearanceForm"
+                                     [maxlength]="11"
+                                     #noofmonthsforPaymentHoliday="ngModel">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'accounting.forbearance-measure.card.concessiontx' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-textbox Type="numbers"
+                                     [ControlConfig]="MaxLimitTextBoxconfig"
+                                     [ngModel]="forbearanceMeasureDetail?.nrOfDaysForConcessionTx"
+                                     (OnchangedNumber)="onChangeNrOfDaysForConcessionTx($event)"
+                                     name="Noofdaysforconcessiontx"
+                                     [maxlength]="11"
+                                     [isReadOnly]="!(forbearanceMeasureDetail?.forbearanceMeasureType?.codeId === 4)"
+                                     [maximumValue]="intMaxValue"
+                                     [cfcFluidValidation]="{errors: Noofdaysforconcessiontx.errors?.maxValueError ? maxErrorDto :'', formSubmitted:this.MaxLimitTextBoxconfig.externalError}"
+                                     #Noofdaysforconcessiontx="ngModel"
+                                     [isAllowSpace]="false"
+                                     [form]="forbearanceForm">
+                  </cfc-fluid-textbox>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-5">
+                  <label class="closefo-form-label ">{{'accounting.forbearance-measure.card.isSubstantialModification' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                      [form]="forbearanceForm"
+                                      [ngModel]="forbearanceMeasureDetail?.isSubstantialModificationApplicable"
+                                      name="isSubstantialModificationApplicable"
+                                      (ngModelChange)="onChangeIsSubstantialModificationApplicable($event)">
+                  </cfc-fluid-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCancel()">
+        <ng-template #headerTemplate> {{ 'accounting.dialog.header' | translate }} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{ 'accounting.dialog.body' | translate }}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button"
+                              class="ms-auto"
+                              ButtonStyle="closefo-btn-primary"
+                              caption="{{ 'accounting.dialog.yes' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onClickYes(forbearanceMeasureList)"></cfc-fluid-button>
+            <cfc-fluid-button Type="button"
+                              ButtonStyle="closefo-btn-secondary"
+                              caption="{{ 'accounting.dialog.no' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onClickNo()"></cfc-fluid-button>
+            <cfc-fluid-button Type="button"
+                              ButtonStyle="closefo-btn-secondary"
+                              caption="{{ 'accounting.dialog.cancel' | translate }}"
+                              [ControlConfig]="ButtonConfig"
+                              (click)="onCancel()"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          {{'accounting.dialog.exception' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+
+              Technical Exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue.
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption=" {{'accounting.dialog.continue' | translate}}"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>
+

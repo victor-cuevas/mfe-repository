@@ -1,0 +1,19 @@
+
+<p-messages severity="error" *ngIf="ValidationErrorList && ValidationErrorList.length > 0">
+  <ng-template pTemplate>
+    <p-accordion>
+      <p-accordionTab header="{{ GetValidationMessage() }}">
+        <ul>
+          <li
+            *ngFor="let validationError of ValidationErrorList"
+            (click)="ValidationErrorSelectionChange(validationError)"
+            class="custom-message"
+          >
+            {{ validationError.ErrorMessage }}
+          </li>
+        </ul>
+      </p-accordionTab>
+    </p-accordion>
+  </ng-template>
+</p-messages>
+

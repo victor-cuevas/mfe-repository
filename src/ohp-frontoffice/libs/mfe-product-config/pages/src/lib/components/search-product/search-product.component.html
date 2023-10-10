@@ -1,0 +1,379 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #productform="ngForm" class="closefo-form" [ngClass]="{ 'closefo-form-submitted': productform.submitted }">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-12">
+          <h2 class="closefo-heading-2">Search Product</h2>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+        <div class="col-12 d-flex align-items-center justify-content-start">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-update"
+            caption="{{ 'product.button.update' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            [disabled]="!showupdate"
+            (click)="onUpdate(updateProduct)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-read"
+            caption="{{ 'product.button.read' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            [disabled]="!showRead"
+            (click)="onRead(updateProduct)"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'product.SearchProduct.Commercial_card_header' | translate }}</div>
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group">
+              <div></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.commercialowner' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="productResult.servicingCustomer"
+                        [form]="productform"
+                        Type="single"
+                        name="commowner"
+                        [placeholder]="placeholder"
+                        [options]="commercialOwnerList"
+                        [ControlConfig]="DropdownConfig"
+                        optionLabel="name.caption"
+                        dataKey="name.caption"
+                        (OnSelectionChanged)="commercialownerChange($event)"
+                        #servicingCustomer="ngModel"
+                        [showClearIcon]="true"
+                        [title]="productResult.servicingCustomer?.name === null  ? '':productResult.servicingCustomer?.name?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="closefo-heading-3 closefo-text-primary mb-2">{{ 'product.SearchProduct.Search_card_header' | translate }}</div>
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group">
+              <div></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.economicalowner' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="productResult.economicalOwner"
+                        [form]="productform"
+                        Type="single"
+                        name="ecoowner"
+                        [placeholder]="placeholder"
+                        [options]="economicalOwnerList"
+                        [ControlConfig]="DropdownConfig"
+                        optionLabel="name.caption"
+                        dataKey="name.caption"
+                        (OnSelectionChanged)="economicalOwnerChange($event)"
+                        #economicalOwner="ngModel"
+                        [showClearIcon]="true"
+                        [title]="productResult.economicalOwner?.name === null  ? '':productResult.economicalOwner?.name?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.startdate' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-datepicker
+                        [ControlConfig]="Dateconfig"
+                        [ngModel]="productResult.activeDate"
+                        name="startDate"
+                        [form]="productform"
+                        (ngModelChange)="onDateChange($event)"
+                      >
+                      </cfc-fluid-datepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.judicialowner' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="productResult.judicialOwner"
+                        [form]="productform"
+                        Type="single"
+                        name="judOwner"
+                        [placeholder]="placeholder"
+                        [options]="judicialOwnerList"
+                        [ControlConfig]="DropdownConfig"
+                        optionLabel="name.caption"
+                        dataKey="name.caption"
+                        (OnSelectionChanged)="judicialOwnerChange($event)"
+                        #judicialOwner="ngModel"
+                        [showClearIcon]="true"
+                        [title]="productResult.judicialOwner?.name === null  ? '':productResult.judicialOwner?.name?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.productname' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        Type="text"
+                        [ControlConfig]="TextBoxconfig"
+                        [ngModel]="productResult.productName"
+                        (ngModelChange)="onproductNameChange($event)"
+                        name="productName"
+                        [isAllowSpace]="false"
+                        [form]="productform"
+                        [maxlength]="100"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.producttype' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="productResult.consumerProductType"
+                        [form]="productform"
+                        Type="single"
+                        name="ProductType"
+                        [placeholder]="placeholder"
+                        [options]="consumerProductList"
+                        [ControlConfig]="DropdownConfig"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onConsumerProductTypeChange($event)"
+                        #ProductType="ngModel"
+                        [showClearIcon]="true"
+                        [title]="productResult?.consumerProductType?.caption === null  ? '':productResult.consumerProductType?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.commnercialname' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        Type="text"
+                        [ControlConfig]="TextBoxconfig"
+                        [ngModel]="productResult.commercialName"
+                        (ngModelChange)="onCommercialNameChange($event)"
+                        name="commercialName"
+                        [isAllowSpace]="false"
+                        [form]="productform"
+                        [maxlength]="100"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.productfamily' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown
+                        [ngModel]="productResult.productFamily"
+                        [form]="productform"
+                        Type="single"
+                        name="ProductFamily"
+                        [placeholder]="placeholder"
+                        [options]="productFamily"
+                        [ControlConfig]="DropdownConfig"
+                        optionLabel="caption"
+                        dataKey="caption"
+                        (OnSelectionChanged)="onProductFamilyChange($event)"
+                        #ProductFamily="ngModel"
+                        [showClearIcon]="true"
+                        [title]="productResult.productFamily?.caption === null  ? '':productResult.productFamily?.caption"
+                      >
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{ 'product.SearchProduct.gridProduct' | translate }}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox
+                        Type="numbersMaxLength"
+                        [ControlConfig]="TextBoxconfig"
+                        [ngModel]="productResult.productNr"
+                        (ngModelChange)="onproductNrchange($event)"
+                        name="ProductNr"
+                        [isAllowSpace]="false"
+                        [form]="productform"
+                        [maxlength]="10"
+                      >
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end closefo-btn-wrapper">
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-btn-primary mr-1"
+                caption="{{ 'product.button.search' | translate }}"
+                [ControlConfig]="ButtonConfig"
+                [disabled]="!showsearch"
+                (click)="onSearch(productResult)"
+              ></cfc-fluid-button>
+              <cfc-fluid-button
+                Type="button"
+                ButtonStyle="closefo-btn-secondary"
+                caption="{{ 'product.button.clear' | translate }}"
+                [ControlConfig]="ButtonConfig"
+                (click)="onClear()"
+              ></cfc-fluid-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="closefo-panel-spacing">
+        <div class="row">
+          <div class="col">
+            <div class="closefo-heading-3 closefo-text-primary mb-3">{{'product.SearchProduct.GridHeader' | translate}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <cfc-fluid-grid
+              
+              Type="bo-table"
+              dataKey="responseProductresult.items.pKey"
+              [gridData]="responseProductresult.items"
+              [gridDataHeader]="productResultHeader"
+              [paginationStatus]="true"
+              paginationReportStatus="true"
+              [(dataSelection)]="dataSelected"
+              (deleteRowEvent)="onRowDelete($event)"
+              [pageReportContent]="paginationContent"
+              (gridPageIndex)="onPageIndex($event)"
+              dataSelectionMode="single"
+              [PageRows]="pageRow"
+              (rowClickedEvent)="onRowSelect($event)"
+              [totalRecords]="recordsAvailable"
+              [resetFirst]="resetPagination"
+              [selectedDetail]="productResult"
+              (rowDoubleClickEvent)="onRowDblSelect($event)"
+              
+            >
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </div>
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)" class="delete-pop">
+        <ng-template #headerTemplate> {{'product.dialog.WarningHeader' | translate}} </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">{{'product.dialog.WarningContent' | translate}}</div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button
+            Type="button"
+            class="ms-auto" 
+            ButtonStyle="closefo-btn-primary"
+            caption="{{'product.dialog.Yes' | translate}}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{'product.dialog.No' | translate}}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+          <div class="warning-main">
+            <div class="war-left">
+              <i class="pi pi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="war-right">
+              Technical Exception has occured in a component in our application.<br />
+              If you click continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+
+    </form>
+  </div>
+</div>

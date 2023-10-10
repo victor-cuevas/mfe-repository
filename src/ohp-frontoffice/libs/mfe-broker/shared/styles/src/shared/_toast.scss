@@ -1,0 +1,42 @@
+.p-toast {
+  width: 35rem !important;
+  .p-toast-message {
+    border-radius: 0;
+    &.p-toast-message-success {
+      background: $toast-success;
+      border: 1px solid #148444;
+    }
+    &.p-toast-message-info {
+      //background and border colors: TODO;
+      border-width: 1px;
+    }
+    &.p-toast-message-warn {
+      //background and border colors: TODO;
+      border-width: 1px;
+    }
+    &.p-toast-message-error {
+      //background and border colors: TODO;
+      border-width: 1px;
+    }
+
+    .p-toast-message-content {
+      padding: 0.5rem;
+      .p-toast-message-text {
+        color: $neutral-dark;
+        .p-toast-summary {
+          font-size: 19px;
+        }
+        .p-toast-detail {
+          margin: 0;
+        }
+      }
+      .p-toast-message-icon {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.p-toast-top-right {
+  transform: translateY(65px);
+}

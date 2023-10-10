@@ -1,0 +1,628 @@
+{
+  "app-instance": {
+    "manage-integration": {
+      "heading": {
+        "manage-integration": "Manage Integration Data fields configuration",
+        "integrationField": "Integration Data Fields Overview",
+        "integrationFieldDetail": "Integration Data Field Detail",
+        "List": "List Items"
+      },
+      "tabel": {
+        "FieldDescription": "Field Description",
+        "FieldType": "Field Type",
+        "ServicingOrganization": "Servicing Organization",
+        "delete": "Delete"
+      },
+      "card": {
+        "FieldDescription": "Field Description",
+        "ServicingOrg": "Servicing Organization",
+        "FieldType": "Field Type",
+        "Length": "Length",
+        "FieldCaption": "Field Caption",
+        "Sequence": "Sequence",
+        "TagName": "Tag Name",
+        "Add": "Add"
+      },
+      "validationErrors": {
+        "FieldName": "'Field Description' is Mandatory.",
+        "FieldType": "'Field Type' is Mandatory.",
+        "FieldCaption": "'Field Caption' is Mandatory.",
+        "TagName": "'Tag Name' is Mandatory.",
+        "ServicingOrganization": "'Servicing Organization' is Mandatory.",
+        "Length": "'Length' is Mandatory.",
+        "fieldNameBusinessError": "For Field Description, '",
+        "fieldCaptionBusinessError": "For Field Caption, '",
+        "tagNameBusinessError": "For Tag Name, '",
+        "duplicateMessage": "' already exists in the list.",
+        "oneListItems": "Please select atleast 1 list item",
+        "LengthLimit": "The value of 'Length' should be between 1 and 80"
+      }
+    },
+
+    "general": {
+      "heading": {
+        "manage-credit": "Manage Sub Account",
+        "CreditSetting": "Sub Account Settings",
+        "General": "Manage Rate Revision"
+      },
+      "card": {
+        "RateRevision": "Rate Revision Period",
+        "HighestRevision": "Highest Revision Period Method"
+      },
+      "mandatory": {
+        "HighestRevision": "'Highest Revision Period Method'",
+        "required": " is Mandatory."
+      }
+    },
+
+    "revision-period": {
+      "heading": {
+        "manage-credit": "Manage credit",
+        "RevisionPeriod": "Manage Revision periods",
+        "": ""
+      },
+      "tabel": {
+        "RevisionPeriod": "Revision Period Type",
+        "RevisionP": "Revision Period",
+        "PeriodInYears": "Period In Years",
+        "PeriodInMonths": "Period In Months",
+        "delete": "Delete"
+      },
+      "card": {
+        "RevisionPT": "Revision Period Type",
+        "RevisionPeriod": "Revision Period",
+        "PeriodInYears": "Period In Years",
+        "PeriodInMonths": "Period In Months",
+        "isAllowed": "Is Allowed For Rate Revision",
+        "quarter": "Starts On Next Quarter",
+        "Add": "Add"
+      },
+      "mandatory": {
+        "RevisionPT": "'Revision Period Type'",
+        "RevisionPeriod": "'Revision Period'",
+        "PeriodInYears": "'Period In Years'",
+        "required": " is Mandatory."
+      }
+    },
+
+    "prepayment-reason": {
+      "heading": {
+        "prepayment": "Manage prepayment reason penalty"
+      },
+      "tabel": {
+        "prepaymentName": "Prepayment Reason Name",
+        "calculatePenality": "Calculate Penalty",
+        "MaxPenality": "Maximum Penalty Percentage"
+      }
+    },
+
+    "manage-legislation": {
+      "heading": {
+        "managelegislation": "manage legislation",
+        "search": "Search Criteria",
+        "ResultSet": "Result Set",
+        "Detail": "Detail",
+        "Validation": "Validation Criteria",
+        "threadholderdetail": "Threshold  For Sub Account Bureau Registration"
+      },
+      "tabel": {
+        "country": "Country",
+        "start": "Start",
+        "end": "End",
+        "": "",
+        "minam": "0 Min am.",
+        "maxam": "Max am.",
+        "mindur": "Min dur.",
+        "maxdur": "Max dur.",
+        "aprpre": "APR pre",
+        "minams": "0 Min am.",
+        "maxams": "Max am.",
+        "aprrve": "APR rev",
+        "minrepay": "Min repay ",
+        "minrepays": "Min repay %",
+        "fullrepay": "Full Repay max dur.",
+        "minamo": "0 Min am.",
+        "maxamo": "Max am.",
+        "aprrveo": "APR rev",
+        "fullrepayo": "Full Repay max dur.",
+        "retail": "Retail Leading SubType",
+        "ThtesAmount": "Threshold Amount"
+      },
+      "card": {
+        "country": "Country",
+        "activeDate": "Active Date",
+        "countrys": "Country",
+        "StartDate": "Start Date",
+        "EndDate": "End Date"
+      },
+      "tabheader": {
+        "precomputed": "Precomputed",
+        "Revolving": "Revolving w/ Principal Repay.",
+        "Revolvingwo": "Revolving w/o Principal Repay."
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "countrys": "'Country'",
+        "StartDate": "'Start Date'",
+        "FinanceMin": "'FinanceAmountMin'",
+        "FinanceMax": "'FinanceAmountMax'",
+        "MinDuration": "'CreditDurationMinInMonths'",
+        "MaxDuration": "'CreditDurationMaxInMonths'",
+        "aprMax": "'APRMax'",
+        "RevPrincipalMin": "'RevPrincipalRepayAbsMin'",
+        "RevPrincipalRelMin": "'RevPrincipalRepayRelMin'",
+        "RevMaxDuration": "'MaxCalibrationDuration'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "retailLending": "'Retail Lending SubType'",
+        "MinError":"Min finance amount should not exceed Max finance amount",
+        "MaxError":"Max finance amount should not be lesser Min finance amount"
+      },
+      "BusinessError": {
+        "EndDate": "The EndDate should be left empty for the last Legislation for country ",
+        "PeriodExist": "Atleast one detail must exist for the period for country ",
+        "ThresholdBusiness": "Only one threshold can be defined for a Retail lending subtype",
+        "MultipleLegislation": "It is not Possible to have multiple Legislation where EndDate is not defined for country ",
+        "Overlapping": "No gaps or overlapping Legislation periods are allowed for country ",
+        "NoRecord": "There is no record match for your search criteria. ",
+        "LegislationObject": "There is already a legislation object valid for this period."
+      },
+      "AddButtons": {
+        "AddLegislation": "Add",
+        "AddDetail": "Add Detail",
+        "AddThreshold": "Add Threshold",
+        "continue": "Continue"
+      }
+    },
+    "credit-provider": {
+      "heading": {
+        "credit-provider": "Manage Credit Provider Config",
+        "selectcredit": "Select Credit Provider",
+        "viewDetails": "View Details",
+        "creditDossier": "Credit Dossier Structure",
+        "paymentsetting": "Payment in Settings",
+        "paymentOut": "Payment Out Settings",
+        "AgenaTask": "Agenda Tasks For Bonus Amount Settings",
+        "refundSetting": "Refund Settings",
+        "PrePaymeny": "Prepayment Settings",
+        "CreditRegular": "Credit Regularity Settings",
+        "InterestSettings": "Interest Settings",
+        "LTV": "LTV Calculation Settings",
+        "Amortization": "Amortization Schedule",
+        "MutationSettings": "Mutation Settings",
+        "AssetSettings": "Asset Settings",
+        "ResendCollection": "Resend Collection When Reason Code Is:",
+        "EnforcableTitle": "Enforceable Title",
+        "Reminder": "Reminder",
+        "WriteOff": "WriteOff",
+        "Arrears": "Arrears",
+        "CommissionTitle": "Commission Title",
+        "MaximumAmounts": "Maximum Amounts For Automatic Validation",
+        "PaymentValidator": "Payment Validator Group Detail",
+        "PaymentValidatorDetail": "Payment Validator Detail",
+        "TrustedAccount": "Trusted Account Detail",
+        "BannedAccountDetails": "Banned Account Detail",
+        "TrustedIBANAccount": "Trusted IBAN Account Detail",
+        "Address": "Address",
+        "percentageofLimitDetail": "Percentage Of Limit Detail",
+        "Outstanding": "Outstanding",
+        "Remaining": "Remaining Theoretical Duration",
+        "DirectDebitEvent": "Direct Debit Events"
+      },
+      "tabheader": {
+        "general": "General",
+        "DirectDebit": "Direct Debit",
+        "Collections": "Collections",
+        "Commission": "Commission",
+        "ValidatePayments": "Validate Payments",
+        "TrustedAccount": "Trusted Accounts",
+        "BannedAccounts": "Banned Accounts",
+        "MutationCost": "Mutation Cost",
+        "Actualization": "Actualization"
+      },
+      "card": {
+        "creditProvider": "Credit Provider",
+        "creditDossiers": "Credit Dossier Structure",
+        "IsCredit": "Is Credit Reference Formatting Required",
+        "CollectionAccount": "Collections Account",
+        "CollectionAccountNumber": "Collections Account Number",
+        "CollectionsSortCode": "Collections Sort Code",
+        "Financial": "Financial Institution Prefix",
+        "IdentificationNum": "Identification Number",
+        "DisbursementAccount": "Disbursement Account",
+        "DisbursemenBIC": "Disbursement BIC",
+        "DisNumber": "Disbursement Account Number",
+        "Dissort": "Disbursement Sort Code",
+        "MinDue": "Min Due Dates for Task",
+        "MinUrgent": "Min Due Dates for Urgent Task",
+        "MinAmount": "Min Amount for Task for Revolving",
+        "MinThresHold": "Min. Bonus Threshold for Refund",
+        "MinDueT": "Min. Due Threshold for Remise",
+        "MinElasPsed": "Min. Elapsed Period for Remise",
+        "MaxDueT": "Max. Due Threshold for Remise",
+        "MaxElasPsed": "Max. Elapsed Period for Remise",
+        "RefundBonus": "Refund Bonus To",
+        "MaxDueAfter": "Max. Due After Prep. Charge For Consumer Loans",
+        "MaxAfter": "Max. Due After Prep. Charge for Mortgage Loans",
+        "NrOf": "Nr of Days Advance Notice",
+        "Autom": "Autom. partial prepayment upon payment",
+        "NrDays": "Nr of Days for Credit Regularity",
+        "Calc1": "Calc. 1st Interest From Payment Out Date",
+        "NrOfDay": "Nr Of Days Deviation For First Interest Calc.",
+        "ChargeFirst": "Charge First Interest At First Due Date Calendar Day",
+        "ApplyInterest": "Apply Interest Capitalization For Revolving",
+        "ApplyMin": "Apply Min/Max Net Rate ",
+        "RemoveRun": "Remove Rate Revision Proposals Under Min Rate",
+        "ExtendRevision": "Extend Revision Periods Within Limit",
+        "NumberOfMonths": "Number Of Months To Extend Revision Period",
+        "NumDays": "Number Of Days To Extend Variable Revision Period",
+        "ThirdParty": "Third Party Warranty Percentage",
+        "UseDossier": "Use Dossier LTV",
+        "DueDate": "Due Date Calendar Day",
+        "Theoretical": "Theoretical End Date Determination Type",
+        "No4Eye": "No 4-Eye Validation For Collateral Mutation",
+        "No4EyeRole": "No 4-Eye Validation For Role Mutation",
+        "Transfer": "Transfer Remaining Grace Period",
+        "No4EyeReal": "No 4-Eye Validation For Real Estate Value",
+        "CreditorScheme": "Creditor Scheme ID",
+        "ClaimData": "Claim Date Deviation From Due Date",
+        "DaysBefore": "Days Before Due Date",
+        "UseBusiness": "Use Business Days For Claim Date Calculation",
+        "DaysOn": "Days On Resend",
+        "LimitDaysOn": "Limit Days On Resend",
+        "DueIn": "Due In Installment Calculation Method",
+        "maximumAmount": "Maximum Amount",
+        "BonusDueIn": "Bonus In Installment Calculation Method",
+        "maximumAmounts": "Maximum Amount",
+        "CalculateFull": "Calculate Full IOA",
+        "AggrigateDirect": "Aggregate Direct Debit Collection",
+        "IsAssumed": "Is Assumed Paid",
+        "SendEvent": "Send Event",
+        "ResendEvent": "Resend Event",
+        "StopAllocation": "Stop Allocation Reversals Upon Storno with Covering Bonus",
+        "sendDirect": "Send Direct Debit Instruction",
+        "DaysToProcess": "Days To Process Direct Debit Instruction",
+        "NrOfDays": "Nr of Days To Notify before Expiration",
+        "PaymentPromis": "Payment Promise Grace Days",
+        "CheckOn": "Check On Servicing Notice Upon Debtor Date",
+        "Servicing": "Servicing Notice Upon Debtor Number Of Days",
+        "Intermediate": "Intermediate Write Off Allowed",
+        "Extended": "Expected Margin Calculation Method",
+        "Commissionnote": "Commission note Periodicity",
+        "Commissionnotecalender": "Commission note calender day",
+        "EnableCommissionPayment": "Enable Commission Payments",
+        "ConstructionDepot": "Construction Depot Payment Amount",
+        "SubsidyPayment": "Subsidy Payment Amount",
+        "BonusRefund": "Bonus Refund Amount",
+        "CostPayment": "Cost Payment Amount",
+        "PaymentOut": "Payment Out Amount",
+        "IntermediaryPayment": "Intermediary Payment Amount",
+        "MortgageDossier": "Mortgage Dossier Payment Amount",
+        "RunningAccount": "Running Account Payment Amount",
+        "PaymentValidator": "Payment Validator Group",
+        "IsOf": "Is for construction depot payment",
+        "Issub": "Is for subsidy payment",
+        "Isbonus": "Is for bonus refund",
+        "Iscost": "Is for cost payment",
+        "IsPaymentOut": "Is for payment out",
+        "IsForInter": "Is for intermediary payment",
+        "IsforMortgage": "Is for mortgage dossier payment",
+        "IsForRunning": "Is for running account payment",
+        "Validator": "Validator",
+        "Email": "Email",
+        "Name": "Name",
+        "AccountNumber": "Account Number",
+        "Sortcode": "Sort Code",
+        "Name1": "Name",
+        "PayeeReference": "Payee Reference",
+        "AccountNumber1": "Account Number",
+        "SortCode": "Sort Code",
+        "Nameb": "Name",
+        "IBAN": "IBAN",
+        "NameBA": "Name",
+        "IBANAccount": "IBAN Account",
+        "BICCode": "BIC Code",
+        "Land": "Country",
+        "Street": "Street",
+        "HouseNr": "House Nr",
+        "HouseNrSuffix": "House Nr Suffix",
+        "Box": "Box",
+        "PostalCode": "Postal Code",
+        "City": "City",
+        "Defaulting": "Defaulting Mutation Costs",
+        "ChargeMutation": "Charge Mutation Cost Once per Mutation Type",
+        "MaxTotal": "Max Total Mutation Cost per Credit",
+        "Maxtotal": "Max Total Mutation Cost for Dossier Mutation",
+        "ActualizationT": "Actualization Threshold For Outstanding",
+        "ActualizationF": "Actualization Frequency In Months For Outstanding",
+        "ActualizationD": "Actualization Threshold For Remaining Duration",
+        "ActualizationR": "Actualization Frequency In Months For Remaining Duration",
+        "Precomputed": "PreComputed Sub Accounts",
+        "Revolving": "Revolving Sub Accounts",
+        "InstallmentAmount": "Installment Amount",
+        "Amount": "Amount",
+        "Percentage": "Percentage",
+        "SplitStrategy": "Split Strategy",
+        "Inequalamounts": "In equal amounts",
+        "Oninstallmentamount": "On installment amount",
+        "Onmaximumamount": "On maximum amount",
+        "SuspendDirectDebit": "Suspend Direct Debit By Default",
+        "SuspendReminders": "Suspend Reminders By Default",
+        "UseNextBusiness": "Use next business day if reference date is not a business day"
+
+      },
+      "tabel": {
+        "": "",
+        "paymentValidator": "Payment Validator Group",
+        "Validator": "Validator",
+        "Email": "Email",
+        "Name": "Name",
+        "PayeeReference": "Payee Reference",
+        "bankAccount": "Bank Account",
+        "Names": "Name",
+        "IBANAccount": "IBAN Account",
+        "BICCode": "BIC Code",
+        "MinDuration": "Min Duration In Months",
+        "MaxDuration": "Max Duration In Months",
+        "PercentageOfLimit": "Percentage Of Limit Threshold",
+        "CreditStatus": "Credit Status",
+        "add": "Add"
+      },
+      "validations": {
+        "MinDueDateForTask": "'Min Due Dates for Task' is Mandatory.",
+        "MinDueDateForUrgentTask": "'Min Due Dates for Urgent Task' is Mandatory.",
+        "MinAmountForTaskRevolvong": "'Min Amount for Task for Revolving' is Mandatory.",
+        "MinBonusThreshold": "'Min. Bonus Threshold for Refund' is Mandatory.",
+        "MinDueThreshold": "'Min. Due Threshold for Remise' is Mandatory",
+        "MinelapsedPeriod": "'Min. Elapsed Period for Remise' is Mandatory.",
+        "RefundBonus": "'Refund Bonus To' is Mandatory.",
+        "MaxDueAfterPrep": "'MinRemainingValueAfterPrepayment' is Mandatory.",
+        "NrOfDaysAdvanced": "'Nr Of Days Advanced Notice' is Mandatory.",
+        "NrOfDaysForCredit": "'Nr Of Days For Credit Regularity' is Mandatory.",
+        "ExtendRevision": "'Extend Revision Periods Within Limit' is Mandatory.",
+        "Periodicity": "'Commission note periodicity' is Mandatory.",
+        "CalendarDay": "'Commission note calendar day' is Mandatory.",
+        "ExpectedMargin": "'Expected Margin Calculation Method' is Mandatory.",
+        "ServicingNotice": "'Servicing Notice Upon Debtor Number Of Days' is Mandatory.",
+        "GraceDays": "'Payment Promise Grace Days' is Mandatory.",
+        "NotifyBeforeExpiration": "'Nr of Days To Notify before Expiration' is Mandatory.",
+        "ChargeMutationCost": "'Charge Mutation Cost Once per Mutation Type' is Mandatory.",
+        "MinDurationInMonths": "'Min Duration In Months' is Mandatory.",
+        "MaxDurationInMonths": "'Max Duration In Months' is Mandatory.",
+        "PercentageOfLimit": "'Percentage Of Limit Threshold' is Mandatory.",
+        "Email": "'Email' is Mandatory.",
+        "Name": "'Name' is Mandatory.",
+        "BankAccount": "'Bank Account' is Mandatory.",
+        "AccountNumber": "'Account Number' is Mandatory.",
+        "SortCode": "'Sort Code' is Mandatory.",
+        "AggregateDirectdebit": "'Aggregate Direct Debit Collection' is Mandatory.",
+        "BonusInInstallment": "'Bonus In Installment Calculation Method' is Mandatory.",
+        "DueInInstallemnt": "'Due In Installment Calculation Method' is Mandatory.",
+        "LimitDaysOnResend": "'Limit days on Resend' is Mandatory.",
+        "DaysonResend": "'Days on Resend' is Mandatory.",
+        "ClaimDateCalculation": "'Use Business Days For Claim Date Calculation' is Mandatory.",
+        "DaysBeforeDueDate": "'Days Before Due Date' is Mandatory.",
+        "CreditorSchemeID": "'Creditor Scheme ID' is Mandatory.",
+        "SendEvent": "'Send Event' is Mandatory.",
+        "IBANAccountNumber": "'Bank Account' is Mandatory.",
+        "BICCode": "'BICCode' is Mandatory.",
+        "Land": "'Country' is Mandatory.",
+        "Postcode": "'Postal Code' is Mandatory.",
+        "City": "'City' is Mandatory.",
+        "Street": "'Street' is Mandatory.",
+        "HouseNumber": "'HouseNumber' is Mandatory.",
+        "CreditStatus": "'Credit Status' is Mandatory.",
+        "actualizationFrequencyForOutstanding": "'Actualization Frequency In Months For Outstanding' is Mandatory.",
+        "actualizationFrequencyForRemainingDuration": "'Actualization Frequency In Months For Remaining Duration' is Mandatory.",
+        "actualizationThresholdForOutstanding": "'Actualization Threshold For Outstanding' is Mandatory.",
+        "actualizationThresholdForRemainingDuration": "'Actualization Threshold For Remaining Duration' is Mandatory.",
+        "numberOfDaysToExtendVariableRevision": "'Number Of Days To Extend Variable Revision Period' is Mandatory.",
+        "numberOfMonthsToExtendRevisionPeriod": "'Number Of Months To Extend Revision Period' is Mandatory.",
+        "MinDurationBusinessError": "The minimum duration cannot be higher than the maximum duration.",
+        "NoOverlapForActualization": "It is not allowed to have any overlap with the minimum and maximum duration in months of an existing actualization threshold.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "GenericMapping": {
+      "heading": {
+        "GenericMapping": "Manage BO Generic Mapping"
+      },
+      "tabel": {
+        "ExternalValue": "External Value",
+        "InternalValue": "Internal Value",
+        "InternalType": "Internal Type",
+        "MappingContext": "Mapping Context",
+        "MappingDirection": "Mapping Direction",
+        "CreditProvider": "Credit Provider",
+        "delete": ""
+      },
+      "card": {
+        "ExternalValue": "External Value",
+        "InternalValue": "Internal Value",
+        "InternalType": "Internal Type",
+        "MappingContext": "Mapping Context",
+        "MappingDirection": "Mapping Direction",
+        "CreditProvider": "Credit Provider",
+        "Add": "Add"
+      },
+      "validationError": {
+        "required": " is Mandatory .",
+        "ExternalValue": "'External Value'",
+        "InternalValue": "'Internal Value'",
+        "InternalType": "'Internal Type'",
+        "MappingContext": "'Mapping Context'",
+        "MappingDirection": "'Mapping Direction'",
+        "CreditProvider": "Credit Provider",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+
+    "freefield": {
+      "heading": {
+        "freefield": "Manage Freefields"
+      },
+      "card": {
+        "FieldName": "Field Name",
+        "TagName": "Tag Name",
+        "ContextType": "Context Type",
+        "ContextSubType": "Context Sub Type",
+        "FreeField": "Free Field",
+        "FreeFieldType": "Free Field Type",
+        "FreeFieldLength": "Free Field Length",
+        "Sequence": "Sequence",
+        "LegalEntity": "Legal Entity"
+      },
+      "tabel": {
+        "FieldName": "Field Name",
+        "TagName": "Tag Name",
+        "ContextType": "Context Type",
+        "ContextSubType": "Context Sub Type",
+        "FreeField": "Free Field",
+        "FreeFieldType": "Free Field Type",
+        "FreeFieldLength": "Free Field Length",
+        "Sequence": "Sequence",
+        "LegalEntity": "Legal Entity",
+        "Delete": "Delete",
+        "Add": "Add"
+      },
+      "picker": {
+        "DossierType": "Context Sub Type",
+        "SelectedDossierType": "Selected Context Sub Type",
+        "ListValue": "List Value",
+        "SelectedListValue": "Selected List Value"
+      },
+      "validation": {
+        "FieldName": "'Field Name' is Mandatory.",
+        "FieldType": "'Free Field Type' is Mandatory.",
+        "FreeField": "'Free Field' is Mandatory.",
+        "ContextType": "'Context Type' is Mandatory.",
+        "LegalEntity": "'Legal Entity' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close",
+      "search": "Search",
+      "Filter": "Filter",
+      "Add":"Add"
+
+    },
+
+    "cmGeneric": {
+      "heading": {
+        "Generic": "Manage cm Generic Mapping"
+      },
+      "tabel": {
+        "ExternalValue": "External Value",
+        "InternalValue": "Internal Value",
+        "InternalType": "Internal Type",
+        "MappingContext": "Mapping Context",
+        "MappingDirection": "Mapping Direction",
+        "Delete": ""
+      },
+      "card": {
+        "ExternalValue": "External Value",
+        "InternalValue": "Internal Value",
+        "InternalType": "Internal Type",
+        "MappingContext": "Mapping Context",
+        "MappingDirection": "Mapping Direction",
+        "Add": "Add"
+      },
+      "validationError": {
+        "required": " is Mandatory .",
+        "ExternalValue": "'External Value'",
+        "InternalValue": "'Internal Value'",
+        "InternalType": "'Internal Type'",
+        "MappingContext": "'Mapping Context'",
+        "MappingDirection": "Mapping Direction",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      }
+    },
+
+    "codetable": {
+      "heading": {
+        "codetable": "Manage codetables"
+      },
+      "tabel": {
+        "CodetableName": "Codetable Name",
+        "ParameterName": "Parameter Name",
+        "isSingleValue": "IsSingleValue",
+        "Delete": ""
+      },
+      "card": {
+        "CodetableName": "Codetable Name",
+        "ParameterName": "Parameter Name",
+        "isSingleValue": "IsSingleValue"
+      },
+      "picker": {
+        "CodeTableValue": "Code Table Value",
+        "SelectedCodeTableValue": "Selected Code Table Value"
+      },
+      "ValidationError":{
+        "required": " is Mandatory .",
+        "CodetableName": "'Codetable Name'",
+        "ParameterName": "'Parameter Name'",
+        "BusinessError":"The given record is already in the list. Please make sure that the record is unique.",
+        "SingleParamBusinesssError":"Invalid data for CodetableParameter "
+      }
+    },
+
+    "roleType": {
+      "heading": {
+        "roleType": "Manage roletype vs partyquality"
+      },
+      "tabel": {
+        "PartyQualityName": "Party Quality Name",
+        "Delete": "Delete"
+      },
+      "card": {
+        "PartyQualityName": "Party Quality Name"
+      },
+      "picker": {
+        "RoleType": "Role Type",
+        "SelectedRoleType": "Selected Role Type"
+      },
+      "mandatory": {
+        "PartyQualityName": "'Party Quality Name'",
+        "required": " is Mandatory.",
+        "DupBusinessError": "The given record is already in the list. Please make sure that the record is unique",
+        "PicklistError": "'Role Type'"
+      }
+    },
+    "arrearsConfig":{
+      "heading": {
+        "ArrearConfig": "Manage Arrears TxEl Type"
+      },
+      "tabel": {
+        "Name":"Name",
+        "Delete":""
+      },
+      "Card":{
+        "Name":"Name",
+        "TxelType":"TxEl Type",
+        "Selectedtxel":"Selected TxEl Type"
+      },
+      "ValidationError":{
+        "Required":" is Mandatory.",
+        "Name":"'Name'",
+        "Txel":"'Selected TxEl Type' is Mandatory.",
+        "DupBusinessError": "The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "validation": {
+      "validationHeader": " You have {0} error(s). Click here to see the description."
+    },
+    "close": {
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    }
+  }
+}

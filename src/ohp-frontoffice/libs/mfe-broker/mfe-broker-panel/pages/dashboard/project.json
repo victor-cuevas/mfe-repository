@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-panel/pages/dashboard",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-panel/pages/dashboard/src",
+  "prefix": "mbpanel",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-panel/pages/dashboard"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-panel/pages/dashboard/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mfe-broker/mfe-broker-panel/pages/dashboard/src/**/*.ts",
+          "libs/mfe-broker/mfe-broker-panel/pages/dashboard/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,649 @@
+<div class="d-flex scrollable-table">
+  <p-table
+    #caseTable
+    [value]="cases"
+    [paginator]="true"
+    [rows]="pageSize"
+    [scrollable]="true"
+    scrollHeight="flex"
+    [loading]="loading"
+    [showLoader]="false"
+    [showCurrentPageReport]="!!totalRecords"
+    [totalRecords]="totalRecords"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    (onHeaderCheckboxToggle)="toggleAllCases($event)"
+    (onRowSelect)="toggleCase($event, true)"
+    (onRowUnselect)="toggleCase($event, false)"
+    styleClass="boxed-table menu-table-header table-wrapper"
+    (onFilter)="onFilteredSortedColumns($event)"
+    (onSort)="onFilteredSortedColumns($event)"
+    (onPage)="onFilteredSortedColumns($event)"
+    [sortField]="sortedField"
+    [sortOrder]="sortedOrder"
+  >
+    <ng-template pTemplate="caption">
+      <div class="d-flex justify-content-end">
+        <!--<span class="p-input-icon-left ml-auto">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="applyFilterGlobal($any($event.target).value)" placeholder="Search applicants" />
+          </span>
+        </span>-->
+
+        <div class="d-flex">
+          <div class="d-flex align-items-center">
+            <i class="pi pi-th-large"></i>
+            <form [formGroup]="filterColumnForm">
+              <cfo-drop-down-menu [label]="'cases.labels.layout' | translate">
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.applicants' | translate | titlecase }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showApplicants" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.createdDate' | translate }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showCreatedDate" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.lastUpdated' | translate | titlecase }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showLastUpdate" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.mtgAmount' | translate }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showAmount" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.stage' | translate | titlecase }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showStage" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.status' | translate | titlecase }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showStatus" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.createdBy' | translate }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showCreatedBy" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-9">
+                    <i class="pi pi-th-large"></i>
+                    {{ 'cases.columns.assignee' | translate | titlecase }}
+                  </div>
+                  <div class="col-2 align-content-center justify-content-end">
+                    <p-inputSwitch formControlName="showAssignee" (onChange)="resizeRowExpansionOnToggle($event)"></p-inputSwitch>
+                  </div>
+                </li>
+              </cfo-drop-down-menu>
+            </form>
+          </div>
+          <div class="d-flex align-items-center">
+            <ng-template [cfoPermissions]="'case'" [cfoPermissionsFeatures]="['assignee', 'transferAssignee']">
+              <div class="menu-container ms-2">
+                <button
+                  class="d-flex justify-content-evenly align-items-center menu-btn"
+                  (click)="moreMenu.toggle($event)"
+                  aria-label="menu button"
+                >
+                  More
+                  <i class="pi pi-chevron-down mx-1"></i>
+                </button>
+              </div>
+            </ng-template>
+          </div>
+          <p-menu #moreMenu [popup]="true" [model]="(moreMenuItems$ | async) || []" appendTo="body" styleClass="more-menu"></p-menu>
+          <div class="d-flex align-items-center">
+            <button
+              pButton
+              icon="pi pi-times"
+              label="{{ 'general.buttons.resetFilters' | translate }}"
+              class="p-button-outlined--bold ms-2 mb-2 mb-lg-0"
+              (click)="clearAllFilters()"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr class="px-3">
+        <ng-template [cfoPermissions]="'case'" [cfoPermissionsFeatures]="['assignee', 'transferAssignee']">
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+        </ng-template>
+        <th>
+          <div class="d-flex {{ caseIdFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'cases.columns.case' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #searchCaseIdFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputCaseIdFilter
+                      type="text"
+                      [(ngModel)]="inputCaseId"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'cases.placeholders.caseNrFilter' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.CASE_ID, 'contains'); clearInputCaseId()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="caseTable.filter(inputCaseId, casePropertiesEnum.CASE_ID, 'contains'); closeInputCaseId(inputCaseId)"
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th *ngIf="filterColumnForm.get('showApplicants')?.value">
+          <div class="d-flex {{ applicantFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              {{ 'cases.columns.applicants' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #searchApplicantFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputApplicantFilter
+                      type="text"
+                      [(ngModel)]="inputApplicant"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'cases.placeholders.applicantFilter' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="
+                          caseTable.filter('', casePropertiesEnum.CONTACTS_INFORMATION, 'inputApplicantFilter'); clearInputApplicant()
+                        "
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(inputApplicant, casePropertiesEnum.CONTACTS_INFORMATION, 'inputApplicantFilter');
+                          closeInputApplicant(inputApplicant)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="created" *ngIf="filterColumnForm.get('showCreatedDate')?.value">
+          <div class="d-flex {{ createDateFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3 text-truncate">
+              <p-sortIcon field="created" class="d-flex pe-2"></p-sortIcon>
+              {{ 'cases.columns.createdDate' | translate }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #createdCalendarFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <p-calendar
+                      #createdCalendar
+                      [(ngModel)]="rangeDates"
+                      styleClass="p-column-filter"
+                      placeholder="{{ 'cases.placeholders.dateRangeFilter' | translate }}"
+                      [readonlyInput]="true"
+                      dateFormat="dd/mm/yy"
+                      [selectionMode]="'range'"
+                      (onSelect)="closeCreatedCalendarOverlay()"
+                    >
+                    </p-calendar>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.CREATED, 'dateRangeFilter'); clearCreatedCalendar()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(rangeDates, casePropertiesEnum.CREATED, 'dateRangeFilter'); closeCreatedCalendar(rangeDates)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="modified" *ngIf="filterColumnForm.get('showLastUpdate')?.value">
+          <div class="d-flex {{ lastUpdatedFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3 text-truncate text-truncate">
+              <p-sortIcon field="modified" class="d-flex pe-2"></p-sortIcon>
+              {{ 'cases.columns.lastUpdated' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #lastUpdatedCalendarFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <p-calendar
+                      #lastUpdatedCalendar
+                      [(ngModel)]="rangeDatesLastUpdated"
+                      styleClass="p-column-filter"
+                      placeholder="{{ 'cases.placeholders.dateRangeFilter' | translate }}"
+                      [readonlyInput]="true"
+                      dateFormat="dd/mm/yy"
+                      [selectionMode]="'range'"
+                      (onSelect)="closeLastUpdatedCalendarOverlay()"
+                    >
+                    </p-calendar>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.MODIFIED, 'dateRangeFilter'); clearLastUpdatedCalendar()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(rangeDatesLastUpdated, casePropertiesEnum.MODIFIED, 'dateRangeFilter');
+                          closeLastUpdatedCalendar(rangeDatesLastUpdated)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="totalLoanAmount" *ngIf="filterColumnForm.get('showAmount')?.value">
+          <div class="d-flex {{ loanAmountFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3">
+              <p-sortIcon field="totalLoanAmount" class="d-flex pe-2"></p-sortIcon>
+              {{ 'cases.columns.mtgAmount' | translate }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #searchLoanAmountFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <p-inputNumber
+                      #inputLoanAmountFrom
+                      type="text"
+                      [(ngModel)]="LoanAmountFrom"
+                      class="p-inputnumber p-component ng-star-inserted mb-3"
+                      placeholder="{{ 'cases.placeholders.LoanAmountFrom' | translate }}"
+                    ></p-inputNumber>
+                    <p-inputNumber
+                      #inputLoanAmountTo
+                      type="text"
+                      [(ngModel)]="LoanAmountTo"
+                      class="p-inputnumber p-component ng-star-inserted"
+                      placeholder="{{ 'cases.placeholders.LoanAmountTo' | translate }}"
+                    ></p-inputNumber>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="
+                          caseTable.filter('', casePropertiesEnum.TOTAL_LOAN_AMOUNT, 'inputNumberFromToFilter'); clearInputNumberFromTo()
+                        "
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter([LoanAmountFrom, LoanAmountTo], casePropertiesEnum.TOTAL_LOAN_AMOUNT, 'inputNumberFromToFilter');
+                          closeInputNumberFromTo([LoanAmountFrom, LoanAmountTo])
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="stage" *ngIf="filterColumnForm.get('showStage')?.value">
+          <div class="d-flex {{ stageFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3">
+              <p-sortIcon field="stage" class="d-flex pe-2"></p-sortIcon>
+              {{ 'cases.columns.stage' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #selectStageFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <div *ngFor="let stage of stageOptions">
+                      <p-checkbox name="stages" [value]="stage.value" [(ngModel)]="selectedStages" [label]="stage.label"></p-checkbox>
+                    </div>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.STAGE, 'multiSelectFilter'); clearSelectStage()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(selectedStages, casePropertiesEnum.STAGE, 'multiSelectFilter'); closeSelectStage(selectedStages)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th pSortableColumn="status" *ngIf="filterColumnForm.get('showStatus')?.value">
+          <div class="d-flex {{ statusFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3">
+              <p-sortIcon field="status" class="d-flex pe-2"></p-sortIcon>
+              {{ 'cases.columns.status' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #selectStatusFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <div *ngFor="let status of statusOptions">
+                      <p-checkbox name="status" [value]="status.value" [(ngModel)]="selectedStatus" [label]="status.label"></p-checkbox>
+                    </div>
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.STATUS, 'multiSelectFilter'); clearSelectStatus()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(selectedStatus, casePropertiesEnum.STATUS, 'multiSelectFilter');
+                          closeSelectStatus(selectedStatus)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th *ngIf="filterColumnForm.get('showCreatedBy')?.value">
+          <div class="d-flex {{ createdByFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3">
+              {{ 'cases.columns.createdBy' | translate }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #searchCreatedByFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputCreatedByFilter
+                      type="text"
+                      [(ngModel)]="inputCreatedBy"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'cases.placeholders.nameFilter' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.CREATED_BY, 'contains'); clearInputCreatedBy()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(inputCreatedBy, casePropertiesEnum.CREATED_BY, 'contains'); closeInputCreatedBy(inputCreatedBy)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+        <th *ngIf="filterColumnForm.get('showAssignee')?.value">
+          <div class="d-flex {{ assigneeFilterActive ? 'filter-active' : '' }}">
+            <div class="d-flex align-items-center pe-3">
+              {{ 'cases.columns.assignee' | translate | titlecase }}
+            </div>
+            <div class="d-flex align-items-center">
+              <p-columnFilter
+                #searchAssigneeFilter
+                [display]="'custommenu'"
+                [showAddButton]="false"
+                [showMatchModes]="false"
+                [showOperator]="false"
+                [showClearButton]="false"
+                [showApplyButton]="false"
+              >
+                <ng-template pTemplate="filter">
+                  <div class="filter-custom-menu">
+                    <input
+                      #inputAssigneeFilter
+                      type="text"
+                      [(ngModel)]="inputAssignee"
+                      class="p-inputtext p-component ng-star-inserted"
+                      placeholder="{{ 'cases.placeholders.nameFilter' | translate }}"
+                    />
+
+                    <div class="p-column-filter-buttonbar p-0">
+                      <p-button
+                        label="Clear"
+                        styleClass="p-button-outlined"
+                        (onClick)="caseTable.filter('', casePropertiesEnum.ASSIGNEE, 'contains'); clearInputAssignee()"
+                      ></p-button>
+                      <p-button
+                        label="Apply"
+                        (onClick)="
+                          caseTable.filter(inputAssignee, casePropertiesEnum.ASSIGNEE, 'contains'); closeInputAssignee(inputAssignee)
+                        "
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-case>
+      <tr class="px-3" role="button" (click)="navigateTo(case.caseId)">
+        <ng-template [cfoPermissions]="'case'" [cfoPermissionsFeatures]="['assignee', 'transferAssignee']">
+          <td style="width: 3rem">
+            <p-tableCheckbox
+              [value]="case.status === caseStatusEnum.Cancelled ? false : case"
+              [disabled]="case.status === caseStatusEnum.Cancelled"
+            ></p-tableCheckbox>
+          </td>
+        </ng-template>
+        <td>
+          <strong [routerLink]="['./' + case.caseId]">{{ case.caseId }}</strong>
+        </td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showApplicants')?.value">
+          <p *ngFor="let applicant of case.contactsInformation" class="text-truncate">
+            {{ applicant.firstName | titlecase }} {{ applicant.familyName | titlecase }}
+          </p>
+        </td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showCreatedDate')?.value">
+          {{ case.created | date: 'dd/MM/yyyy' }}
+        </td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showLastUpdate')?.value">{{ case.modified | date: 'dd/MM/yyyy' }}</td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showAmount')?.value">
+          {{ case.totalLoanAmount | currency: 'GBP':'symbol':'1.0-0' }}
+        </td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showStage')?.value">{{ case.stage }}</td>
+        <td *ngIf="filterColumnForm.get('showStatus')?.value">
+          <div [class]="'p-tag-rectangle p-tag-' + case.stage?.toLowerCase() + ' p-tag-' + case.status?.toLowerCase()">
+            {{ case.status | uppercase }}
+          </div>
+        </td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showCreatedBy')?.value">{{ case.createdByFullName }}</td>
+        <td class="text-contain" *ngIf="filterColumnForm.get('showAssignee')?.value">
+          {{ case.assigneeFullName }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <td class="table-empty" [attr.colspan]="7">
+        {{ notAllowed ? ('cases.labels.notAllowed' | translate) : ('cases.labels.noRecordsFound' | translate) }}
+      </td>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+      <td class="table-loader" [attr.colspan]="7"></td>
+    </ng-template>
+  </p-table>
+</div>
+<div>
+  <p-dialog
+    closeIcon="none"
+    [(visible)]="showSuccessfulModal"
+    [modal]="true"
+    [style]="{ width: '25vw' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    [showHeader]="false"
+    styleClass="transfer-dialog"
+  >
+    <div class="text-center pt-5">
+      <i class="pi pi-check"></i>
+      <h3 class="my-3">{{ 'cases.transfer.success.title' | translate }}</h3>
+      <p>{{ 'cases.transfer.success.body' | translate }} {{ newAssigneeName }}</p>
+
+      <button
+        pButton
+        type="button"
+        [label]="'general.buttons.ok' | translate"
+        icon="none"
+        class="p-button-primary mt-5"
+        (click)="closeSuccessfulModal()"
+      ></button>
+    </div>
+  </p-dialog>
+  <cfo-dialog [showDialog]="showCancelCase" [data]="cancelCaseDataPopup">
+    <ng-template #footerTemplate>
+      <div class="text-center">
+        <p-button
+          styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+          label="{{ 'general.buttons.cancel' | translate }}"
+          (click)="cancelCancelCase()"
+        ></p-button>
+        <p-button
+          styleClass="p-button-danger mb-2 my-lg-0 me-lg-2"
+          label="{{ 'general.buttons.ok' | translate }}"
+          (click)="confirmCancelCase()"
+        ></p-button>
+      </div>
+    </ng-template>
+  </cfo-dialog>
+</div>

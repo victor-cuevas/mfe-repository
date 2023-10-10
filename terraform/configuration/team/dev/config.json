@@ -1,0 +1,143 @@
+{
+  "AWS": {
+    "REGION": "eu-west-1",
+    "USER_POOL_ID": "eu-west-1_sQxQypcLC",
+    "USER_POOL_APP_CLIENT_ID": "29efnnuk70f35jghlt4sb0k1gv",
+    "USER_POOL_SIGN_IN_REDIRECT_URL": "http://localhost:4200/broker/",
+    "USER_POOL_REDIRECT_URL": "http://localhost:4200",
+    "USER_POOL_AUTH_DOMAIN": "https://dev-elq.auth.eu-west-1.amazoncognito.com"
+  },
+  "LOGO_PATH": "/assets/project-logo.png",
+  "CLIENT": "ohp",
+  "STAGE": "dev",
+  "DATADOG": {
+    "applicationId": "b4a1736a-e73a-48d8-b7fa-2a866a590840",
+    "clientToken": "pub4794a37b50efdbde1f705e55adaf97ec",
+    "site": "datadoghq.eu",
+    "service": "mfes-app-angular"
+  },
+  "DEFAULT_ROUTE": "broker",
+  "DEFAULT_CONFIG_ROUTE": "product",
+  "REMOTE_MFES": [
+    {
+      "path": "broker",
+      "remoteUrl": "https://portal.dev.davincicloud.nl",
+      "remoteName": "mfeBrokerPortal",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPortalModule",
+      "apiUrl": "https://broker-api.dev.davincicloud.nl"
+    },
+    {
+      "path": "panel",
+      "remoteUrl": "https://panel.dev.davincicloud.nl",
+      "remoteName": "mfeBrokerPanel",
+      "exposedModule": "./Module",
+      "ngModuleName": "BrokerPanelModule",
+      "apiUrl": "https://panel-api.dev.davincicloud.nl"
+    },
+    {
+      "path": "authorisation",
+      "remoteUrl": "https://authconfig.dev.davincicloud.nl",
+      "remoteName": "mfeAuthConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AuthConfigModule",
+      "apiUrl": "https://00x8mhmchg.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "asset",
+      "remoteUrl": "https://assetconfig.dev.davincicloud.nl",
+      "remoteName": "mfeAssetConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AssetConfigModule",
+      "apiUrl": "https://sndzygbq33.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "agenda",
+      "remoteUrl": "https://agendaconfig.dev.davincicloud.nl",
+      "remoteName": "mfeAgendaConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AgendaConfigModule",
+      "apiUrl": "https://idasgwo3vc.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "process",
+      "remoteUrl": "https://processconfig.dev.davincicloud.nl",
+      "remoteName": "mfeProcessConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "ProcessConfigModule",
+      "apiUrl": "https://qjo0zshm54.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "product",
+      "remoteUrl": "https://productconfig.dev.davincicloud.nl",
+      "remoteName": "mfeProductConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "ProductConfigModule",
+      "apiUrl": "https://zo80fb94oj.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "financial",
+      "remoteUrl": "https://financialconfigservice.dev.davincicloud.nl",
+      "remoteName": "mfeFinancialConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "FinancialConfigServiceModule",
+      "apiUrl": "https://c21wh6m4jb.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "appinstance",
+      "remoteUrl": "https://appinstanceconfig.dev.davincicloud.nl",
+      "remoteName": "mfeAppInstanceConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AppInstanceConfigModule",
+      "apiUrl": "https://2k0rc4r26a.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "accounting",
+      "remoteUrl": "https://accountingconfig.dev.davincicloud.nl",
+      "remoteName": "mfeAccountingConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "AccountingConfigModule",
+      "apiUrl": "https://6mj531nxf8.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "taxstatement",
+      "remoteUrl": "https://taxstatementconfig.dev.davincicloud.nl",
+      "remoteName": "mfeTaxStatementConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "TaxStatementConfigModule",
+      "apiUrl": "https://sxb749m484.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "runningaccount",
+      "remoteUrl": "https://runningaccountconfigservice.dev.davincicloud.nl",
+      "remoteName": "mfeRunningAccountConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "RunningaccountConfigServiceModule",
+      "apiUrl": "https://ufwtxe8wkd.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "communication",
+      "remoteUrl": "https://communicationconfigservice.dev.davincicloud.nl",
+      "remoteName": "mfeCommunicationConfigService",
+      "exposedModule": "./Module",
+      "ngModuleName": "CommunicationConfigServiceModule",
+      "apiUrl": "https://h20gkvusga.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "plan",
+      "remoteUrl": "https://planconfig.dev.davincicloud.nl",
+      "remoteName": "mfePlanConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "PlanConfigModule",
+      "apiUrl": "https://7za6zzqa1j.execute-api.eu-west-1.amazonaws.com/dev/"
+    },
+    {
+      "path": "collection-measure",
+      "remoteUrl": "https://collectionmeasureconfig.dev.davincicloud.nl",
+      "remoteName": "mfeCollectionMeasureConfig",
+      "exposedModule": "./Module",
+      "ngModuleName": "CollectionMeasureConfigModule",
+      "apiUrl": "https://p07zmje3ta.execute-api.eu-west-1.amazonaws.com/dev/"
+    }
+  ]
+}

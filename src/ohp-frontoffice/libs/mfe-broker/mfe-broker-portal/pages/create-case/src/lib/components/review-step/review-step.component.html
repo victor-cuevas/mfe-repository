@@ -1,0 +1,82 @@
+<!-- Title -->
+<div class="container pb-4">
+  <h2 class="mb-2">{{ 'createCase.titles.review' | translate }}</h2>
+  <p class="pb-4">{{ 'createCase.subTitles.review' | translate }}</p>
+  <p>
+    <a [routerLink]="'../' + routePaths.CREATE_CASE_ADD_APPLICANT">
+      <i class="pi pi-chevron-left"></i>{{ 'general.buttons.back' | translate }}
+    </a>
+  </p>
+</div>
+<!-- Content -->
+<div class="container">
+  <div class="my-4 rounded shadow">
+    <div class="step-header p-4 rounded-top">
+      <h4 class="step-summary-title mb-1">{{ 'createCase.titles.createCase' | translate }}</h4>
+    </div>
+    <div class="step-body p-4 rounded-bottom">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12 mb-3">
+          <div class="mb-3">
+            <h6 class="step-sub-title">{{ 'createCase.labels.caseOwner' | translate }}</h6>
+            {{ firstStepData?.caseOwner?.fullName | titlecase }}
+          </div>
+          <div class="mb-3">
+            <h6 class="step-sub-title">{{ 'createCase.labels.applicationType' | translate }}</h6>
+            {{ firstStepData?.casePurposeType | label: 'cdtb-broker-applicationtypes' }}
+          </div>
+          <div class="mb-3">
+            <h6 class="step-sub-title">{{ 'createCase.labels.propertyPurpose' | translate }}</h6>
+            {{ firstStepData?.propertyPurpose | label: 'cdtb-broker-propertypurpose' }}
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 mb-3">
+          <h6 class="step-sub-title">{{ 'createCase.subTitles.confirmedStatements' | translate }}</h6>
+          <ul class="indent">
+            <li *ngFor="let killerQuestion of killerQuestions">{{ killerQuestion }}</li>
+            <!-- T&C and consent statements - fixed-->
+            <li>{{ CONFIG.CONDITIONS.PERMISSIONS_CONFIRMATION }}</li>
+            <li>{{ CONFIG.CONDITIONS.DATA_CONSENT }}</li>
+            <li>{{ CONFIG.CONDITIONS.TERMS_AND_CONDITIONS }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="my-2 rounded shadow">
+    <div class="step-header p-4 rounded-top">
+      <h4 class="step-summary-title mb-1">{{ 'createCase.titles.applicants' | translate }}</h4>
+    </div>
+    <div *ngFor="let applicant of secondStepData?.applicants" class="step-body p-4 rounded-bottom">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12">
+              <h6 class="step-sub-title">{{ 'createCase.labels.applicantType' | translate }}</h6>
+              {{ applicant?.applicantType | label: 'cdtb-broker-applicanttypes' }}
+            </div>
+            <div *ngIf="applicant?.mortgageAccountNumber" class="col-lg-6 col-sm-12 mb-3">
+              <h6 class="step-sub-title">{{ 'createCase.labels.mortgageAccountNumber' | translate }}</h6>
+              {{ applicant?.mortgageAccountNumber }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <h6 class="step-sub-title">{{ 'createCase.labels.fullName' | translate }}</h6>
+          {{ applicant?.firstName | titlecase }} {{ applicant?.familyName | titlecase }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-4">
+    <a [routerLink]="'../' + routePaths.CREATE_CASE_ADD_APPLICANT" class="link-outlined">
+      {{ 'general.buttons.previous' | translate }}
+    </a>
+    <a (click)="submit()" (keypress)="onKeyboardSubmit($event)" class="link-button-primary mx-4" role="link" [tabindex]="0">
+      {{ 'general.buttons.submit' | translate }}
+    </a>
+  </div>
+</div>

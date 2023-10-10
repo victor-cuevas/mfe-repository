@@ -1,0 +1,161 @@
+{
+  "user": {
+    "labels": {
+      "userName": "Nom de l'utilisateur",
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "password": "Mot de passe",
+      "employeeNo": "Numéro d'employé",
+      "language": "Langue",
+      "email": "E-mail",
+      "faxNumber": "Numéro de Fax",
+      "telephone": "Téléphone",
+      "privateNumber": "Fr - Personal Telephone Nr",
+      "accessToSettings": "Accéder à la configuration",
+      "isIntegrationUser": "FR - is IntegrationUser",
+      "initials": "FR – Initials",
+      "creditProvider": "Fr - Credit Provider",
+      "userProfile": "Fr - User Profile",
+      "productFamilyModuleCombination": "FR - Product Family Module Combination"
+    },
+    "titles": {
+      "manageUsers": "Manage Users",
+      "searchUser": "Spécifier le critère de recherche",
+      "selectTheUser": "Choisir l'utilisateur",
+      "userDetails": "Détails de l'utilisateur",
+      "userProfiles": "Fr - User Profiles"
+    },
+    "buttons": {
+      "search": "Chercher",
+      "clear": "Effacer",
+      "addUser": "Ajout d'utilisateurs",
+      "addUserProfile": "Fr - Add User Profile"
+    },
+    "validationError": {
+      "searchCriteria": "Au moins un critère de recherche doit être donné à la recherche.",
+      "validSearch": "There is no record match for your search criteria.",
+      "userName": "'Nom de l'utilisateur' est obligatoire.",
+      "lastName": "'Nom' est obligatoire.",
+      "firstName": "'Prénom' est obligatoire.",
+      "language": "'Langue' est obligatoire.",
+      "initial": "'FR – Initials' est obligatoire.",
+      "creditProvider": "'Fr - Credit Provider' est obligatoire.",
+      "userProfile": "'Fr - User Profile' est obligatoire.",
+      "productFamily": "'FR - Product Family Module Combination' est obligatoire."
+    }
+  },
+  "userProfile": {
+    "labels": {
+      "name": "Nom",
+      "isReadonly": "FR - Is Read Only User Profile",
+      "functionalities": "Fr - Functionality",
+      "access": "Fr - Access"
+    },
+    "titles": {
+      "manageUserProfile": "Manage User Profile",
+      "overviewUserProfiles": "Fr - User Profiles Overview",
+      "detailUserProfile": "Fr - User Profiles Detail"
+    },
+    "buttons": {
+      "addUserProfile": "Ajoute"
+    },
+    "validationError": {
+      "name": "'Nom' est obligatoire",
+      "uniqueName": "FR - User Profile Name exist in the list already."
+    }
+  },
+  "manage-recovery-user": {
+    "title": {
+      "manage-recovery": "Manage Recovery Users"
+    },
+    "tabel": {
+      "Username": "Username",
+      "LastName": "Last name",
+      "FirstName": "Prénom",
+      "EmailId": "E-mail",
+      "Links": "Profils utilisateurs liés",
+      "Priority": "Priorité",
+      "Limitation": "Entitée limitée",
+      "User": "Utilisateur",
+      "ActionReceiver": "Destinataire",
+      "taskcreation": "Uniquement pour la création de tâches",
+      "addUser": "Add User",
+      "": ""
+    },
+    "card": {
+      "userDetails": "Détails de l'utilisateur",
+      "userProfiles": "User profiles",
+      "Limitations": "Limitations",
+      "ActionReceiver": "Action Receiver",
+      "Username": "Username",
+      "Password": "Password",
+      "LastName": "Last name",
+      "FirstName": "Prénom",
+      "Email": "E-mail",
+      "PhoneNo": "Numéro de téléphone",
+      "Language": "Langue",
+      "FaxNr": "Numéro de fax",
+      "UserType": "Type d’utilisateur",
+      "EmployeeNr": "Numéro d’employé",
+      "Access": "Accéder à la configuration de la session",
+      "UserProfile": "Pofil utilisateur",
+      "LimitedEntity": "Entitée limitée"
+    },
+    "validation": {
+      "userName": "'Username' est obligatoire.",
+      "userType": "Input is not in a correct format.",
+      "errorMsg": "Input string was not in a correct format.",
+      "priority": "'Priorité' est obligatoire.",
+      "userProfileNotNull": "FR - UserProfile is not correctly defined",
+      "limitationNotNull": "FR - Limitation is not correctly defined",
+      "limitationDuplicate": "FR - Limitations duplicates"
+    }
+  },
+  "manage-recovery-user-profile": {
+    "title": {
+      "manageRecoveryUserProfile": "Manage Recovery User Profiles"
+    },
+    "sub-headings": {
+      "overView": "Aperçu des profils utilisateurs",
+      "detail": "Détail du profil utilisateur"
+    },
+    "table": {
+      "userprofile": "Profil utilisateur",
+      "add": "Ajoute",
+      "access": "Accès",
+      "linkedWebMenu": "Options de menu liés web",
+      "landingPage": "Écran d’acceuil",
+      "sequence": "Séquence",
+      "linkedWebFunctionalities": "Fonctionnalités liées web",
+      "linkedFunctionalities": "Fonctionnalités liées",
+      "linkedAppItems": "Objets de l’application liée",
+      "linkedPortalItems": "Options de menu liés portail",
+      "linkedPortalFunc": "Fonctionnalités liées portail"
+    },
+    "card": {
+      "userProfile": "User Profile",
+      "isReadOnly": "Profil utilisateur lecture seule",
+      "defaultProfile": "Profil par défaut débiteur portail"
+    },
+    "validation": {
+      "oneDefaultUserProfile": "FR - There should be only one default userProfile for Portal",
+      "sequence": "'Séquence' est obligatoire.",
+      "name": "'FR - Name' est obligatoire",
+      "uniqueName": "FR - User Profile Name exist in the list already."
+    }
+  },
+  "validation": {
+    "validationHeader": "Il y a {0} erreur(s). Cliquez ici pour obtenir une description."
+  },
+  "close": {
+    "header": "Changements non sauvegardé",
+    "body": "Changements non sauvegardé. Voulez-vous les sauvegarder ?",
+    "yes": "Oui",
+    "no": "Non",
+    "cancel": "Annuler"
+  },
+  "button": {
+    "save": "Sauvegarder",
+    "close": "Fermer"
+  }
+}

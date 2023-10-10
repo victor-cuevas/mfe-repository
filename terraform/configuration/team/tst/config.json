@@ -1,0 +1,22 @@
+{
+  "AWS": {
+    "REGION": "eu-west-1",
+    "USER_POOL_ID": "eu-west-1_sQxQypcLC",
+    "USER_POOL_APP_CLIENT_ID": "2foc54nunhbs1ohd5c008sg26q",
+    "USER_POOL_SIGN_IN_REDIRECT_URL": "https://<infrastructure_id>.portals.dev.project.tech/broker/",
+    "USER_POOL_REDIRECT_URL": "https://<infrastructure_id>.portals.dev.project.tech",
+    "USER_POOL_AUTH_DOMAIN": "https://portals-dev-user-pool.auth.eu-west-1.amazoncognito.com"
+  },
+  "LOGO_PATH": "/assets/project-logo.png",
+  "CLIENT": "ohp_qa",
+  "STAGE": "dev",
+  "DATADOG": {
+    "applicationId": "b4a1736a-e73a-48d8-b7fa-2a866a590840",
+    "clientToken": "pub4794a37b50efdbde1f705e55adaf97ec",
+    "site": "datadoghq.eu",
+    "service": "mfes-app-angular"
+  },
+  "DEFAULT_ROUTE": "broker",
+  "DEFAULT_CONFIG_ROUTE": "product",
+  "REMOTE_MFES": []
+}

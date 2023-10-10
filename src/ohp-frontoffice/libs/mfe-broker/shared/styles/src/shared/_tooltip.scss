@@ -1,0 +1,82 @@
+.p-tooltip {
+  max-width: 25rem;
+  &.p-tooltip-top {
+    .p-tooltip-arrow {
+      border-top-color: $auxiliary-b-1;
+    }
+  }
+  &.p-tooltip-bottom {
+    .p-tooltip-arrow {
+      border-bottom-color: $auxiliary-b-1;
+    }
+  }
+  &.p-tooltip-right {
+    .p-tooltip-arrow {
+      border-right-color: $auxiliary-b-1;
+    }
+  }
+  &.p-tooltip-left {
+    .p-tooltip-arrow {
+      border-left-color: $auxiliary-b-1;
+    }
+  }
+  .p-tooltip-text {
+    background: $auxiliary-b-1;
+    color: $primary;
+  }
+  &.p-tooltip-blue {
+    &.p-tooltip-top {
+      .p-tooltip-arrow {
+        border-top-color: $primary;
+      }
+    }
+    &.p-tooltip-bottom {
+      .p-tooltip-arrow {
+        border-bottom-color: $primary;
+      }
+    }
+    &.p-tooltip-right {
+      .p-tooltip-arrow {
+        border-right-color: $primary;
+      }
+    }
+    &.p-tooltip-left {
+      .p-tooltip-arrow {
+        border-left-color: $primary;
+      }
+    }
+    .p-tooltip-text {
+      border-radius: 4px;
+      background: $primary;
+      color: $white;
+    }
+  }
+}
+
+@mixin tooltipColors($name, $fontColor, $bgColor) {
+  $directions: 'top', 'bottom', 'left', 'right';
+
+  &-#{$name} {
+    color: $fontColor;
+    .p-tooltip-text {
+      color: $fontColor;
+      background-color: $bgColor;
+    }
+
+    @each $direction in $directions {
+      &.tooltip-#{$direction}-arrow {
+        .p-tooltip-arrow {
+          border-#{$direction}-color: $bgColor;
+        }
+      }
+    }
+  }
+}
+
+.tooltip {
+  @include tooltipColors('success', $activeColor, $activeBackground);
+  @include tooltipColors('danger', $declinedColor, $declinedBackground);
+  @include tooltipColors('warning', $inProgress, $inProgressBackground);
+  @include tooltipColors('info', $auxiliary-a, $auxiliary-b-1);
+  @include tooltipColors('neutral', $inactiveColor, $inactiveBackground);
+}

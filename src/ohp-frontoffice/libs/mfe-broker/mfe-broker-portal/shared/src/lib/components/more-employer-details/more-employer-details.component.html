@@ -1,0 +1,483 @@
+<ng-container [formGroup]="form" [ngSwitch]="true">
+  <ng-container *ngIf="otherEmployment === 0 || form.getRawValue().incomeType === incomeType.EMPLOYMENT">
+    <p-accordion styleClass="bordered-selection-accordion px-4 mb-5">
+      <p-accordionTab
+        [selected]="true"
+        header="{{ 'general.buttons.moreEmployerDetails' | translate }}"
+        *ngIf="
+          form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+          form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership ||
+          form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed ||
+          form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ||
+          form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25
+        "
+      >
+        <div class="row">
+          <cfo-form-item
+            [label]="'createDip.labels.natureOfBusiness' | translate"
+            class="col-md-3 col"
+            inputClass="journey-input--large"
+            formControlName="natureOfTheBusiness"
+          >
+          </cfo-form-item>
+        </div>
+        <ng-container *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Employed">
+          <div class="row mt-4">
+            <div class="col">
+              <label id="ciAddressType">
+                {{ ('createDip.labels.addressType' | translate) + ' *' }}
+              </label>
+              <p-dropdown
+                [options]="addressTypeOptions"
+                formControlName="addressType"
+                ngDefaultControl
+                class="journey-dropdown"
+                [placeholder]="'createDip.placeholders.selectAddressType' | translate"
+                aria-labelledby="ciAddressType"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+              <cfo-validation-errors
+                [control]="form.get('addressType')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+          <div class="row mt-4" *ngIf="form.getRawValue().addressType">
+            <cfo-address-search
+              [form]="$any(form)"
+              (suggestAddresses)="getSuggestionListFromAutoComplete($event)"
+              [suggestedAddresses]="suggestedAddresses"
+              (selectedAddressEvent)="onSelectedAddress($event)"
+              [selectedAddress]="selectedAddress"
+              [listOfCountries]="
+                form.get('addressType')?.value === addressTypeEnum.UK ? addressFeService.countries : addressFeService.countriesWithoutUK
+              "
+              [hasButtonVisible]="hasButtonVisible"
+            ></cfo-address-search>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngSwitchCase="
+            form.getRawValue().currentEmploymentStatus === employmentStatus.Employed &&
+            form.getRawValue().contractType === contractType.INDEFINITELY &&
+            isLessThenProbationPeriod(form.getRawValue().contractStartDate)
+          "
+        >
+          <div class="row">
+            <div class="col">
+              <label class="mt-4" id="isInProbatoryPeriod">
+                {{ ('createFma.labels.isThereAProbationaryPeriod?' | translate) + ' *' }}
+                <span
+                  *ngIf="form.get('isInProbatoryPeriod')?.value"
+                  class="ps-2 primary-color"
+                  [pTooltip]="'createFma.validations.furtherDetailsMsg' | translate"
+                  [hideDelay]="300"
+                  ><i class="pi pi-info-circle"></i></span
+              ></label>
+              <div aria-labelledby="isInProbatoryPeriod">
+                <p-radioButton
+                  formControlName="isInProbatoryPeriod"
+                  [value]="true"
+                  [label]="'general.labels.yes' | translate"
+                  ngDefaultControl
+                ></p-radioButton>
+                <p-radioButton
+                  formControlName="isInProbatoryPeriod"
+                  [value]="false"
+                  [label]="'general.labels.no' | translate"
+                  class="ms-3"
+                  ngDefaultControl
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="form.getRawValue().isInProbatoryPeriod">
+            <div class="row mt-4">
+              <div class="col col-md-4">
+                <label id="cuProbatoryPeriodMonths"> {{ 'createFma.labels.probatoryPeriod' | translate }} * </label>
+                <cfo-input-number [form]="form" controlName="probatoryPeriod" aria-labelledby="cuProbatoryPeriodMonths" ngDefaultControl>
+                </cfo-input-number>
+                <cfo-validation-errors
+                  [control]="form.get('probatoryPeriod')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label class="mt-4" id="isPermanentAtEndOfProbatoryPeriod">
+                  {{ ('createFma.labels.isPermanentAtEndOfProbatoryPeriod' | translate) + ' *' }}</label
+                >
+                <div aria-labelledby="isPermanentAtEndOfProbatoryPeriod">
+                  <p-radioButton
+                    formControlName="isPermanentAtEndOfProbatoryPeriod"
+                    [value]="true"
+                    [label]="'general.labels.yes' | translate"
+                    ngDefaultControl
+                  ></p-radioButton>
+                  <p-radioButton
+                    formControlName="isPermanentAtEndOfProbatoryPeriod"
+                    [value]="false"
+                    [label]="'general.labels.no' | translate"
+                    class="ms-3"
+                    ngDefaultControl
+                  ></p-radioButton>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container
+          *ngSwitchCase="
+            (form.getRawValue().currentEmploymentStatus === employmentStatus.Employed ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25) &&
+            form.getRawValue().contractType === contractType.TEMPORARY
+          "
+        >
+          <!-- TODO out of scope for April -->
+          <!--          <div class="row mt-4">
+            <div class="col col-md-4">
+              <label>
+                {{ ('createFma.labels.contractTerm' | translate) + ' *' }}
+              </label>
+              <p-dropdown
+                [options]="temporaryContractTypeOptions"
+                formControlName="contractTerm"
+                ngDefaultControl
+                class="journey-dropdown"
+                [placeholder]="'createDip.placeholders.selectEmploymentStatus' | translate"
+              >
+<ng-template let-option pTemplate="item">
+  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+</ng-template>
+</p-dropdown>
+              <cfo-validation-errors
+                [control]="form.get('temporaryContractType')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col col-md-4" *ngIf="form.getRawValue().contractTerm === temporaryContractType.FIXED_TERM">
+              <label for="probatoryPeriodEndDate">
+                {{ ('createFma.labels.contractEndData' | translate) + ' *' }}
+              </label>
+              <p-calendar
+                class="journey-input"
+                formControlName="probatoryPeriodEndDate"
+                dateFormat="dd/mm/yy"
+                [showIcon]="true"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [yearRange]="pastYear + ':' + currentYear"
+                [maxDate]="maxDateValue"
+                ngDefaultControl
+              ></p-calendar>
+              <cfo-validation-errors
+                [control]="form.get('probatoryPeriodEndDate')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>-->
+          <div class="row">
+            <div class="col">
+              <label class="mt-4" id="isContractLikelyToBeRenewed">
+                {{ ('createFma.labels.isContractLikelyToBeRenewed' | translate) + '*' }}</label
+              >
+              <div aria-labelledby="isContractLikelyToBeRenewed">
+                <p-radioButton
+                  formControlName="isContractLikelyToBeRenewed"
+                  [value]="true"
+                  [label]="'general.labels.yes' | translate"
+                  ngDefaultControl
+                ></p-radioButton>
+                <p-radioButton
+                  formControlName="isContractLikelyToBeRenewed"
+                  [value]="false"
+                  [label]="'general.labels.no' | translate"
+                  class="ms-3"
+                  ngDefaultControl
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="mt-4" id="hasGapsBetweenContractsInLast12Months">
+                {{ ('createFma.labels.hasGapsBetweenContractsInLast12Months' | translate) + ' *' }}</label
+              >
+              <div aria-labelledby="hasGapsBetweenContractsInLast12Months">
+                <p-radioButton
+                  formControlName="hasGapsBetweenContractsInLast12Months"
+                  [value]="true"
+                  [label]="'general.labels.yes' | translate"
+                  ngDefaultControl
+                ></p-radioButton>
+                <p-radioButton
+                  formControlName="hasGapsBetweenContractsInLast12Months"
+                  [value]="false"
+                  [label]="'general.labels.no' | translate"
+                  class="ms-3"
+                  ngDefaultControl
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4" *ngIf="form.getRawValue().hasGapsBetweenContractsInLast12Months">
+            <div class="col col-md-6">
+              <label id="cdReasonForGapsBetweenContracts" for="reasonForGapsBetweenContracts"
+                >{{ ('createFma.labels.reasonForGapsBetweenContracts' | translate) + ' *' }}
+              </label>
+              <textarea
+                aria-labelledby="cdReasonForGapsBetweenContracts"
+                name="reasonForGapsBetweenContracts"
+                cols="50"
+                ngDefaultControl
+                formControlName="reasonForGapsBetweenContracts"
+                class="journey-input-fixed-width"
+                pInputTextarea
+                [autoResize]="true"
+              ></textarea>
+              <cfo-validation-errors
+                [control]="form.get('reasonForGapsBetweenContracts')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngSwitchCase="
+            form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership ||
+            form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed ||
+            form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ||
+            form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25
+          "
+        >
+          <div class="row mt-4">
+            <div
+              class="col-md-4 col"
+              *ngIf="
+                form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership ||
+                form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ||
+                form.getRawValue().currentEmploymentStatus === employmentStatus.DirectorLess25
+              "
+            >
+              <label id="sharedBusinessOwned"> {{ 'createDip.labels.sharedBusinessOwned' | translate }} * </label>
+              <p-inputNumber
+                class="journey-input--large"
+                formControlName="shareOfBusinessOwned"
+                ngDefaultControl
+                suffix="%"
+                aria-labelledby="sharedBusinessOwned"
+              ></p-inputNumber>
+              <cfo-validation-errors
+                [control]="form.get('shareOfBusinessOwned')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-4 col">
+              <label id="dateBusinessStarted"> {{ 'createDip.labels.dateBusinessStarted' | translate }} * </label>
+              <p-calendar
+                #calendarDateBusinessStarted
+                class="journey-input"
+                formControlName="businessStartDate"
+                dateFormat="dd/mm/yy"
+                [showIcon]="true"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [yearRange]="pastYear + ':' + currentYear"
+                [maxDate]="maxDateValue"
+                ngDefaultControl
+                (onYearChange)="populateYearRange()"
+                (onMonthChange)="populateYearRange()"
+                [minDate]="minDateProbatoryPeriodStartDate"
+                [maxDate]="currentDay"
+                aria-labelledby="dateBusinessStarted"
+              ></p-calendar>
+              <cfo-validation-errors
+                [control]="form.get('businessStartDate')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+          <div class="row mt-4" *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus">
+            <div class="col">
+              <label id="isApplicantProfessionalProvidingServices">
+                {{ ('createFma.labels.isApplicantProfessionalProvidingServices' | translate) + ' *' }}</label
+              >
+              <div aria-labelledby="isApplicantProfessionalProvidingServices">
+                <p-radioButton
+                  formControlName="isApplicantProfessionalProvidingServices"
+                  [value]="true"
+                  [label]="'general.labels.yes' | translate"
+                  ngDefaultControl
+                ></p-radioButton>
+                <p-radioButton
+                  formControlName="isApplicantProfessionalProvidingServices"
+                  [value]="false"
+                  [label]="'general.labels.no' | translate"
+                  class="ms-3"
+                  ngDefaultControl
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+          <ng-container
+            *ngIf="
+              form.getRawValue().isApplicantProfessionalProvidingServices &&
+              form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus
+            "
+          >
+            <div class="row mt-4">
+              <div class="col">
+                <label id="contractingTotalInYear">{{ ('createFma.labels.contractingTotalInMonths' | translate) + ' *' }}</label>
+                <div aria-labelledby="contractingTotalInYear">
+                  <cfo-input-number
+                    [form]="form"
+                    controlName="contractingTotalInYear"
+                    className="journey-input--small"
+                    [config]="{ mode: MODE.DECIMAL, min: 0, max: 60 }"
+                  >
+                  </cfo-input-number>
+                  <strong> / </strong>
+                  <cfo-input-number
+                    [form]="form"
+                    controlName="contractingTotalInMonths"
+                    className="journey-input--small"
+                    [config]="{ mode: MODE.DECIMAL, min: this.form.get('contractingTotalInYear')?.value === 0 ? 1 : 0, max: 11 }"
+                  >
+                  </cfo-input-number>
+                </div>
+
+                <cfo-validation-errors
+                  [control]="form.get('contractingTotalInMonths')"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate),
+                    outOfRange: ('general.validations.outOfRange' | translate: { min: 1, max: 60 })
+                  }"
+                ></cfo-validation-errors>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label class="mt-4" id="cuIsContractLikelyToBeRenewed">
+                  {{ ('createFma.labels.isContractLikelyToBeRenewed' | translate) + '*' }}</label
+                >
+                <div aria-labelledby="cuIsContractLikelyToBeRenewed">
+                  <p-radioButton
+                    formControlName="isContractLikelyToBeRenewed"
+                    [value]="true"
+                    [label]="'general.labels.yes' | translate"
+                    ngDefaultControl
+                  ></p-radioButton>
+                  <p-radioButton
+                    formControlName="isContractLikelyToBeRenewed"
+                    [value]="false"
+                    [label]="'general.labels.no' | translate"
+                    class="ms-3"
+                    ngDefaultControl
+                  ></p-radioButton>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <div class="row mt-4" *ngIf="form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus">
+            <cfo-form-item
+              [label]="'createDip.labels.companyNumber' | translate"
+              class="col-md-4 col"
+              inputClass="journey-input--large"
+              formControlName="companyNumber"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            >
+            </cfo-form-item>
+          </div>
+          <ng-container
+            *ngIf="
+              form.getRawValue().currentEmploymentStatus === employmentStatus.Director25Plus ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployedPartnership ||
+              form.getRawValue().currentEmploymentStatus === employmentStatus.SelfEmployed
+            "
+          >
+            <div class="row mt-4">
+              <cfo-form-item
+                [label]="'createFma.labels.accountantCompanyName' | translate"
+                class="col-md-4 col"
+                inputClass="journey-input--large"
+                formControlName="accountantCompanyName"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              >
+              </cfo-form-item>
+
+              <div class="col-md-4 col">
+                <cfo-form-item
+                  [label]="'createFma.labels.accountantAddress' | translate"
+                  class="col-md-4 col"
+                  inputClass="journey-input--large"
+                  formControlName="accountantAddress"
+                  [errorMessages]="{
+                    required: ('general.validations.requiredMsg' | translate)
+                  }"
+                >
+                </cfo-form-item>
+              </div>
+              <div class="col-md-4 col">
+                <label class="text-contain" id="cuAccountantTelNo"> {{ 'createFma.labels.accountantTelNo' | translate }} * </label>
+                <cfo-phone-input id="accountantTelNo" controlName="accountantTelNo" aria-labelledby="cuAccountantTelNo"></cfo-phone-input>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <cfo-form-item
+                [label]="'createFma.labels.accountantLastName' | translate"
+                class="col-md-4 col"
+                inputClass="journey-input--large"
+                formControlName="accountantLastName"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-form-item>
+
+              <cfo-form-item
+                [label]="'createFma.labels.accountantEmail' | translate"
+                class="col-md-4 col"
+                inputClass="journey-input--large"
+                formControlName="accountantEmail"
+                [errorMessages]="{
+                  email: ('general.validations.email' | translate)
+                }"
+              ></cfo-form-item>
+              <cfo-form-item
+                [label]="'createFma.labels.accountantQualification' | translate"
+                class="col-md-4 col"
+                inputClass="journey-input--large"
+                formControlName="accountantQualification"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              >
+              </cfo-form-item>
+            </div>
+          </ng-container>
+        </ng-container>
+      </p-accordionTab>
+    </p-accordion>
+  </ng-container>
+</ng-container>

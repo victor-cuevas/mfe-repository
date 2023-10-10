@@ -1,0 +1,234 @@
+.timeline-container {
+  display: flex;
+  flex: 0;
+  background: $neutral-light-1;
+  padding: 10px 0px;
+  border-bottom: 1px solid $neutral-dark-1;
+  justify-content: center;
+
+  .p-menuitem-link {
+    background: transparent !important;
+
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+
+  .p-steps-number {
+    user-select: none;
+  }
+
+  .p-steps {
+    li.p-highlight,
+    li:focus-within,
+    li:hover {
+      a.p-menuitem-link {
+        .p-steps-number {
+          color: transparent;
+          border: 2px solid $primary;
+          min-width: 18px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+        }
+
+        .p-steps-title {
+          color: $primary;
+          font-weight: 500;
+          overflow-wrap: break-word;
+          text-align: center;
+          white-space: unset;
+        }
+      }
+    }
+
+    li.p-highlight {
+      a.p-menuitem-link::after {
+        content: '\e930';
+        font-family: 'primeicons';
+        font-style: normal;
+        font-weight: normal;
+        font-feature-settings: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        display: inline-block;
+        -webkit-font-smoothing: antialiased;
+        position: absolute;
+        color: $primary;
+        margin: auto;
+        font-size: 16px;
+        top: -20px;
+      }
+    }
+
+    .complete {
+      a.p-menuitem-link {
+        .p-steps-number {
+          background: $primary;
+          color: transparent;
+          border: 2px solid $primary;
+          min-width: 18px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+
+          &::before {
+            content: '\e909';
+            font-family: 'primeicons';
+            font-style: normal;
+            font-weight: normal;
+            font-feature-settings: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            position: absolute;
+            color: $white;
+            margin: auto;
+            font-size: 10px;
+          }
+        }
+
+        .p-steps-title {
+          color: $primary;
+          font-weight: 500;
+          color: #797a7c;
+          overflow-wrap: break-word;
+          text-align: center;
+          white-space: unset;
+          font-size: 14px;
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+      }
+
+      .p-menuitem-link-active {
+        .p-steps-number {
+          background: $primary !important;
+        }
+      }
+    }
+
+    .incomplete {
+      a {
+        .p-steps-number {
+          background: $neutral-light-1;
+          border: 2px solid $neutral-dark-4;
+          color: transparent;
+          min-width: 18px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+        }
+
+        .p-steps-title {
+          color: $neutral-dark-4;
+          font-weight: 500;
+          overflow-wrap: break-word;
+          text-align: center;
+          white-space: unset;
+          font-size: 14px;
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .p-disabled {
+      opacity: 1;
+
+      a {
+        .p-steps-number {
+          border-color: $neutral-dark-2;
+        }
+
+        .p-steps-title {
+          color: $neutral-dark-2;
+        }
+      }
+    }
+  }
+}
+
+.p-steps {
+  .p-steps-item {
+    &:hover {
+      .p-steps-number {
+        transform: scale(1.2);
+      }
+    }
+
+    .p-menuitem-link {
+      overflow: inherit;
+
+      .p-steps-number {
+        transition: transform 0.2s ease-in;
+      }
+
+      &:not(.p-disabled):focus {
+        box-shadow: none;
+        .p-steps-number {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}
+
+.p-steps-item.incomplete,
+.p-steps-item.complete {
+  display: none;
+}
+
+.p-steps-item.incomplete.p-highlight,
+.p-steps-item.complete.p-highlight {
+  display: flex;
+  margin: 0 auto;
+}
+
+// inputs max-width on bigger screens (md)
+@media screen and (min-width: 768px) {
+  .timeline-container {
+    .p-steps {
+      ul {
+        .p-steps-item {
+          flex: 1 1 0px;
+
+          &::before {
+            content: initial;
+          }
+
+          &::after {
+            content: ' ';
+            border-top: 2px solid $neutral-dark-4;
+            width: 100%;
+            top: 24px;
+            left: 50%;
+            display: block;
+            position: absolute;
+            margin-top: -1rem;
+          }
+
+          &.incomplete,
+          &.complete {
+            display: flex;
+          }
+
+          &.complete {
+            &::after {
+              border-top: 2px solid $primary;
+            }
+          }
+
+          &:last-child {
+            &::after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

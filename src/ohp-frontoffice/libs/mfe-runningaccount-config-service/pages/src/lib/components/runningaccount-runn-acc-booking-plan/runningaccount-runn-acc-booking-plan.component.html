@@ -1,0 +1,577 @@
+<div class="whitelabel-config-styles">
+  <div class="close-running-config container">
+    <form #bookingPlanform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':bookingPlanform.submitted}">
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'runningAccount.RunnAccBookingPlan.heading.RunnAccBookingPlan' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'runningAccount.button.save' | translate}}" (click)="onSave(bookingPlanList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'runningAccount.button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'runningAccount.RunnAccBookingPlan.tabel.Add' | translate}}" (click)="addBookingPlan()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="bookingPlanList" [gridData]="bookingPlanList"
+                          [gridDataHeader]="ownersHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onBookingPlanRowDelete($event,bookingPlanList)" (rowClickedEvent)=dataSelection($event)
+                          [selectedDetail]="bookingPlanDetail">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+      <ng-container *ngIf="showBookingPlanDetail">
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Name' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="NameTextBoxconfig"
+                                       [ngModel]="bookingPlanDetail?.name"
+                                       (change)="onChangeName($event)"
+                                       name="BookingName"
+                                       [maxlength]="200"
+                                       [isReadOnly]="bookingPlanDetail.isNameReadOnly"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:name.errors? NameTextBoxconfig.Errors :'', formSubmitted: (this.NameTextBoxconfig.externalError)}"
+                                       #name="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Owner' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.modifiedowner"
+                                        Type="single"
+                                        name="owner"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.creditProviderList"
+                                        [ControlConfig]="OwnerDropdownConfig"
+                                        optionLabel="name.caption"
+                                        dataKey="name.caption"
+                                        [showClearIcon]="bookingPlanDetail?.modifiedowner?.name? true:false"
+                                        (OnSelectionChanged)="onChangeOwner($event)"
+                                        [cfcFluidValidation]="{errors:owner.errors? OwnerDropdownConfig.Errors :'', formSubmitted: (this.OwnerDropdownConfig.externalError)}"
+                                        #owner="ngModel"
+                                        [title]="bookingPlanDetail?.modifiedowner?.name?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.StartDate' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker [ControlConfig]="StartDateConfig"
+                                          [ngModel]="bookingPlanDetail?.startDate"
+                                          name="startDate"
+                                          [maxDate]="bookingPlanDetail?.endDate"
+                                          [cfcFluidValidation]="{errors:startDate.errors? StartDateConfig.Errors :'', formSubmitted: (this.StartDateConfig.externalError)}"
+                                          (ngModelChange)="onChangeStartDate($event)"
+                                          #startDate="ngModel">
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.EndDate' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-datepicker #data="ngModel"
+                                          [ControlConfig]="RequiredDateConfig"
+                                          [ngModel]="bookingPlanDetail?.endDate"
+                                          name="endDate"
+                                          [form]="bookingPlanform"
+                                          [minDate]="bookingPlanDetail?.startDate"
+                                          (ngModelChange)="onChangeEndDate($event)">
+                    </cfc-fluid-datepicker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Seqnt' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="SeqNtTextBoxconfig"
+                                       [ngModel]="bookingPlanDetail?.seqNt"
+                                       (OnchangedNumber)="onChangeSeqNt($event)"
+                                       name="seqNt"
+                                       [maxlength]="11"
+                                       [maximumValue]="intMaxValue"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:seqNt.errors? (seqNt.errors?.maxValueError)? maxErrorDto : SeqNtTextBoxconfig.Errors :'', formSubmitted: (this.SeqNtTextBoxconfig.externalError)}"
+                                       #seqNt="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.RunningAccountStatus' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.runnAccAccountStatus"
+                                        [form]="bookingPlanform"
+                                        Type="single"
+                                        name="runnAccAccountStatus"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.runnAccAccountStatusList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        [showClearIcon]="bookingPlanDetail?.runnAccAccountStatus?.caption? true:false"
+                                        (OnSelectionChanged)="onChangeRunnAccStatus($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="bookingPlanDetail?.runnAccAccountStatus?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.RunningAccountAmortizationSchedule' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.runnAccAmortizationSchedule"
+                                        [form]="bookingPlanform"
+                                        Type="single"
+                                        name="runnAccAmortizationSchedule"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.runnAccAmortizationScheduleList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        [showClearIcon]="bookingPlanDetail?.runnAccAmortizationSchedule?.caption? true:false"
+                                        (OnSelectionChanged)="onChangeRunnAccAmortizationSchedule($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="bookingPlanDetail?.runnAccAmortizationSchedule?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.ConsumerProductType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.consumerProductType"
+                                        [form]="bookingPlanform"
+                                        Type="single"
+                                        name="consumerProductType"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.consumerProductTypeList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        [showClearIcon]="bookingPlanDetail?.consumerProductType?.caption? true:false"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeConsumerProductType($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="bookingPlanDetail?.consumerProductType?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.RunningAcountOwnerType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.ownerType"
+                                        Type="single"
+                                        name="ownerType"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.ownerTypeList"
+                                        [ControlConfig]="OwnerTypeDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeRunnAccOwnerType($event)"
+                                        #ownerType="ngModel"
+                                        [cfcFluidValidation]="{errors:ownerType.errors? OwnerTypeDropdownConfig.Errors :'', formSubmitted: (this.OwnerTypeDropdownConfig.externalError)}"
+                                        [title]="bookingPlanDetail?.ownerType?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.RunningAcountType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.runnAccAccountType"
+                                        [form]="bookingPlanform"
+                                        Type="single"
+                                        name="runnAccAccountType"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.runningAccountTypeList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChaneRunningAcountType($event)"
+                                        #languagedropdown="ngModel"
+                                        [showClearIcon]="bookingPlanDetail?.runnAccAccountType? true:false"
+                                        [title]="bookingPlanDetail?.runnAccAccountType?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.MinDuration' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="MinDurationTextBoxconfig"
+                                       [ngModel]="bookingPlanDetail?.minDuration"
+                                       (OnchangedNumber)="onChangeMinDuration($event)"
+                                       name="minDuration"
+                                       [maxlength]="11"
+                                       [isAllowSpace]="false"
+                                       [maximumValue]="intMaxValue"
+                                       [cfcFluidValidation]="{errors:(minDuration.errors?.maxValueError)? maxErrorDto :'', formSubmitted:(this.MinDurationTextBoxconfig.externalError)}"
+                                       #minDuration="ngModel"
+                                       [form]="bookingPlanform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.Country' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.country"
+                                        [form]="bookingPlanform"
+                                        Type="single"
+                                        name="country"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.countryList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        [showClearIcon]="bookingPlanDetail?.country?.caption? true:false"
+                                        (OnSelectionChanged)="onChangeCountry($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="bookingPlanDetail?.country?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Productnbr' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="bookingPlanDetail?.modifiedProductNbr"
+                                        Type="single"
+                                        name="productNbr"
+                                        [placeholder]="placeholder"
+                                        [options]="bookingPlanCodeTable?.productNameList"
+                                        [ControlConfig]="ProductNbrDropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeProductNBr($event)"
+                                        #productNbr="ngModel"
+                                        [cfcFluidValidation]="{errors:productNbr.errors? ProductNbrDropdownConfig.Errors :'', formSubmitted: (this.ProductNbrDropdownConfig.externalError)}"
+                                        [title]="bookingPlanDetail?.modifiedProductNbr?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 closefo-btn-wrapper text-right mb-2">
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'runningAccount.RunnAccBookingPlan.tabel.Add' | translate}}" (click)="addBooking()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+          <div class="col-md-12 close-header-block ">
+            <cfc-fluid-grid Type="bo-table" dataKey="bookingPlanDetail?.runnAccBookingList" [gridData]="bookingPlanDetail?.runnAccBookingList"
+                            [gridDataHeader]="balanceHeader" [paginationStatus]="false" paginationReportStatus="false"
+                            (deleteRowEvent)="onBookingRowDelete($event, bookingPlanDetail.runnAccBookingList)" (rowClickedEvent)=bookingDataSelection($event)
+                            [selectedDetail]="bookingDetail">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+
+        <ng-container *ngIf="showBookingDetail">
+          <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+            <div class="closefo-form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.BalanceMovementType' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-dropdown [ngModel]="bookingDetail?.balanceMovementType"
+                                          Type="single"
+                                          name="balanceMovementType"
+                                          [placeholder]="placeholder"
+                                          [options]="bookingDetail?.balanceMovementTypeList"
+                                          [ControlConfig]="BalanceMovementTypeDropdownConfig"
+                                          optionLabel="caption"
+                                          dataKey="codeId"
+                                          [isReadOnly]="balMovEditable"
+                                          (OnSelectionChanged)="onChangeBalanceMovementType($event)"
+                                          #balanceMovementType="ngModel"
+                                          [cfcFluidValidation]="{errors:balanceMovementType.errors? BalanceMovementTypeDropdownConfig.Errors :'', formSubmitted: (this.BalanceMovementTypeDropdownConfig.externalError)}"
+                                          [title]="bookingDetail?.balanceMovementType?.caption">
+                      </cfc-fluid-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.aggregate' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [form]="bookingPlanform"
+                                          [ngModel]="bookingDetail?.aggregate"
+                                          name="aggregate"
+                                          (ngModelChange)="onChangeAggregate($event)">
+                      </cfc-fluid-checkbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Journalnr' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="JournalNrTextBoxconfig"
+                                         [ngModel]="bookingDetail?.journalNr"
+                                         (OnchangedNumber)="onChangeJournalNr($event)"
+                                         name="journalNr"
+                                         [maxlength]="11"
+                                         [isAllowSpace]="false"
+                                         [maximumValue]="intMaxValue"
+                                         [cfcFluidValidation]="{errors:journalNr.errors? (journalNr.errors?.maxValueError)? maxErrorDto : JournalNrTextBoxconfig.Errors :'', formSubmitted: (this.JournalNrTextBoxconfig.externalError)}"
+                                         #journalNr="ngModel">
+                      </cfc-fluid-textbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row align-items-center">
+                    <div class="col-5">
+                      <label class="closefo-form-label">{{'runningAccount.RunnAccBookingPlan.card.isExcludedFromGL' | translate}}</label>
+                    </div>
+                    <div class="col-7">
+                      <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                          [form]="bookingPlanform"
+                                          [ngModel]="bookingDetail?.isExcludedFromGL"
+                                          name="isExcludedFromGL"
+                                          (ngModelChange)="onChangeIsExcludedFromGL($event)">
+                      </cfc-fluid-checkbox>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngIf="showGL">
+            <div class="row">
+              <div class="col-12 closefo-btn-wrapper text-right mb-2">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'runningAccount.RunnAccBookingPlan.tabel.Add' | translate}}" (click)="addGL()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+              <div class="col-md-12 close-header-block ">
+                <cfc-fluid-grid Type="bo-table" dataKey="bookingDetail?.runnAccGLList" [gridData]="bookingDetail?.runnAccGLList"
+                                [gridDataHeader]="accountHeader" [paginationStatus]="false" paginationReportStatus="false"
+                                (deleteRowEvent)="onGLRowDelete($event,bookingDetail.runnAccGLList)" (rowClickedEvent)=gLDataSelection($event)
+                                [selectedDetail]="gLDetail">
+                </cfc-fluid-grid>
+              </div>
+            </div>
+
+            <ng-container *ngIf="showGLDetail">
+              <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+                <div class="closefo-form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Accountnr' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-textbox Type="numbers"
+                                             [ControlConfig]="AccountNrTextBoxconfig"
+                                             [ngModel]="gLDetail?.accountNr"
+                                             (OnchangedNumber)="onChangeAccountNr($event)"
+                                             name="accountNr"
+                                             [maxlength]="11"
+                                             [maximumValue]="intMaxValue"
+                                             [isAllowSpace]="false"
+                                             [cfcFluidValidation]="{errors:accountNr.errors?(accountNr.errors?.maxValueError)? maxErrorDto: AccountNrTextBoxconfig.Errors :'', formSubmitted: (this.AccountNrTextBoxconfig.externalError)}"
+                                             #accountNr="ngModel">
+                          </cfc-fluid-textbox>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.PostingKey' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="gLDetail?.postingKey"
+                                              Type="single"
+                                              name="postingKey"
+                                              [placeholder]="placeholder"
+                                              [options]="bookingPlanCodeTable?.postingKeyList"
+                                              [ControlConfig]="PostingKeyDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangePostingKey($event)"
+                                              #postingKey="ngModel"
+                                              [cfcFluidValidation]="{errors:postingKey.errors? PostingKeyDropdownConfig.Errors :'', formSubmitted: (this.PostingKeyDropdownConfig.externalError)}"
+                                              [title]="gLDetail?.postingKey?.caption">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row align-items-center">
+                        <div class="col-5">
+                          <label class="closefo-form-label required">{{'runningAccount.RunnAccBookingPlan.card.Currency' | translate}}</label>
+                        </div>
+                        <div class="col-7">
+                          <cfc-fluid-dropdown [ngModel]="gLDetail?.currency"
+                                              Type="single"
+                                              name="currency"
+                                              [placeholder]="placeholder"
+                                              [options]="bookingPlanCodeTable?.currencyList"
+                                              [ControlConfig]="CurrencyDropdownConfig"
+                                              optionLabel="caption"
+                                              dataKey="codeId"
+                                              (OnSelectionChanged)="onChangeCurrency($event)"
+                                              #currency="ngModel"
+                                              [cfcFluidValidation]="{errors:currency.errors? CurrencyDropdownConfig.Errors :'', formSubmitted: (this.CurrencyDropdownConfig.externalError)}"
+                                              [title]="gLDetail?.currency?.caption">
+                          </cfc-fluid-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'runningAccount.close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'runningAccount.close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'runningAccount.close.yes' | translate}}" (OnClick)="onClickYes(bookingPlanList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'runningAccount.close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'runningAccount.close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

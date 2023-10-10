@@ -1,0 +1,29 @@
+# Global rules
+
+* @someuser
+/terraform/ @someuser
+
+# Apps and Libs rules
+**/app-shell/ @someuser
+**/mfe-broker-portal/ @someuser
+**/mfe-broker-panel/ @someuser
+
+**/mfe-auth-config/ @someuser
+**/mfe-agenda-config/ @someuser
+**/mfe-plan-config/ @someuser
+**/mfe-collection-measure-config/ @someuser
+**/mfe-process-config/ @someuser
+**/mfe-asset-config/ @someuser
+**/mfe-app-instance-config/ @someuser
+**/mfe-product-config/ @someuser
+**/mfe-accounting-config/ @someuser
+**/mfe-tax-statement-config/ @someuser
+**/mfe-runningaccount-config-service/ @someuser
+**/mfe-financial-config-service/ @someuser
+**/mfe-communication-config-service/ @someuser
+
+# Specific Libs rules
+**/libs/mfe-broker/ @someuser
+
+# Shared rules
+**/libs/shared/fluid-controls/ @someuser

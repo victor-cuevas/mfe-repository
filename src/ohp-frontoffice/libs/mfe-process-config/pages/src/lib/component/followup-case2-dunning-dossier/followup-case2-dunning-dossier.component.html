@@ -1,0 +1,196 @@
+<div class="whitelabel-config">
+  <div class="close-process-config container">
+    <form
+      class="closefo-form"
+      #followupDunningForm="ngForm"
+      class="closefo-form"
+      [ngClass]="{ 'closefo-form-submitted': followupDunningForm.submitted }"
+    >
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{ 'process.cm-dossier.heading.dossier' | translate }}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-primary close-save"
+            caption="{{ 'process.button.save' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onSave(followUpCaseDunningList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary close-times"
+            caption="{{ 'process.button.close' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onClose()"
+          ></cfc-fluid-button>
+        </div>
+        <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+      </div>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right mb-2">
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-add-btn-small"
+            caption="{{ 'process.cm-dossier.card.Add' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="addNewRow()"
+          ></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block">
+          <cfc-fluid-grid
+            Type="bo-table"
+            dataKey="Username"
+            [gridData]="followUpCaseDunningList"
+            [gridDataHeader]="dossierHeader"
+            [paginationStatus]="false"
+            paginationReportStatus="false"
+            (deleteRowEvent)="onRowDelete($event)"
+            (rowClickedEvent)="onRowselect($event)"
+            [selectedDetail]="highlightFollowupCase"
+          >
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-5 text-right">
+                <label class="closefo-form-label required">{{ 'process.cm-dossier.card.FollowupCaseStatus' | translate }}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown
+                  [ngModel]="followUpCaseDunningData.followUpCaseStatus"
+                  [form]="followupDunningForm"
+                  Type="single"
+                  name="followUpCaseStatus"
+                  [placeholder]="placeholder"
+                  [options]="followUpCaseStatusList"
+                  [ControlConfig]="RequiredFollowUpCaseConfig"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="onfollowUpCaseStatusChange($event)"
+                  #followUpCaseStatusdropdown="ngModel"
+                  [title]="
+                    followUpCaseDunningData?.followUpCaseStatus?.caption === null
+                      ? ''
+                      : followUpCaseDunningData?.followUpCaseStatus?.caption
+                  "
+                  [cfcFluidValidation]="{
+                    errors: followUpCaseStatusdropdown.errors ? RequiredFollowUpCaseConfig.Errors : '',
+                    formSubmitted: followupDunningForm.submitted || RequiredFollowUpCaseConfig.externalError
+                  }"
+                >
+                </cfc-fluid-dropdown>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-5 text-right">
+                <label class="closefo-form-label required">{{ 'process.cm-dossier.card.DossierStatus' | translate }}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown
+                  [ngModel]="followUpCaseDunningData.dossierStatus"
+                  [form]="followupDunningForm"
+                  Type="single"
+                  name="dossierStatus"
+                  [placeholder]="placeholder"
+                  [options]="dossierList"
+                  [ControlConfig]="RequiredDossierStatusConfig"
+                  optionLabel="caption"
+                  dataKey="caption"
+                  (OnSelectionChanged)="ondossierStatusChange($event)"
+                  #dossierStatusdropdown="ngModel"
+                  [title]="followUpCaseDunningData?.dossierStatus?.caption === null ? '' : followUpCaseDunningData?.dossierStatus?.caption"
+                  [cfcFluidValidation]="{
+                    errors: dossierStatusdropdown.errors ? RequiredDossierStatusConfig.Errors : '',
+                    formSubmitted: followupDunningForm.submitted || RequiredDossierStatusConfig.externalError
+                  }"
+                >
+                </cfc-fluid-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onCloseModel($event)">
+      <ng-template #headerTemplate> {{ 'process.dialog.Header' | translate }} </ng-template>
+      <ng-template #contentTemplate>
+        <div class="dialog-content-inner">{{ 'process.dialog.Content' | translate }}</div>          
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button
+            Type="submit"
+            class="ms-auto" 
+            ButtonStyle="closefo-btn-primary"
+            caption="{{ 'process.dialog.Yes' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogYes(followUpCaseDunningList)"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'process.dialog.No' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogNo()"
+          ></cfc-fluid-button>
+          <cfc-fluid-button
+            Type="button"
+            ButtonStyle="closefo-btn-secondary"
+            caption="{{ 'process.dialog.Cancel' | translate }}"
+            [ControlConfig]="ButtonConfig"
+            (click)="onDialogCancel()"
+          ></cfc-fluid-button>
+        </div>
+      </ng-template>
+    </cfc-fluid-dialog>
+
+    <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+      <ng-template #headerTemplate>
+        Technical Exception
+      </ng-template>
+      <ng-template #contentTemplate>
+        <div id="warning-dialog" class="dialog-inner-content">
+        <div class="warning-main">
+          <div class="war-left">
+            <i class="pi pi-exclamation-triangle"></i>
+          </div>
+        </div>
+        <div class="war-right">
+            Technical Exception has occured in a component in our application.<br />
+            If you click continue, the application will ignore this error
+            and attempt to continue
+            <br />
+            <br />
+            Fault Code: {{errorCode}}.
+          </div>
+        </div>
+
+
+      </ng-template>
+      <ng-template #footerTemplate>
+        <div class="d-flex closefo-btn-wrapper">
+          <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                            (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </ng-template>
+
+    </cfc-fluid-dialog>
+
+  </div>
+</div>

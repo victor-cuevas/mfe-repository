@@ -1,0 +1,74 @@
+[
+  {
+    "id": 0,
+    "name": "Invoice - Fees payment",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Completed",
+    "upload": "uploaded"
+  },
+  {
+    "id": 0,
+    "name": "Certificate",
+    "type": "DIP",
+    "date": "10/03/2021",
+    "status": "Completed",
+    "upload": "uploaded"
+  },
+  {
+    "id": 0,
+    "name": "ABCDE0000000000000",
+    "type": "DIP",
+    "date": "10/03/2021",
+    "status": "Completed",
+    "upload": "uploaded"
+  },
+  {
+    "id": 0,
+    "name": "UIBARC010310032022",
+    "type": "Illustration",
+    "date": "10/03/2021",
+    "status": "Completed",
+    "upload": "uploaded"
+  },
+  {
+    "id": 0,
+    "name": "Payslip for Betty Rubble",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Verified",
+    "upload": "required"
+  },
+  {
+    "id": 0,
+    "name": "Identity for Barney Rubble",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Verified",
+    "upload": "required"
+  },
+  {
+    "id": 0,
+    "name": "Accountants reference - Fred Flinstone",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Verified",
+    "upload": "required"
+  },
+  {
+    "id": 0,
+    "name": "Proof of Maintenance",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Pending",
+    "upload": "required"
+  },
+  {
+    "id": 0,
+    "name": "Gifted deposit letter",
+    "type": "FMA",
+    "date": "10/03/2021",
+    "status": "Upload",
+    "upload": "required"
+  }
+]

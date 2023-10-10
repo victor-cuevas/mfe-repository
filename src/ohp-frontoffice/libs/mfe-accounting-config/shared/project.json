@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-accounting-config/shared",
+  "sourceRoot": "libs/mfe-accounting-config/shared/src",
+  "prefix": "mactc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-accounting-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-accounting-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-accounting-config/shared/src/**/*.ts", "libs/mfe-accounting-config/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

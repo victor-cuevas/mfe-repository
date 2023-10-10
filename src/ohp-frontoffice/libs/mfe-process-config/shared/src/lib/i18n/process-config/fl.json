@@ -1,0 +1,378 @@
+{
+  "process": {
+    "managefllowup": {
+      "heading": {
+        "manageFollow": "Manage Followup Configuration"
+      },
+      "card": {
+        "Filter": "Filter",
+        "FlowDet": "Flow Details",
+        "Flowname": "Flow naam",
+        "Clear": "Clear",
+        "startevent": "NL - Start Event",
+        "Stopevent": "Stop Event",
+        "AddStopevent": "NL - Add Stop Event"
+      },
+      "table": {
+        "Flowname": "Flow naam",
+        "": "",
+        "Addevent": "Voeg Event Based Flow toe",
+        "stepSeq": "Stap volgnr.",
+        "stepName": "Stap",
+        "ElapsePeriod": "Verstreken Periode",
+        "IntervalType": "Interval Type",
+        "AddStep": "Voeg stap toe"
+      },
+      "tab": {
+        "name": "Naam",
+        "triggerevent": "Trigger Event",
+        "elapsedType": "NL - Elapsed Period Type",
+        "elapsedPeriod": "Verstreken Periode",
+        "statusChange": "Status wijziging",
+        "TargetStatus": "Doel status",
+        "HandlingDate": "Datum Afhandeling",
+        "IntervalType": "Interval Type",
+        "AddActions": "Voeg Actie Toe",
+        "actionName": "actie",
+        "actionType": "Actie type",
+        "actionReceiver": "Afdeling",
+        "TempName": "Voeg Sjabloon Toe",
+        "tempName": "TypeBrief",
+        "communicat": "Communicatie medium",
+        "roleType": "Roltype",
+        "adminRole": "NL - Admin Role Type",
+        "collectionRole": "NL - Collections Role Type",
+        "constructionType": "NL - Construction Depot Role Type",
+        "R": "Geregistreerd",
+        "servicesName": "Add Services",
+        "serActionName": "Actie",
+        "ServiceName": "Service naam",
+        "IsBlocking": "NL - Is Blocking",
+        "EventsAdd": "NL - Add Events",
+        "FollowUpEvent": "Opvolgingsgebeurtenis"
+      },
+      "tabHeading": {
+        "FlowStepGeneral": "Flow stap algemeen",
+        "Actions": "Acties",
+        "Communication": "Communicatie",
+        "Services": "Services",
+        "Events": "NL - Events"
+      },
+      "validationErrors": {
+        "followUpName": "'Flow naam' is verplicht.",
+        "startEvent": "'NL - Start Event' is verplicht.",
+        "name": "'Naam' is verplicht.",
+        "triggerEvent": "'Trigger Event' is verplicht.",
+        "elapsedPeriodType": "'NL - Elapsed Period Type' is verplicht.",
+        "handlingDate": "'Datum Afhandeling' is verplicht.",
+        "actionName": "'actie' is verplicht.",
+        "templateName": "'TypeBrief' is verplicht.",
+        "communicationMedium": "'Communicatie medium' is verplicht.",
+        "serviceActionName": "'actie' is verplicht.",
+        "event": "'Event' is verplicht.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "businessErrors": {
+        "actionNameUnique": "NL - An Action can only be added once for a follow up step.",
+        "oneRoleType": "NL - Please select atleast 1 Role type.",
+        "onlyOneRoleType": "Communicatie dient geconfigureerd te worden voor, rol type, admin rol type, achterstandsrol type, of bouwdepot rol type. Het is niet mogelijk om het te combineren voor meerdere types."
+      }
+    },
+    "manageNotify": {
+      "heading": {
+        "manageNotify": "Manage Notification Configuration",
+        "NotificationDef": "NL - Notification Definition",
+        "ProductLink": "Gekoppelde producten",
+        "servicingCustomer": "Gelinkte kredietverstrekkers"
+      },
+      "tabel": {
+        "mamageNot": "NL - Manage Notification Configuration",
+        "addNew": "Voeg Toe",
+        "nrofIntervals": "NL - Nr of Intervals",
+        "interval": "NL - Interval",
+        "timing": "NL - Timing",
+        "referenceDate": "NL - Reference Date",
+        "eventContext": "NL - Event Context",
+        "delete": "Verwijderen",
+        "addproduct": "Voeg product toe",
+        "addservicing": "Voeg kredietverstrekker toe"
+      },
+      "card": {
+        "intervalcard": "NL - Interval",
+        "dataype": "NL - Date Type",
+        "eventName": "NL - Event Name",
+        "eventContext": "NL - Event Context",
+        "product": "Product",
+        "sevicingCustomer": "Servicingklant"
+      },
+      "ValidationError": {
+        "required": " is Mandatory .",
+        "timing": "'NL - Timing'",
+        "dataype": "'NL - Date Type'",
+        "eventName": "'NL - Event Name'",
+        "eventContext": "'Event Context'",
+        "product": "'Product Naam'",
+        "servicingCustomer": "'Gemeente'"
+
+      }
+    },
+    "event-config": {
+      "heading": {
+        "Event-Configuration": "Manage BO event configuration"
+      },
+      "tabel": {
+        "followEvent": "NL - Followup Event",
+        "ServiceActionName": "NL - Service Action Name",
+        "IntergrationQueueConfigurationName": "NL - Intergration Queue Configuration Name",
+        "EventHandler": "NL - Event Handler",
+        "delete": "Verwijderen"
+      },
+      "card": {
+        "followEvent": "NL - Followup Event",
+        "ServiceActionName": "NL - Service Action Name",
+        "IntergrationQueueConfigurationName": "NL - Intergration Queue Configuration Name",
+        "EventHandler": "NL - Event Handler",
+        "Add":"Voeg Toe"
+      },
+      "mandatory": {
+        "ServiceAction": "'NL - Service Action Name'",
+        "EventName": "'NL - Followup Event'",
+        "EventHandler": "'NL - Event Handler'",
+        "Errormsg": "'NL - Service Action Name' for 'NL - Followup Event Name' must be Unique",
+        "uniqueRecord": "NL - The given record is already in the list. Please make sure that the record is unique",
+        "required": "is Verplicht ."
+      }
+    },
+    "followup-event": {
+      "heading": {
+        "followevent": "Manage BO process event configuration"
+      },
+      "card": {
+        "FollowupEventCon": "NL - Followup Event",
+        "EventCreation": "NL - Event Creation Date Type",
+        "EventHandling": "NL - Event Handling Date Type",
+        "CanbeTriggeredManually": "NL - Can be Triggered Manually",
+        "Add":"Voeg Toe"
+      },
+      "tabel": {
+        "FollowupEventCon": "NL - Followup Event Configuration",
+        "EventCreation": "NL - Event Creation Date Type",
+        "EventHandling": "NL - Event Handling Date Type",
+        "CanbeTriggeredManually": "NL - Can be Triggered Manually",
+        "delete": "Verwijderen"
+      },
+      "mandatory": {
+        "EventCreation": "'NL - Event Creation Date Type'",
+        "EventHandling": "'NL - Event Handling Date Type'",
+        "EventName": "'NL - Followup Event Configuration'",
+        "error": "NL - The given record is already in the list. Please make sure that the record is unique. ",
+        "required": "is Verplicht ."
+      }
+    },
+    "manage-remainder": {
+      "heading": {
+        "scenario-overview": "scenario overview",
+        "step-overview": "step overview",
+        "scenarios-overview": "Scenario-overzicht",
+        "scenarioDetails": "Scenario Details",
+        "productLinks": "Gekoppelde producten",
+        "ScenarioType": "Scenariotype",
+        "applicable": "Toepasbare Transacties",
+        "stepsOverview": "Overzichtsstappen",
+        "stepDetail": "Stapdetails",
+        "ActionOverview": "Actieoverzicht",
+        "TemplateOverview": "Overzichtssjabloon"
+      },
+      "tabel": {
+        "scenarioname": "Scenario",
+        "startdate": "Begindatum",
+        "enddate": "Laatste vervaldag",
+        "commercialName": "Commerciele naam product",
+        "": "",
+        "creditStatus": "Status",
+        "stepseq": "Seq Stap Nr",
+        "stepName": "Stap",
+        "OfDueDate": "Vervaldagen",
+        "ActionName": "Actienaam",
+        "ActionReceiver": "Actie-ontvanger",
+        "ActionType": "Actie type",
+        "TemplateName": "TypeBrief",
+        "ContactMedium": "Contactmiddel",
+        "FollowupEventName": "NL - Followup Event Name"
+      },
+      "card": {
+        "scenarioName": "Scenario Naam",
+        "startDate": "Begindatum",
+        "endDate": "Einddatum",
+        "numberOfDue": "Aantal Dagen schuld",
+        "elapseds": "Vervallen periode gebaseerd",
+        "setCredit": "Zet kredietstatus terug op normaal",
+        "unblock": "NL - Unblock Outgoing Payments",
+        "resume": "NL - Resume Commission Payments",
+        "minPeriod": "Min. Periode tussen stappen",
+        "txel": "Transactie elementen types",
+        "period": "Basisperiode",
+        "reminder": "Herinnering na vervaldag",
+        "action":"Actiedetail",
+        "template":"Sjabloondetail"
+      },
+      "tab": {
+        "Name": "Bedrijf/Naam",
+        "numberOf": "Aantal Dagen schuld",
+        "MunDue": "Minimum verschuldigd bedrag",
+        "credit": "Kredietbureau",
+        "creditAction": "Actie code kredietbureau",
+        "IsReminder": "Herinnering",
+        "ChangeIOA": "Reken nalatigheidsintresten Aan",
+        "IsFormal": "Aangetekende Schrijven",
+        "StopCommission": "Stop Commissie",
+        "CreditChange": "Wijziging toestand dossier",
+        "TargetStatus": "Bedoelde Kredietstatus",
+        "NotifyCredit": "Informeer kredietverzekeraar",
+        "suspend": "NL - Suspend Direct Debit Mandate",
+        "blockOutgoing": "Blokkeer uitgaande betalingen",
+        "SetSerice": "NL - Set Servicing Notice Upon Debtor Date",
+        "Actions": "Actie",
+        "Templates": "Sjabloon",
+        "ContactMedium": "Contact",
+        "RoleType": "Roltype",
+        "AdminRole": "NL - Admin Role Type",
+        "CollectionsRole": "NL - Collections Role Type",
+        "RegisteredSending": "Aangetekende Zending",
+        "BlockSending": "Blokkeer verzending wanneer hetzelfde template verstuurd is binnen",
+        "Days": "dagen",
+        "Notes": "Vrije Mededeling",
+        "ElapsedPeriod":"Elapsed Period"
+      },
+      "tabheader": {
+        "RenainderInfo": "Herinnering Stap Info",
+        "Actions": "Acties",
+        "Customer": "Klantencommunicatie",
+        "Events": "NL - Events",
+        "Notes": "Vrije mededeling"
+      },
+      "button": {
+        "back": "Terug",
+        "save": "Opslaan en Volgende",
+        "newScenario": "Nieuw Scenario",
+        "Saves": "Opslaan",
+        "Cancel": "Annuleren"
+      },
+      "Add":{
+        "Scenario":"Voeg Toe",
+        "Txel":"Voeg TxEl Type Toe",
+        "Step":"Voeg stap toe",
+        "Action":"Voeg Actie Toe",
+        "Template":"Voeg Sjabloon Toe",
+       "Event":"NL - Add Event"
+       },
+      "ValidationError":{
+        "required":" is verplichit ",
+        "startDate": "La date doit être supérieure à 1900",
+        "minPeriod": "'Min. periode tussen stappen'",
+        "scenarioName": "'Scenario'",
+        "txel": "'Type transactie element'",
+        "period": "'ReminderScenarioPeriodBase'",
+        "reminder": "'Rappel na vervaldag'",
+        "buisnessError":"The given record is already in the list. Please make sure that the record is unique",
+        "Name": "'Bedrijf/naam'",
+        "ElapsedPeriod":"'Elapsed Period'",
+        "numberOf": "'Aantal dagen schuld'",
+        "Actions": "'Actie'",
+        "actionBusinessError":"NL - Action already exists in the list",
+        "Templates": "'Template'",
+        "ContactMedium": "'Communicatie medium'",
+        "TargetStatus": "'Bedoelde kredietstatus'",
+        "TxelbusinessError":"NL - Due amount type already exists in the list",
+        "InputIncorrect": "NL - Input is not in correct format.",
+        "numberInt32Check": "NL - Value was either too large or too small for an Int32.",
+        "ElapsedMaxValdation":"'Elapsed Period' overschrijdt de max. waard ",
+        "DueAmountMaxValdation":"'NumberofDueDates' overschrijdt de max. waard "
+      }
+    },
+    "cm-followup-event": {
+      "heading": {
+        "followevent": "Manage cm process event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "NL - Followup Event",
+        "EventCreationDateType": "NL - Event Creation Date Type",
+        "EventHandlingDateType": "NL - Event Handling Date Type",
+        "Delete": ""
+      },
+      "card": {
+        "FollowupEvent": "NL - Followup Event",
+        "EventCreationDateType": "NL - Event Creation Date Type",
+        "EventHandlingDateType": "NL - Event Handling Date Type",
+        "Add": "Voeg Toe"
+      },
+      "ValidationError":{
+        "required":" is verplicht .",
+        "FollowupEvent": "'NL - Followup Event'",
+        "EventCreationDateType": "'NL - Event Creation Date Type'",
+        "EventHandlingDateType": "'NL - Event Handling Date Type'",
+        "businessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-event-config": {
+      "heading": {
+        "eventconfig": "Manage cm event configuration"
+      },
+      "tabel": {
+        "FollowupEvent": "NL - Followup Event",
+        "ServiceActionName": "NL - Service Action Name",
+        "EventHandler": "NL - Event Handler",
+        "delete": ""
+      },
+      "card": {
+        "FollowupEventName": "NL - Followup Event Name",
+        "ServiceActionName": "NL - Service Action Name",
+        "EventHandler": "NL - Event Handler"
+      },
+      "ValidationError": {
+        "required": " is verplicht .",
+        "FollowupEventName": "'NL - Followup Event Name'",
+        "ServiceActionName": "'NL - Service Action Name'",
+        "EventHandler": "'NL - Event Handler'",
+        "businessError": "'NL - Service Action Name' for 'NL - Followup Event Name' must be Unique",
+        "uniqueRecord": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "cm-dossier": {
+      "heading": {
+        "dossier": "Manage FUP casestatus vs dossierstatus"
+      },
+      "card": {
+        "Add": "Voeg Toe",
+        "FollowupCaseStatus": "NL - Followup Case Status",
+        "DossierStatus": "NL - Dossier Status"
+      },
+      "tabel": {
+        "FollowupCaseStatus": "NL - Followup Case Status",
+        "DossierStatus": "NL - Dossier Status",
+        "Delete": ""
+      },
+      "ValidationError":{
+        "FollowupCaseStatus": "'NL - Followup Case Status'",
+        "DossierStatus": "'NL - Dossier Status'",
+        "required":" is verplicht .",
+        "businessError": "NL - The given record is already in the list. Please make sure that the record is unique"
+      }
+    },
+    "Validation": {
+      "Header": "Er Zijn {0} foutboodschap(pen).Klick hier om de omschirijving te bekijken"
+    },
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten"
+    },
+    "dialog": {
+      "Yes": "Ja",
+      "No": "Nee",
+      "Cancel": "Annuleer",
+      "Header": "Onopgeslagen Wijzigingen",
+      "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?"
+    }
+  }
+  }

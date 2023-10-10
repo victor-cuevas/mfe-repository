@@ -1,0 +1,111 @@
+<form [formGroup]="$any(additionalBorrowingFormArray)">
+  <!-- Title -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-9 d-flex justify-content-between flex-column">
+        <div class="row pb-4">
+          <div>
+            <h2 class="mb-1">{{ 'createDip.titles.additionalBorrowing' | translate }}</h2>
+            <p>
+              {{
+              'createDip.subtitles.additionalBorrowingSubtitle'
+              | translate
+              : {
+              amountAdditionalBorrowing: currentData?.additionalBorrowingAmountRequired
+              ? currentData?.additionalBorrowingAmountRequired
+              : ' '
+              }
+              }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row py-4 d-block d-lg-none">
+          <div class="col">
+            <ng-container *ngTemplateOutlet="summary"></ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="dataService.activeJourney" class="row pt-4">
+          <div class="col-md-4">
+            <button pButton class="p-button-outlined--bold d-inline my-3" label="Add more" icon="pi pi-plus"
+              (click)="addAdditionalBorrowingForm()"></button>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="row pb-3">
+          <ng-container *ngFor="let additionalBorrowing of additionalBorrowingFormArray.controls; let i = index">
+            <ng-container [formGroup]="$any(additionalBorrowing)">
+              <div class="rounded shadow my-4 p-0">
+                <div class="step-header rounded-top py-2 bg-white">
+                  <div class="row px-3 py-2">
+                    <div class="col-md-9 col py-2">
+                      <label id="abReason">{{ 'createDip.labels.reason' | translate }} *</label>
+                      <p-dropdown [options]="reasonOptions" formControlName="reason" ngDefaultControl
+                        class="journey-dropdown journey-dropdown--full-width"
+                        [placeholder]="'createDip.placeholders.selectSourceOfAdditionalBorrowing' | translate"
+                        aria-labelledby="abReason">
+                        <ng-template let-option pTemplate="item">
+                          <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                        </ng-template>
+                      </p-dropdown>
+                      <cfo-validation-errors [control]="additionalBorrowing.get('reason')" [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"></cfo-validation-errors>
+                    </div>
+                    <div class="col-md-3 col py-2">
+                      <label id="adAmount">{{ 'createDip.labels.amount' | translate }} *</label>
+                      <cfo-input-number [form]="$any(additionalBorrowing)" class="journey-input--medium"
+                        [config]="{ mode: MODE.CURRENCY, currency: 'GBP', maxFractionDigits: 0, min: 0 }"
+                        controlName="amount" ARIA-LABELLEDBY="adAmount"></cfo-input-number>
+                      <cfo-validation-errors [control]="additionalBorrowing.get('amount')" [errorMessages]="{
+                          required: ('general.validations.requiredMsg' | translate)
+                        }"></cfo-validation-errors>
+                    </div>
+                  </div>
+                </div>
+                <div class="rounded-bottom step-body p-3 bg-light" *ngIf="dataService.activeJourney">
+                  <button class="hidden-btn d-flex align-items-center"
+                    *ngIf="additionalBorrowingFormArray.controls.length > 1" (click)="removeAdditionalBorrowingForm(i)">
+                    <i class="pi pi-minus-circle me-1 fs-6"></i>
+                    <h6>{{ 'createDip.button.removeAdditionalBorrowing' | translate }}</h6>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-12 pt-4 d-none d-lg-block">
+        <ng-container *ngTemplateOutlet="summary"></ng-container>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #summary>
+  <mbp-summary-card header="Summary">
+    <div>
+      <p>
+        <strong>{{ 'createDip.labels.additionalBorrowingSummary' | translate }}</strong>
+      </p>
+    </div>
+    <div class="mt-4">
+      <p>{{ 'createDip.labels.additionalBorrowingRequired' | translate }}</p>
+      <p>
+        <strong>{{
+          (currentData.additionalBorrowingAmountRequired ? currentData.additionalBorrowingAmountRequired : totalAmount)
+          | currency: 'GBP':'symbol':'1.0-0'
+          }}</strong>
+      </p>
+    </div>
+    <div class="my-4" [class.success-text]="toBeAllocated === 0"
+      [class.warning-text]="toBeAllocated && toBeAllocated > 0">
+      <p>{{ 'createDip.labels.toBeSatisfied' | translate }}</p>
+      <p>
+        <strong>{{ toBeAllocated | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+      </p>
+    </div>
+  </mbp-summary-card>
+</ng-template>

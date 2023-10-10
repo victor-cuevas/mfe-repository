@@ -1,0 +1,267 @@
+<form [formGroup]="productSelectionForm">
+  <!-- Title -->
+  <div class="container">
+    <div class="row pb-4">
+      <div>
+        <h2 class="mb-1">{{ 'createIllustration.titles.productSelection' | translate }}</h2>
+        <p>
+          {{ 'createIllustration.subTitles.productSelection' | translate }}
+          {{ initialData.productData.loanAmount | currency: 'GBP':'symbol':'1.0-0' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 col-lg-9 d-flex flex-column">
+        <div class="row py-4 d-block d-lg-none">
+          <div class="col">
+            <ng-container *ngTemplateOutlet="summary"></ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="ltv === null" class="row pt-1 pb-2">
+          <div class="col-12">
+            <div class="d-flex align-items-center rounded bg-rejected-light px-2 py-3 fw-medium">
+              <i class="color-rejected mx-2 fs-4 pi pi-exclamation-circle"></i>
+              <h6 style="font-size: 1rem">{{ 'createDip.labels.invalidLtv' | translate }}</h6>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="(invalidLoanPartsProduct$ | async)?.length" class="row pt-1 pb-2">
+          <div class="col-12 d-flex flex-column">
+            <div class="rounded d-flex mt-1 p-3 bg-error-light shadow">
+              <div class="row mb-2">
+                <div class="d-flex align-items-start">
+                  <div class="d-flex flex-row">
+                    <div class="me-3 status-container--circle d-flex align-items-center justify-content-center bg-error">
+                      <i class="color-white my-2 pi pi-times"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <h5 class="warning-text pb-3">
+                        {{
+                          (ltvError
+                            ? 'createDip.labels.productInvalidValuationAmountTitle'
+                            : 'createIllustration.labels.productInvalidTitle'
+                          ) | translate
+                        }}
+                      </h5>
+                      <p>
+                        {{
+                          (ltvError
+                            ? 'createDip.labels.productInvalidValuationAmountMessage'
+                            : 'createIllustration.labels.productInvalidMessage'
+                          ) | translate
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="submissionRouteError" class="row pt-1 pb-4">
+          <div class="col-12">
+            <div class="d-flex align-items-center rounded bg-rejected-light px-2 py-3 fw-medium">
+              <i class="color-rejected mx-2 fs-4 pi pi-exclamation-circle"></i>
+              <h6 style="font-size: 1rem">{{ submissionRouteError | translate }}</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div *ngIf="submissionRoutes.length && !this.submissionRoutes[0]?.disabled" class="col-12 col-md-6">
+            <h6 class="mb-1">
+              {{ 'createIllustration.labels.defaultNetwork' | translate }}
+              <span *ngIf="!productSelectionForm.controls.useMortgageClub.value">*</span>
+            </h6>
+            <p-dropdown
+              [options]="submissionRoutes"
+              class="journey-dropdown-small"
+              formControlName="network"
+              ngDefaultControl
+              placeholder="{{ 'createIllustration.placeholders.selectNetwork' | translate }}"
+            >
+              <ng-template let-option pTemplate="item">
+                <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="productSelectionForm.get('network')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                selectedIsDisabled: ('general.validations.inactiveSelection' | translate)
+              }"
+            ></cfo-validation-errors>
+            <div *ngIf="mortgageClubs.length" class="h-100 pt-2">
+              <span>
+                <p-checkbox [binary]="true" formControlName="useMortgageClub" ngDefaultControl></p-checkbox>
+                {{ 'createIllustration.labels.useMortgageClub' | translate }}
+              </span>
+            </div>
+          </div>
+
+          <div *ngIf="productSelectionForm.controls.useMortgageClub.value && mortgageClubs.length" class="col-12 col-md-6">
+            <h6 class="mb-1">{{ 'createIllustration.labels.mortgageClub' | translate }} *</h6>
+            <p-dropdown
+              [options]="mortgageClubs"
+              class="journey-dropdown-small"
+              formControlName="mortgageClub"
+              ngDefaultControl
+              placeholder="{{ 'createIllustration.placeholders.selectMortgageClub' | translate }}"
+            >
+              <ng-template let-option pTemplate="item">
+                <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+              </ng-template>
+            </p-dropdown>
+            <cfo-validation-errors
+              [control]="productSelectionForm.get('mortgageClub')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                selectedIsDisabled: ('general.validations.inactiveSelection' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+        </div>
+
+        <div class="pt-lg-5 mt-lg-4" style="transform: translateY(9px)">
+          <div *ngIf="dataService.activeJourney" class="row pt-4">
+            <div class="col-md-4">
+              <button
+                (click)="addLoanPart({ loanPartAmount: remainingAmount.value })"
+                class="p-button-outlined--bold d-inline"
+                icon="pi pi-plus"
+                [label]="'createDip.button.addMore' | translate"
+                pButton
+              ></button>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="row">
+            <ng-container formArrayName="loanParts">
+              <ng-container *ngFor="let loanPart of loanParts.controls; let i = index">
+                <mbp-loan-part
+                  (removeLoanPart)="removeLoanPart($event)"
+                  (splitLoanPart)="splitLoanPart($event)"
+                  [isMandatory]="i === 0 && loanParts.length === 1"
+                  [loanPartForm]="$any(loanPart)"
+                  [loanPartIndex]="i"
+                  [ltv]="ltv"
+                  [totalLoanAmount]="totalLoanAmount"
+                  [purchasePrice]="initialData.productData.purchaseAmount"
+                ></mbp-loan-part>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-12 pt-4 d-none d-lg-block">
+        <ng-container *ngTemplateOutlet="summary"></ng-container>
+      </div>
+    </div>
+  </div>
+</form>
+
+<cfo-dialog [showDialog]="showRemoveWarning" [data]="removeWarningData">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold btn-min-width mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="onCancel()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'general.buttons.confirm' | translate }}"
+        (click)="onConfirm()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>
+<ng-template #summary>
+  <div class="mb-5">
+    <mbp-summary-card header="Summary">
+      <div>
+        <p>{{ 'createIllustration.labels.totalLoanRequired' | translate }}</p>
+        <p>
+          <strong>{{ initialData.productData.loanAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </p>
+      </div>
+      <div class="mt-4">
+        <p>{{ 'createIllustration.labels.repayment' | translate }}</p>
+        <p>
+          <strong>{{ initialData.productData.loanAmount | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </p>
+      </div>
+      <div
+        *ngIf="remainingAmountValue !== null"
+        [class.success-text]="remainingAmountValue === 0"
+        [class.warning-text]="remainingAmountValue && remainingAmountValue !== 0"
+        class="my-4"
+      >
+        <p>{{ 'createIllustration.labels.toBeAllocated' | translate }}</p>
+        <p>
+          <strong>{{ remainingAmountValue | currency: 'GBP':'symbol':'1.0-0' }}</strong>
+        </p>
+      </div>
+      <div *ngIf="showLtv$ | async" [class.warning-text]="ltvError" class="my-4">
+        <p>{{ 'createDip.labels.LTVAfterValuation' | translate }}</p>
+        <p *ngIf="ltv; else loadingPaymentTerm">
+          <strong>{{ ltv | percent: '1.0-1' }}</strong>
+        </p>
+      </div>
+      <div class="light-underline"></div>
+      <div class="my-4">
+        <p>{{ 'createIllustration.labels.termOfMortgage' | translate }}</p>
+        <p>
+          <strong>{{ (highestMortgageTerm$ | async) ? (highestMortgageTerm$ | async | mortgageTermPipe) : '-' }}</strong>
+        </p>
+      </div>
+    </mbp-summary-card>
+  </div>
+  <div class="mb-5">
+    <mbp-summary-card header="Cost">
+      <div>
+        <p>{{ 'createIllustration.labels.initialMonthlyPayment' | translate }}</p>
+        <p *ngIf="!loadingPaymentTerms; else loadingPaymentTerm">
+          <strong>{{ paymentTerms?.monthlyPayment ? (paymentTerms?.monthlyPayment | currency: 'GBP':'symbol':'1.0-0') : '-' }}</strong>
+        </p>
+      </div>
+      <div class="mt-4">
+        <p>{{ 'createIllustration.labels.initialMonthlyPaymentIncFees' | translate }}</p>
+        <p *ngIf="!loadingPaymentTerms; else loadingPaymentTerm">
+          <strong>{{
+            paymentTerms?.monthlyPaymentFeesIncluded ? (paymentTerms?.monthlyPaymentFeesIncluded | currency: 'GBP':'symbol':'1.0-0') : '-'
+          }}</strong>
+        </p>
+      </div>
+
+      <div class="my-4">
+        <p>{{ 'createIllustration.labels.totalAmountPayable' | translate }}</p>
+        <p *ngIf="!loadingPaymentTerms; else loadingPaymentTerm">
+          <strong>{{
+            paymentTerms?.totalAmountPayable ? (paymentTerms?.totalAmountPayable | currency: 'GBP':'symbol':'1.0-0') : '-'
+          }}</strong>
+        </p>
+      </div>
+      <div class="my-4">
+        <p>{{ 'createIllustration.labels.totalAmountPayableIncFees' | translate }}</p>
+        <p *ngIf="!loadingPaymentTerms; else loadingPaymentTerm">
+          <strong>{{
+            paymentTerms?.totalAmountPayableFeesIncluded
+              ? (paymentTerms?.totalAmountPayableFeesIncluded | currency: 'GBP':'symbol':'1.0-0')
+              : '-'
+          }}</strong>
+        </p>
+      </div>
+      <ng-template #loadingPaymentTerm>
+        <p>
+          <strong><i class="pi pi-spin pi-spinner"></i> Calculating...</strong>
+        </p>
+      </ng-template>
+    </mbp-summary-card>
+  </div>
+</ng-template>

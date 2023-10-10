@@ -1,0 +1,363 @@
+{
+  "plan": {
+    "treatment": {
+      "heading": {
+        "treatment": "Manage treatmentplan configuration",
+        "General": "General Data",
+        "reminders": "Reminders",
+        "notify": "Notifications",
+        "plan": "Payment plan events"
+      },
+      "tab": {
+        "Generalsetting": "General Settings",
+        "payPlan": "Pay. Plan Settings",
+        "PaymentPlan": "Betalingsplan events",
+        "Derivation": "Derivation Criteria"
+      },
+      "card": {
+        "name": "Naam",
+        "manual": "Manual Follow up",
+        "manualPayment": "Manual payment allocation",
+        "manualoutgoing": "Manual outgoing payments",
+        "caption": "NL - Payment Plan Terminate Days After Last Reminder",
+        "MaxWarning": "Max Warnings",
+        "Grace": "Grace Amount",
+        "MinInatall": "Min. termijnbedrag",
+        "DaysFrom": "Days From Import",
+        "enforce": "Controleer min. schuld bedrag",
+        "enforcePro": "Controleer min. belofte bedrag",
+        "automatic": "NL - Automatic Dossier Closure At Payment Plan Finalization",
+        "dossier": "NL - Dossier Closure Allowed With Preventive Payment Plan",
+        "nomatch": "Geen overeenstemmend betalingsbedrag",
+        "excessive": "Overtollig resterende beloftebedrag",
+        "terminate": "Betalingsplan beëindigen",
+        "finalize": "Betalingsplan finalizeren",
+        "activate": "Betalingsplan activeren",
+        "deactivate": "Betalingsplan deactiveren",
+        "ValidFor": "Inschr. Vanaf",
+        "ValidTo": "Valid To",
+        "Customer": "Klant",
+        "Initiator": "Initiateur",
+        "Legal": "Rechtspersoon",
+        "CustomerIn": "Customer independent",
+        "InitiatorIn": "Aanlegger onafhankelijk",
+        "LegalIn": "Rechtspersoon onafhankelijk",
+        "priority": "Prioriteit",
+        "dossiertype": "Dossiertype",
+        "debtor": "Debtor type",
+        "minamount": "Min Amount",
+        "maxamount": "Max Amount",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minavg": "Min av. Age",
+        "maxavg": "Max av. Age",
+        "promiseMetEvent": "NL - Promise Is Met Event",
+        "promiseMetAfter": "NL - Promise Is Met After Reset Event",
+        "promiseReset": "NL - Promise Is Reset Event"
+      },
+      "tabel": {
+        "TreatmentPlan": "Treatment plan",
+        "ValidFor": "Inschr. Vanaf",
+        "ValidTo": "Valid To",
+        "Customer": "Klant",
+        "Initiator": "Initiateur",
+        "HostedOrg": "Hosted Org",
+        "NoOfDays": "NL - Number of days after promise",
+        "before": "Aantal dagen voor belofte",
+        "FollowUp": "Opvolgingsgebeurtenis",
+        "LastPromise": "Laatste belofte event",
+        "Payment": "Betaalwijze",
+        "": ""
+      },
+      "mandatory": {
+        "name": "'Name'",
+        "terminate": "'Betalingsplan beëindigen'",
+        "caption": "'NL - Payment Plan Terminate Days After Last Reminder'",
+        "finalize": "'Betalingsplan finalizeren'",
+        "activate": "'Betalingsplan activeren'",
+        "deactivate": "'Betalingsplan deactiveren'",
+        "ValidFor": "'Inschr. Vanaf'",
+        "Legal": "'Rechtspersoon'",
+        "priority": "'Prioriteit'",
+        "maxamt": "NL - InvoiceMaxAmount cannot be lesser than InvoiceMinAmount",
+        "minamt": "NL - InvoiceMinAmount cannot be greater than InvoiceMaxAmount",
+        "maxavg": "NL - InvoiceMaxAvAge cannot be lesser than InvoiceMinAvAge",
+        "minavg": "NL - InvoiceMinAvAge cannot be greater than InvoiceMaxAvAge",
+        "NoOfDays": "'NL - Number of days after promise'",
+        "before": "'Aantal dagen voor belofte'",
+        "required": "  is verplicht."
+      }
+    },
+    "flow": {
+      "heading": {
+        "manageFlow": "Manage reminder flow configuration",
+        "filter": "Filter",
+        "sampel": "Sample"
+      },
+      "card": {
+        "flowname": "Flow Name",
+        "flowtype": "Flow Type",
+        "flowname1": "Naam",
+        "flowtype1": "Type",
+        "startevent": "Start Event",
+        "stopevent": "Stop Event",
+        "name": "Naam",
+        "triggerevent": "Trigger Event",
+        "elapsedperiod": "Verstreken Periode",
+        "elapsedperiod1": "Verstreken Periode",
+        "statuschange": "Status Change",
+        "targetChange": "Target Status",
+        "handling": "Type Afhandelingsdatum",
+        "intervalmeasure": "Type interval",
+        "actionname": "Actie",
+        "actiontype": "Type taak",
+        "default": "Vooropgestelde behandelingstijd",
+        "defaultmargin": "Vooropgestelde behandelingsmarge",
+        "actionreceiver": "Ontvanger",
+        "actinPriority": "Action Priority",
+        "minDueAmount": "Min Due Amount",
+        "d": "D",
+        "h": "H",
+        "m": "M",
+        "role": "Rol"
+      },
+      "tabel": {
+        "flowname": "Flow Name",
+        "flowtype": "Flow Type",
+        "": "",
+        "stepseq": "Step Seq Nr.",
+        "stepname": "Stap",
+        "elapserperiod": "Verstreken Periode",
+        "actionname": "Actie",
+        "actiontype": "Type taak",
+        "actionreceive": "Ontvanger",
+        "referencetype": "Referentietype",
+        "communicationmedium": "Communication Medium",
+        "templatename": "TypeBrief",
+        "fallBackMech": "NL - Fallback Mechnism",
+        "communicationreceiver": "Communication Receiver",
+        "receivertype": "Receiver Type",
+        "registered": "Registered",
+        "addresstype": "Adres type",
+        "name": "Naam",
+        "servicename": "Service Name",
+        "isblocking": "Is blokkerend",
+        "eventname": "Event Name",
+        "ruleName": "NL - Rule Model Name",
+        "role": "Role",
+        "ruleOutput": "NL - Rule Engine Output",
+        "goToStep": "NL - Go to Step",
+        "stopProcess": "NL - Stop Process",
+        "docTemplate": "Document Template Type",
+        "docGen": "DocGen Type",
+        "attachmentType": "Attachment Type",
+        "add": "Voeg Toe"
+      },
+      "button": {
+        "clear": "Clear",
+        "filter": "Filter"
+      },
+      "tab": {
+        "flowstep": "Flow Step General",
+        "actions": "Acties",
+        "communication": "Communication",
+        "services": "Services",
+        "events": "Events",
+        "ruleengine": "NL - Rule Engine",
+        "role": "Roles",
+        "document": "Document"
+      },
+      "validation": {
+        "name": "'Naam' is verplicht.",
+        "scenarioName": "'Scenario' is verplicht.",
+        "triggerEvent": "'Trigger Event' is verplicht.",
+        "elapsedPeriod": "'Verstreken Periode' is verplicht.",
+        "elapsedPeriodType": "'Elapsed Period Type' is verplicht.",
+        "actionName": "'Actie' is verplicht.",
+        "actionReceiverType": "'ActionReceiverTypeName' is verplicht.",
+        "actionType": "'NL - Action Type' is verplicht.",
+        "priority": "'Action Priority' is verplicht.",
+        "docTemplate": "'DocumentTemplate' is verplicht.",
+        "communicationMedium": "'Communication medium' is verplicht.",
+        "communicationReceiver": "'Communication Receiver' is verplicht.",
+        "serviceAction": "'ServiceAction' is verplicht.",
+        "event": "'Event' is verplicht.",
+        "eventName": "'Event naam' is verplicht.",
+        "ruleName": "'NL - Rule Model Name' is verplicht.",
+        "ruleOutput": "'Output' is verplicht.",
+        "roleType": "'Role type' is verplicht.",
+        "docTemplateType": "'Document Template Type' is verplicht.",
+        "docGen": "'DocGen Type' is verplicht.",
+        "attachmentType": "'Bijlage type' is verplicht.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32."
+      },
+      "businessError": {
+        "oneRuleAction": "It's not allowed to configure more than 1 Rule engine action to a step",
+        "oneRuleOutput": "At least one output has to be configured for a Rule engine action",
+        "fillStepNr": "For a Rule engine output it's mandatory to fill in the step nr, if the process isn't to be stopped",
+        "noFillStepNr": "For a Rule engine output it's not allowed to fill in the step nr, if the process is to be stopped",
+        "StepBeforeNotAllowed": "For a Rule engine output it's not allowed to go to a step before the one the Rule engine action is created for",
+        "matchingFollowUpStep": "For each configured Rule engine output there should be a matching follow up step with elapsed period type 'Elapsed period from rule engine'"
+      }
+    },
+    "reminder": {
+      "heading": {
+        "reminderplan": "manage reminder plan configuration",
+        "generaldata": "General Data"
+      },
+      "tabel": {
+        "reminderplan": "Reminder Plan",
+        "validfrom": "Inschr. Vanaf",
+        "validto": "Valid To",
+        "customer": "Rechtspersoon",
+        "Initiator": "Initiateur",
+        "hostedorg": "Hosted org",
+        "dossierstatus": "Dossier Status",
+        "Remindersenario": "Reminder Scenario",
+        "": ""
+      },
+      "card": {
+        "legelentity": "Rechtspersoon",
+        "Legelindi": "Rechtspersoon onafhankelijk",
+        "customer": "Klant",
+        "customerindi": "Customer independent",
+        "intrrior": "Initiateur",
+        "initiator": "Aanlegger onafhankelijk",
+        "validfrom": "Inschr. Vanaf",
+        "validto": "Valid To",
+        "priority": "Prioriteit",
+        "debtortype": "Debtor type",
+        "dossiertype": "Dossiertype",
+        "minamount": "Min Amount",
+        "maxamount": "Max Amount",
+        "minold": "Min oldest date",
+        "maxold": "Max oldest date",
+        "minnew": "Min newest date",
+        "maxnew": "Max newest date",
+        "minav": "Min av. Age",
+        "maxav": "Max av. Age",
+        "name1": "Naam"
+      },
+      "tab": {
+        "Generalsetting": "General Settings",
+        "derivation": "Derivation Criteria"
+      },
+      "mandatory": {
+        "name": "'Name'",
+        "Legal": "'Rechtspersoon'",
+        "priority": "'Prioriteit'",
+        "required": "  is verplicht.",
+        "ValidFor": "'Inschr. Vanaf'",
+        "dossierstatus": "'Dossier Status'",
+        "businessErr": "NL - Multiple flows cannot belong to the same status",
+        "Remindersenario": "'ReminderScenarioRef'"
+      }
+    },
+    "ruleEngine": {
+      "heading": {
+        "ruleEngine": "Manage Rule Engine Plan Derivation"
+      },
+      "tabel": {
+        "RuleModelName": "NL - Rule Model Name",
+        "Delete": "Verwijderen",
+        "Output": "NL - Output",
+        "TreatmentPlan": "NL - Treatment Plan",
+        "ReminderPlan": "NL - Reminder Plan",
+        "CostPlan": "NL - Cost Plan",
+        "PaymentAllocationPlan": "NL - Payment Allocation Plan",
+        "Delete1": "Verwijderen"
+      },
+      "card": {
+        "RuleModelName": "NL - Rule Model Name",
+        "Output": "NL - Output",
+        "TreatmentPlan": "NL - Treatment Plan",
+        "ReminderPlan": "NL - Reminder Plan",
+        "CostPlan": "NL - Cost Plan",
+        "PaymentAllocationPlan": "NL - Payment Allocation Plan"
+      },
+
+      "button": {
+        "addRuleName": "NL - Add Rule Model Name",
+        "addRule": "NL - Add Rule"
+      },
+
+      "mandatory": {
+        "RuleModelName": "'NL - Rule Model Name'",
+        "Output": "'NL - Output'",
+        "TreatmentPlan": "'NL - Treatment Plan'",
+        "ReminderPlan": "'NL - Reminder Plan'",
+        "CostPlan": "'NL - Cost Plan'",
+        "PaymentAllocationPlan": "'NL - Payment Allocation Plan'",
+        "required": " is verplicht.",
+
+        "REError": "NL - The given record is already in the list. Please make sure that the record is unique",
+        "RECError": "NL - The given record is already in the list. Please make sure that the record is unique"
+
+      }
+    },
+    "arrearsTrigger": {
+      "heading": {
+        "ArrearsTrigge": "Manage Arrearstrigger Plan"
+      },
+      "tabel": {
+        "CalculationType": "NL - Calculation Type",
+        "Context": "NL - Context",
+        "Delete": "",
+        "ExternalProductReference": "NL - External Product Reference",
+        "Delete1": "",
+        "Number": "NL - Number Of Days Due",
+        "duedates": "NL - Number Of Due Dates",
+        "StartEvent": "NL - Start Event",
+        "Delete2": ""
+      },
+      "card": {
+        "CalculationType": "NL - Calculation Type",
+        "Context": "NL - Context",
+        "ExternalProductReference": "NL - External Product Reference",
+        "Number": "NL - Number Of Days Due",
+        "duedates": "NL - Number Of Due Dates",
+        "StartEvent": "NL - Start Event"
+      },
+      "picker": {
+        "DebtSourceStatus": "NL - Debt Source Status",
+        "SelectedDebtSourceStatus": "NL - Selected Debt Source Status"
+
+      },
+      "ValidationError": {
+        "required": "  is verplicht.",
+        "CalculationType": "'NL - Calculation Type'",
+        "Context": "'NL - Context'",
+        "ExternalProduct": "'NL - External Product Reference'",
+        "DaysDue": "'NL - Number Of Days Due'",
+        "DueDates": "'NL - Number Of Due Dates'",
+        "StartEvent": "'NL - Start Event'",
+        "InputIncorrect": "Input is not in correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "DuplicateError": "NL - The given record is already in the list. Please make sure that the record is unique.",
+        "EmptyStepConfigError": "NL - At least 1 ArrearsTriggerStepConfig record should be there for each ArrearsTriggerPlan.",
+        "EmptyDebtSourceError": "NL - At least 1 debt source status should be added to an ArrearsTriggerPlan.",
+        "EmptyProductError": "NL - At least 1 linked product reference should be added to an ArrearsTriggerPlan."
+      }
+    },  
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten",
+      "add": "Voeg Toe",
+      "copy": "Kopij",
+      "create": "Aanmaken"
+    },
+    "dialog": {
+      "Yes": "Ja",
+      "No": "Nee",
+      "Cancel": "Annuleer",
+      "Header": "Onopgeslagen Wijzigingen",
+      "Content": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?"
+    },
+    "Validation": {
+      "Header": "Er Zijn {0} foutboodschap(pen).Klick hier om de omschirijving te bekijken"
+    }
+  }
+}

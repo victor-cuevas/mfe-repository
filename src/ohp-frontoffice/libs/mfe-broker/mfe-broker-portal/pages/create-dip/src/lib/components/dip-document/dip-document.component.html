@@ -1,0 +1,10 @@
+<div class="container pb-4">
+  <h2 class="mb-0">{{ 'createDip.titles.dipDocument' | translate }}</h2>
+</div>
+<div class="container my-2">
+  <form [formGroup]="dipDocumentForm"></form>
+</div>
+<div class="container my-4">
+  <a [routerLink]="routePaths.CASE + this.caseId + routePaths.CREATE_DIP" class="link-outlined">Previous</a>
+  <a class="link-button-primary mx-4" [routerLink]="routePaths.CASE + this.caseId">LAST STEP?</a>
+</div>

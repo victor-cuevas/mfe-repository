@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Manchester Independent Mortgages",
+    "fcaNumber": "123456",
+    "reference": "MIM",
+    "status": "Active",
+    "type": "Network"
+  },
+  {
+    "name": "UK Mortgages Kirby",
+    "fcaNumber": "76543213",
+    "reference": "IMP",
+    "status": "Under Review",
+    "type": "Mortgage club"
+  },
+  {
+    "name": "Manchester Independent Mortgages",
+    "fcaNumber": "123456",
+    "reference": "MIM",
+    "status": "Active",
+    "type": "Network"
+  }
+]

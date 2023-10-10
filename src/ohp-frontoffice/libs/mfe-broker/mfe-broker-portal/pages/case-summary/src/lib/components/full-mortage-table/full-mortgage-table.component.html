@@ -1,0 +1,118 @@
+<!-- TODO waiting for the API -->
+<div class="card mb-4" *ngIf="(draftStage$ | async) === draftStageEnum.Fma">
+  <p-accordion styleClass="summary-accordion">
+    <p-accordionTab [selected]="(draftStage$ | async) === draftStageEnum.Fma">
+      <ng-template pTemplate="header">
+        <div class="d-flex justify-content-between align-items-center p-1 w-100">
+          <h5 class="card-header-title">{{ 'caseSummary.titles.fullMortgageApp' | translate }}</h5>
+          <!-- Resume -->
+          <ng-template
+            [cfoPermissions]="'fma'"
+            [cfoPermissionsFeatures]="['assignee']"
+            [cfoPermissionsNeededPermission]="portalPermissionType.FullMortgageApplication"
+            [cfoPermissionsElse]="viewFmaTemplate"
+          >
+            <p-button
+              [label]="
+                (caseStatus$ | async) === caseStatus.Cancelled
+                  ? ('general.buttons.viewFma' | translate)
+                  : ('general.buttons.resumeFma' | translate)
+              "
+              styleClass="p-button-sm p-button-primary shadow"
+              (click)="enterFma($event)"
+              (keyup)="enterFmaKeyboard($event)"
+            ></p-button>
+          </ng-template>
+          <!-- View -->
+          <ng-template #viewFmaTemplate>
+            <ng-template
+              [cfoPermissions]="'fma'"
+              [cfoPermissionsFeatures]="['viewer']"
+              [cfoPermissionsNeededPermission]="portalPermissionType.View"
+            >
+              <p-button
+                label="{{ 'general.buttons.viewFma' | translate }}"
+                styleClass="p-button-sm p-button-primary shadow"
+                (click)="enterFma($event)"
+              ></p-button>
+            </ng-template>
+          </ng-template>
+        </div>
+      </ng-template>
+
+      <ng-container *ngIf="fma$ | async as fma">
+        <ng-template pTemplate="body">
+          <div class="p-1">
+            <div class="card-info-block">
+              <div class="card-text-highlight">{{ 'caseSummary.labels.securityAddress' | translate }} {{ fma?.securityProperty }}</div>
+            </div>
+            <p-table #fullMortgageTable [value]="[fma]" [responsive]="true" dataKey="id">
+              <ng-template pTemplate="header">
+                <tr class="px-3">
+                  <th>
+                    {{ ('caseSummary.labels.applicant' | translate) + (fma && fma.applicants && fma.applicants.length > 1 ? 's' : '') }}
+                  </th>
+
+                  <th>
+                    {{ 'caseSummary.labels.contactMethod' | translate }}
+                  </th>
+                  <th>
+                    {{ 'caseSummary.labels.phone' | translate }}
+                  </th>
+                  <th>
+                    {{ 'caseSummary.labels.email' | translate }}
+                  </th>
+                  <th>
+                    {{ 'caseSummary.labels.fees' | translate }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template *ngIf="fma?.applicants" pTemplate="body" let-fma>
+                <tr class="px-3" *ngFor="let applicant of fma.applicants; let i = index">
+                  <td>
+                    <ng-container>
+                      <ng-container>
+                        {{ applicant.fullName | titlecase }}
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container>
+                      <p>{{ applicant.contactMethod | label: 'cdtb-broker-contactmethods' }}</p>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container>
+                      <p>{{ applicant.phone }}</p>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container>
+                      <p class="text-truncate">{{ applicant.email }}</p>
+                    </ng-container>
+                  </td>
+                  <td *ngIf="i === 0">
+                    <ng-container>
+                      <p>{{ fma?.feesToBePaid?.areFeesPaid ? 'Paid' : 'Pending' }}</p>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </ng-template>
+      </ng-container>
+    </p-accordionTab>
+  </p-accordion>
+</div>
+<p-dialog
+  header="Title"
+  [(visible)]="displayEditDialog"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  Edit Fma
+</p-dialog>

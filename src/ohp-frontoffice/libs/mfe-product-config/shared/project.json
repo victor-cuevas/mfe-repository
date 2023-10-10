@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-product-config/shared",
+  "sourceRoot": "libs/mfe-product-config/shared/src",
+  "prefix": "mprdc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-product-config/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-product-config/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-product-config/shared/src/**/*.ts", "libs/mfe-product-config/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,37 @@
+<mbp-layout [breadcrumbItems]="breadcrumb">
+  <!-- Title -->
+  <div class="container d-flex justify-content-between align-items-center pb-4">
+    <h2 class="mb-0">{{ 'cases.title' | translate }}</h2>
+    <ng-template
+      [cfoPermissions]="'case'"
+      [cfoPermissionsFeatures]="['assignee']"
+      [cfoPermissionsNeededPermission]="portalPermissionType.Illustration"
+    >
+      <a [routerLink]="['./' + this.routePaths.CREATE_CASE]" class="link-button-primary fw-bold">{{
+        'createCase.buttons.createCase' | translate
+      }}</a>
+    </ng-template>
+  </div>
+
+  <div class="container pb-4" *ngIf="isDev">
+    <div class="row">
+      <div class="col-md-3 col-xs-12 mt-4">
+        <input class="journey-input" [formControl]="error" name="error" pInputText type="text" placeholder="Insert the error code" />
+      </div>
+      <div class="col-md-9 col-xs-12 mt-4">
+        <button
+          pButton
+          label="Throw error"
+          class="link-button-primary fw-bold"
+          style="height: 43px"
+          (click)="throwError(error?.value)"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="container p2">
+    <mbp-case-table></mbp-case-table>
+  </div>
+</mbp-layout>

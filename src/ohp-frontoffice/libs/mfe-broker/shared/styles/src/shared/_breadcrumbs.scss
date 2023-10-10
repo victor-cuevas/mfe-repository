@@ -1,0 +1,66 @@
+.p-breadcrumb {
+  border: none;
+  background: transparent;
+  padding: 15px 0px;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: normal;
+  color: $primary;
+  overflow-x: inherit !important;
+
+  .pi-chevron-right:before {
+    font-size: 12px;
+  }
+
+  ul li {
+    .p-menuitem-link {
+      &:hover,
+      &:focus {
+        box-shadow: none;
+
+        .p-menuitem-text {
+          color: $primary;
+          text-decoration: underline;
+        }
+      }
+
+      .p-menuitem-text {
+        color: $neutral-dark;
+      }
+    }
+
+    &:last-of-type {
+      .p-menuitem-text {
+        color: $primary;
+        font-weight: 500;
+      }
+    }
+
+    &:last-of-type:not(:first-of-type) {
+      .p-menuitem-link {
+        &:hover,
+        &:focus {
+          .p-menuitem-text {
+            color: $primary;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bpanel-breadcrumb {
+  a span.pi {
+    font-size: 14px;
+    margin-top: 2px;
+    color: $primary !important;
+  }
+}
+
+// inputs max-width on bigger screens (md)
+@media screen and (min-width: 768px) {
+  .p-breadcrumb {
+    display: block;
+  }
+}

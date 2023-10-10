@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/mfe-broker/mfe-broker-panel/shared",
+  "sourceRoot": "libs/mfe-broker/mfe-broker-panel/shared/src",
+  "prefix": "mbp",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mfe-broker/mfe-broker-panel/shared"],
+      "options": {
+        "jestConfig": "libs/mfe-broker/mfe-broker-panel/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/mfe-broker/mfe-broker-panel/shared/src/**/*.ts", "libs/mfe-broker/mfe-broker-panel/shared/src/**/*.html"]
+      }
+    }
+  },
+  "tags": ["scope:broker-panel-shared", "type:module dependencies"]
+}

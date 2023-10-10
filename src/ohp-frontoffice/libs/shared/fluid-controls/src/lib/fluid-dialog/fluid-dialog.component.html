@@ -1,0 +1,60 @@
+<ng-container [ngSwitch]="Type">
+  <ng-container
+    *ngSwitchCase="'custom-template'"
+    [ngTemplateOutlet]="customTemplate"
+  ></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
+</ng-container>
+
+<ng-template #default>
+  <p-dialog
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="onHideModel()"
+  >
+    <p-header>
+      {{ headerContent }}
+    </p-header>
+    <span>
+      <ng-template [ngTemplateOutlet]="contentTemplate"> </ng-template>
+    </span>
+    <p-footer>
+      <div class="closefo-btn-wrapper">
+        <close-fluid-button
+          [disabled]="footerButtonVisiblity"
+          Type="submit"
+          ButtonStyle="closefo-btn-primary"
+          [caption]="footerContent"
+          (OnClick)="OnClick()"
+        ></close-fluid-button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</ng-template>
+
+<ng-template #customTemplate>
+  <p-dialog
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="onHideModel()"
+    [contentStyle]="{ overflow: 'visible' }"
+  >
+    <p-header>
+      <ng-template [ngTemplateOutlet]="headerTemplate"> </ng-template>
+    </p-header>
+    <span>
+      <ng-template [ngTemplateOutlet]="contentTemplate"> </ng-template>
+    </span>
+    <p-footer>
+      <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
+    </p-footer>
+  </p-dialog>
+</ng-template>

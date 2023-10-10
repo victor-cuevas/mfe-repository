@@ -1,0 +1,60 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ 'lender.labels.profile' | translate }}</h2>
+</div>
+<div class="pb-2">
+  <h3 class="">{{ currentData?.person?.firstName | titlecase }} {{ currentData?.person?.lastName | titlecase }}</h3>
+</div>
+<div class="py-2">
+  <form [formGroup]="editProfileForm">
+    <ng-container *ngIf="currentData?.status !== userStatus.Pending">
+      <div class="row mt-4">
+        <h5 class="primary-color">{{ 'profile.labels.status' | translate }}</h5>
+      </div>
+      <div class="d-flex align-items-center mt-3">
+        <p-inputSwitch
+          formControlName="status"
+          ngDefaultControl
+          styleClass="switch-success"
+          (onChange)="onSwitchStatus($event)"
+        ></p-inputSwitch>
+        <label for="status">{{
+          (editProfileForm.controls.status.value ? 'profile.labels.active' : 'profile.labels.inactive') | translate
+        }}</label>
+      </div>
+      <div class="row my-2">
+        <p class="info-paragraph">{{ 'profile.labels.statusMsg' | translate }}</p>
+      </div>
+    </ng-container>
+    <ng-container>
+      <cfo-user-role [isNewLender]="true"></cfo-user-role>
+    </ng-container>
+    <ng-container>
+      <cfo-personal-details [open]="true"></cfo-personal-details>
+    </ng-container>
+  </form>
+</div>
+<div class="row mt-4">
+  <div class="my-4 btn-section">
+    <p-button
+      styleClass=" p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+      label="{{ 'general.buttons.save' | translate }}"
+      (click)="updateProfile()"
+    ></p-button>
+  </div>
+</div>
+<cfo-dialog [showDialog]="showChangeStatusPopup" [data]="changeStatusDataPopup" width="md">
+  <ng-template #footerTemplate>
+    <div class="text-center">
+      <p-button
+        styleClass="p-button-outlined--bold p-button-outlined--neutral mb-2 my-lg-0 me-lg-2"
+        label="{{ 'general.buttons.cancel' | translate }}"
+        (click)="cancelChangeStatus()"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary mb-2 my-lg-0 me-lg-2 mx-2"
+        label="{{ 'dialog.yes' | translate }}"
+        (click)="confirmChangeStatus()"
+      ></p-button>
+    </div>
+  </ng-template>
+</cfo-dialog>

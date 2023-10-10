@@ -1,0 +1,46 @@
+<div class="pb-2">
+  <h2 class="mb-0">{{ title }}</h2>
+</div>
+<div class="pb-2">
+  <h3>{{ intermediaryData.personalDetails?.firstName | titlecase }} {{ intermediaryData.personalDetails?.lastName | titlecase }}</h3>
+</div>
+<div class="py-2">
+  <form [formGroup]="editProfileForm">
+    <div class="row mt-4">
+      <label for="userRole">{{ ('intermediary.labels.userRole' | translate) + ' *' }}</label>
+      <div class="d-flex mbpanel-type-container flex-wrap">
+        <div class="mbpanel-type-label mt-3 shadow">
+          <label>
+            <div class="type-hover-card color-primary d-flex flex-column justify-content-evenly align-items-center">
+              <i class="pi pi-user"></i>
+              <p>{{ editProfileForm.controls.userRole.value | userRole }}</p>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 py-3" *ngIf="!isLender">
+      <div class="col-12 col-md-5">
+        <label for="firmName">{{ ('intermediary.labels.firmName' | translate) + ' *' }} </label>
+        <input type="text" pInputText class="journey-input--large" formControlName="firmName" ngDefaultControl />
+      </div>
+      <div
+        class="col-12 col-md-3"
+        *ngIf="
+          editProfileForm.controls.userRole.value === intermediaryRole.Advisor ||
+          editProfileForm.controls.userRole.value === intermediaryRole.SupervisorAndAdvisor
+        "
+      >
+        <label for="advisorUniqueId">{{ ('intermediary.labels.advisorUniqueId' | translate) + ' *' }}</label>
+        <input type="text" pInputText ngDefaultControl formControlName="advisorUniqueId" />
+        <cfo-validation-errors
+          [control]="editProfileForm.get('advisorUniqueId')"
+          [errorMessages]="{
+            required: ('general.validations.requiredMsg' | translate)
+          }"
+        ></cfo-validation-errors>
+      </div>
+    </div>
+    <cfo-personal-details [open]="true"></cfo-personal-details>
+  </form>
+</div>

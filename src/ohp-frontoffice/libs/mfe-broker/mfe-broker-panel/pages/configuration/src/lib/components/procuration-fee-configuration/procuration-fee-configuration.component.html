@@ -1,0 +1,133 @@
+<ng-container>
+  <div class="pb-4">
+    <h2 class="my-3 mb-lg-0">
+      {{ 'configuration.labels.procurationFeeConfiguration' | translate }} -
+      {{ applicationType === 'newlending' ? ('submissionRoute.labels.purchase' | translate) : (applicationType | titlecase) }}
+    </h2>
+  </div>
+  <form [formGroup]="$any(procurationFeeConfigurationForm)">
+    <ng-container [formGroupName]="i" *ngFor="let configControl of procurationFeeConfigurationForm.controls; let i = index">
+      <p-accordion styleClass="form-accordion">
+        <p-accordionTab header="{{ submissionRoute[i] | submissionRoute }}" [selected]="true">
+          <input type="hidden" formControlName="applicationTypeHidden" />
+          <input type="hidden" formControlName="submissionRouteHidden" />
+          <div class="row mt-4">
+            <div class="col-md-4 col-xs-12">
+              <label for="completion">{{ 'configuration.labels.completion' | translate }}</label>
+            </div>
+            <div class="col-md-2 col-xs-12">
+              <label for="basedOnCompletion">{{ 'configuration.labels.basedOn' | translate }}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-xs-12">
+              <p-inputNumber formControlName="completionInput" ngDefaultControl styleClass="journey-input--medium"></p-inputNumber>
+              <cfo-validation-errors
+                [control]="configControl.get('completionInput')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  max: ('general.validations.maxValueMsg' | translate),
+                  min: ('general.validations.minValueMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-2 col-xs-12">
+              <p-dropdown [options]="completionOptions" ngDefaultControl formControlName="completionOptions" class="journey-dropdown">
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <p-dropdown [options]="basedOnOptions" ngDefaultControl formControlName="basedOnCompletion" class="journey-dropdown">
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-4 col-xs-12">
+              <label for="trail">{{ 'configuration.labels.trail' | translate }}</label>
+            </div>
+            <div class="col-md-2 col-xs-12">
+              <label for="basedOnTrail">{{ 'configuration.labels.basedOn' | translate }}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-xs-12">
+              <p-inputNumber formControlName="trailInput" ngDefaultControl styleClass="journey-input--medium"></p-inputNumber>
+              <cfo-validation-errors
+                [control]="configControl.get('trailInput')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  max: ('general.validations.maxValueMsg' | translate),
+                  min: ('general.validations.minValueMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-2 col-xs-12">
+              <p-dropdown [options]="completionOptions" ngDefaultControl formControlName="trailOptions" class="journey-dropdown">
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <p-dropdown [options]="basedOnOptions" ngDefaultControl formControlName="basedOnTrail" class="journey-dropdown">
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <label for="city">{{ 'configuration.labels.startingMonth' | translate }}</label>
+            <p-inputNumber formControlName="startingMonth" ngDefaultControl styleClass="journey-input--medium"></p-inputNumber>
+            <cfo-validation-errors
+              [control]="configControl.get('startingMonth')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                max: ('general.validations.maxValueMsg' | translate),
+                min: ('general.validations.minValueMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-4 col-xs-12">
+              <label for="ending">{{ 'configuration.labels.ending' | translate }}</label>
+              <p-dropdown [options]="endingOptions" ngDefaultControl formControlName="ending" class="journey-dropdown">
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <label for="city">{{ 'configuration.labels.period' | translate }} </label>
+              <p-inputNumber formControlName="period" ngDefaultControl styleClass="journey-input--small"></p-inputNumber>
+              <cfo-validation-errors
+                [control]="configControl.get('period')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  max: ('general.validations.maxValueMsg' | translate),
+                  min: ('general.validations.minValueMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button
+                pButton
+                type="button"
+                class="p-button-primary float-right"
+                icon="none"
+                (click)="updateConfiguration(i)"
+                [disabled]="!configControl.valid || isReadOnlyMode"
+                [label]="'general.buttons.save' | translate"
+              ></button>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </ng-container>
+  </form>
+</ng-container>

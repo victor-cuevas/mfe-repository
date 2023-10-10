@@ -1,0 +1,201 @@
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/assets/fonts/Gilroy-ExtraBold.woff2') format('woff2'), url('/assets/fonts/Gilroy-ExtraBold.woff') format('woff'),
+    url('/assets/fonts/Gilroy-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/assets/fonts/Gilroy-SemiBold.woff2') format('woff2'), url('/assets/fonts/Gilroy-SemiBold.woff') format('woff'),
+    url('/assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/assets/fonts/Gilroy-Bold.woff2') format('woff2'), url('/assets/fonts/Gilroy-Bold.woff') format('woff'),
+    url('/assets/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.text-small {
+  font-size: 80%;
+}
+
+h2 {
+  color: $primary;
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+label {
+  font-size: 14px;
+}
+
+.pretty-text {
+  font-family: $primary-font;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pretty-text-wrap {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 600;
+  white-space: normal;
+}
+
+.text-contain {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-disabled {
+  color: $neutral-dark-2;
+}
+
+.fw-medium {
+  font-weight: 500 !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+.nounderline {
+  text-decoration: none !important;
+}
+
+.warning-text {
+  color: $secondary;
+}
+
+.success-text {
+  color: $success;
+}
+
+.danger-text {
+  color: $alert;
+}
+
+.file-text {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+// labels
+.largelabel {
+  font-size: 18px;
+  color: $primary;
+}
+
+.p-radiobutton-label {
+  font-weight: 400;
+  margin-top: 9px;
+}
+
+.step-summary-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  color: $primary;
+}
+
+.step-title {
+  font-size: 16px;
+  line-height: 16px;
+  color: $neutral-dark;
+  margin-bottom: 4px;
+  margin-right: 4px;
+}
+
+.step-sub-title {
+  font-size: 14px;
+  line-height: 14px;
+  color: $neutral-dark;
+  margin-bottom: 4px;
+}
+
+.info-text {
+  line-height: 30px;
+  color: $primary;
+  font-size: 12px;
+
+  .pi {
+    font-size: 18px;
+  }
+}
+
+.primary-color {
+  color: $primary;
+
+  &-1 {
+    color: $primary-1;
+  }
+
+  &-2 {
+    color: $primary-2;
+  }
+
+  &-3 {
+    color: $primary-3;
+  }
+
+  &-4 {
+    color: $primary-4;
+  }
+}
+
+.info-paragraph {
+  color: $neutral-dark;
+  line-height: 20px;
+  size: 18px;
+}
+
+.address-text {
+  font-weight: 700;
+  color: $neutral-dark;
+}
+
+.primary-font {
+  font-family: $primary-font;
+}
+
+.color-assessment {
+  color: $primary;
+}
+
+.color-referred,
+.color-warning {
+  color: $pendingColor;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.color-declined,
+.color-rejected,
+.color-error {
+  color: $declinedColor;
+}
+
+.color-accepted,
+.color-completed,
+.color-success {
+  color: $activeColor;
+}
+
+.fs-small {
+  font-size: 12px;
+}

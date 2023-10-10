@@ -1,0 +1,94 @@
+.backgroundwhite {
+  background: #fff;
+}
+
+.bg-gray {
+  background: $neutral-dark-1;
+}
+
+.bg-light {
+  background: $neutral-light-1;
+}
+
+.assistant {
+  background: $primary-1;
+  color: $primary;
+}
+
+.bg-primary-color {
+  background: $primary;
+}
+
+.advisor,
+.bg-lenderadvisorsupport {
+  background: $primary-2;
+  color: $primary;
+}
+
+.supervisor,
+.advisorAndSupervisor,
+.assistantAndSupervisor,
+.bg-lenderadvisoradmin {
+  background: $primary;
+  color: $white;
+}
+
+.viewer {
+  background: $neutral-dark-1;
+  color: $neutral-dark;
+}
+
+.bg-accepted,
+.bg-completed {
+  background: $activeColor;
+}
+
+.bg-rejected {
+  background: $declinedColor;
+}
+
+.bg-referred {
+  background: $pendingColor;
+}
+
+.bg-assessment,
+.bg-waiting,
+.bg-in-progress {
+  background: $primary;
+}
+
+.bg-accepted-light,
+.bg-completed-light {
+  background: $activeBackground;
+}
+
+.bg-error-light,
+.bg-rejected-light {
+  background: $declinedBackground;
+}
+
+.bg-referred-light {
+  background: $pendingBackground;
+}
+
+.bg-assessment-light,
+.bg-waiting-light,
+.bg-in-progress-light {
+  background: $auxiliary-a-1;
+}
+
+.bg-error {
+  background: $declinedColor;
+}
+
+.bg-advisor,
+.bg-assistant,
+.bg-assistantandsupervisor,
+.bg-lenderadvisoradmin,
+.bg-lenderadvisorsupport,
+.bg-lenderadvisorviewer,
+.bg-supervisor,
+.bg-supervisorandadvisor,
+.bg-viewer,
+.bg-lenderadvisorviewer {
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "illustrationIdentifier": "UIBARC010310032022",
+    "stage": "promote",
+    "illustrations": [
+      {
+        "id": 0,
+        "loanAmount": 200000,
+        "interesOnly": 50000,
+        "purPrice": 250000,
+        "lvt": 80,
+        "date": "21/07/2020",
+        "product": "AB123 BC321",
+        "term": "20 years, 8 months",
+        "type": "Repayment interest only"
+      }
+    ]
+  }
+]

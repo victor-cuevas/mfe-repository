@@ -1,0 +1,25 @@
+name: "Compose variables for deployment"
+description: "Creates a demo environment for the user"
+
+inputs:
+  aws_account_id:
+    description: "AWS account ID where the infrastructure will be located"
+    required: true
+  infrastructure_id:
+    description: "Unique identifier in the infrastructure. Will be used for subdomains"
+    required: true
+  mfe_name:
+    description: "Micro-frontend that will be deployed"
+    required: true
+  api_url:
+    description: "API URL for the microfrontend"
+    required: true
+  config_template:
+    description: "Path to the default config template"
+    required: true
+outputs:
+  mfesConfig:
+    description: "stringified configuration of the mfes"
+runs:
+  using: "node16"
+  main: "index.js"

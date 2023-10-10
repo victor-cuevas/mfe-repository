@@ -1,0 +1,20 @@
+<ng-container>
+  <label [class]="['forminput__label']">
+    <span [class]="styles.label.text">
+      {{ parsedLabel }}
+      <span *ngIf="isRequired" [class]="styles.label.required">&nbsp;*</span>
+      <span
+        *ngIf="useTooltip(tooltip)"
+        [class]="styles.hint.wrapper"
+        role="tooltip"
+        [pTooltip]="tooltip.text"
+        [hideDelay]="300"
+        [tooltipPosition]="tooltip.position"
+        [tooltipStyleClass]="styles.hint.tooltip.join(' ')"
+        ><i [class]="['pi', tooltip.icon]"></i>
+      </span>
+    </span>
+    <input [class]="styles.field.text" pInputText [formControl]="formControl" [placeholder]="parsedPlaceholder" />
+  </label>
+  <cfo-validation-errors [class]="styles.error" [control]="formControl" [errorMessages]="errorMessages"></cfo-validation-errors>
+</ng-container>

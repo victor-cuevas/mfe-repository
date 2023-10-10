@@ -1,0 +1,69 @@
+@import '~primeicons/primeicons.css';
+/* Responsive Breakpoints */
+/*RWD*/
+$breakpoints: ("xs": (min-width: 0px), "sm": (min-width: 576px), "md": (min-width: 768px), "lg": (min-width: 992px), "xl": (min-width: 1200px), "xxl": (min-width: 1440px), "xxxl": (min-width: 1920px),"smh":(max-height:650px));
+
+@mixin respond-to($breakpoint) {
+  $raw-query: map-get($breakpoints, $breakpoint);
+
+  @if $raw-query {
+    $query: if(type-of($raw-query)=="string", unquote($raw-query), inspect($raw-query));
+
+    @media #{$query} {
+      @content;
+    }
+  }
+
+  @else {
+    @error 'No value found for `#{$breakpoint}`. '+'Please make sure it is defined in `$breakpoints` map.';
+  }
+}
+
+/* spacing */
+
+/*margin*/
+
+@mixin margin($mt,$mr,$mb,$ml) {  
+    @if $ml == $mr and $mt == $mb {
+      @if $mt == $ml {
+        margin: $ml;
+      }
+      @else {
+        margin: $mt $mr;
+      }
+    }
+    @else {
+      margin-left: $ml;
+      margin-right: $mr;
+      margin-top: $mt;
+      margin-bottom: $mb;
+    }
+  }
+
+/*padding*/
+
+@mixin padding($pt,$pr,$pb,$pl) {
+  @if $pl == $pr and $pt == $pb {
+    @if $pt == $pl {
+      padding: $pl;
+    }
+    @else  {
+      padding: $pt $pr;
+    }
+    }
+    @else {
+      padding-left: $pl;
+      padding-right: $pr;
+      padding-top: $pt;
+      padding-bottom: $pb;
+    }
+  }
+
+/*Icons*/
+
+@mixin pi($icon, $size,$color) {
+  font-family: "primeicons";
+  content: $icon;
+  color: $color;
+  font-size: $size;
+}

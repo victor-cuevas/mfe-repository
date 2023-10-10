@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/assets",
+  "sourceRoot": "libs/shared/assets/src",
+  "prefix": "close-front-office",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/assets"],
+      "options": {
+        "jestConfig": "libs/shared/assets/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/assets/src/**/*.ts", "libs/shared/assets/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

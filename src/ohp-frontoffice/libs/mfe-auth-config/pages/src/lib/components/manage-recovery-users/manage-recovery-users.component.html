@@ -1,0 +1,454 @@
+<div class="whitelabel-config">
+  <div class="close-auth-config container">
+    <form #userDetailsform="ngForm" class="closefo-form"
+          [ngClass]="{'closefo-form-submitted':userDetailsform.submitted}">
+
+      <div class="row closefo-btn-wrapper close-header-block">
+        <div class="col-8">
+          <h2 class="closefo-heading-2">
+            {{'manage-recovery-user.title.manage-recovery' | translate}}
+          </h2>
+        </div>
+        <div class="col-4 d-flex align-items-center justify-content-end">
+          <cfc-fluid-button Type="submit" ButtonStyle="closefo-btn-primary close-save" caption="{{'button.save' | translate}}" (click)="onSave(userList)"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary close-times" caption="{{'button.close' | translate}}" (click)="onClose()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+
+        </div>
+      </div>
+      <cfc-fluid-validation-error [Header]="validationHeader"></cfc-fluid-validation-error>
+
+      <div class="row">
+        <div class="col-12 closefo-btn-wrapper text-right">
+          <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small" caption="{{'manage-recovery-user.tabel.addUser' | translate}}" (click)="addUser()"
+                            [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 close-header-block ">
+          <cfc-fluid-grid Type="bo-table" dataKey="userList" [gridData]="userList" (rowClickedEvent)=dataSelection($event)
+                          [gridDataHeader]="UserHeader" [paginationStatus]="false" paginationReportStatus="false"
+                          (deleteRowEvent)="onUserDelete($event, userList)" [selectedDetail]="userDetail">
+          </cfc-fluid-grid>
+        </div>
+      </div>
+
+      <ng-container *ngIf="showUserDetails">
+        <div class="row">
+          <div class="col">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'manage-recovery-user.card.userDetails' | translate}}</div>
+          </div>
+        </div>
+
+        <div class="closefo-card closefo-card-rounded closefo-bg-grey">
+          <div class="closefo-form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label required">{{'manage-recovery-user.card.Username' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="UserNameTextBoxconfig"
+                                       [ngModel]="userDetail?.userName"
+                                       (change)="onChangeUserName($event)"
+                                       name="userName"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [cfcFluidValidation]="{errors:userName.errors? UserNameTextBoxconfig.Errors :'', formSubmitted:(this.UserNameTextBoxconfig.externalError)}"
+                                       #userName="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.Password' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="password"
+                                       [ControlConfig]="PasswordTextBoxconfig"
+                                       [ngModel]="userDetail?.password"
+                                       (ngModelChange)="onChangePassword($event)"
+                                       name="Password"
+                                       [maxlength]="250"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.LastName' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.name"
+                                       (change)="onChangeLastName($event)"
+                                       name="name"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.FirstName' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.firstName"
+                                       (change)="onChangeFirstName($event)"
+                                       name="firstName"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.Email' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.email"
+                                       (change)="onChangeEmail($event)"
+                                       name="email"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.PhoneNo' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.telNr"
+                                       (ngModelChange)="onChangeTelNr($event)"
+                                       name="telNr"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.Language' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-dropdown [ngModel]="userDetail?.language"
+                                        [form]="userDetailsform"
+                                        Type="single"
+                                        name="language"
+                                        [placeholder]="placeholder"
+                                        [options]="languageList"
+                                        [ControlConfig]="DropdownConfig"
+                                        optionLabel="caption"
+                                        dataKey="codeId"
+                                        (OnSelectionChanged)="onChangeLanguage($event)"
+                                        #languagedropdown="ngModel"
+                                        [title]="userDetail?.language?.caption">
+                    </cfc-fluid-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.FaxNr' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.faxNr"
+                                       (ngModelChange)="onChangeFaxNr($event)"
+                                       name="faxNr"
+                                       [maxlength]="250"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.UserType' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="text"
+                                       [ControlConfig]="UserTypeTextBoxconfig"
+                                       [ngModel]="userDetail?.userType"
+                                       (ngModelChange)="onChangeUserType($event)"
+                                       name="UserType"
+                                       [maxlength]="250"
+                                       [cfcFluidValidation]="{errors:UserType.errors? invalidErrorMsg :'', formSubmitted:(this.UserTypeTextBoxconfig.externalError)}"
+                                       [isAllowSpace]="false"
+                                       #UserType="ngModel">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.EmployeeNr' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-textbox Type="numbers"
+                                       [ControlConfig]="TextBoxconfig"
+                                       [ngModel]="userDetail?.employeeNr"
+                                       (OnchangedNumber)="onChangeEmployeeNr($event)"
+                                       name="employeeNr"
+                                       [maxlength]="11"
+                                       [isAllowSpace]="false"
+                                       [form]="userDetailsform">
+                    </cfc-fluid-textbox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row align-items-center">
+                  <div class="col-5">
+                    <label class="closefo-form-label">{{'manage-recovery-user.card.Access' | translate}}</label>
+                  </div>
+                  <div class="col-7">
+                    <cfc-fluid-checkbox [ControlConfig]="CheckboxConfig"
+                                        [form]="userDetailsform"
+                                        [ngModel]="userDetail?.access2config"
+                                        name="accesstoconfig"
+                                        (ngModelChange)="onChangeAccess2Config($event)">
+                    </cfc-fluid-checkbox>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'manage-recovery-user.card.userProfiles' | translate}}</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 close-header-block ">
+
+            <p-table class="real-table" [value]="userDetail.userProfiles" [columns]="userProfileHeader" [resizableColumns]="true" styleClass="closefo-datatable closefo-bo-table">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" pResizableColumn [pSortableColumnDisabled]="col.pSortableColumnDisabled">
+                    <span>{{col.header}}</span>
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-index="rowIndex" let-columns="columns">
+                <tr (click)="userProfileDataSelect(rowData)" [ngClass]="{'highlight' : linkedUserProfileDetail === rowData }">
+                  <td *ngFor="let col of columns" [style.width]="col.width" [ngSwitch]="col.property">
+
+                    <span *ngSwitchCase="'userProfileName'">
+                      <span>{{rowData.userProfileName}}</span>
+                    </span>
+
+                    <span *ngSwitchCase="'priority'">
+                      <cfc-fluid-textbox Type="numbers"
+                                         [ControlConfig]="PriorityTextBoxconfig"
+                                         [ngModel]="rowData.priority"
+                                         (OnchangedNumber)="onChangePriority($event,index)"
+                                         name="priority-{{index}}"
+                                         [isAllowSpace]="false"
+                                         [cfcFluidValidation]="{errors:priority.errors? PriorityTextBoxconfig.Errors :'', formSubmitted:(this.PriorityTextBoxconfig.externalError)}"
+                                         #priority="ngModel">
+                      </cfc-fluid-textbox>
+                    </span>
+                    <span *ngSwitchCase="'Delete'">
+                      <span class="closefo-delete-btn"><i class="pi pi-times-circle" (click)="onUserProfileDelete(rowData,userDetail.userProfiles)"></i> </span>
+                    </span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-3">
+                <label class="closefo-form-label">{{'manage-recovery-user.card.UserProfile' | translate}}</label>
+              </div>
+              <div class="col-7">
+                <cfc-fluid-dropdown [ngModel]="userProfileDetail"
+                                    [form]="userDetailsform"
+                                    Type="single"
+                                    name="userProfilename"
+                                    [placeholder]="placeholder"
+                                    [options]="userProfileList"
+                                    [ControlConfig]="DropdownConfig"
+                                    optionLabel="name"
+                                    (ngModelChange)="userProfileDetail=$event"
+                                    #languagedropdown="ngModel"
+                                    [title]="userProfileDetail?.name">
+                </cfc-fluid-dropdown>
+              </div>
+              <div class="col-2 closefo-btn-wrapper">
+                <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small mt-0" (click)="addUserProfile()"
+                                  [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="showLimitation">
+          <div class="row">
+            <div class="col">
+              <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'manage-recovery-user.card.Limitations' | translate}}</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 close-header-block ">
+              <cfc-fluid-grid Type="bo-table" dataKey="linkedUserProfileDetail?.limitations" [gridData]="linkedUserProfileDetail?.limitations"
+                              [gridDataHeader]="limitationHeader" [paginationStatus]="false" paginationReportStatus="false"
+                              (deleteRowEvent)="onLimitationDelete($event, linkedUserProfileDetail.limitations)">
+              </cfc-fluid-grid>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <label class="closefo-form-label">{{'manage-recovery-user.card.LimitedEntity' | translate}}</label>
+                </div>
+                <div class="col-7">
+                  <cfc-fluid-dropdown [ngModel]="limitationDetail"
+                                      [form]="userDetailsform"
+                                      Type="single"
+                                      name="limitationName"
+                                      [placeholder]="placeholder"
+                                      [options]="servicingLabelList"
+                                      [ControlConfig]="DropdownConfig"
+                                      optionLabel="name"
+                                      dataKey="name"
+                                      (ngModelChange)="limitationDetail=$event"
+                                      #languagedropdown="ngModel"
+                                      [title]="limitationDetail?.name">
+                  </cfc-fluid-dropdown>
+                </div>
+                <div class="col-2 closefo-btn-wrapper ">
+                  <cfc-fluid-button Type="button" ButtonStyle="closefo-add-btn-small mt-0" (click)="addLimitations()"
+                                    [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="row">
+          <div class="col">
+            <div class="closefo-heading-3 closefo-text-primary mb-3 ">{{'manage-recovery-user.card.ActionReceiver' | translate}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 close-header-block mb-3">
+            <cfc-fluid-grid Type="bo-table" dataKey="userDetail.actionReceiver2UserList" [gridData]="userDetail?.actionReceiver2UserList" (CheckboxChanged)="onCheckboxChange($event)"
+                            [gridDataHeader]="actionReceiverHeader" [paginationStatus]="false" paginationReportStatus="false">
+            </cfc-fluid-grid>
+          </div>
+        </div>
+      </ng-container>
+
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="showDialog" (OnCloseModel)="onClickCancel()">
+        <ng-template #headerTemplate>
+          {{'close.header' | translate}}
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div class="dialog-content-inner">
+            {{'close.body' | translate}}
+          </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="submit" class="ms-auto" ButtonStyle="closefo-btn-primary" caption=" {{'close.yes' | translate}}" (OnClick)="onClickYes(userList)"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.no' | translate}}" (OnClick)="onClickNo()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+            <cfc-fluid-button Type="button" ButtonStyle="closefo-btn-secondary" caption=" {{'close.cancel' | translate}}" (OnClick)="onClickCancel()"
+                              [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+
+      </cfc-fluid-dialog>
+
+      <cfc-fluid-dialog Type="custom-template" [displayModal]="exceptionBox" (OnCloseModel)="onException()">
+        <ng-template #headerTemplate>
+          Technical Exception
+        </ng-template>
+        <ng-template #contentTemplate>
+          <div id="warning-dialog" class="dialog-inner-content">
+            <div class="warning-main">
+              <div class="war-left">
+                <i class="pi pi-exclamation-triangle"></i>
+              </div>
+            </div>
+            <div class="war-right">
+              Technical exception has occured in a component in our application.<br />
+              If you click Continue, the application will ignore this error
+              and attempt to continue
+              <br />
+              <br />
+              Fault Code: {{errorCode}}.
+            </div>
+          </div>
+
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex closefo-btn-wrapper">
+            <cfc-fluid-button Type="button" class="ms-auto" ButtonStyle="closefo-btn-secondary" caption="Continue"
+                              (click)="onException()" [ControlConfig]="ButtonConfig"></cfc-fluid-button>
+          </div>
+        </ng-template>
+      </cfc-fluid-dialog>
+
+    </form>
+  </div>
+</div>

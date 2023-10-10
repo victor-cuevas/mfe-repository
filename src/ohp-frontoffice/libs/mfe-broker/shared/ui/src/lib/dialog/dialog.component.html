@@ -1,0 +1,45 @@
+<p-dialog [styleClass]="'dialog-popup dialog-popup-' + width" [(visible)]="showDialog" [resizable]="true" [closable]="false" [modal]="true">
+  <ng-template pTemplate="header">
+    <ng-container *ngIf="data?.header; else customHeader">
+      <div [class]="'header-box header-box-' + data?.type">
+        <i [class]="'dialog-icon pi ' + data?.icon"></i>
+        <h5 class="header-dialog">{{ data?.header }}</h5>
+      </div>
+    </ng-container>
+    <ng-template #customHeader>
+      <ng-template
+        *ngIf="headerTemplateRef"
+        [ngTemplateOutlet]="headerTemplateRef"
+        [ngTemplateOutletContext]="{ $implicit: dataForTemplateHeader }"
+      >
+      </ng-template>
+    </ng-template>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="content-box">
+      <ng-container *ngIf="data?.content; else customContent">
+        <p>{{ data?.content }}</p>
+      </ng-container>
+      <ng-template #customContent>
+        <ng-template
+          *ngIf="contentTemplateRef"
+          [ngTemplateOutlet]="contentTemplateRef"
+          [ngTemplateOutletContext]="{ $implicit: dataForTemplateContent }"
+        >
+        </ng-template>
+      </ng-template>
+    </div>
+  </ng-template>
+
+  <ng-container>
+    <ng-template pTemplate="footer">
+      <ng-container
+        *ngIf="footerTemplateRef"
+        [ngTemplateOutlet]="footerTemplateRef"
+        [ngTemplateOutletContext]="{ $implicit: dataForTemplateFooter }"
+      >
+      </ng-container
+    ></ng-template>
+  </ng-container>
+</p-dialog>

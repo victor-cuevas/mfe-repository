@@ -1,0 +1,160 @@
+<div class="row mt-4 pt-2">
+  <form [formGroup]="addressForm">
+    <p-accordion styleClass="form-accordion mt-4">
+      <p-accordionTab header="Submission route details" [selected]="true">
+        <div class="row mt-4">
+          <div class="col-md-3 col-xs-12">
+            <label>{{ 'firms.labels.submissionRouteFCANumber' | translate }} * </label>
+            <p-inputNumber [required]="true" formControlName="fcaReference" ngDefaultControl [useGrouping]="false"></p-inputNumber>
+            <cfo-validation-errors
+              [control]="addressForm.get('fcaReference')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate),
+                min: ('general.validations.fcaNumber' | translate),
+                max: ('general.validations.fcaNumber' | translate)
+              }"
+            ></cfo-validation-errors>
+            <p-button *ngIf="!isReadOnlyMode" (click)="populateData()" styleClass="p-button-link button-link-small d-flex">
+              {{ 'general.buttons.populateDate' | translate }}
+            </p-button>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-4 col-12">
+            <label for="firmName">{{ ('submissionRoute.labels.name' | translate) + ' *' }} </label>
+            <input
+              type="text"
+              pInputText
+              class="journey-input--large"
+              formControlName="firmName"
+              ngDefaultControl
+              [cfoDisableControl]="!isEditable"
+            />
+            <cfo-validation-errors
+              [control]="addressForm.get('firmName')"
+              [errorMessages]="{
+                required: ('general.validations.requiredMsg' | translate)
+              }"
+            ></cfo-validation-errors>
+          </div>
+          <div class="col-md-4 col-12" *ngIf="isEditable">
+            <label for="firmName">{{ 'submissionRoute.labels.reference' | translate }} </label>
+            <input
+              type="text"
+              pInputText
+              class="journey-input--large"
+              formControlName="reference"
+              ngDefaultControl
+              [cfoDisableControl]="!isEditable"
+            />
+          </div>
+        </div>
+        <div class="row mt-4" *ngIf="!isEditable; else editAddress">
+          <span class="address-text">
+            {{ addressForm.controls?.numberOrBuilding?.value && addressForm.controls?.numberOrBuilding?.value + ',' }}
+            {{ addressForm.controls.lineOne?.value && addressForm.controls.lineOne?.value + ',' }}
+            {{ addressForm.controls.lineTwo?.value && addressForm.controls.lineTwo?.value + ',' }}
+            {{ addressForm.controls.lineThree?.value && addressForm.controls.lineThree?.value + ',' }}
+            {{ addressForm.controls.lineFour?.value && addressForm.controls.lineFour?.value + ',' }}
+            {{ addressForm.controls.postcode?.value }}
+          </span>
+          <div class="row mt-2">
+            <div class="address-text">
+              <p>{{ addressForm.controls.city?.value }}</p>
+              <p>{{ addressForm.controls.country?.value }}</p>
+            </div>
+          </div>
+
+          <p-button *ngIf="!isReadOnlyMode" (click)="editFirmAddress()" styleClass="p-button-link button-link-small d-flex">
+            {{ 'general.buttons.editFirmAddress' | translate }}
+          </p-button>
+        </div>
+        <ng-template #editAddress>
+          <div class="row mt-4 custom-padding">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="lineOne">{{ 'firms.labels.lineOne' | translate }} *</label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="lineOne" ngDefaultControl />
+              <cfo-validation-errors
+                [control]="addressForm.get('lineOne')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="lineTwo">{{ 'firms.labels.lineTwo' | translate }} </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="lineTwo" ngDefaultControl />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="lineThree">{{ 'firms.labels.lineThree' | translate }} </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="lineThree" ngDefaultControl />
+            </div>
+          </div>
+          <div class="row mt-4 custom-padding">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="lineFour">{{ 'firms.labels.lineFour' | translate }} </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="lineFour" ngDefaultControl />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="lineFive">{{ 'firms.labels.lineFive' | translate }} </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="lineFive" ngDefaultControl />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="numberOrBuilding">{{ 'firms.labels.numberOrBuilding' | translate }} * </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="numberOrBuilding" ngDefaultControl />
+              <cfo-validation-errors
+                [control]="addressForm.get('numberOrBuilding')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+          <div class="row mt-4 custom-padding">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="postcode">{{ 'firms.labels.postcode' | translate }} * </label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="postcode" ngDefaultControl />
+              <cfo-validation-errors
+                [control]="addressForm.get('postcode')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate),
+                  pattern: ('general.validations.postcode' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="city">{{ 'firms.labels.city' | translate }} *</label>
+              <input type="text" pInputText class="journey-input--large custom-width" formControlName="city" ngDefaultControl />
+              <cfo-validation-errors
+                [control]="addressForm.get('city')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+              <label for="country">{{ 'firms.labels.country' | translate }} *</label>
+              <p-dropdown
+                [options]="countryOptions"
+                ngDefaultControl
+                formControlName="country"
+                [placeholder]="'general.placeholders.selectCountry' | translate"
+                class="journey-dropdown journey-dropdown--full-width custom-width"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+              <cfo-validation-errors
+                [control]="addressForm.get('country')"
+                [errorMessages]="{
+                  required: ('general.validations.requiredMsg' | translate)
+                }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</div>

@@ -1,0 +1,94 @@
+{
+  "asset": {
+    "indexation": {
+      "labels": {
+        "validFrom": "Geldig vanaf",
+        "validTo": "Geldig tot",
+        "reference": "Referentie",
+        "a": "NL - A",
+        "b": "NL - B",
+        "d": "NL - D",
+        "e": "NL - E",
+        "x": "NL - X",
+        "g": "NL - G",
+        "m": "NL - M",
+        "l": "NL - L",
+        "h": "NL - H",
+        "s": "NL - S",
+        "p": "NL - P",
+        "k": "NL - K",
+        "correctionFactor": "NL - Correction Factor",
+        "roundingScale": "NL - Rounding Scale",
+        "delete": "Verwijderen",
+        "a-Groningen": "NL - A - Groningen",
+        "b-Friesland": "NL - B - Friesland",
+        "d-Drenthe": "NL - D - Drenthe",
+        "e-Overrijsel": "NL - E - Overrijsel",
+        "x-Flevoland": "NL - X - Flevoland",
+        "g-Gelderland": "NL - G - Gelderland",
+        "m-Utrecht": "NL - M - Utrecht",
+        "l-Noord-Holland": "NL - L - Noord-Holland",
+        "h-Zuid-Holland": "NL - H - Zuid-Holland",
+        "s-Zeeland": "NL - S - Zeeland",
+        "p-Noord-Brabant": "NL - P - Noord-Brabant",
+        "k-Limburg": "NL - K - Limburg",
+        "realEstateValueType": "NL - Real Estate Value Type",
+        "applyIndexation": "NL - Apply indexation",
+        "useAsReferenceValue": "NL - Use as reference value",
+        "allowOverrulingReferenceValue": "NL - Allow overruling reference value",
+        "productName": "Soort product",
+        "loanPurpose": "Doel lening",
+        "realEstatePurposeType": "Onroerend goed doeltype"
+      },
+      "buttons": {
+        "addExcludedRealEstatePurpose": "Voeg uitgesloten onroerend goed",
+        "addExcludedLoanPurpose": "toevoegen uitgesloten leendoel",
+        "addExcludedProduct": "toevoegen uitgesloten product",
+        "addRealEstateValueType": "NL - Add Real Estate Value Type",
+        "add": "NL - Add"
+      },
+      "titles": {
+        "realEstatePurposeTypeExcluded": "Onroerend goed doeltypes waarvoor onroerend goed waardetype is uitgesloten",
+        "loanPurposeExcluded": "Leendoelen waarvoor onroerend goed waarde type geëxcludeerd is.",
+        "productExcluded": "Producten waarvoor onroerend goed waarde type geëxcludeerd is.",
+        "realEstateValueTypeConfiguration": "NL - Real Estate Value Type Configuration",
+        "indexesPerProvince": "NL - Indexes per province NL",
+        "manageIndexation": "NL - Manage Asset Valuation"
+      },
+      "validationError": {
+        "validToCheck": "NL - Valid To date must be greater than or equal to Valid From date.",
+        "validFrom": "'Geldig vanaf' is verplicht.",
+        "productName": "'Product naam' is verplicht.",
+        "loanPurpose": "'Doel lening' is verplicht.",
+        "realEstatePurposeType": "'Onroerend goed doeltype' is verplicht.",
+        "realEstateValueType": "'NL - Real Estate Value Type' is verplicht."
+      },
+      "businessError": {
+        "IndexesMandatory": "At least one province index should be filled per indexation period.",
+        "validToDateNullCheck": "NL - Valid To date should be filled for all indexation periods other than the most recent indexation period.",
+        "validFromCheck": "NL - The validity period of an indexation cannot overlap with an already existing indexation period.",
+        "DoYouWishToContinueDelete?": "De indexatie configuratie is reeds gebruikt voor automatische indexatie van onroerende goederen. Verwijderen hiervan zal geen waardes van onroerende goederen herberekenen. Wenst u door te gaan?",
+        "DoYouWishToContinueUpdate?": "De indexatie configuratie is reeds gebruikt voor automatische indexatie van onroerende goederen. Updaten hiervan zal geen waardes van onroerende goederen herberekenen. Wenst u door te gaan?"
+      },
+      "confirmation": {
+        "DoYouWishToContinueDelete?": "De indexatie configuratie is reeds gebruikt voor automatische indexatie van onroerende goederen. Verwijderen hiervan zal geen waardes van onroerende goederen herberekenen. Wenst u door te gaan?",
+        "DoYouWishToContinueUpdate?": "De indexatie configuratie is reeds gebruikt voor automatische indexatie van onroerende goederen. Updaten hiervan zal geen waardes van onroerende goederen herberekenen. Wenst u door te gaan?",
+        "attention": "Let op!"
+      }
+    },
+    "close": {
+      "header": "Onopgeslagen wijzigingen",
+      "body": "Uw wijzigingen zijn nog niet opgeslagen. Wilt u ze opslaan?",
+      "yes": "Ja",
+      "no": "Nee",
+      "cancel": "Annuleer"
+    },
+    "validation": {
+      "validationHeader": "Er zijn {0} foutboodschap(pen). Klik hier om de omschrijving te bekijken."
+    },
+    "button": {
+      "save": "Opslaan",
+      "close": "Sluiten"
+    }
+  }
+}

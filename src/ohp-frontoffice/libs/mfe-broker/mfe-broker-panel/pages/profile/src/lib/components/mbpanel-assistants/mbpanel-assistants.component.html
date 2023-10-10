@@ -1,0 +1,11 @@
+<cfo-assistants
+  title="{{ 'profile.titles.myAssistants' | translate }}"
+  [intermediaryId]="intermediaryId"
+  [assistants$]="assistants$"
+  [assistantsIds]="assistantsIds"
+  [searchResults$]="searchResults$"
+  (add)="onAdd($event)"
+  (unlink)="onUnlink($event)"
+  (search)="onSearch($event)"
+  (changeCollaboration)="onChangeCollaboration($event)"
+></cfo-assistants>

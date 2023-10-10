@@ -1,0 +1,89 @@
+<!-- Personal Details -->
+<div class="row mt-4">
+  <form [formGroup]="personalDetailsForm">
+    <p-accordion styleClass="form-accordion">
+      <p-accordionTab [selected]="open">
+        <ng-template pTemplate="header">{{ 'intermediary.titles.personalDetails' | translate }}</ng-template>
+        <ng-template pTemplate="content">
+          <div class="row mt-4">
+            <div class="col-md-4 col-xs-12">
+              <label for="title">{{ 'intermediary.labels.title' | translate }} {{ addNewLender ? '*' : '' }}</label>
+              <div class="col-md-3 col-xs-12">
+                <p-dropdown
+                  id="title"
+                  [options]="titles"
+                  ngDefaultControl
+                  formControlName="title"
+                  class="journey-dropdown"
+                  placeholder="  "
+                >
+                  <ng-template let-option pTemplate="item">
+                    <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                  </ng-template>
+                </p-dropdown>
+                <ng-container *ngIf="addNewLender">
+                  <cfo-validation-errors
+                    [control]="personalDetailsForm.get('title')"
+                    [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+                  ></cfo-validation-errors>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-3 col-12">
+              <label id="pdFirstName">{{ ('intermediary.labels.firstName' | translate) + ' *' }}</label>
+              <input
+                type="text"
+                pInputText
+                class="journey-input--large text-capitalize"
+                formControlName="firstName"
+                [cfoOnlyCharacters]="true"
+                [cfoDisableControl]="readOnly || hasFCADataFeature"
+                aria-labelledby="pdFirstName"
+              />
+              <cfo-validation-errors
+                [control]="personalDetailsForm.get('firstName')"
+                [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-3 col-12">
+              <label id="pdSurName">{{ ('intermediary.labels.surName' | translate) + ' *' }}</label>
+              <input
+                type="text"
+                pInputText
+                aria-labelledby="pdSurName"
+                [cfoOnlyCharacters]="true"
+                class="journey-input--large text-capitalize"
+                formControlName="surName"
+                [cfoDisableControl]="readOnly || hasFCADataFeature"
+              />
+              <cfo-validation-errors
+                [control]="personalDetailsForm.get('surName')"
+                [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+              ></cfo-validation-errors>
+            </div>
+            <div class="col-md-3 col-12">
+              <label id="dob">{{ ('intermediary.labels.dob' | translate) + ' *' }}</label>
+              <p-calendar
+                formControlName="dob"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [defaultDate]="defaultDate"
+                dateFormat="dd/mm/yy"
+                [yearRange]="'1940:' + currentYear"
+                ngDefaultControl
+                [showIcon]="true"
+                ariaLabelledBy="dob"
+              ></p-calendar>
+              <cfo-validation-errors
+                [control]="personalDetailsForm.get('dob')"
+                [errorMessages]="{ required: ('general.validations.requiredMsg' | translate) }"
+              ></cfo-validation-errors>
+            </div>
+          </div>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</div>

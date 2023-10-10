@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-12 mb-2">
+    <h5 class="primary-color fw-bold">{{ 'createFma.labels.status' | translate }}</h5>
+  </div>
+</div>
+<div class="row px-2">
+  <div [className]="'rounded d-flex my-4 py-2 mx-0 ' + 'bg-' + getStyle(status) + '-light'">
+    <div>
+      <div
+        *ngIf="status === statusEnum.Referred; else elseBlock"
+        class="status-container--referred rounded d-flex align-items-center justify-content-center"
+      >
+        <span>!</span>
+      </div>
+      <ng-template #elseBlock>
+        <div [className]="'status-container--circle d-flex align-items-center justify-content-center ' + 'bg-' + getStyle(status)">
+          <ng-container *ngIf="status === statusEnum.InProgress; else otherStatusIcon">
+            <i class="pi pi-clock"></i>
+          </ng-container>
+          <ng-template #otherStatusIcon>
+            <i [className]="'pi ' + (getStyle(status) | statusIcon)"></i>
+          </ng-template>
+        </div>
+      </ng-template>
+    </div>
+    <div class="px-2">
+      <h5 class="fw-bold ms-2" style="line-height: revert">
+        {{ getStatusToDisplay(status) }}
+      </h5>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 mb-4">
+    <p>{{ getDescription(status) }}</p>
+  </div>
+</div>
+<div class="row" *ngIf="rejectionReasons?.length && (status === statusEnum.Rejected || status === statusEnum.Referred)">
+  <div class="col-12 mb-4">
+    <h5 class="fw-bold primary-color mb-2">
+      {{ 'caseSummary.titles.reasons' | translate: { loanStatus: status?.toLowerCase() } }}
+    </h5>
+    <ul>
+      <li *ngFor="let reason of rejectionReasons">{{ reason.reason }}</li>
+    </ul>
+  </div>
+</div>

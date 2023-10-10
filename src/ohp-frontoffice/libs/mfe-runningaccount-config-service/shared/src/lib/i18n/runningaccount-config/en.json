@@ -1,0 +1,150 @@
+{
+  "runningAccount": {
+    "type-mapping": {
+      "heading": {
+        "Runningaccount.TxEl2BalMovTypeMapping": "Manage IM Txel vs Balance Movement Type Mapping"
+      },
+      "tabel": {
+        "TxelType": "TxEl Type",
+        "BalancemovementType": "Balance Movement Type",
+        "delete": "Delete"
+      },
+      "card": {
+        "TxelType": "TxEl Type",
+        "BalancemovementType": "Balance Movement Type",
+        "Add": "Add"
+      },
+      "validation": {
+        "TxElType": "'TxEl Type' is Mandatory.",
+        "BalMovType": "'Balance Movement Type' is Mandatory."
+      }
+    },
+    "distributiontype": {
+      "heading": {
+        "distributiontype": "Manage IM Balance Movement Type vs Distrubution Type"
+      },
+      "tabel": {
+        "BalancemovementType": "Balance Movement Type",
+        "DistributionType": "Distribution Type",
+        "delete": "Delete"
+      },
+      "card": {
+        "BalancemovementType": "Balance Movement Type",
+        "DistributionType": "Distribution Type",
+        "Add": "Add"
+      },
+      "validation": {
+        "BalMovType": "'Balance Movement Type' is Mandatory.",
+        "DisType": "'Distribution Type' is Mandatory."
+      }
+    },
+    "Owner2ParticipantMapping": {
+      "heading": {
+        "ParticipantMapping": "Manage IM Owner vs Participant Mapping"
+      },
+      "tabel": {
+        "OwnerReference": "Owner Reference",
+        "BookingOwnerReference": "Booking Owner Reference",
+        "ParticipantReferenceFrom": "Participant Reference From",
+        "ParticipantReferenceTo": "Participant Reference To",
+        "delete": "Delete"
+      },
+      "card": {
+        "OwnerReference": "Owner Reference",
+        "BookingOwnerReference": "Booking Owner Reference",
+        "ParticipantReferenceFrom": "Participant Reference From",
+        "ParticipantReferenceTo": "Participant Reference To"
+      },
+      "mandatory": {
+        "OwnerReference": "'Owner Reference'",
+        "BookingOwnerReference": "'Booking Owner Reference'",
+        "ParticipantReferenceFrom": "'Participant Reference From'",
+        "ParticipantReferenceTo": "'Participant Reference To'",
+        "buisnessError": "The given record is already in the list. Please make sure that the record is unique",
+        "required": " is Mandatory."
+      }
+    },
+    "RunnAccBookingPlan": {
+      "heading": {
+        "RunnAccBookingPlan": "Manage IM Accounting"
+      },
+      "tabel": {
+        "Name": "Name",
+        "Owner": "Owner",
+        "StartDate": "Start Date",
+        "EndDate": "End Date",
+        "Seqnt": "Seq Nr",
+        "RunningAccountStatus": "Running Account Status",
+        "RunningAccountAmortizationSchedule": "Running Account Amortization Schedule",
+        "ConsumerProductType": "Consumer Product Type",
+        "RunningAcountOwnerType": "Running Acount Owner Type",
+        "RunningAcountType": "Running Acount Type",
+        "MinDuration": "Min Duration",
+        "Country": "Country",
+        "Productnbr": "Product Nbr",
+        "BalanceMovementType": "Balance Movement Type",
+        "aggregate": "Aggregate",
+        "Journalnr": "Journal Nr",
+        "Accountnr": "Account Nr",
+        "PostingKey": "Posting Key",
+        "Currency": "Currency",
+        "Add": "Add",
+        "isExcludedFromGL": "Is Excluded From GL"
+      },
+      "card": {
+        "Name": "Name",
+        "Owner": "Owner",
+        "StartDate": "Start Date",
+        "EndDate": "End Date",
+        "Seqnt": "Seq Nr",
+        "RunningAccountStatus": "Running Account Status",
+        "RunningAccountAmortizationSchedule": "Running Account Amortization Schedule",
+        "ConsumerProductType": "Consumer Product Type",
+        "RunningAcountOwnerType": "Running Account Owner Type",
+        "RunningAcountType": "Running Account Type",
+        "MinDuration": "Min Duration",
+        "Country": "Country",
+        "Productnbr": "Product Nbr",
+        "BalanceMovementType": "Balance Movement Type",
+        "aggregate": "Aggregate",
+        "Journalnr": "Journal Nr",
+        "Accountnr": "Account Nr",
+        "PostingKey": "Posting Key",
+        "Currency": "Currency",
+        "isExcludedFromGL": "Is Excluded From GL"
+      },
+      "validation": {
+        "name": "'Name' is Mandatory.",
+        "balMov": "'Balance Movement Type' is Mandatory.",
+        "startDate": "'Start Date' is Mandatory.",
+        "seqNt": "'Seq Nr' is Mandatory.",
+        "ownerType": "'Running Account Owner Type' is Mandatory.",
+        "productNbr": "'Product Nbr' is Mandatory.",
+        "journalNr": "'Journal Nr' is Mandatory.",
+        "accountNr": "'Account Nr' is Mandatory.",
+        "currency": "'Currency' is Mandatory.",
+        "postalKey": "'Posting Key' is Mandatory.",
+        "owner": "'Owner' is Mandatory.",
+        "InputIncorrect": "Input is not in a correct format.",
+        "numberInt32Check": "Value was either too large or too small for an Int32.",
+        "isExcludedFromGL": "When the booking needs to be included in GL, exactly one debit and one credit GL record should be created for each booking."
+      }
+    },
+    "button": {
+      "save": "Save",
+      "close": "Close",
+      "clear": "Clear",
+      "add": "Add"
+    },
+    "validation": {
+      "validationHeader": "You have {0} error(s). Click here to see the description."
+    },
+    "close": {
+      "header": "Unsaved Changes",
+      "body": "You have unsaved data. Do you want to save?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    }
+  }
+}

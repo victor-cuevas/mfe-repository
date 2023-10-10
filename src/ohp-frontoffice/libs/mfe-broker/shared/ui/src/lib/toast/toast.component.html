@@ -1,0 +1,17 @@
+<p-toast key="root" position="top-center" [baseZIndex]="5000" showTransformOptions="translateY(-100%)">
+  <ng-template let-message pTemplate="message">
+    <span
+      [class]="'p-toast-message-icon pi' + (message.icon ? ' ' + message.icon : '')"
+      [ngClass]="{
+        'pi-info-circle': message.severity === SEVERITIES.INFO,
+        'pi-exclamation-triangle': message.severity === SEVERITIES.WARNING,
+        'pi-times-circle': message.severity === SEVERITIES.ERROR,
+        'pi-check-circle': message.severity === SEVERITIES.SUCCESS
+      }"
+    ></span>
+    <div class="p-toast-message-text">
+      <div class="p-toast-summary" *ngIf="message.summary">{{ message.summary }}</div>
+      <div class="p-toast-detail" *ngIf="message.detail">{{ message.detail }}</div>
+    </div>
+  </ng-template>
+</p-toast>

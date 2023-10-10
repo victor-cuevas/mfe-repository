@@ -1,0 +1,39 @@
+<div class="closefo-checkbox">
+  <div class="closefo-input">
+    <p-checkbox
+      [(ngModel)]="value"
+      [required]="IsRequired()"
+      [disabled]="isReadOnly"
+      (onChange)="OnChecked()"
+      [binary]="true"
+      [name]="name"
+      #inputModel="ngModel"
+      [label]="checkboxLabel"
+    ></p-checkbox>
+
+    <div *ngIf="inputModel.errors && (form?.submitted || ControlConfig.externalError)">
+      <div
+        class="closefo-validation-error"
+        *ngFor="let error of ControlConfig.Errors"
+      >
+        <small
+          *ngIf="
+            error.isModelError &&
+            inputModel.errors[error['validation']] &&
+            error['validation']
+          "
+          >{{ error["validationMessage"] }}</small
+        >
+      </div>
+    </div>
+    <div *ngIf="form?.submitted">
+      <div class="form-feedback" *ngFor="let error of ControlConfig.Errors">
+        <span
+          class="form-error"
+          *ngIf="!error.isModelError && error.isShowValidation"
+          >{{ error["validationMessage"] }}</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

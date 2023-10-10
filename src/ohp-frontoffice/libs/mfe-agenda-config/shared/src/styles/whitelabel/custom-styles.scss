@@ -1,0 +1,437 @@
+// Bootstrap import
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+// PrimeNG styling imports
+@import '~primeng/resources/primeng.min.css';
+@import "libs/shared/fluid-controls/src/fluid-control-styles/fluid-control-styles";
+@import "fonts/fonts.css";
+@import "../base/variables";
+@import "../base/mixins";
+@import "../base/base-styles";
+
+$baseUrl: "/";
+
+.whitelabel-config {
+  .close-agenda-config {
+    color: $portal-text-color;
+    font-family: $portal-body-font;
+    background-color: #fff;
+    line-height: 1rem;
+
+    .required {
+      &:after {
+        content: '*';
+        font-size: 1.5rem;
+        position: absolute;
+        margin-left: 0.1875rem;
+        color: #dc3545;
+      }
+    }
+
+    p-accordion {
+      width: 100%;
+
+      .p-accordion-tab {
+        margin: .5rem;
+      }
+
+      .p-accordion-header {
+        a {
+          background: red;
+          color: #FFF;
+          padding: .2rem;
+        }
+      }
+
+      .p-accordion-content {
+        position: relative;
+
+        ul {
+          padding: 0rem;
+          position: absolute;
+          width: 100%;
+          z-index: 1000;
+          background: white;
+          box-shadow: 0 0.125rem 0.25rem -0.0625rem rgb(0 0 0 / 20%), 0 0.25rem 0.3125rem 0 rgb(0 0 0 / 14%), 0 0.0625rem 0.625rem 0 rgb(0 0 0 / 12%);
+        }
+
+        li {
+          list-style-type: none;
+          padding: .5rem;
+          color: red;
+          cursor: pointer;
+        }
+      }
+    }
+
+
+    .closefo-btn-wrapper.close-header-block cfc-fluid-button:first-child {
+      margin-right: 1rem;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .closefo-panel-spacing {
+      margin: 1.5rem 0;
+    }
+
+    .closefo-heading-3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .close-header-block {
+      align-items: center;
+
+      .closefo-heading-2 {
+        text-transform: uppercase;
+        padding: 0.625rem 0;
+        color: $portal-content-background;
+        font-size: 1.125rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      &.closefo-btn-wrapper {
+        .closefo-btn-primary,
+        .closefo-btn-secondary {
+          line-height: 0;
+        }
+      }
+    }
+
+    .closefo-card {
+      height: auto;
+      @extend .closefo-card-common;
+
+      .closefo-datatable.p-datatable.closefo-bo-table {
+        table {
+          background: $portal-white;
+        }
+
+        .p-datatable-thead > tr > th {
+          background: transparentize($portal-background-color, 0.5);
+        }
+
+        .closefo-checkbox {
+          .closefo-input {
+            margin: 0;
+
+            .p-checkbox .p-checkbox-box {
+              width: 1.25rem;
+              height: 1.25rem;
+
+              .p-checkbox-icon {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .closefo-form {
+      @extend .closefo-form-common;
+
+      .closefo-form-group {
+        .closefo-form-label {
+          display: block;
+          text-align: right;
+        }
+      }
+
+      .closefo-bo-table {
+        .closefo-dropdown {
+          .p-dropdown {
+            .p-dropdown-label {
+              padding: 0.5rem;
+              line-height: normal;
+            }
+
+            .p-dropdown-clear-icon {
+              right: 2.75em;
+            }
+
+            .p-dropdown-trigger {
+              padding: 0 0.75rem;
+              border-top-right-radius: 0.1875rem;
+              border-bottom-right-radius: 0.1875rem;
+
+              &:before {
+                display: none;
+              }
+
+              &:after {
+                margin: 0;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .closefo-btn-wrapper {
+      @extend .closefo-btn-wrapper-common;
+
+      .close-save,
+      .close-times {
+        line-height: 0;
+
+        &:before {
+          margin-right: 0.125rem;
+          font-size: 1rem;
+        }
+      }
+
+      .closefo-add-btn-small {
+        font-size: 1rem;
+        color: $portal-primary-color;
+        line-height: normal;
+
+        &:before {
+          color: $portal-primary-color;
+          font-size: 1rem;
+          padding-right: 0;
+        }
+      }
+
+      .closefo-btn-secondary {
+        border: 1px solid;
+      }
+
+      .closefo-btn-primary,
+      .closefo-btn-secondary {
+        margin: 0;
+        padding: 0.75rem 1rem;
+        line-height: 1rem;
+      }
+    }
+
+    .closefo-header-underline-1 {
+      color: $portal-secondary-color;
+      border: 0;
+      letter-spacing: 0.0625rem;
+      font-size: 1.5rem;
+      text-align: center;
+      font-weight: bold;
+      padding: 0;
+      margin-bottom: 1rem;
+
+      @include respond-to(lg) {
+        text-align: left;
+      }
+    }
+
+    .closefo-datatable.p-datatable.closefo-bo-table {
+      .p-datatable-thead > tr > th {
+        color: $portal-text-color;
+        border-color: $portal-border-color;
+        background: $portal-background-color;
+        font-weight: bold;
+        padding: 0.5rem;
+        cursor:pointer;
+      }
+      // .p-datatable-tbody > tr:nth-child(even) {
+      //   background: transparentize($portal-background-color, 0.75);
+      // }
+
+      .p-datatable-tbody > tr > td {
+        color: $portal-text-color;
+        border-color: $portal-border-color;
+        padding: 0.5rem;
+        word-break: break-all;
+      }
+
+      .p-paginator {
+        .p-paginator-current,
+        .p-paginator-rpp-options {
+          color: $portal-primary-color;
+          font-weight: bold;
+        }
+
+        .p-paginator-page.p-highlight {
+          background: $portal-background-color;
+          border-color: $portal-background-color;
+        }
+
+        .p-paginator-first,
+        .p-paginator-last,
+        .p-paginator-next,
+        .p-paginator-page,
+        .p-paginator-prev {
+          color: $portal-text-color;
+        }
+
+        .p-disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .cfc-externalError input.ng-tns-c86-0.p-inputtext.p-component.ng-star-inserted {
+      border: 1px solid #dc3545;
+    }
+
+    .text-resize textarea {
+      resize: none;
+      overflow-y: scroll;
+    }
+    .holiday-text-resize textarea {
+      resize: none;
+      overflow-y: auto;
+    }
+
+    .p-datatable-wrapper {
+      overflow-y: auto;
+      min-height: 0rem;
+      max-height: 20rem;
+      overflow-x: hidden;
+     
+      table tbody {
+        tr:hover, tr:nth-child(even):hover {
+          background: #98AD96 !important;
+        }
+
+      }
+    }
+
+    .header-scroll-wrapper {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: calc(100vh - 66px);
+    }
+
+    // p-dialog {
+    //   .ng-trigger-animation {
+    //     background-color: whitesmoke;
+    //     padding: 1rem;
+    //     border-radius: 5px;
+    //     width: 31vw !important;
+    //   }
+
+
+
+    //   .p-dialog-content {
+    //     background: grey;
+    //     padding: .5rem;
+    //     margin-top: .5rem;
+    //   }
+
+
+
+    //   .dialog-content-inner {
+    //     height: 5rem;
+    //   }
+
+
+
+    //   .closefo-btn-secondary {
+    //     margin: 0rem;
+    //   }
+
+
+
+    //   button.closefo-btn-secondary.close-times {
+    //     width: 7rem;
+    //     padding-top: 0.3rem;
+    //     height: 2.5rem;
+    //     box-shadow: 0 0.125rem 0.25rem -0.0625rem rgb(0 0 0 / 20%), 0 0.25rem 0.3125rem 0 rgb(0 0 0 / 14%), 0 0.0625rem 0.625rem 0 rgb(0 0 0 / 12%);
+    //     border: 1px solid black;
+    //     color: #000;
+    //   }
+
+
+
+    //   button.closefo-btn-secondary.close-times:hover {
+    //     border: 1px solid #8585da;
+    //     color: #8585da;
+    //     background-color: whitesmoke
+    //   }
+
+
+
+    //   cfc-fluid-button.active button {
+    //     border: 1px solid #8585da !important;
+    //     color: #8585da !important;
+    //     background-color: whitesmoke
+    //   }
+
+
+
+    //   .justify-content-spacebetween {
+    //     justify-content: space-between;
+    //   }
+    // }
+
+    
+
+    .closefo-input.closefo-dropdown.ng-star-inserted .close-externalerror .p-dropdown {
+      border: 1px solid red;
+    }
+
+    .header-scroll-wrapper {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: calc(100vh - 66px);
+    }
+  }
+}
+
+#warning-dialog {
+  p-dialog .ng-trigger-animation {
+    background-color: #e4e4e4;
+    width: 40vw !important
+  }
+
+  p-dialog .p-dialog-content {
+    background-color: whitesmoke;
+  }
+
+  .dialog-content-inner {
+    height: auto;
+  }
+
+  .warning-main {
+    text-align: center;
+    font-size: 3rem;
+  }
+
+  .warning-footer {
+    text-align: end;
+    margin-top: 1rem;
+  }
+}
+
+cfc-fluid-textbox.ng-invalid.close-externalerror input {
+  border: 1px solid #dc3545 !important;
+}
+
+p-autocomplete.ng-invalid.close-externalerror input {
+  border: 1px solid #dc3545 !important;
+}
+
+.row.closefo-btn-wrapper.close-header-block {
+  margin-top: 1rem;
+}
+
+.p-picklist-list-wrapper {
+  word-break:break-all;
+}
+
+.p-picklist .p-picklist-list .p-picklist-item.p-highlight {
+  color: #597564;
+  background: #d5dcd8;
+}
+
+.messagetxtlbl{
+  text-align: left;
+  padding-left: 13.5rem;
+}
+
+.actionmessagetext{
+  padding-left: 0.2rem;
+}

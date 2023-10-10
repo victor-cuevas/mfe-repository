@@ -1,0 +1,54 @@
+<div class="row mt-4">
+  <form [formGroup]="addressForm">
+    <p-accordion styleClass="form-accordion">
+      <p-accordionTab [selected]="isOpen">
+        <ng-template pTemplate="header">{{ 'profile.labels.tradingAddressInfo' | translate }}</ng-template>
+        <ng-container *ngIf="tradingAddresses.length > 0; else noTradingAddress">
+          <div class="row mt-4">
+            <div class="col-12">
+              <label for="title">{{ 'intermediary.labels.tradingName' | translate }}</label>
+              <p-dropdown
+                [options]="tradingAddresses"
+                optionLabel="label"
+                optionValue="value"
+                ngDefaultControl
+                formControlName="tradingAddress"
+                class="journey-dropdown"
+              >
+                <ng-template let-option pTemplate="item">
+                  <cfo-dropdown-item [tooltip]="option.label">{{ option.label }}</cfo-dropdown-item>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-12">
+              <label for="bdm">{{ 'intermediary.labels.bdm' | translate }}</label>
+              <div class="false-input--disabled">{{ addressForm.get('tradingAddress')?.value?.businessDevelopmentManager }}</div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-12">
+              <label>{{ 'intermediary.labels.tradingAddress' | translate }}</label>
+              <div class="false-input--disabled">
+                <p>
+                  <span>{{ addressForm.get('tradingAddress')?.value?.numberOrBuilding }} </span>
+                  {{ addressForm.get('tradingAddress')?.value?.lineOne }}
+                </p>
+                <p>{{ addressForm.get('tradingAddress')?.value?.lineTwo }}</p>
+                <p>{{ addressForm.get('tradingAddress')?.value?.lineThree }}</p>
+                <p>{{ addressForm.get('tradingAddress')?.value?.lineFour }}</p>
+                <p>{{ addressForm.get('tradingAddress')?.value?.city }}</p>
+                <p>{{ addressForm.get('tradingAddress')?.value?.postcode }}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</div>
+
+<ng-template #noTradingAddress>
+  <h6 class="mt-2">{{ 'profile.labels.noTradingAddressMsg' | translate: { firmName: firmName } }}</h6>
+</ng-template>
